@@ -21,16 +21,14 @@ namespace App.Configuration
 
         public void ConfigureDatabase(bool isProduction)
         {
-            var connectionString = _configuration["ConnectionString"];
-
             if (isProduction)
-                _services.AddDbContextDebug(connectionString);
+                _services.AddDbContextDebug(_configuration);
             else
-                _services.AddDbContextProduction(connectionString);
+                _services.AddDbContextProduction(_configuration);
         }
 
         public void ConfigureSecurity()
-        {
+        { 
             _services.AddIdentity<ApplicationUser, IdentityRole>()
                      .AddEntityFrameworkStores<AppDbContext>()
                      .AddDefaultTokenProviders();
