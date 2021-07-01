@@ -18,21 +18,26 @@ namespace App
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+        private Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
+        
+        public Startup(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string[] origins = Configuration.GetSection("Origins").Get<string[]>();
+
             services.AddRazorPages();
             services.AddControllersWithViews();
 
-            ModuleConfiguration moduleConfiguration = new ModuleConfiguration(services, Configuration); // add params
-
+            ModuleConfiguration moduleConfiguration = new ModuleConfiguration(services, Configuration);             
+            moduleConfiguration.ConfigureDatabase(_env.IsProduction());
+            moduleConfiguration.ConfigureSecurity();
+            moduleConfiguration.ConfigureCors(origins);
 
             services.AddSwaggerGen(c =>
             {
@@ -40,7 +45,6 @@ namespace App
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseForwardedHeaders();
@@ -57,13 +61,12 @@ namespace App
 
             app.UseCors();
             app.UseStaticFiles();
+            app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
             // app.UseHttpsRedirection();
-
-            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
