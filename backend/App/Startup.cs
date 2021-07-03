@@ -63,6 +63,7 @@ namespace App
 
             app.UseCors();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseRouting();
 
             app.UseAuthentication();
@@ -87,7 +88,7 @@ namespace App
                     ");
                 });
             });
-
+ 
             app.UseSpa(spa => 
             {
                 spa.Options.SourcePath = "../../client/";

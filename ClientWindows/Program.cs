@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,6 +29,8 @@ namespace ClientWindows
 
         public AppContext()
         {
+            StartApi();
+
             trayIcon = new NotifyIcon()
             {
                 Icon = new System.Drawing.Icon("Favicon.ico"),
@@ -54,6 +57,15 @@ namespace ClientWindows
             {
                 FileName = "https://google.pl/", // For testing
                 UseShellExecute = true
+            });
+        }
+
+        void StartApi()
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = $"{Directory.GetCurrentDirectory()}/App/App.exe",
+                UseShellExecute = false
             });
         }
     }

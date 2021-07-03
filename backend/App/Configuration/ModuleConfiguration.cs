@@ -67,11 +67,12 @@ namespace App.Configuration
             });
         }
 
+        // TODO: Compare performance between ASP.NET 5 static file serving and nginx
         public void ConfigureSpa()
         {
             _services.AddSpaStaticFiles(config => 
             {
-                config.RootPath = "ClientApp/build";
+                config.RootPath = @"build";
             });
         }
 
