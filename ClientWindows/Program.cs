@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -55,7 +56,7 @@ namespace ClientWindows
 
             System.Diagnostics.Process.Start(new ProcessStartInfo
             {
-                FileName = "https://google.pl/", // For testing
+                FileName = "https://localhost:5001/", // For testing
                 UseShellExecute = true
             });
         }
@@ -64,8 +65,12 @@ namespace ClientWindows
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = $"{Directory.GetCurrentDirectory()}/App/App.exe",
-                UseShellExecute = false
+                FileName = $"{Directory.GetCurrentDirectory()}/App.exe",
+                UseShellExecute = false,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
             });
         }
     }
