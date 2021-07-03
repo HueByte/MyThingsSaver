@@ -52,7 +52,7 @@ namespace ClientWindows
 
             System.Diagnostics.Process.Start(new ProcessStartInfo
             {
-                FileName = "https://google.pl/",
+                FileName = "https://google.pl/", // For testing
                 UseShellExecute = true
             });
         }
