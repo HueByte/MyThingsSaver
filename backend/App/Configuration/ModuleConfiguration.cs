@@ -67,6 +67,14 @@ namespace App.Configuration
             });
         }
 
+        public void ConfigureSpa()
+        {
+            _services.AddSpaStaticFiles(config => 
+            {
+                config.RootPath = "ClientApp/build";
+            });
+        }
+
         public void ConfigureServices()
         {
 

@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace App
 {
@@ -38,6 +39,7 @@ namespace App
             moduleConfiguration.ConfigureDatabase(_env.IsProduction());
             moduleConfiguration.ConfigureSecurity();
             moduleConfiguration.ConfigureCors(origins);
+            moduleConfiguration.ConfigureSpa();
 
             services.AddSwaggerGen(c =>
             {
@@ -84,6 +86,16 @@ namespace App
 ##     ##  #######   ######  ######   #####                  ###  ###    #####   ##     ##  ###### ########  
                     ");
                 });
+            });
+
+            app.UseSpa(spa => 
+            {
+                spa.Options.SourcePath = "../../client/";
+
+                if(env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }
