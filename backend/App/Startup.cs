@@ -62,6 +62,7 @@ namespace App
             }
 
             app.UseCors();
+            
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseRouting();

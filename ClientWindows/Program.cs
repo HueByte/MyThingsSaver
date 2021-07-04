@@ -28,32 +28,41 @@ namespace ClientWindows
     {
         private NotifyIcon trayIcon;
 
+        private Process mainApp;
+
         public AppContext()
         {
-            StartApi();
+            StartMainApp();
 
             trayIcon = new NotifyIcon()
             {
+                Text = "My Things Saver",
                 Icon = new System.Drawing.Icon("Favicon.ico"),
                 ContextMenu = new ContextMenu(new MenuItem[] {
-                    new MenuItem("Exit", Exit),
-                    new MenuItem("Open", Open)
+                    new MenuItem("Open", Open),
+                    new MenuItem("Exit", Exit)
                 }),
                 Visible = true
             };
+
+            trayIcon.ShowBalloonTip(500, "New info", "Starting app", ToolTipIcon.Info);
         }
 
         void Exit(object sender, EventArgs e)
         {
-            trayIcon.Visible = false;
+            // close server 
+            mainApp.Kill();
 
+            // show feedback
+            trayIcon.ShowBalloonTip(500, "Closing App", "Your application server has been closed", ToolTipIcon.Info);
+            trayIcon.Visible = false;
+            
+            // exit app
             Application.Exit();
         }
 
         void Open(object sender, EventArgs e)
         {
-            trayIcon.Visible = false;
-
             System.Diagnostics.Process.Start(new ProcessStartInfo
             {
                 FileName = "https://localhost:5001/", // For testing
@@ -61,9 +70,9 @@ namespace ClientWindows
             });
         }
 
-        void StartApi()
+        void StartMainApp()
         {
-            Process.Start(new ProcessStartInfo
+            mainApp = Process.Start(new ProcessStartInfo
             {
                 FileName = $"{Directory.GetCurrentDirectory()}/App.exe",
                 UseShellExecute = false,
@@ -72,6 +81,11 @@ namespace ClientWindows
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden
             });
+        }
+
+        private void AppContext_Closing(object sender, FormClosedEventArgs e)
+        {
+            mainApp.Close();
         }
     }
 }

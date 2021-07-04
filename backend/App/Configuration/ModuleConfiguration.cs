@@ -70,6 +70,9 @@ namespace App.Configuration
         // TODO: Compare performance between ASP.NET 5 static file serving and nginx
         public void ConfigureSpa()
         {
+            // TODO: Fix locating files on linux/VM 
+            // Localhost refused to connect
+            // also see Startup.cs#95
             _services.AddSpaStaticFiles(config => 
             {
                 config.RootPath = @"build";
