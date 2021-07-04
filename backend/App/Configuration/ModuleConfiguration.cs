@@ -1,4 +1,5 @@
 using System.Text;
+using App.Authentication;
 using Infrastructure;
 using Infrastructure.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -81,7 +82,7 @@ namespace App.Configuration
 
         public void ConfigureServices()
         {
-
+            _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
         }
 
         public void ConfigureCors(string[] origins) => _services.AddCors(o => o.AddDefaultPolicy(builder =>
