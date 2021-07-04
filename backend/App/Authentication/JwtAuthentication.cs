@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace App.Authentication
 {
-    public class JwtAuthentication
+    public class JwtAuthentication : IJwtAuthentication
     {
         private IConfiguration _configuration;
         private UserManager<ApplicationUser> _userManager;
