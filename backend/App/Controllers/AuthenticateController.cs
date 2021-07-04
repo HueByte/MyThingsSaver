@@ -62,5 +62,63 @@ namespace App.Controllers
                 };
             }
         }
+
+        [HttpPost("LoginEmail")]
+        public async Task<IActionResult> LoginEmail([FromBody] LoginEmailDTO user)
+        {
+           VerifiedUser result;
+
+            if (user == null)
+                return BadRequest();
+
+            try
+            {
+                result = await _userService.LoginUserWithEmail(user);
+                return Ok(new BaseApiResponse<VerifiedUser>()
+                {
+                    Data = result,
+                    Errors = null,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new BaseApiResponse<string>()
+                {
+                    Data = null,
+                    Errors = new List<string>() { e.Message },
+                    IsSuccess = false
+                });
+            }
+        }
+
+        [HttpPost("LoginUsername")]
+        public async Task<IActionResult> LoginUsername([FromBody] LoginUserDTO user)
+        {
+            VerifiedUser result;
+
+            if (user == null)
+                return BadRequest();
+
+            try
+            {
+                result = await _userService.LoginUserWithUsername(user);
+                return Ok(new BaseApiResponse<VerifiedUser>()
+                {
+                    Data = result,
+                    Errors = null,
+                    IsSuccess = true
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new BaseApiResponse<string>()
+                {
+                    Data = null,
+                    Errors = new List<string>() { e.Message },
+                    IsSuccess = false
+                });
+            }
+        }
     }
 }

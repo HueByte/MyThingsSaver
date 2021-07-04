@@ -11,10 +11,14 @@ namespace App.Authentication
     {
         private UserManager<ApplicationUser> _userManager;
         private RoleManager<IdentityRole> _roleManager;
-        public UserService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        private SignInManager<ApplicationUser> _signInManager;
+        private IJwtAuthentication _jwtAuthentication;
+        public UserService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager, IJwtAuthentication jwtAuthentication)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
+            _jwtAuthentication = jwtAuthentication;
         }
 
         public async Task<IdentityResult> CreateUser(RegisterDTO registerUser)
@@ -35,6 +39,40 @@ namespace App.Authentication
                 await _userManager.AddToRoleAsync(user, Role.USER);
 
             return result;
+        }
+
+        public async Task<VerifiedUser> LoginUserWithEmail(LoginEmailDTO userDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(userDTO.Email);
+
+            return await HandleLogin(user, userDTO.Password);
+        }
+
+        public async Task<VerifiedUser> LoginUserWithUsername(LoginUserDTO userDTO)
+        {
+            var user = await _userManager.FindByNameAsync(userDTO.Username);
+            
+            return await HandleLogin(user, userDTO.Password);
+        }
+
+        private async Task<VerifiedUser> HandleLogin(ApplicationUser user, string password)
+        {
+            if(user == null)
+                throw new Exception("Couldn't find user");
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
+
+            if(!result.Succeeded) 
+                throw new Exception("Couldn't log in");
+            
+            return new VerifiedUser()
+            {
+                Token = await _jwtAuthentication.GenerateJsonWebToken(user),
+                ExpireDate = DateTime.Now.AddDays(7),
+                TokenType = "Bearer",
+                Username = user.UserName 
+            };
+            
         }
     }
 }
