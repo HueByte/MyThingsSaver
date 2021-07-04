@@ -39,7 +39,7 @@ namespace App.Configuration
                 // password options
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
@@ -83,6 +83,7 @@ namespace App.Configuration
         public void ConfigureServices()
         {
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
+            _services.AddScoped<IUserService, UserService>();
         }
 
         public void ConfigureCors(string[] origins) => _services.AddCors(o => o.AddDefaultPolicy(builder =>

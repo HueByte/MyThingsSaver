@@ -35,7 +35,8 @@ namespace App
             services.AddRazorPages();
             services.AddControllersWithViews();
 
-            ModuleConfiguration moduleConfiguration = new ModuleConfiguration(services, Configuration);             
+            ModuleConfiguration moduleConfiguration = new ModuleConfiguration(services, Configuration);       
+            moduleConfiguration.ConfigureServices();      
             moduleConfiguration.ConfigureDatabase(_env.IsProduction());
             moduleConfiguration.ConfigureSecurity();
             moduleConfiguration.ConfigureCors(origins);
