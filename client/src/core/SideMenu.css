@@ -8,11 +8,14 @@
     background-color: var(--Shark);
     z-index: 999;
     box-shadow: 10px 5px 6px #1d1d22;
+    overflow: hidden;
 }
 
 .nav-side__container {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .nav-side-title {
@@ -49,7 +52,7 @@
     font-size: medium;
     padding: 10px;
     margin-bottom: 1rem;
-    transition: 100ms ease-in-out;
+    transition: 250ms ease-in-out;
     cursor: pointer;
     /* prevent jumping */
     border-bottom: 1px solid var(--Shark);
@@ -57,7 +60,8 @@
 
     .nav-side__container .item:hover {
         transform: translateX(15px);
-        border-bottom: 1px solid var(--Rose);   
+        border-radius: 10px;
+        /* border-left: 1px solid var(--Rose); */
         background-color: var(--SharkDarkSub);
-        border-radius: 3px;
+        /* border-radius: 3px; */
     }
