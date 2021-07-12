@@ -13,10 +13,31 @@
     width: Calc(100vw - 250px);
     position: absolute;
     left: 250px;
-    top: 100px;
-    height: Calc(100% - 100px);
+    top: 64px;
+    height: Calc(100% - 64px);
     overflow: hidden;
     transition: 1s ease-in-out;
     z-index: 10;
 }
 
+.main__wrapper > * {
+    z-index: 11;
+}
+
+.bottom-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    width: 100%;
+    color: var(--SharkDark);
+    z-index: 10;
+}
+
+.bottom-wave > svg {
+    width: 100%;
+    height: 100%;
+    /* for some reason */
+    transform: translateY(3px); 
+    display: inline-block;
+}

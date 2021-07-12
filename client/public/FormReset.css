@@ -15,6 +15,11 @@ A couple of things to watch out for:
 
 ----------------------------------------------------------------------------------------------------*/
 
+a, a:hover, a:link, a:visited, a:active {
+	text-decoration: none;
+	color: white;
+}
+
 input,
 label,
 select,

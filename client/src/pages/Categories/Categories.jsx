@@ -1,11 +1,11 @@
 import React from 'react';
 
-const HomePage = () => {
+const Categories = () => {
     return(
         <>
-            HomePage
+            categ
         </>
     )
 }
 
-export default HomePage;
+export default Categories;

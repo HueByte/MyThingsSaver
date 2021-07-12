@@ -1,11 +1,11 @@
 import React from 'react';
 
-const HomePage = () => {
+const Settings = () => {
     return(
         <>
-            HomePage
+            setti
         </>
     )
 }
 
-export default HomePage;
+export default Settings;
