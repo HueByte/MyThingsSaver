@@ -8,5 +8,8 @@ namespace Infrastructure
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryEntry> CategoriesEntries { get; set; }
     }
 }
