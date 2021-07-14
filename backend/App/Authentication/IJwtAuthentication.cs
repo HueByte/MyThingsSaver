@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Infrastructure.Models;
+using Core.Models;
 
 namespace App.Authentication
 {

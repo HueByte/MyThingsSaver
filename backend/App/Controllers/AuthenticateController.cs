@@ -7,9 +7,9 @@ using App.Extensions;
 using Common.ApiResonse;
 using Common.Types;
 using Core.Entities;
-using Infrastructure.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Core.Models;
 
 namespace App.Controllers
 {

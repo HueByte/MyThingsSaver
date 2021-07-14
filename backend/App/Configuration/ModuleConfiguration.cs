@@ -1,7 +1,9 @@
 using System.Text;
 using App.Authentication;
+using Core.RepositoriesInterfaces;
 using Infrastructure;
-using Infrastructure.Models;
+using Core.Models;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -84,6 +86,7 @@ namespace App.Configuration
         {
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
+            _services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
 
         public void ConfigureCors(string[] origins) => _services.AddCors(o => o.AddDefaultPolicy(builder =>
