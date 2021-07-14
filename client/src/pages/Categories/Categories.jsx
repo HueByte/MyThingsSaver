@@ -3,7 +3,7 @@ import React from 'react';
 const Categories = () => {
     return(
         <>
-            categ
+            All Categories here
         </>
     )
 }

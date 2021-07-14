@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Infrastructure.Models;
+using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure

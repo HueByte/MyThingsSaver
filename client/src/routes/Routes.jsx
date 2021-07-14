@@ -7,6 +7,7 @@ import HomePage from '../pages/HomePage/HomePage';
 import TestingPage from '../pages/TestingPage/TestingPage';
 import Settings from '../pages/Settings/Settings';
 import Categories from '../pages/Categories/Categories';
+import Category from '../pages/Category/Category';
 
 export const Routes = () => {
     const basicLayoutRoutes = [
@@ -19,8 +20,9 @@ export const Routes = () => {
             <Route path={basicLayoutRoutes} component={BasicLayout}>
                 <BasicLayout>
                     <Route exact path="/" component={HomePage} />
+                    <Route path="/category/:name" component={Category} />
+                    <Route path="/categories" component={Categories} />
                     <Route path="/Testing" component={TestingPage} />
-                    <Route path="/Categories" component={Categories} />
                     <Route path="/Settings" component={Settings} />
                 </BasicLayout>
             </Route>
