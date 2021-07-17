@@ -1,7 +1,10 @@
+using System;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Core.Entities
 {
     public class CategoryDTO
     {
-        public string name { get; set; }
+        public string Name { get; set; }
     }
 }

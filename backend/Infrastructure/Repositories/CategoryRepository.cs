@@ -1,10 +1,10 @@
-using System.Threading.Tasks;
-using Core.RepositoriesInterfaces;
-using Core.Models;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Core.Models;
+using Core.RepositoriesInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -16,27 +16,27 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Category> GetOne(string id)
+        public async Task<Category> GetOneAsync(string name)
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(cat => cat.CategoryId.ToString() == id);
-            
-            if(category != null)
-                return category;
-            
-            return null;
+            var category = await _context.Categories.FirstOrDefaultAsync(cat => cat.name == name);
+
+            return category;
         }
 
-        public async Task<List<Category>> GetAll()
+        public async Task<List<Category>> GetAllAsync()
         {
             var categories = await _context.Categories.ToListAsync();
-            if(categories.Count != 0 && categories != null)
+            if (categories.Count != 0 && categories != null)
                 return categories;
 
             return null;
         }
 
-        public async Task AddOne(Category cat)
+        public async Task AddOneAsync(Category cat)
         {
+            if (string.IsNullOrEmpty(cat.name))
+                throw new Exception("Name cannot be empty");
+
             await _context.Categories.AddAsync(cat);
             await _context.SaveChangesAsync();
         }
