@@ -20,6 +20,9 @@ namespace Infrastructure.Repositories
         {
             var category = await _context.Categories.FirstOrDefaultAsync(cat => cat.name == name);
 
+            if (category == null)
+                throw new Exception("Couldn't find this category");
+
             return category;
         }
 

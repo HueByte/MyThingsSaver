@@ -44,7 +44,6 @@ namespace App.Controllers
         [HttpGet("/GetAllCategory")]
         public async Task<IActionResult> GetAllCategoryAsync()
         {
-
             var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () => { return await _categoryRepository.GetAllAsync(); });
 
             if (result.IsSuccess)

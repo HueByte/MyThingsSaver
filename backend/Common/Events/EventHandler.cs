@@ -5,6 +5,8 @@ using Common.ApiResonse;
 
 namespace Common.Events
 {
+
+    // If don't expect result from task
     public static class ApiEventHandler
     {
         public static async Task<BaseApiResponse<object>> EventHandleAsync(Func<Task> function)
@@ -39,7 +41,6 @@ namespace Common.Events
 
         public static BaseApiResponse<object> EventHandle(Action function)
         {
-
             BaseApiResponse<object> response;
 
             try
@@ -67,6 +68,7 @@ namespace Common.Events
         }
     }
 
+    // if expect result from task
     public static class ApiEventHandler<TResult>
     {
         public static async Task<BaseApiResponse<TResult>> EventHandleAsync(Func<Task<TResult>> function)
