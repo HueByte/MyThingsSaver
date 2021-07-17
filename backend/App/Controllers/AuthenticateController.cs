@@ -15,9 +15,9 @@ namespace App.Controllers
 {
     public class AuthenticateController : BaseApiController
     {
-        private UserManager<ApplicationUser> _userManager;
-        private IJwtAuthentication _jwtAuthentication;
-        private IUserService _userService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IJwtAuthentication _jwtAuthentication;
+        private readonly IUserService _userService;
         public AuthenticateController(UserManager<ApplicationUser> userManager, IJwtAuthentication jwtAuthentication, IUserService userService)
         {
             _userManager = userManager;

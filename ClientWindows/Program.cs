@@ -26,7 +26,7 @@ namespace ClientWindows
 
     public class AppContext : ApplicationContext
     {
-        private NotifyIcon trayIcon;
+        private readonly NotifyIcon trayIcon;
 
         private Process mainApp;
 

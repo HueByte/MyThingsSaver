@@ -9,10 +9,10 @@ namespace App.Authentication
 {
     public class UserService : IUserService
     {
-        private UserManager<ApplicationUser> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
-        private SignInManager<ApplicationUser> _signInManager;
-        private IJwtAuthentication _jwtAuthentication;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IJwtAuthentication _jwtAuthentication;
         public UserService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager, IJwtAuthentication jwtAuthentication)
         {
             _userManager = userManager;

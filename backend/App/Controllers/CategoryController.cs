@@ -10,7 +10,7 @@ namespace App.Controllers
 {
     public class CategoryController : BaseApiController
     {
-        ICategoryRepository _categoryRepository;
+        readonly ICategoryRepository _categoryRepository;
         public CategoryController(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;

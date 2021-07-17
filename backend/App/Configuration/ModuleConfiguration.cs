@@ -14,8 +14,8 @@ namespace App.Configuration
 {
     public class ModuleConfiguration
     {
-        private IServiceCollection _services;
-        private IConfiguration _configuration;
+        private readonly IServiceCollection _services;
+        private readonly IConfiguration _configuration;
         public ModuleConfiguration(IServiceCollection services, IConfiguration configuration)
         {
             _services = services;

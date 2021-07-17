@@ -14,8 +14,8 @@ namespace App.Authentication
 {
     public class JwtAuthentication : IJwtAuthentication
     {
-        private IConfiguration _configuration;
-        private UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _configuration;
+        private readonly UserManager<ApplicationUser> _userManager;
         public JwtAuthentication(IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _configuration = configuration;
