@@ -30,6 +30,7 @@ namespace App
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Load origins from appsettings.json
             string[] origins = Configuration.GetSection("Origins").Get<string[]>();
 
             services.AddRazorPages();

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 namespace Infrastructure
 {
     // navigate to root folder of infrastructure
-    // run migration with: dotnet ef migrations add migration --startup-project ..\App\
+    // run migration with: dotnet ef migrations add migration --startup-project ../App/
     // update database with: dotnet ef database update --startup-project ../App
     public static class Setup
     {
