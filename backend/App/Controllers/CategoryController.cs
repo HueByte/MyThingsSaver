@@ -22,21 +22,9 @@ namespace App.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        // [HttpPost("/AddCategory")]
-        // public async Task<IActionResult> AddCategory([FromBody] CategoryDTO category)
-        // {
-        //     var newCat = new Category() {
-
-        //     };
-
-        //     return Ok();
-        // }
-
         [HttpPost("/AddCategory")]
         public async Task<IActionResult> AddCategoryAsync([FromBody] CategoryDTO category)
         {
-            BaseApiResponse<string> response;
-
             var newCategory = new Category()
             {
                 name = category.Name,
@@ -44,59 +32,25 @@ namespace App.Controllers
                 CategoryId = Guid.NewGuid()
             };
 
-            try
-            {
-                await _categoryRepository.AddOneAsync(newCategory);
-                response = new BaseApiResponse<string>()
-                {
-                    Data = null,
-                    Errors = null,
-                    IsSuccess = true
-                };
-            }
-            catch (Exception e)
-            {
-                response = new BaseApiResponse<string>()
-                {
-                    Data = "Something went wrong",
-                    Errors = new List<string>() { e.Message }
-                };
+            var result = await ApiEventHandler.EventHandleAsync(async () => { await _categoryRepository.AddOneAsync(newCategory); });
 
-                return BadRequest(response);
-            }
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
 
-            return Ok(response);
         }
 
         [HttpGet("/GetAllCategory")]
         public async Task<IActionResult> GetAllCategoryAsync()
         {
-            BaseApiResponse<List<Category>> response;
 
-            try
-            {
-                var categories = await _categoryRepository.GetAllAsync();
+            var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () => { return await _categoryRepository.GetAllAsync(); });
 
-                response = new BaseApiResponse<List<Category>>()
-                {
-                    Data = categories,
-                    Errors = null,
-                    IsSuccess = true
-                };
-            }
-            catch (Exception e)
-            {
-                response = new BaseApiResponse<List<Category>>()
-                {
-                    Data = null,
-                    Errors = new List<string>() { e.Message },
-                    IsSuccess = false
-                };
-
-                return BadRequest(response);
-            }
-
-            return Ok(response);
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
         }
 
         [HttpGet("/GetCategory")]
