@@ -9,5 +9,6 @@ namespace Core.RepositoriesInterfaces
         Task<Category> GetOneAsync(string id);
         Task<List<Category>> GetAllAsync();
         Task AddOneAsync(Category category);
+        Task RemoveOneAsync(string name);
     }
 }

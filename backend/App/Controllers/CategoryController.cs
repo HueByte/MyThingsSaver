@@ -32,7 +32,7 @@ namespace App.Controllers
                 CategoryId = Guid.NewGuid()
             };
 
-            var result = await ApiEventHandler.EventHandleAsync(async () => { await _categoryRepository.AddOneAsync(newCategory); });
+            var result = await ApiEventHandler.EventHandleAsync(async () => await _categoryRepository.AddOneAsync(newCategory));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -56,6 +56,17 @@ namespace App.Controllers
         public async Task<IActionResult> GetCategoryAsync(string name)
         {
             var result = await ApiEventHandler<Category>.EventHandleAsync(async () => { return await _categoryRepository.GetOneAsync(name); });
+
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
+        [HttpPost("/RemoveCategory")]
+        public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDTO category)
+        {
+            var result = await ApiEventHandler.EventHandleAsync(async () => await _categoryRepository.RemoveOneAsync(category.Name));
 
             if (result.IsSuccess)
                 return Ok(result);
