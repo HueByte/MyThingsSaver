@@ -67,7 +67,7 @@ namespace App.Authentication
         private async Task<VerifiedUser> HandleLogin(ApplicationUser user, string password)
         {
             if (user == null)
-                throw new Exception("Couldn't find user");
+                throw new Exception("Couldn't log in, check your login or password"); // Couldn't find user
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
 

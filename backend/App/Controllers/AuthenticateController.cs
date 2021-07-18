@@ -42,59 +42,48 @@ namespace App.Controllers
         [HttpPost("LoginEmail")]
         public async Task<IActionResult> LoginEmail([FromBody] LoginEmailDTO user)
         {
-            VerifiedUser result;
+            var result = await ApiEventHandler<VerifiedUser>.EventHandleAsync(async () => { return await _userService.LoginUserWithEmail(user); });
 
-            if (user == null)
-                return BadRequest();
-
-            try
-            {
-                result = await _userService.LoginUserWithEmail(user);
-                return Ok(new BaseApiResponse<VerifiedUser>()
-                {
-                    Data = result,
-                    Errors = null,
-                    IsSuccess = true
-                });
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new BaseApiResponse<string>()
-                {
-                    Data = null,
-                    Errors = new List<string>() { e.Message },
-                    IsSuccess = false
-                });
-            }
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
         }
 
         [HttpPost("LoginUsername")]
         public async Task<IActionResult> LoginUsername([FromBody] LoginUserDTO user)
         {
-            VerifiedUser result;
+            var result = await ApiEventHandler<VerifiedUser>.EventHandleAsync(async () => { return await _userService.LoginUserWithUsername(user); });
 
-            if (user == null)
-                return BadRequest();
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
 
-            try
-            {
-                result = await _userService.LoginUserWithUsername(user);
-                return Ok(new BaseApiResponse<VerifiedUser>()
-                {
-                    Data = result,
-                    Errors = null,
-                    IsSuccess = true
-                });
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new BaseApiResponse<string>()
-                {
-                    Data = null,
-                    Errors = new List<string>() { e.Message },
-                    IsSuccess = false
-                });
-            }
+            // VerifiedUser result;
+
+            // if (user == null)
+            //     return BadRequest();
+
+            // try
+            // {
+            //     result = await _userService.LoginUserWithUsername(user);
+            //     return Ok(new BaseApiResponse<VerifiedUser>()
+            //     {
+            //         Data = result,
+            //         Errors = null,
+            //         IsSuccess = true
+            //     });
+            // }
+            // catch (Exception e)
+            // {
+            //     return BadRequest(new BaseApiResponse<string>()
+            //     {
+            //         Data = null,
+            //         Errors = new List<string>() { e.Message },
+            //         IsSuccess = false
+            //     });
+            // }
         }
     }
 }
