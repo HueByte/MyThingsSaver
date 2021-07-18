@@ -8,15 +8,23 @@ import TestingPage from '../pages/TestingPage/TestingPage';
 import Settings from '../pages/Settings/Settings';
 import Categories from '../pages/Categories/Categories';
 import Category from '../pages/Category/Category';
+import Login from '../pages/Authentication/Login';
+import Register from '../pages/Authentication/Register';
 
 export const Routes = () => {
     const basicLayoutRoutes = [
         '/',
-        '/Testing'
+        '/Testing',
+        '/category:name',
+        '/categories',
+        '/Settings'
     ]
 
     return (
         <Switch>
+            <Route path="/auth/login" component={Login} />
+            <Route path="/auth/register" component={Register} />
+
             <Route path={basicLayoutRoutes} component={BasicLayout}>
                 <BasicLayout>
                     <Route exact path="/" component={HomePage} />
@@ -35,6 +43,6 @@ export const Routes = () => {
 // temp
 const FOUR_ZERO_FOUR = () => {
     return (
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>404</div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>404</div>
     )
 }

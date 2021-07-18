@@ -59,31 +59,6 @@ namespace App.Controllers
                 return Ok(result);
             else
                 return BadRequest(result);
-
-            // VerifiedUser result;
-
-            // if (user == null)
-            //     return BadRequest();
-
-            // try
-            // {
-            //     result = await _userService.LoginUserWithUsername(user);
-            //     return Ok(new BaseApiResponse<VerifiedUser>()
-            //     {
-            //         Data = result,
-            //         Errors = null,
-            //         IsSuccess = true
-            //     });
-            // }
-            // catch (Exception e)
-            // {
-            //     return BadRequest(new BaseApiResponse<string>()
-            //     {
-            //         Data = null,
-            //         Errors = new List<string>() { e.Message },
-            //         IsSuccess = false
-            //     });
-            // }
         }
     }
 }
