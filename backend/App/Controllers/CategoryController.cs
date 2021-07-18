@@ -41,7 +41,7 @@ namespace App.Controllers
 
         }
 
-        [HttpGet("/GetAllCategory")]
+        [HttpGet("/GetAllCategories")]
         public async Task<IActionResult> GetAllCategoryAsync()
         {
             var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () => { return await _categoryRepository.GetAllAsync(); });

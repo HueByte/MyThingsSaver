@@ -1,8 +1,8 @@
 using System.Text;
 using App.Authentication;
+using Core.Models;
 using Core.RepositoriesInterfaces;
 using Infrastructure;
-using Core.Models;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -31,7 +31,7 @@ namespace App.Configuration
         }
 
         public void ConfigureSecurity()
-        { 
+        {
             _services.AddIdentity<ApplicationUser, IdentityRole>()
                      .AddEntityFrameworkStores<AppDbContext>()
                      .AddDefaultTokenProviders();
@@ -76,7 +76,7 @@ namespace App.Configuration
             // TODO: Fix locating files on linux/VM 
             // Localhost refused to connect
             // also see Startup.cs#95
-            _services.AddSpaStaticFiles(config => 
+            _services.AddSpaStaticFiles(config =>
             {
                 config.RootPath = @"build";
             });
@@ -87,6 +87,7 @@ namespace App.Configuration
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
+            _services.AddScoped<ICategoryEntryRepository, CategoryEntryRepository>();
         }
 
         public void ConfigureCors(string[] origins) => _services.AddCors(o => o.AddDefaultPolicy(builder =>

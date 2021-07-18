@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
         readonly AppDbContext _context;
         public CategoryRepository(AppDbContext context)
@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Category> GetOneAsync(string name)
+        public override async Task<Category> GetOneAsync(string name)
         {
             var category = await _context.Categories.FirstOrDefaultAsync(cat => cat.name == name);
 
@@ -27,16 +27,16 @@ namespace Infrastructure.Repositories
             return category;
         }
 
-        public async Task<List<Category>> GetAllAsync()
+        public override async Task<List<Category>> GetAllAsync()
         {
             var categories = await _context.Categories.ToListAsync();
-            if (categories.Count != 0 && categories != null)
-                return categories;
+            if (categories.Count == 0 || categories == null)
+                throw new Exception("Couldn't find any categories");
 
-            return null;
+            return categories;
         }
 
-        public async Task AddOneAsync(Category cat)
+        public override async Task AddOneAsync(Category cat)
         {
             if (string.IsNullOrWhiteSpace(cat.name))
                 throw new ArgumentException("Name cannot be empty");
@@ -45,7 +45,7 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveOneAsync(string name)
+        public override async Task RemoveOneAsync(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name cannot be empty");
