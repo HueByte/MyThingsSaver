@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Common.Events;
 using Common.Types;
 using Core.Entities;
 using Core.Models;
@@ -35,9 +37,10 @@ namespace App.Authentication
 
             var result = await _userManager.CreateAsync(user, registerUser.Password);
 
-            if (result.Succeeded)
-                await _userManager.AddToRoleAsync(user, Role.USER);
+            if (!result.Succeeded)
+                throw new ExceptionList(result.Errors.Select(errors => errors.Description).ToList());
 
+            await _userManager.AddToRoleAsync(user, Role.USER);
             return result;
         }
 
@@ -51,28 +54,28 @@ namespace App.Authentication
         public async Task<VerifiedUser> LoginUserWithUsername(LoginUserDTO userDTO)
         {
             var user = await _userManager.FindByNameAsync(userDTO.Username);
-            
+
             return await HandleLogin(user, userDTO.Password);
         }
 
         private async Task<VerifiedUser> HandleLogin(ApplicationUser user, string password)
         {
-            if(user == null)
+            if (user == null)
                 throw new Exception("Couldn't find user");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
 
-            if(!result.Succeeded) 
+            if (!result.Succeeded)
                 throw new Exception("Couldn't log in");
-            
+
             return new VerifiedUser()
             {
                 Token = await _jwtAuthentication.GenerateJsonWebToken(user),
                 ExpireDate = DateTime.Now.AddDays(7),
                 TokenType = "Bearer",
-                Username = user.UserName 
+                Username = user.UserName
             };
-            
+
         }
     }
 }

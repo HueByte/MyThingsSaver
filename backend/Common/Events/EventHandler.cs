@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Common.ApiResonse;
@@ -24,6 +25,15 @@ namespace Common.Events
                         IsSuccess = true
                     };
 
+                }
+                catch (ExceptionList e)
+                {
+                    response = new BaseApiResponse<object>()
+                    {
+                        Data = default,
+                        Errors = e.ExceptionMessages,
+                        IsSuccess = false
+                    };
                 }
                 catch (Exception e)
                 {
@@ -53,6 +63,15 @@ namespace Common.Events
                     IsSuccess = true
                 };
 
+            }
+            catch (ExceptionList e)
+            {
+                response = new BaseApiResponse<object>()
+                {
+                    Data = default,
+                    Errors = e.ExceptionMessages,
+                    IsSuccess = false
+                };
             }
             catch (Exception e)
             {
@@ -86,6 +105,15 @@ namespace Common.Events
                 };
 
             }
+            catch (ExceptionList e)
+            {
+                response = new BaseApiResponse<TResult>()
+                {
+                    Data = default,
+                    Errors = e.ExceptionMessages,
+                    IsSuccess = false
+                };
+            }
             catch (Exception e)
             {
                 response = new BaseApiResponse<TResult>()
@@ -114,6 +142,15 @@ namespace Common.Events
                 };
 
             }
+            catch (ExceptionList e)
+            {
+                response = new BaseApiResponse<TResult>()
+                {
+                    Data = default,
+                    Errors = e.ExceptionMessages,
+                    IsSuccess = false
+                };
+            }
             catch (Exception e)
             {
                 response = new BaseApiResponse<TResult>()
@@ -125,6 +162,15 @@ namespace Common.Events
             }
 
             return response;
+        }
+    }
+
+    public class ExceptionList : Exception
+    {
+        public List<string> ExceptionMessages { get; set; }
+        public ExceptionList(List<string> exceptionMessages)
+        {
+            ExceptionMessages = exceptionMessages;
         }
     }
 }
