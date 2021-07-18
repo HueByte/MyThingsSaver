@@ -26,7 +26,7 @@ namespace App.Authentication
         public async Task<IdentityResult> CreateUser(RegisterDTO registerUser)
         {
             if (registerUser == null)
-                throw new System.Exception("Register model was null");
+                throw new System.Exception("Register model cannot be null");
 
             var user = new ApplicationUser()
             {
@@ -46,6 +46,9 @@ namespace App.Authentication
 
         public async Task<VerifiedUser> LoginUserWithEmail(LoginEmailDTO userDTO)
         {
+            if (userDTO == null)
+                throw new ArgumentException("User model cannot be null");
+
             var user = await _userManager.FindByEmailAsync(userDTO.Email);
 
             return await HandleLogin(user, userDTO.Password);
@@ -53,6 +56,9 @@ namespace App.Authentication
 
         public async Task<VerifiedUser> LoginUserWithUsername(LoginUserDTO userDTO)
         {
+            if (userDTO == null)
+                throw new ArgumentException("User model cannot be null");
+
             var user = await _userManager.FindByNameAsync(userDTO.Username);
 
             return await HandleLogin(user, userDTO.Password);
@@ -66,7 +72,7 @@ namespace App.Authentication
             var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
 
             if (!result.Succeeded)
-                throw new Exception("Couldn't log in");
+                throw new Exception("Couldn't log in, check your login or password");
 
             return new VerifiedUser()
             {

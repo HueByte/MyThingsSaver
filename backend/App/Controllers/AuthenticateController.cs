@@ -31,49 +31,12 @@ namespace App.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterDTO registerUser)
         {
-            if (registerUser == null)
-                throw new ArgumentException("user cannot be null");
-
             var result = await ApiEventHandler.EventHandleAsync(async () => await _userService.CreateUser(registerUser));
 
             if (result.IsSuccess)
                 return Ok(result);
             else
                 return BadRequest(result);
-
-            // IdentityResult result;
-            // try
-            // {
-            //     result = await _userService.CreateUser(registerUser);
-            // }
-            // catch (Exception e)
-            // {
-            //     return new BaseApiResponse<string>()
-            //     {
-            //         Data = null,
-            //         Errors = new List<string>() { e.Message },
-            //         IsSuccess = false
-            //     };
-            // }
-
-            // if (result.Succeeded)
-            // {
-            //     return new BaseApiResponse<string>()
-            //     {
-            //         Data = null,
-            //         Errors = null,
-            //         IsSuccess = true
-            //     };
-            // }
-            // else
-            // {
-            //     return new BaseApiResponse<string>()
-            //     {
-            //         Data = null,
-            //         Errors = result.Errors.Select(errors => errors.Description).ToList(),
-            //         IsSuccess = false
-            //     };
-            // }
         }
 
         [HttpPost("LoginEmail")]
