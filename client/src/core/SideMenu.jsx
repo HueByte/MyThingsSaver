@@ -15,11 +15,24 @@ const SideMenu = () => {
 
         await GetAllCategories(authContext.authState?.token)
             .then(result => {
-                console.log(result.data);
                 setCategories(result.data);
             })
             .catch((error) => console.log(error))
     }, [])
+
+    const addNewCategory = async () => {
+        // TODO - sort by date
+        if (categoryInput.current.value.length === 0) return;
+        await AddCategory(authContext.authState?.token, categoryInput.current.value)
+            .then(result => {
+
+            })
+            .catch((error) => console.log(error))
+
+        await setCategories(data => ([...data, { name: categoryInput.current.value }]))
+
+        categoryInput.current.value = '';
+    }
 
     const inputHandler = (event) => {
         if (event.key === "Enter")
@@ -31,7 +44,7 @@ const SideMenu = () => {
         // let newCategory = categoryInput.current.value;
         // setCategories(data => ([...data, newCategory]))
         if (categoryInput.current.value.length === 0) return;
-        await setCategories(data => ([...data, categoryInput.current.value]))
+
         categoryInput.current.value = '';
     }
 
@@ -42,7 +55,7 @@ const SideMenu = () => {
                 <p>Your Categories</p>
             </div>
             <div className="nav-side-controlls">
-                <div onClick={addCategory} className="basic-button nav-side-button"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                <div onClick={addNewCategory} className="basic-button nav-side-button"><i class="fa fa-plus" aria-hidden="true"></i></div>
                 <input id="newCategoryInput" onKeyDown={inputHandler} className="basic-input nav-side-input" type="text" placeholder="Category name" />
                 {/* <div onClick={toggleMinus} className="basic-button nav-side-button"><i class="fa fa-minus" aria-hidden="true"></i></div> */}
             </div>
