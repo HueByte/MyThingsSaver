@@ -6,9 +6,9 @@ namespace Core.RepositoriesInterfaces
 {
     public interface ICategoryRepository
     {
-        Task<Category> GetOneAsync(string id);
-        Task<List<Category>> GetAllAsync();
-        Task AddOneAsync(Category category);
-        Task RemoveOneAsync(string name);
+        Task<Category> GetOneAsync(string name, string ownerId);
+        Task<List<Category>> GetAllAsync(string ownerId);
+        Task AddOneAsync(Category category, string ownerName);
+        Task RemoveOneAsync(string name, string ownerId);
     }
 }

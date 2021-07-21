@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace App
 {
@@ -21,7 +21,7 @@ namespace App
     {
         public IConfiguration Configuration { get; }
         private Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
-        
+
         public Startup(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
             Configuration = configuration;
@@ -37,7 +37,7 @@ namespace App
             services.AddControllersWithViews();
 
             ModuleConfiguration moduleConfiguration = new ModuleConfiguration(services, Configuration);
-            moduleConfiguration.ConfigureServices();      
+            moduleConfiguration.ConfigureServices();
             moduleConfiguration.ConfigureDatabase(_env.IsProduction());
             moduleConfiguration.ConfigureSecurity();
             moduleConfiguration.ConfigureCors(origins);
@@ -46,6 +46,28 @@ namespace App
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "App", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
             });
         }
 
@@ -59,12 +81,13 @@ namespace App
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "App v1"));
             }
-            else {
+            else
+            {
                 app.UseHsts();
             }
 
             app.UseCors();
-            
+
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseRouting();
@@ -91,12 +114,12 @@ namespace App
                     ");
                 });
             });
- 
-            app.UseSpa(spa => 
+
+            app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "../../client/";
 
-                if(env.IsDevelopment())
+                if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }

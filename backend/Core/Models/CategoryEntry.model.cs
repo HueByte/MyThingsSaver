@@ -10,7 +10,9 @@ namespace Core.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid EntryId { get; set; }
 
-        public Guid OwnerId { get; set; }
+        public ApplicationUser Owner { get; set; }
+
+        public Category Category { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

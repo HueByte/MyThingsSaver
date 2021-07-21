@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using App.Extensions;
 using Common.ApiResonse;
@@ -8,6 +9,8 @@ using Common.Events;
 using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
@@ -16,23 +19,24 @@ namespace App.Controllers
 {
     public class CategoryController : BaseApiController
     {
-        readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
         public CategoryController(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
 
-        [HttpPost("/AddCategory")]
+        [HttpPost("AddCategory")]
+        [Authorize]
         public async Task<IActionResult> AddCategoryAsync([FromBody] CategoryDTO category)
         {
             var newCategory = new Category()
             {
-                name = category.Name,
+                Name = category.Name,
                 DateCreated = DateTime.UtcNow,
                 CategoryId = Guid.NewGuid()
             };
 
-            var result = await ApiEventHandler.EventHandleAsync(async () => await _categoryRepository.AddOneAsync(newCategory));
+            var result = await ApiEventHandler.EventHandleAsync(async () => await _categoryRepository.AddOneAsync(newCategory, this.User.Identity.Name));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -41,10 +45,12 @@ namespace App.Controllers
 
         }
 
-        [HttpGet("/GetAllCategories")]
+        [HttpGet("GetAllCategories")]
+        [Authorize]
         public async Task<IActionResult> GetAllCategoryAsync()
         {
-            var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () => { return await _categoryRepository.GetAllAsync(); });
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () => { return await _categoryRepository.GetAllAsync(userId); });
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -52,10 +58,12 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpGet("/GetCategory")]
+        [HttpGet("GetCategory")]
+        [Authorize]
         public async Task<IActionResult> GetCategoryAsync(string name)
         {
-            var result = await ApiEventHandler<Category>.EventHandleAsync(async () => { return await _categoryRepository.GetOneAsync(name); });
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler<Category>.EventHandleAsync(async () => { return await _categoryRepository.GetOneAsync(name, userId); });
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -63,10 +71,12 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpPost("/RemoveCategory")]
+        [HttpPost("RemoveCategory")]
+        [Authorize]
         public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDTO category)
         {
-            var result = await ApiEventHandler.EventHandleAsync(async () => await _categoryRepository.RemoveOneAsync(category.Name));
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler.EventHandleAsync(async () => await _categoryRepository.RemoveOneAsync(category.Name, userId));
 
             if (result.IsSuccess)
                 return Ok(result);

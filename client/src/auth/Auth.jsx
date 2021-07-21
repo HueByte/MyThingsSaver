@@ -9,7 +9,7 @@ export const AuthRegister = async (Email, Username, Password) => {
     }
 
     return await fetch(RegisterEndpoint, requestOptions)
-        .then(HandleBasicApiResponse)
+        .then(HandleBasicApiResponse);
 }
 
 export const AuthLogin = async (Username, Password) => {
@@ -20,5 +20,5 @@ export const AuthLogin = async (Username, Password) => {
     }
 
     return await fetch(LoginEndpoint, requestOptions)
-        .then(response => response.json());
+        .then(HandleBasicApiResponse);
 }
