@@ -1,5 +1,7 @@
 export async function HandleBasicApiResponse(response) {
-    if (!response.status === 400 || !response.status === 200) {
+    console.log(response)
+    if (response.status !== 400 && response.status !== 200) {
+        console.log('Hit');
         throw new Error('Something went wrong with connection to server');
     }
 
