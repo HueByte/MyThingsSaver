@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AddCategory, GetAllCategories, RemoveCategory } from '../api/Categories';
 import { AuthContext } from '../auth/AuthContext';
+import { successModal } from './Modals';
 import './SideMenu.css';
 
 const SideMenu = () => {
@@ -25,7 +26,6 @@ const SideMenu = () => {
         if (categoryInput.current.value.length === 0) return;
         await AddCategory(authContext.authState?.token, categoryInput.current.value)
             .then(result => {
-                console.log(result);
                 setCategories(data => ([...data, { name: categoryInput.current.value }]));
             })
             .catch((error) => console.log(error))
@@ -36,7 +36,6 @@ const SideMenu = () => {
     const removeCategory = async (name) => {
         await RemoveCategory(authContext.authState?.token, name)
             .then(result => {
-                console.log(result);
                 let cats = categories;
                 cats = cats.filter(category => {
                     return category.name !== name;

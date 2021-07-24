@@ -4,11 +4,18 @@ import SideMenu from './SideMenu';
 import './BasicLayout.css';
 import './BasicLayoutStyles.css';
 
+// // notifications
+// import ReactNotifications from 'react-notifications-component';
+// import 'react-notifications-component/dist/theme.css';
+// import { store } from 'react-notifications-component';
+// import 'animate.css';
+
 const BasicLayout = ({ children }) => {
     return (
         <div className="interface__wrapper">
             <Menu />
             <SideMenu />
+            {/* <ReactNotifications isMobile={true} /> */}
             <main className="main__wrapper">
                 {children}
             </main>

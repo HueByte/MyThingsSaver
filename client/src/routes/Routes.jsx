@@ -10,6 +10,8 @@ import Categories from '../pages/Categories/Categories';
 import Category from '../pages/Category/Category';
 import Login from '../pages/Authentication/Login';
 import Register from '../pages/Authentication/Register';
+
+// other
 import PrivateRoute from './AuthenticatedRoute';
 
 export const Routes = () => {

@@ -83,7 +83,7 @@
 }
 
 .nav-content__container .user:hover {
-    color: var(--Grey);
+    color: white;
 }
 
 .nav-content__container .item {
