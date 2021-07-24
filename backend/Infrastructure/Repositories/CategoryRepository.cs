@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -41,10 +42,16 @@ namespace Infrastructure.Repositories
 
         public async Task AddOneAsync(Category cat, string ownerName)
         {
-            var user = await _userManager.FindByNameAsync(ownerName);
             if (string.IsNullOrWhiteSpace(cat.Name))
                 throw new ArgumentException("Name cannot be empty");
 
+            var exists = await _context.Categories.AnyAsync(category => category.Name == cat.Name);
+            if (exists)
+                throw new Exception("This category already exists");
+
+            var user = await _userManager.FindByNameAsync(ownerName);
+
+            // assign user if found
             cat.Owner = user ?? throw new Exception("Something went wrong");
 
             await _context.Categories.AddAsync(cat);

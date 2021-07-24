@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AddCategory, GetAllCategories } from '../api/Categories';
+import { AddCategory, GetAllCategories, RemoveCategory } from '../api/Categories';
 import { AuthContext } from '../auth/AuthContext';
 import './SideMenu.css';
 
 const SideMenu = () => {
     const authContext = useContext(AuthContext);
-    const [categories, setCategories] = useState([{}]);
+    const [categories, setCategories] = useState([]);
     const categoryInput = useRef();
 
     useEffect(async () => {
@@ -25,29 +25,33 @@ const SideMenu = () => {
         if (categoryInput.current.value.length === 0) return;
         await AddCategory(authContext.authState?.token, categoryInput.current.value)
             .then(result => {
-
+                console.log(result);
+                setCategories(data => ([...data, { name: categoryInput.current.value }]));
             })
             .catch((error) => console.log(error))
 
-        await setCategories(data => ([...data, { name: categoryInput.current.value }]))
-
         categoryInput.current.value = '';
+    }
+
+    const removeCategory = async (name) => {
+        await RemoveCategory(authContext.authState?.token, name)
+            .then(result => {
+                console.log(result);
+                let cats = categories;
+                cats = cats.filter(category => {
+                    return category.name !== name;
+                })
+
+                setCategories(cats);
+            })
+            .catch((error) => console.log(error))
+
     }
 
     const inputHandler = (event) => {
         if (event.key === "Enter")
-            addCategory();
+            addNewCategory();
     }
-
-    const addCategory = async () => {
-        //request to API
-        // let newCategory = categoryInput.current.value;
-        // setCategories(data => ([...data, newCategory]))
-        if (categoryInput.current.value.length === 0) return;
-
-        categoryInput.current.value = '';
-    }
-
 
     return (
         <div className="nav-side">
@@ -61,7 +65,12 @@ const SideMenu = () => {
             </div>
             <div className="nav-side__container">
                 {categories ? categories.map((category, index) => (
-                    <NavLink activeClassName="active" to={`/category/${category.name}`} key={index} className="item">{category.name}</NavLink>
+                    <NavLink activeClassName="active" to={`/category/${category.name}`} key={index} className="item">
+                        {category.name}
+                        <div className="remove-button" onClick={() => removeCategory(category.name)}>
+                            <i class="fas fa-minus"></i>
+                        </div>
+                    </NavLink>
                 ))
                     :
                     <div style={{ textAlign: 'center', fontSize: 'large' }}>Empty</div>

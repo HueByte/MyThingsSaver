@@ -1,4 +1,4 @@
-import { CategoryAddEndpoint, CategoryGetAllEndpoint } from "../routes/ApiEndpoints"
+import { CategoryAddEndpoint, CategoryARemoveEndpoint, CategoryGetAllEndpoint } from "../routes/ApiEndpoints"
 import { HandleBasicApiResponse } from "./ApiErrors"
 
 export async function AddCategory(token, Name) {
@@ -22,6 +22,13 @@ export async function GetAllCategories(token) {
         .then(HandleBasicApiResponse);
 }
 
-export async function RemoveCategory() {
+export async function RemoveCategory(token, Name) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ name: Name })
+    }
 
+    return await fetch(CategoryARemoveEndpoint, requestOptions)
+        .then(HandleBasicApiResponse);
 }

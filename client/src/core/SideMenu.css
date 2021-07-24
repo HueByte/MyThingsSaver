@@ -64,6 +64,9 @@
     margin-bottom: 1rem;
     transition: 250ms ease-in-out;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     /* prevent jumping */
     border-bottom: 1px solid var(--Shark);
 }
@@ -81,4 +84,26 @@
         border-radius: 10px;
         background-color: var(--SharkDarkSub);
         border-bottom: 1px solid var(--Rose);
+    }
+
+    .nav-side__container .active > .remove-button {
+        transform: translateX(-15px);
+    }
+
+    .nav-side__container .remove-button {
+        color: var(--Grey);
+        cursor: pointer;
+        z-index: 15;
+        display: grid;
+        place-items: center;
+        height: 100%;
+        transition: 250ms ease-in-out;
+    }
+
+    .nav-side__container .item:hover > .remove-button {
+        transform: translateX(-15px);
+    }
+
+    .nav-side__container .remove-button:hover {
+        color: var(--Rose);
     }
