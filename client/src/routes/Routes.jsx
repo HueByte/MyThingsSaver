@@ -10,12 +10,13 @@ import Categories from '../pages/Categories/Categories';
 import Category from '../pages/Category/Category';
 import Login from '../pages/Authentication/Login';
 import Register from '../pages/Authentication/Register';
+import PrivateRoute from './AuthenticatedRoute';
 
 export const Routes = () => {
     const basicLayoutRoutes = [
         '/',
         '/Testing',
-        '/category:name',
+        '/category/:name',
         '/categories',
         '/Settings'
     ]
@@ -25,15 +26,15 @@ export const Routes = () => {
             <Route path="/auth/login" component={Login} />
             <Route path="/auth/register" component={Register} />
 
-            <Route path={basicLayoutRoutes} component={BasicLayout}>
+            <PrivateRoute path={basicLayoutRoutes} component={BasicLayout}>
                 <BasicLayout>
-                    <Route exact path="/" component={HomePage} />
-                    <Route path="/category/:name" component={Category} />
-                    <Route path="/categories" component={Categories} />
-                    <Route path="/Testing" component={TestingPage} />
-                    <Route path="/Settings" component={Settings} />
+                    <PrivateRoute exact path="/" component={HomePage} />
+                    <PrivateRoute path="/category/:name" component={Category} />
+                    <PrivateRoute path="/categories" component={Categories} />
+                    <PrivateRoute path="/Testing" component={TestingPage} />
+                    <PrivateRoute path="/Settings" component={Settings} />
                 </BasicLayout>
-            </Route>
+            </PrivateRoute>
 
             <Route path="*" component={FOUR_ZERO_FOUR} />
         </Switch>
