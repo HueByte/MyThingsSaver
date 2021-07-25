@@ -15,8 +15,8 @@ namespace Infrastructure
             base.OnModelCreating(builder);
 
             builder.Entity<IdentityRole>().HasData(
-                new IdentityRole() { Name = "User" },
-                new IdentityRole() { Name = "Admin" }
+                new IdentityRole() { Name = "User", NormalizedName = "user" },
+                new IdentityRole() { Name = "Admin", NormalizedName = "admin" }
             );
         }
 
