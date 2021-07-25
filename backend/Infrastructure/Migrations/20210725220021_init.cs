@@ -192,6 +192,74 @@ namespace Infrastructure.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    CategoryId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    OwnerId = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.ForeignKey(
+                        name: "FK_Categories_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "CategoriesEntries",
+                columns: table => new
+                {
+                    CategoryEntryId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Content = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    image = table.Column<byte[]>(type: "longblob", nullable: true),
+                    OwnerId = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CategoryId = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoriesEntries", x => x.CategoryEntryId);
+                    table.ForeignKey(
+                        name: "FK_CategoriesEntries_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CategoriesEntries_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "8109cbbe-7b28-4d06-846b-e2ffe55bc64c", "2c388a11-17b7-41a1-89f9-4e47142c9d2c", "User", null });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "69b0c7e9-e9b4-4737-a528-03807cf8287f", "5a20e273-8dcb-42ba-9e25-bd2ce0513028", "Admin", null });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -228,6 +296,21 @@ namespace Infrastructure.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_OwnerId",
+                table: "Categories",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoriesEntries_CategoryId",
+                table: "CategoriesEntries",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoriesEntries_OwnerId",
+                table: "CategoriesEntries",
+                column: "OwnerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -248,7 +331,13 @@ namespace Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CategoriesEntries");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

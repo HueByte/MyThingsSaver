@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Core.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
@@ -8,6 +9,16 @@ namespace Infrastructure
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole() { Name = "User" },
+                new IdentityRole() { Name = "Admin" }
+            );
+        }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryEntry> CategoriesEntries { get; set; }

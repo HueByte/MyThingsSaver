@@ -83,9 +83,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Models.Category", b =>
                 {
-                    b.Property<Guid>("CategoryId")
+                    b.Property<string>("CategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
@@ -106,12 +106,12 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Models.CategoryEntry", b =>
                 {
-                    b.Property<Guid>("EntryId")
+                    b.Property<string>("CategoryEntryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Content")
                         .HasColumnType("longtext");
@@ -125,7 +125,7 @@ namespace Infrastructure.Migrations
                     b.Property<byte[]>("image")
                         .HasColumnType("longblob");
 
-                    b.HasKey("EntryId");
+                    b.HasKey("CategoryEntryId");
 
                     b.HasIndex("CategoryId");
 
@@ -158,6 +158,20 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8109cbbe-7b28-4d06-846b-e2ffe55bc64c",
+                            ConcurrencyStamp = "2c388a11-17b7-41a1-89f9-4e47142c9d2c",
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = "69b0c7e9-e9b4-4737-a528-03807cf8287f",
+                            ConcurrencyStamp = "5a20e273-8dcb-42ba-9e25-bd2ce0513028",
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

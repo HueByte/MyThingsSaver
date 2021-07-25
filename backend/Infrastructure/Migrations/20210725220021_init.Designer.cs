@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210714202625_ContentFix")]
-    partial class ContentFix
+    [Migration("20210725220021_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.7");
+                .HasAnnotation("ProductVersion", "5.0.8");
 
-            modelBuilder.Entity("Infrastructure.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Core.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -83,32 +83,37 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Category", b =>
+            modelBuilder.Entity("Core.Models.Category", b =>
                 {
-                    b.Property<Guid>("CategoryId")
+                    b.Property<string>("CategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("CategoryId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.CategoryEntry", b =>
+            modelBuilder.Entity("Core.Models.CategoryEntry", b =>
                 {
-                    b.Property<Guid>("EntryId")
+                    b.Property<string>("CategoryEntryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Content")
                         .HasColumnType("longtext");
@@ -116,15 +121,17 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<byte[]>("image")
                         .HasColumnType("longblob");
 
-                    b.HasKey("EntryId");
+                    b.HasKey("CategoryEntryId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("CategoriesEntries");
                 });
@@ -153,6 +160,20 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8109cbbe-7b28-4d06-846b-e2ffe55bc64c",
+                            ConcurrencyStamp = "2c388a11-17b7-41a1-89f9-4e47142c9d2c",
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = "69b0c7e9-e9b4-4737-a528-03807cf8287f",
+                            ConcurrencyStamp = "5a20e273-8dcb-42ba-9e25-bd2ce0513028",
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -257,11 +278,28 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.CategoryEntry", b =>
+            modelBuilder.Entity("Core.Models.Category", b =>
                 {
-                    b.HasOne("Infrastructure.Models.Category", null)
+                    b.HasOne("Core.Models.ApplicationUser", "Owner")
+                        .WithMany("Categories")
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Core.Models.CategoryEntry", b =>
+                {
+                    b.HasOne("Core.Models.Category", "Category")
                         .WithMany("CategoryEntries")
                         .HasForeignKey("CategoryId");
+
+                    b.HasOne("Core.Models.ApplicationUser", "Owner")
+                        .WithMany("Entries")
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -275,7 +313,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Infrastructure.Models.ApplicationUser", null)
+                    b.HasOne("Core.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -284,7 +322,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Infrastructure.Models.ApplicationUser", null)
+                    b.HasOne("Core.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -299,7 +337,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Infrastructure.Models.ApplicationUser", null)
+                    b.HasOne("Core.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -308,14 +346,21 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Infrastructure.Models.ApplicationUser", null)
+                    b.HasOne("Core.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Category", b =>
+            modelBuilder.Entity("Core.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Entries");
+                });
+
+            modelBuilder.Entity("Core.Models.Category", b =>
                 {
                     b.Navigation("CategoryEntries");
                 });

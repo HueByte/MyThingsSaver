@@ -1,11 +1,11 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Pomelo.EntityFrameworkCore.MySql.Design;
-using Microsoft.Extensions.Configuration;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Infrastructure
 {
@@ -17,8 +17,8 @@ namespace Infrastructure
         // For some reason this shittery must look like that for non-problematic migrations with MySQL
         public static void AddDbContextProduction(this IServiceCollection services, IConfiguration config) =>
             services.AddDbContext<AppDbContext>(
-                                options => options.UseMySql(config.GetConnectionString("DatabaseConnectionString"), 
-                                ServerVersion.AutoDetect(config.GetConnectionString("DatabaseConnectionString")), 
+                                options => options.UseMySql(config.GetConnectionString("DatabaseConnectionString"),
+                                ServerVersion.AutoDetect(config.GetConnectionString("DatabaseConnectionString")),
                                 x => x.MigrationsAssembly("Infrastructure"))
 
             );
@@ -26,8 +26,8 @@ namespace Infrastructure
         // For some reason this shittery must look like that for non-problematic migrations with MySQL
         public static void AddDbContextDebug(this IServiceCollection services, IConfiguration config) =>
             services.AddDbContext<AppDbContext>(
-                                options => options.UseMySql(config.GetConnectionString("DatabaseConnectionString"), 
-                                ServerVersion.AutoDetect(config.GetConnectionString("DatabaseConnectionString")), 
+                                options => options.UseMySql(config.GetConnectionString("DatabaseConnectionString"),
+                                ServerVersion.AutoDetect(config.GetConnectionString("DatabaseConnectionString")),
                                 x => x.MigrationsAssembly("Infrastructure"))
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors()
