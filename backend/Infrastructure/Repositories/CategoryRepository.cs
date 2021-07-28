@@ -57,7 +57,7 @@ namespace Infrastructure.Repositories
                 CategoryEntries = null,
                 CategoryId = Guid.NewGuid().ToString(),
                 DateCreated = DateTime.UtcNow,
-                Name = cat.Name,
+                Name = cat.Name.Trim(),
                 OwnerId = ownerId
             };
 
@@ -73,7 +73,7 @@ namespace Infrastructure.Repositories
             if (category == null)
                 throw new Exception("Couldn't find that category");
 
-            category.Name = newCategory.Name;
+            category.Name = newCategory.Name.Trim();
 
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();

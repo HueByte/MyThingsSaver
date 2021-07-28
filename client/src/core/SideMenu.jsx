@@ -24,9 +24,9 @@ const SideMenu = () => {
     const addNewCategory = async () => {
         // TODO - sort by date
         if (categoryInput.current.value.length === 0) return;
-        await AddCategory(authContext.authState?.token, categoryInput.current.value)
+        await AddCategory(authContext.authState?.token, categoryInput.current.value.trim())
             .then(result => {
-                setCategories(data => ([...data, { name: categoryInput.current.value }]));
+                setCategories(data => ([...data, { name: categoryInput.current.value.trim() }]));
             })
             .catch((error) => console.log(error))
 
