@@ -16,6 +16,7 @@
     top: 64px;
     height: Calc(100% - 64px);
     overflow: hidden;
+    overflow-y: auto;
     transition: 1s ease-in-out;
     z-index: 10;
 }
@@ -40,4 +41,15 @@
     /* for some reason */
     transform: translateY(3px); 
     display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+    .main__wrapper {
+        width: 100%;
+        left: 0;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    
 }

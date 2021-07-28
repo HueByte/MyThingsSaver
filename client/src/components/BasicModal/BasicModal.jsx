@@ -6,7 +6,6 @@ const customStyles = {
     overlay: {
         zIndex: '999',
         backgroundColor: 'rgba(1,1,1,0)',
-        // filter: 'blur(10px)'
         backdropFilter: 'blur(2px)'
     },
     content: {

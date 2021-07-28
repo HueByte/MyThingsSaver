@@ -111,3 +111,14 @@
     .nav-side__container .remove-button:hover {
         color: var(--Rose);
     }
+
+
+@media screen and (max-width: 768px) {
+    .nav-side {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    
+}

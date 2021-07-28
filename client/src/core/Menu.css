@@ -112,3 +112,17 @@
         background-color: var(--SharkDark);
         border-bottom: 1px solid var(--Rose);
     }
+
+    @media screen and (max-width: 768px) {
+        .nav-logo {
+            width: 100px;
+        }
+
+        .nav-content__container {
+            width: Calc(100% - 100px);
+        }
+    }
+    
+    @media screen and (max-width: 425px) {
+        
+    }

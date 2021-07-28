@@ -12,6 +12,7 @@
     margin: 1rem;
     flex: 1 1 auto;
     border-radius: 10px;
+    min-width: 150px;
     max-width: 300px;
     height: 150px;
     background-color: var(--Shark);
@@ -35,6 +36,7 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    padding: 10px;
 }
 
 .category-link > *:not(:first-child) {
@@ -56,15 +58,26 @@
 }
 
 .category-id {
-    text-align: center;
+    /* text-align: center; */
     text-overflow: ellipsis;
     width: 100%;
     color: var(--Gold);
 }
 
 .category-date-created {
-    text-align: center;
+    /* text-align: center; */
     width: 100%;
+}
+
+.add-new {
+    width: 300px;
+    display: grid;
+    place-items: center;
+    font-size: xx-large;
+}
+
+.add-new:hover {
+    color: var(--Gold);
 }
 
 .edit {
@@ -96,33 +109,33 @@
         color: var(--Rose);
     }
 
-.edit-modal {
+.modal {
     display: flex;
     flex-direction: column;
 }
 
-.edit-info {
+.modal-info {
     font-size: large;
 }
 
-.edit-menu {
+.modal-menu {
     display: flex;
     flex-direction: column;
     margin-top: 1em;
 }
 
-.edit-menu > * {
+.modal-menu > * {
     margin: .5em;
 }
 
-.edit-menu-buttons {
+.modal-menu-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-top: 1em;
 }
 
-.edit-menu-buttons > div {
+.modal-menu-buttons > div {
     max-width: 100px;
     flex: 1 1 0px;
     margin: 1em;
