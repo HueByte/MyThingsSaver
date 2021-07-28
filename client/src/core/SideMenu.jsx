@@ -1,29 +1,42 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { AddCategory, GetAllCategories, RemoveCategory } from '../api/Categories';
+import { AuthContext } from '../auth/AuthContext';
+import { successModal } from './Modals';
 import './SideMenu.css';
 
 const SideMenu = () => {
-    const [categories, setCategories] = useState(null);
+    const authContext = useContext(AuthContext);
+    const [categories, setCategories] = useState([]);
     const categoryInput = useRef();
 
-    useEffect(() => {
+    useEffect(async () => {
         // fake feed category
         categoryInput.current = document.getElementById('newCategoryInput');
-        setCategories(fakeCategorySeed());
+
+        await GetAllCategories(authContext.authState?.token)
+            .then(result => {
+                setCategories(result.data);
+            })
+            .catch((error) => console.log(error))
     }, [])
 
-    const inputHandler = (event) => {
-        if (event.key === "Enter") 
-            addCategory();
+    const addNewCategory = async () => {
+        // TODO - sort by date
+        if (categoryInput.current.value.length === 0) return;
+        await AddCategory(authContext.authState?.token, categoryInput.current.value)
+            .then(result => {
+                setCategories(data => ([...data, { name: categoryInput.current.value }]));
+            })
+            .catch((error) => console.log(error))
+
+        categoryInput.current.value = '';
     }
 
-    const addCategory = async () => {
-        //request to API
-        // let newCategory = categoryInput.current.value;
-        // setCategories(data => ([...data, newCategory]))
-        if(categoryInput.current.value.length === 0) return;
-        await setCategories(data => ([...data, categoryInput.current.value]))
-        categoryInput.current.value = '';
+
+    const inputHandler = (event) => {
+        if (event.key === "Enter")
+            addNewCategory();
     }
 
     return (
@@ -32,24 +45,22 @@ const SideMenu = () => {
                 <p>Your Categories</p>
             </div>
             <div className="nav-side-controlls">
-                <div onClick={addCategory} className="basic-button nav-side-button"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                <div onClick={addNewCategory} className="basic-button nav-side-button"><i class="fa fa-plus" aria-hidden="true"></i></div>
                 <input id="newCategoryInput" onKeyDown={inputHandler} className="basic-input nav-side-input" type="text" placeholder="Category name" />
                 {/* <div onClick={toggleMinus} className="basic-button nav-side-button"><i class="fa fa-minus" aria-hidden="true"></i></div> */}
             </div>
             <div className="nav-side__container">
                 {categories ? categories.map((category, index) => (
-                    <NavLink activeClassName="active" to={`/category/${category}`} key={index} className="item">{category}</NavLink>
+                    <NavLink activeClassName="active" to={`/category/${category.name}`} key={index} className="item">
+                        {category.name}
+                    </NavLink>
                 ))
                     :
-                    <div style={{textAlign: 'center', fontSize: 'large'}}>Empty</div>
+                    <div style={{ textAlign: 'center', fontSize: 'large' }}>Empty</div>
                 }
             </div>
         </div>
     )
-}
-
-const fakeCategorySeed = () => {
-    return ['Item', 'Item', 'Cats', 'Cows', 'Dogs', 'Games'];
 }
 
 export default SideMenu;

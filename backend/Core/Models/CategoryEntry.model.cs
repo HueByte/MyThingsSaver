@@ -8,14 +8,24 @@ namespace Core.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid EntryId { get; set; }
+        public string CategoryEntryId { get; set; }
 
-        public Guid OwnerId { get; set; }
+        public string CategoryEntryName { get; set; }
+
+        public Category Category { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
         public string Content { get; set; }
 
         public byte[] image { get; set; }
+
+
+        [ForeignKey("OwnerId")]
+        public string OwnerId { get; set; }
+
+        public ApplicationUser Owner { get; set; }
+
+        public string CategoryId { get; set; }
     }
 }

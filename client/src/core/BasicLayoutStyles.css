@@ -39,3 +39,7 @@
         color: #fff;
         border-color: var(--Rose);
     }
+
+.notifications-component > .notification-container--top-right {
+    top: 80px !important;
+}

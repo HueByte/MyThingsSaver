@@ -1,0 +1,123 @@
+.categories__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 2em;
+    justify-content: space-evenly;
+    z-index: 11;
+}
+
+.category {
+    position: relative;
+    margin: 1rem;
+    flex: 1 1 auto;
+    /* flex-basis: 0; */
+    border-radius: 10px;
+    max-width: 300px;
+    height: 150px;
+    background-color: var(--Shark);
+    cursor: pointer;
+    transition: 200ms ease-in-out;
+    border-bottom: 1px solid var(--RoseSub);
+    -webkit-font-smoothing: antialiased;
+}
+    .category:hover {
+        transform: scale(1.05);
+    }
+
+.category-link {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.category-link > *:not(:first-child) {
+    margin-top: .5em;
+}
+
+.category-name {
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    color: var(--Rose);
+    width: 100%;
+    font-size: medium;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; 
+}
+
+.category-id {
+    text-align: center;
+    text-overflow: ellipsis;
+    width: 100%;
+    color: var(--Gold);
+}
+
+.category-date-created {
+    text-align: center;
+    width: 100%;
+}
+
+.edit {
+    position: absolute;
+    right: 30px;
+    bottom: 5px;
+    z-index: 12;
+    font-size: large;
+    color: var(--Grey);
+}
+
+    .edit:hover {
+        transform: scale(1.1);
+        color: var(--Rose);
+    }
+
+
+.delete {
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    z-index: 12;
+    font-size: large;
+    color: var(--Grey);
+}
+
+    .delete:hover {
+        transform: scale(1.1);
+        color: var(--Rose);
+    }
+
+.edit-modal {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-info {
+    font-size: large;
+}
+
+.edit-menu {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+}
+
+.edit-menu > * {
+    margin: .5em;
+}
+
+.edit-menu-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+.edit-menu-buttons > div {
+    max-width: 100px;
+    flex: 1 1 0px;
+    margin: 1em;
+}
