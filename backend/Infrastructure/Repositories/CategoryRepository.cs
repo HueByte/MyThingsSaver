@@ -65,6 +65,20 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateOneAsync(CategoryDTO newCategory, string ownerId)
+        {
+            if (string.IsNullOrWhiteSpace(newCategory.Name))
+                throw new ArgumentException("Name cannot be empty");
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == newCategory.CategoryId && x.Owner.Id == ownerId);
+            if (category == null)
+                throw new Exception("Couldn't find that category");
+
+            category.Name = newCategory.Name;
+
+            _context.Categories.Update(category);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task RemoveOneAsync(string id, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(id))

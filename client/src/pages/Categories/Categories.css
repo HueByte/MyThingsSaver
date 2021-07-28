@@ -22,12 +22,8 @@
     -webkit-font-smoothing: antialiased;
 }
     .category:hover {
-        transform: scale(1.02);
+        transform: scale(1.05);
     }
-
-.category > *:not(:first-child) {
-    margin-top: .5em;
-}
 
 .category-link {
     height: 100%;
@@ -35,6 +31,10 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+.category-link > *:not(:first-child) {
+    margin-top: .5em;
 }
 
 .category-name {
@@ -67,6 +67,7 @@
     bottom: 5px;
     z-index: 12;
     font-size: large;
+    color: var(--Grey);
 }
 
     .delete:hover {

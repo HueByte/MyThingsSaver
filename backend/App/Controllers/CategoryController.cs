@@ -81,5 +81,21 @@ namespace App.Controllers
             else
                 return BadRequest(result);
         }
+
+        [HttpPost("UpdateCategory")]
+        [Authorize]
+        public async Task<IActionResult> UpdateCategoryAsync([FromBody] CategoryDTO category)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler.EventHandleAsync(async () =>
+            {
+                await _categoryRepository.UpdateOneAsync(category, userId);
+            });
+
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
     }
 }

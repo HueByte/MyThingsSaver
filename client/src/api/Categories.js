@@ -32,3 +32,14 @@ export async function RemoveCategory(token, CategoryId) {
     return await fetch(CategoryARemoveEndpoint, requestOptions)
         .then(HandleBasicApiResponse);
 }
+
+export async function UpdateCategory(token, CategoryId, Name) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ categoryId: CategoryId, name: Name })
+    }
+
+    return await fetch(UpdateCategory, requestOptions)
+        .then(HandleBasicApiResponse);
+}
