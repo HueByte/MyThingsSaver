@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { GetAllCategories, RemoveCategory } from '../../api/Categories';
+import { GetAllCategories, RemoveCategory, UpdateCategory } from '../../api/Categories';
 import { AuthContext } from '../../auth/AuthContext';
 import { NavLink as div, NavLink } from 'react-router-dom';
 import './Categories.css';
@@ -8,7 +8,7 @@ import { BasicModal } from '../../components/BasicModal/BasicModal';
 const Categories = () => {
     const authContext = useContext(AuthContext);
     const [categories, setCategories] = useState([]);
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [shouldModalOpen, setShouldModalOpen] = useState(false);
     const editCategory = useRef();
 
     useEffect(async () => {
@@ -34,9 +34,24 @@ const Categories = () => {
             .catch((error) => console.log(error));
     }
 
-    const edit = async (category) => {
+    const edit = (category) => {
         editCategory.current = category;
-        setIsOpen(!modalIsOpen);
+        setShouldModalOpen(!shouldModalOpen);
+    }
+
+    const sendEditRequest = async (categoryId, name) => {
+        await UpdateCategory(authContext.authState?.token, categoryId, name)
+            .then(result => {
+                let index = categories.findIndex((obj => obj.categoryId == categoryId));
+                categories[index].name = name;
+                // setCategories({...categories})
+            })
+            .catch((error) => console.log(error));
+        setShouldModalOpen(false);
+    }
+
+    const closeModal = () => {
+        setShouldModalOpen(false);
     }
 
     return (
@@ -48,26 +63,35 @@ const Categories = () => {
                         <div className="category-id">{category.categoryId}</div>
                         <div className="category-date-created">{new Date(category.dateCreated).toISOString().slice(0, 10)}</div>
                     </NavLink>
-                    <div className="edit" onClick={() => edit(category)}><i class="fa fa-times" aria-hidden="true"></i></div>
+                    <div className="edit" onClick={() => edit(category)}><i class="fas fa-edit"></i></div>
                     <div className="delete" onClick={() => remove(category.categoryId)}><i class="fa fa-times" aria-hidden="true"></i></div>
                 </div>
             ))
                 : <>Empty</>
             }
-            <BasicModal isOpen={modalIsOpen}>
-                <EditDocument category={editCategory.current} />
+            <BasicModal isOpen={shouldModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeModal}>
+                <EditDocument category={editCategory.current} closeModal={closeModal} sendRequest={sendEditRequest} />
             </BasicModal>
         </div>
     )
 }
 
-const EditDocument = ({ category }) => {
+const EditDocument = ({ category, closeModal, sendRequest }) => {
+    const modalInput = useRef();
+    useEffect(() => modalInput.current = document.getElementById('edit-modal-input'), []);
+
     return (
-        <>
-            <p>Editing Category: {category.name}</p>
-            <label>New Name:</label>
-            <input type="text" className="basic-input" />
-        </>
+        <div className="edit-modal">
+            <div className="edit-info">Editing: {category.name}</div>
+            <div className="edit-menu">
+                <label>New Name: </label>
+                <input id="edit-modal-input" type="text" className="basic-input" />
+                <div className="edit-menu-buttons">
+                    <div className="basic-button accept" onClick={() => sendRequest(category.categoryId, modalInput.current.value)}>Accept</div>
+                    <div className="basic-button close" onClick={closeModal}>Close</div>
+                </div>
+            </div>
+        </div>
     )
 }
 

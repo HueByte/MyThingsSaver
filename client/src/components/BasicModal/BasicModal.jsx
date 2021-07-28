@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React, { Children, useState } from 'react';
 import ReactModal from 'react-modal';
 import Modal from 'react-modal';
 
@@ -17,6 +17,8 @@ const customStyles = {
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         backgroundColor: 'rgb(27,27,27)',
+        border: '0px',
+        borderRadius: '10px'
     },
 };
 

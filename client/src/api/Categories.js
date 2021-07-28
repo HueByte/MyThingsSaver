@@ -1,4 +1,4 @@
-import { CategoryAddEndpoint, CategoryARemoveEndpoint, CategoryGetAllEndpoint } from "../routes/ApiEndpoints"
+import { CategoryAddEndpoint, CategoryRemoveEndpoint, CategoryGetAllEndpoint, CategoryUpdateEndpoint } from "../routes/ApiEndpoints"
 import { HandleBasicApiResponse } from "./ApiErrors"
 
 export async function AddCategory(token, Name) {
@@ -29,7 +29,7 @@ export async function RemoveCategory(token, CategoryId) {
         body: JSON.stringify({ categoryId: CategoryId })
     }
 
-    return await fetch(CategoryARemoveEndpoint, requestOptions)
+    return await fetch(CategoryRemoveEndpoint, requestOptions)
         .then(HandleBasicApiResponse);
 }
 
@@ -40,6 +40,6 @@ export async function UpdateCategory(token, CategoryId, Name) {
         body: JSON.stringify({ categoryId: CategoryId, name: Name })
     }
 
-    return await fetch(UpdateCategory, requestOptions)
-        .then(HandleBasicApiResponse);
+    return await fetch(CategoryUpdateEndpoint, requestOptions)
+        .then(HandleBasicApiResponse)
 }
