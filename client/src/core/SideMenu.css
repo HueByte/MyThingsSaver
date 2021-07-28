@@ -67,11 +67,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    letter-spacing: 0.5px;
+    color: var(--Grey);
     /* prevent jumping */
     border-bottom: 1px solid var(--Shark);
 }
 
     .nav-side__container .item:hover {
+        color: white;
         transform: translateX(15px);
         border-radius: 10px;
         /* border-left: 1px solid var(--Rose); */
@@ -80,6 +83,7 @@
     }
 
     .nav-side__container .active {
+        color: white;
         transform: translateX(15px);
         border-radius: 10px;
         background-color: var(--SharkDarkSub);

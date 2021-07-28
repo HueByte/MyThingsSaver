@@ -23,6 +23,7 @@
     letter-spacing: 1px;
     border-radius: 5px;
     font-weight: bold;
+    font-size: small;
     display: grid;
     place-items: center;
     cursor: pointer;

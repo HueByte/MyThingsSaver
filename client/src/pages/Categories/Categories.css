@@ -24,6 +24,10 @@
         transform: scale(1.05);
     }
 
+    .category:nth-child(odd) {
+        border-bottom: 1px solid var(--Gold);
+    }
+
 .category-link {
     height: 100%;
     width: 100%;
@@ -47,6 +51,8 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap; 
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .category-id {
