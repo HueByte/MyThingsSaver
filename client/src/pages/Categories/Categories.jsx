@@ -44,7 +44,6 @@ const Categories = () => {
             .then(result => {
                 let index = categories.findIndex((obj => obj.categoryId == categoryId));
                 categories[index].name = name;
-                // setCategories({...categories})
             })
             .catch((error) => console.log(error));
         setShouldModalOpen(false);
@@ -63,7 +62,7 @@ const Categories = () => {
                         <div className="category-id">{category.categoryId}</div>
                         <div className="category-date-created">{new Date(category.dateCreated).toISOString().slice(0, 10)}</div>
                     </NavLink>
-                    <div className="edit" onClick={() => edit(category)}><i class="fas fa-edit"></i></div>
+                    <div className="edit" onClick={() => edit(category)}><i class="fas fa-pen-square"></i></div>
                     <div className="delete" onClick={() => remove(category.categoryId)}><i class="fa fa-times" aria-hidden="true"></i></div>
                 </div>
             ))
