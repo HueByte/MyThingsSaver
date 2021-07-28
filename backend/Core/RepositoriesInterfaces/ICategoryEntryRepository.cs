@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Entities;
 using Core.Models;
 
 namespace Core.RepositoriesInterfaces
 {
     public interface ICategoryEntryRepository
     {
-        Task<CategoryEntry> GetOneAsync(Guid id);
-        Task<CategoryEntry> GetOneAsync(string id);
-        Task<List<CategoryEntry>> GetAllAsync();
-        Task AddOneAsync(CategoryEntry entity);
-        Task RemoveOneAsync(string id);
+        Task<CategoryEntry> GetOneByIdAsync(string categoryId, Guid id, string ownerId);
+        Task<CategoryEntry> GetOneByIdAsync(string categoryId, string id, string ownerId);
+        Task<CategoryEntry> GetOneByNameAsync(string categoryId, string name, string ownerId);
+        Task<List<CategoryEntry>> GetAllAsync(string categoryId, string ownerId);
+        Task AddOneAsync(CategoryEntryDTO entity, string ownerId);
+        Task RemoveOneAsync(string categoryId, string id, string ownerId);
     }
 }

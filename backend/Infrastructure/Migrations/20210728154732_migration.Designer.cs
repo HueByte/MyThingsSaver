@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210725220021_init")]
-    partial class init
+    [Migration("20210728154732_migration")]
+    partial class migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -164,15 +164,17 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8109cbbe-7b28-4d06-846b-e2ffe55bc64c",
-                            ConcurrencyStamp = "2c388a11-17b7-41a1-89f9-4e47142c9d2c",
-                            Name = "User"
+                            Id = "d60c8dd4-45ea-49cb-a356-9851c0e897c4",
+                            ConcurrencyStamp = "5681a9bd-9ddf-4d0b-bcaf-55e77075e4a9",
+                            Name = "User",
+                            NormalizedName = "user"
                         },
                         new
                         {
-                            Id = "69b0c7e9-e9b4-4737-a528-03807cf8287f",
-                            ConcurrencyStamp = "5a20e273-8dcb-42ba-9e25-bd2ce0513028",
-                            Name = "Admin"
+                            Id = "8ff01fee-8e4b-4d08-8e72-a6a2a0ec940c",
+                            ConcurrencyStamp = "8c5c73fb-9297-4c25-9402-fc26bf4308a3",
+                            Name = "Admin",
+                            NormalizedName = "admin"
                         });
                 });
 

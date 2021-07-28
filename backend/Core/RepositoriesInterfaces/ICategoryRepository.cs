@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Entities;
 using Core.Models;
 
 namespace Core.RepositoriesInterfaces
@@ -8,7 +9,7 @@ namespace Core.RepositoriesInterfaces
     {
         Task<Category> GetOneAsync(string name, string ownerId);
         Task<List<Category>> GetAllAsync(string ownerId);
-        Task AddOneAsync(Category category, string ownerName);
+        Task AddOneAsync(CategoryDTO category, string ownerId);
         Task RemoveOneAsync(string name, string ownerId);
     }
 }

@@ -22,11 +22,11 @@ export async function GetAllCategories(token) {
         .then(HandleBasicApiResponse);
 }
 
-export async function RemoveCategory(token, Name) {
+export async function RemoveCategory(token, CategoryId) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ name: Name })
+        body: JSON.stringify({ categoryId: CategoryId })
     }
 
     return await fetch(CategoryARemoveEndpoint, requestOptions)

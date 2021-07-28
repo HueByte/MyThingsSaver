@@ -29,14 +29,9 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> AddCategoryAsync([FromBody] CategoryDTO category)
         {
-            var newCategory = new Category()
-            {
-                Name = category.Name,
-                DateCreated = DateTime.UtcNow,
-                CategoryId = Guid.NewGuid()
-            };
-
-            var result = await ApiEventHandler.EventHandleAsync(async () => await _categoryRepository.AddOneAsync(newCategory, this.User.Identity.Name));
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler.EventHandleAsync(async () =>
+                await _categoryRepository.AddOneAsync(category, userId));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -50,7 +45,8 @@ namespace App.Controllers
         public async Task<IActionResult> GetAllCategoryAsync()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () => { return await _categoryRepository.GetAllAsync(userId); });
+            var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () =>
+                { return await _categoryRepository.GetAllAsync(userId); });
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -63,7 +59,8 @@ namespace App.Controllers
         public async Task<IActionResult> GetCategoryAsync(string name)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await ApiEventHandler<Category>.EventHandleAsync(async () => { return await _categoryRepository.GetOneAsync(name, userId); });
+            var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
+                { return await _categoryRepository.GetOneAsync(name, userId); });
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -76,7 +73,8 @@ namespace App.Controllers
         public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDTO category)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await ApiEventHandler.EventHandleAsync(async () => await _categoryRepository.RemoveOneAsync(category.Name, userId));
+            var result = await ApiEventHandler.EventHandleAsync(async () =>
+                await _categoryRepository.RemoveOneAsync(category.CategoryId, userId));
 
             if (result.IsSuccess)
                 return Ok(result);

@@ -25,7 +25,7 @@ namespace App.Authentication
         // TODO: consider email/username choice system configurable
         public async Task<string> GenerateJsonWebToken(ApplicationUser user)
         {
-            var claims = new List<Claim>() 
+            var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName)

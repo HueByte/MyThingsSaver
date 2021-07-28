@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Infrastructure.Repositories
 {
@@ -40,7 +42,7 @@ namespace Infrastructure.Repositories
             return categories;
         }
 
-        public async Task AddOneAsync(Category cat, string ownerName)
+        public async Task AddOneAsync(CategoryDTO cat, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(cat.Name))
                 throw new ArgumentException("Name cannot be empty");
@@ -49,21 +51,26 @@ namespace Infrastructure.Repositories
             if (exists)
                 throw new Exception("This category already exists");
 
-            var user = await _userManager.FindByNameAsync(ownerName);
 
-            // assign user if found
-            cat.Owner = user ?? throw new Exception("Something went wrong");
+            Category newCategory = new()
+            {
+                CategoryEntries = null,
+                CategoryId = Guid.NewGuid().ToString(),
+                DateCreated = DateTime.UtcNow,
+                Name = cat.Name,
+                OwnerId = ownerId
+            };
 
-            await _context.Categories.AddAsync(cat);
+            await _context.Categories.AddAsync(newCategory);
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveOneAsync(string name, string ownerId)
+        public async Task RemoveOneAsync(string id, string ownerId)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("Name cannot be empty");
 
-            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Name == name && x.Owner.Id == ownerId);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id && x.Owner.Id == ownerId);
             if (category == null)
                 throw new Exception("Couldn't find that category");
 

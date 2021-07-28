@@ -9,7 +9,7 @@ namespace Core.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid CategoryId { get; set; }
+        public string CategoryId { get; set; }
 
         public string Name { get; set; }
 
@@ -18,6 +18,9 @@ namespace Core.Models
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
         public ICollection<CategoryEntry> CategoryEntries { get; set; }
+
+        [ForeignKey("OwnerId")]
+        public string OwnerId { get; set; }
 
         public ApplicationUser Owner { get; set; }
     }
