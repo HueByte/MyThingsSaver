@@ -61,6 +61,21 @@
     width: 100%;
 }
 
+.edit {
+    position: absolute;
+    right: 30px;
+    bottom: 5px;
+    z-index: 12;
+    font-size: large;
+    color: var(--Grey);
+}
+
+    .edit:hover {
+        transform: scale(1.1);
+        color: var(--Rose);
+    }
+
+
 .delete {
     position: absolute;
     right: 10px;

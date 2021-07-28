@@ -10,6 +10,11 @@ import 'react-notifications-component/dist/theme.css';
 import { store } from 'react-notifications-component';
 import 'animate.css';
 
+// modals
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root')
+
 function App() {
   const history = createBrowserHistory();
   return (
