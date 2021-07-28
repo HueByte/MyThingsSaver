@@ -33,19 +33,6 @@ const SideMenu = () => {
         categoryInput.current.value = '';
     }
 
-    const removeCategory = async (name) => {
-        await RemoveCategory(authContext.authState?.token, name)
-            .then(result => {
-                let cats = categories;
-                cats = cats.filter(category => {
-                    return category.name !== name;
-                })
-
-                setCategories(cats);
-            })
-            .catch((error) => console.log(error))
-
-    }
 
     const inputHandler = (event) => {
         if (event.key === "Enter")
@@ -66,9 +53,6 @@ const SideMenu = () => {
                 {categories ? categories.map((category, index) => (
                     <NavLink activeClassName="active" to={`/category/${category.name}`} key={index} className="item">
                         {category.name}
-                        <div className="remove-button" onClick={() => removeCategory(category.name)}>
-                            <i class="fas fa-minus"></i>
-                        </div>
                     </NavLink>
                 ))
                     :
