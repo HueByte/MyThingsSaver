@@ -92,10 +92,10 @@ const Categories = () => {
                 : <>Empty</>
             }
             <BasicModal isOpen={shouldEditModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeEditModal}>
-                <EditDocument category={editCategory.current} closeModal={closeEditModal} sendRequest={sendEditRequest} />
+                <EditDocument category={editCategory.current} closeEditModal={closeEditModal} sendRequest={sendEditRequest} />
             </BasicModal>
             <BasicModal isOpen={shouldAddModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeAddModal}>
-                <AddDocument closeModal={closeAddModal} sendRequest={sendAddRequest} />
+                <AddDocument closeAddModal={closeAddModal} sendRequest={sendAddRequest} />
             </BasicModal>
         </div>
     )
