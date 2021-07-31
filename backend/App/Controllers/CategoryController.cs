@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
-// using System.Text.Json;
-// using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using App.Extensions;
 using Common.ApiResonse;
@@ -17,7 +15,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
-using Newtonsoft.Json;
 
 namespace App.Controllers
 {
@@ -122,13 +119,13 @@ namespace App.Controllers
 
 
             // TODO : Update once upgrade to .net 6, temporary solution to prevent JSON circular reference error
-            var settings = new JsonSerializerSettings
+            var settings = new Newtonsoft.Json.JsonSerializerSettings
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                Formatting = Formatting.Indented
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                Formatting = Newtonsoft.Json.Formatting.Indented
             };
 
-            string testJson = JsonConvert.SerializeObject(result, settings);
+            string testJson = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
 
             if (result.IsSuccess)
                 return Ok(testJson);

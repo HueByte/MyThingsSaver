@@ -22,7 +22,7 @@ namespace App
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        private Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
+        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
 
         public Startup(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {

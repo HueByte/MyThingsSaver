@@ -15,7 +15,6 @@ const SideMenu = () => {
     }, [])
 
     const addNewCategory = async () => {
-        // TODO - sort by date
         if (categoryInput.current.value.length === 0) return;
         await categoryContext.ContextAddCategory(categoryInput.current.value);
 

@@ -18,13 +18,9 @@ namespace App.Controllers
     public class CategoryEntryController : BaseApiController
     {
         private readonly ICategoryEntryRepository _categoryEntryRepository;
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public CategoryEntryController(ICategoryEntryRepository categoryEntryRepository, ICategoryRepository categoryRepository, UserManager<ApplicationUser> userManager)
+        public CategoryEntryController(ICategoryEntryRepository categoryEntryRepository)
         {
             _categoryEntryRepository = categoryEntryRepository;
-            _categoryRepository = categoryRepository;
-            _userManager = userManager;
         }
 
         [HttpPost("AddEntry")]
