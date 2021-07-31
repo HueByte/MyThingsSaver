@@ -62,8 +62,8 @@ namespace Infrastructure.Repositories
 
         public async Task AddOneAsync(CategoryEntryDTO entryDTO, string ownerId)
         {
-            if (string.IsNullOrWhiteSpace(entryDTO.CategoryName))
-                throw new ArgumentException("Category name cannot be empty, something went wrong");
+            if (string.IsNullOrWhiteSpace(entryDTO.EntryName))
+                throw new ArgumentException("Entry name cannot be empty, something went wrong");
 
             var entry = new CategoryEntry()
             {

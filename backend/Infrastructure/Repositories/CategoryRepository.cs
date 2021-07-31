@@ -94,9 +94,6 @@ namespace Infrastructure.Repositories
 
         public async Task<Category> GetCategoryWithEntriesAsync(string categoryId, string ownerId)
         {
-            // var categoryWithEntries = await _context.Categories
-            // .FirstOrDefaultAsync(x => x.CategoryId == categoryId && x.OwnerId == ownerId)
-            // .Include();
             if (string.IsNullOrWhiteSpace(categoryId))
                 throw new ArgumentException("Category ID cannot be empty");
 
