@@ -20,14 +20,10 @@ const Categories = () => {
     const categoryEditable = useRef();
 
 
-    useEffect(async () => {
-        setIsFetching(false);
-    }, []);
+    useEffect(async () => setIsFetching(false), []);
 
     // Remove category
-    const remove = async (id) => {
-        await categoryContext.ContextRemoveCategory(id);
-    }
+    const remove = async (id) => await categoryContext.ContextRemoveCategory(id);
 
     // Edit category
     const invokeEditModal = (category) => {
@@ -48,9 +44,7 @@ const Categories = () => {
     }
 
     // Add category
-    const invokeAddModal = () => {
-        setShouldAddModalOpen(true);
-    }
+    const invokeAddModal = () => setShouldAddModalOpen(true);
 
     const sendAddRequest = async (Name) => {
         if (Name.length === 0) {
