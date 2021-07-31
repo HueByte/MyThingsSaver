@@ -63,11 +63,16 @@ namespace Infrastructure.Repositories
         {
             if (string.IsNullOrWhiteSpace(newCategory.Name))
                 throw new ArgumentException("Name cannot be empty");
+
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == newCategory.CategoryId && x.Owner.Id == ownerId);
             if (category == null)
                 throw new Exception("Couldn't find that category");
 
             category.Name = newCategory.Name.Trim();
+
+            var doesExist = _context.Categories.Any(x => x.Name == category.Name);
+            if (doesExist)
+                throw new Exception("There's already category with that name");
 
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();

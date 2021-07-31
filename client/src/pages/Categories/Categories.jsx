@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { AddCategory, GetAllCategories, RemoveCategory, UpdateCategory } from '../../api/Categories';
 import { AuthContext } from '../../auth/AuthContext';
 import { NavLink as div, NavLink } from 'react-router-dom';
 import './Categories.css';
 import { BasicModal } from '../../components/BasicModal/BasicModal';
 import { warningModal } from '../../core/Modals';
 import Loader from '../../components/Loaders/Loader';
+import { CategoryContext } from '../../contexts/CategoryContext';
 
 const Categories = () => {
     const authContext = useContext(AuthContext);
-    const [categories, setCategories] = useState([]);
+    const categoryContext = useContext(CategoryContext);
     const [isFetching, setIsFetching] = useState(true);
 
     // add modal
@@ -19,30 +19,18 @@ const Categories = () => {
     const [shouldAddModalOpen, setShouldAddModalOpen] = useState(false);
     const categoryEditable = useRef();
 
-    useEffect(async () => {
-        await GetAllCategories(authContext.authState?.token)
-            .then(result => {
-                setCategories(result.data);
-            })
-            .catch((error) => console.log(error));
 
+    useEffect(async () => {
         setIsFetching(false);
     }, []);
 
+    // Remove category
     const remove = async (id) => {
-        await RemoveCategory(authContext.authState?.token, id)
-            .then(result => {
-                let newCategories = categories;
-                newCategories = newCategories.filter(category => {
-                    return category.categoryId !== id;
-                });
-
-                setCategories(newCategories);
-            })
-            .catch((error) => console.log(error));
+        await categoryContext.ContextRemoveCategory(id);
     }
 
-    const editCategory = (category) => {
+    // Edit category
+    const invokeEditModal = (category) => {
         categoryEditable.current = category;
         setShouldEditModalOpen(!shouldEditModalOpen);
     }
@@ -54,17 +42,13 @@ const Categories = () => {
             return;
         }
 
-        await UpdateCategory(authContext.authState?.token, categoryId, name)
-            .then(result => {
-                let index = categories.findIndex((obj => obj.categoryId == categoryId));
-                categories[index].name = name;
-            })
-            .catch((error) => console.log(error));
+        await categoryContext.ContextEditCategory(categoryId, name);
 
         setShouldEditModalOpen(false);
     }
 
-    const addCategory = () => {
+    // Add category
+    const invokeAddModal = () => {
         setShouldAddModalOpen(true);
     }
 
@@ -75,15 +59,7 @@ const Categories = () => {
             return;
         }
 
-        await AddCategory(authContext.authState?.token, Name.trim())
-            .then(async result => {
-                await GetAllCategories(authContext.authState?.token)
-                    .then(result => {
-                        setCategories(result.data)
-                    })
-                    .catch((error) => console.log(error));
-            })
-            .catch((error) => console.log(error));
+        await categoryContext.ContextAddCategory(Name);
 
         setShouldAddModalOpen(false);
     }
@@ -96,15 +72,15 @@ const Categories = () => {
         <div className="categories__container">
             {isFetching ? <Loader />
                 : <>
-                    <div className="category add-new" onClick={addCategory}><i class="fa fa-plus" aria-hidden="true"></i></div>
-                    {categories ? categories.map((category, index) => (
+                    <div className="category add-new" onClick={invokeAddModal}><i class="fa fa-plus" aria-hidden="true"></i></div>
+                    {categoryContext.categories ? categoryContext.categories.map((category, index) => (
                         <div key={index} className="category">
                             <NavLink to={`/category/${category.name}`} className="category-link">
                                 <div className="category-name">{category.name}</div>
                                 <div className="category-id">ID: {category.categoryId}</div>
                                 <div className="category-date-created">Date Created: {new Date(category.dateCreated).toISOString().slice(0, 10)}</div>
                             </NavLink>
-                            <div className="edit" onClick={() => editCategory(category)}><i class="fas fa-pen-square"></i></div>
+                            <div className="edit" onClick={() => invokeEditModal(category)}><i class="fas fa-pen-square"></i></div>
                             <div className="delete" onClick={() => remove(category.categoryId)}><i class="fa fa-times" aria-hidden="true"></i></div>
                         </div>
                     ))
