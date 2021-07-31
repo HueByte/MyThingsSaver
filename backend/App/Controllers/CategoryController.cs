@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -90,6 +91,22 @@ namespace App.Controllers
             var result = await ApiEventHandler.EventHandleAsync(async () =>
             {
                 await _categoryRepository.UpdateOneAsync(category, userId);
+            });
+
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
+        [HttpGet("GetCategoryWithEntries")]
+        [Authorize]
+        public async Task<IActionResult> GetCategoryEntriesAsync([FromQuery] string categoryId)
+        {
+            var userid = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
+            {
+                return await _categoryRepository.GetCategoryWithEntriesAsync(categoryId, userid);
             });
 
             if (result.IsSuccess)

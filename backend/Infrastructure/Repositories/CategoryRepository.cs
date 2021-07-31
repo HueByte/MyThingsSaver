@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Models;
@@ -89,6 +90,24 @@ namespace Infrastructure.Repositories
 
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Category> GetCategoryWithEntriesAsync(string categoryId, string ownerId)
+        {
+            // var categoryWithEntries = await _context.Categories
+            // .FirstOrDefaultAsync(x => x.CategoryId == categoryId && x.OwnerId == ownerId)
+            // .Include();
+            if (string.IsNullOrWhiteSpace(categoryId))
+                throw new ArgumentException("Category ID cannot be empty");
+
+            var categoryWithEntries = await
+                EntityFrameworkQueryableExtensions
+                .FirstOrDefaultAsync<Category>(_context.Categories
+                    .Include(entity => entity.CategoryEntries),
+                param => param.CategoryId == categoryId && param.OwnerId == ownerId);
+
+            return categoryWithEntries;
+
         }
     }
 }

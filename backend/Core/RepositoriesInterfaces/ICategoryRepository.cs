@@ -12,5 +12,6 @@ namespace Core.RepositoriesInterfaces
         Task AddOneAsync(CategoryDTO category, string ownerId);
         Task RemoveOneAsync(string name, string ownerId);
         Task UpdateOneAsync(CategoryDTO newCategory, string ownerId);
+        Task<Category> GetCategoryWithEntriesAsync(string categoryId, string ownerId);
     }
 }
