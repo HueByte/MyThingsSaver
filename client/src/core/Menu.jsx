@@ -1,16 +1,30 @@
-import React, { useContext } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { NavLink, Redirect, useLocation } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
 import './Menu.css';
+import './MobileMenu.css';
 import logo from '../assets/CloudByte.svg';
+import HamburgerMenu from '../components/HamburgerMenu/HamburgerMenu';
 
 const Menu = () => {
     const authContext = useContext(AuthContext);
 
-    const logout = () => {
-        authContext.signout();
-    }
+    const logout = () => authContext.signout();
 
+    return (
+        <>
+            {authContext.isAuthenticated() ?
+                <>
+                    <DesktopMenu logout={logout} authContext={authContext} />
+                    <MobileMenu logout={logout} authContext={authContext} />
+                </> :
+                <Redirect to="/auth/login" />
+            }
+        </>
+    )
+}
+
+const DesktopMenu = ({ logout, authContext }) => {
     return (
         <div className="nav-top">
             <div className="nav-logo">
@@ -38,6 +52,37 @@ const Menu = () => {
                     }
                 </div>
             </div>
+        </div>
+    )
+}
+
+const MobileMenu = ({ logout, authContext }) => {
+    const [isActiveMenu, setIsActiveMenu] = useState(false);
+
+    const toggleMenu = () => setIsActiveMenu(!isActiveMenu);
+
+    return (
+        <div className={`nav-top-mobile__wrapper${isActiveMenu ? '' : ' hide'}`}>
+            <div className="nav-top-mobile-icon"><img src={logo} /></div>
+            <div className="nav-top-mobile__content">
+                <div className="nav-top-mobile-user">
+                    {authContext.isAuthenticated() ? <div className="item user">{authContext.authState?.username}</div> : <></>}
+                </div>
+                <NavLink onClick={toggleMenu} exact to="/" activeClassName="active" className="item">Home</NavLink>
+                <NavLink onClick={toggleMenu} to="/Categories" activeClassName="active" className="item">Categories</NavLink>
+                <NavLink onClick={toggleMenu} to="/Settings" activeClassName="active" className="item">Settings</NavLink>
+                {!(authContext.isAuthenticated()) ?
+                    <>
+                        <NavLink to="/auth/login" className="item">Login</NavLink>
+                        <NavLink to="/auth/register" className="item">Register</NavLink>
+                    </>
+                    :
+                    <>
+                        <div className="item" onClick={logout}>Log out</div>
+                    </>
+                }
+            </div>
+            <div className={`close${isActiveMenu ? '' : ' show-burger'}`} onClick={toggleMenu}><HamburgerMenu /></div>
         </div>
     )
 }

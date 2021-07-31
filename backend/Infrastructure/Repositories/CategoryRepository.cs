@@ -1,26 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Infrastructure.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
         private readonly AppDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public CategoryRepository(AppDbContext context, UserManager<ApplicationUser> userManager)
+        public CategoryRepository(AppDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         public async Task<Category> GetOneAsync(string name, string ownerId)
@@ -35,9 +29,9 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Category>> GetAllAsync(string ownerId)
         {
-            var categories = await _context.Categories.Where(cat => cat.Owner.Id == ownerId).ToListAsync();
-            if (categories.Count == 0 || categories == null)
-                throw new Exception("Couldn't find any categories");
+            var categories = await _context.Categories.Where(cat => cat.Owner.Id == ownerId).OrderByDescending(cat => cat.DateCreated).ToListAsync();
+            // if (categories.Count == 0 || categories == null)
+            //     throw new Exception("Couldn't find any categories");
 
             return categories;
         }

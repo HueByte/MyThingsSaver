@@ -3,7 +3,7 @@
     top: 64px;
     display: flex;
     flex-direction: column;
-    width: 250px;
+    width: 240px;
     height: Calc(100vh - 64px);
     background-color: var(--Shark);
     z-index: 999;

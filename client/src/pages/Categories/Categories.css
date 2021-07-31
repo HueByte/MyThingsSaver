@@ -49,7 +49,7 @@
     place-items: center;
     color: var(--Rose);
     width: 100%;
-    font-size: medium;
+    font-size: large;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap; 

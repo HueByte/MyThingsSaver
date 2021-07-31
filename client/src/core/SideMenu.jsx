@@ -11,7 +11,6 @@ const SideMenu = () => {
     const categoryInput = useRef();
 
     useEffect(async () => {
-        // fake feed category
         categoryInput.current = document.getElementById('newCategoryInput');
 
         await GetAllCategories(authContext.authState?.token)

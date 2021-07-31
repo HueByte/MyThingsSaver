@@ -4,13 +4,20 @@ import { AuthContext } from '../../auth/AuthContext';
 import { NavLink as div, NavLink } from 'react-router-dom';
 import './Categories.css';
 import { BasicModal } from '../../components/BasicModal/BasicModal';
+import { warningModal } from '../../core/Modals';
+import Loader from '../../components/Loaders/Loader';
 
 const Categories = () => {
     const authContext = useContext(AuthContext);
     const [categories, setCategories] = useState([]);
+    const [isFetching, setIsFetching] = useState(true);
+
+    // add modal
     const [shouldEditModalOpen, setShouldEditModalOpen] = useState(false);
+
+    // edit modal
     const [shouldAddModalOpen, setShouldAddModalOpen] = useState(false);
-    const editCategory = useRef();
+    const categoryEditable = useRef();
 
     useEffect(async () => {
         await GetAllCategories(authContext.authState?.token)
@@ -18,6 +25,8 @@ const Categories = () => {
                 setCategories(result.data);
             })
             .catch((error) => console.log(error));
+
+        setIsFetching(false);
     }, []);
 
     const remove = async (id) => {
@@ -33,27 +42,39 @@ const Categories = () => {
             .catch((error) => console.log(error));
     }
 
-    const edit = (category) => {
-        editCategory.current = category;
+    const editCategory = (category) => {
+        categoryEditable.current = category;
         setShouldEditModalOpen(!shouldEditModalOpen);
     }
 
     const sendEditRequest = async (categoryId, name) => {
+        if (name.length === 0) {
+            warningModal('Name cannot be empty');
+            setShouldEditModalOpen(false);
+            return;
+        }
+
         await UpdateCategory(authContext.authState?.token, categoryId, name)
             .then(result => {
                 let index = categories.findIndex((obj => obj.categoryId == categoryId));
                 categories[index].name = name;
             })
             .catch((error) => console.log(error));
+
         setShouldEditModalOpen(false);
     }
 
-    const addNewCategory = () => {
+    const addCategory = () => {
         setShouldAddModalOpen(true);
     }
 
     const sendAddRequest = async (Name) => {
-        if (Name.length === 0) return;
+        if (Name.length === 0) {
+            warningModal('Name cannot be empty');
+            setShouldAddModalOpen(false);
+            return;
+        }
+
         await AddCategory(authContext.authState?.token, Name.trim())
             .then(async result => {
                 await GetAllCategories(authContext.authState?.token)
@@ -67,32 +88,32 @@ const Categories = () => {
         setShouldAddModalOpen(false);
     }
 
-    const closeEditModal = () => {
-        setShouldEditModalOpen(false);
-    }
+    const closeEditModal = () => setShouldEditModalOpen(false);
 
-    const closeAddModal = () => {
-        setShouldAddModalOpen(false);
-    }
+    const closeAddModal = () => setShouldAddModalOpen(false);
 
     return (
         <div className="categories__container">
-            <div className="category add-new" onClick={addNewCategory}><i class="fa fa-plus" aria-hidden="true"></i></div>
-            {categories ? categories.map((category, index) => (
-                <div key={index} className="category">
-                    <NavLink to={`/category/${category.name}`} className="category-link">
-                        <div className="category-name">{category.name}</div>
-                        <div className="category-id">ID: {category.categoryId}</div>
-                        <div className="category-date-created">Date Created: {new Date(category.dateCreated).toISOString().slice(0, 10)}</div>
-                    </NavLink>
-                    <div className="edit" onClick={() => edit(category)}><i class="fas fa-pen-square"></i></div>
-                    <div className="delete" onClick={() => remove(category.categoryId)}><i class="fa fa-times" aria-hidden="true"></i></div>
-                </div>
-            ))
-                : <>Empty</>
+            {isFetching ? <Loader />
+                : <>
+                    <div className="category add-new" onClick={addCategory}><i class="fa fa-plus" aria-hidden="true"></i></div>
+                    {categories ? categories.map((category, index) => (
+                        <div key={index} className="category">
+                            <NavLink to={`/category/${category.name}`} className="category-link">
+                                <div className="category-name">{category.name}</div>
+                                <div className="category-id">ID: {category.categoryId}</div>
+                                <div className="category-date-created">Date Created: {new Date(category.dateCreated).toISOString().slice(0, 10)}</div>
+                            </NavLink>
+                            <div className="edit" onClick={() => editCategory(category)}><i class="fas fa-pen-square"></i></div>
+                            <div className="delete" onClick={() => remove(category.categoryId)}><i class="fa fa-times" aria-hidden="true"></i></div>
+                        </div>
+                    ))
+                        : <>Empty</>
+                    }
+                </>
             }
             <BasicModal isOpen={shouldEditModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeEditModal}>
-                <EditDocument category={editCategory.current} closeEditModal={closeEditModal} sendRequest={sendEditRequest} />
+                <EditDocument category={categoryEditable.current} closeEditModal={closeEditModal} sendRequest={sendEditRequest} />
             </BasicModal>
             <BasicModal isOpen={shouldAddModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeAddModal}>
                 <AddDocument closeAddModal={closeAddModal} sendRequest={sendAddRequest} />

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthRegister } from '../../auth/Auth';
 import { AuthContext } from '../../auth/AuthContext';
+import { errorModal, successModal } from '../../core/Modals';
 
 const Register = () => {
     const authContext = useContext(AuthContext);
@@ -18,10 +19,10 @@ const Register = () => {
     const register = async () => {
         await AuthRegister(email.current.value, username.current.value, password.current.value)
             .then(result => {
-                // good modal
+                successModal('You can now log in');
             })
             .catch((errors) => {
-                // bad modal
+                console.log('')
             });
     }
 
