@@ -63,26 +63,17 @@ const MobileMenu = ({ logout, authContext }) => {
 
     return (
         <div className={`nav-top-mobile__wrapper${isActiveMenu ? '' : ' hide'}`}>
-            <div className="nav-top-mobile-icon"><img src={logo} /></div>
-            <div className="nav-top-mobile__content">
-                <div className="nav-top-mobile-user">
-                    {authContext.isAuthenticated() ? <div className="item user">{authContext.authState?.username}</div> : <></>}
-                </div>
+            <div className="icon">
+                <img src={logo} />
+            </div>
+            <div className="open" onClick={toggleMenu}>
+                <HamburgerMenu shouldClose={isActiveMenu} />
+            </div>
+            <div className="menu">
                 <NavLink onClick={toggleMenu} exact to="/" activeClassName="active" className="item">Home</NavLink>
                 <NavLink onClick={toggleMenu} to="/Categories" activeClassName="active" className="item">Categories</NavLink>
                 <NavLink onClick={toggleMenu} to="/Settings" activeClassName="active" className="item">Settings</NavLink>
-                {!(authContext.isAuthenticated()) ?
-                    <>
-                        <NavLink to="/auth/login" className="item">Login</NavLink>
-                        <NavLink to="/auth/register" className="item">Register</NavLink>
-                    </>
-                    :
-                    <>
-                        <div className="item" onClick={logout}>Log out</div>
-                    </>
-                }
             </div>
-            <div className={`close${isActiveMenu ? '' : ' show-burger'}`} onClick={toggleMenu}><HamburgerMenu /></div>
         </div>
     )
 }
