@@ -69,7 +69,7 @@ const Categories = () => {
                     <div className="category add-new" onClick={invokeAddModal}><i class="fa fa-plus" aria-hidden="true"></i></div>
                     {categoryContext.categories ? categoryContext.categories.map((category, index) => (
                         <div key={index} className="category">
-                            <NavLink to={`/category/${category.name}`} className="category-link">
+                            <NavLink to={`/category/${category.categoryId}`} className="category-link">
                                 <div className="category-name">{category.name}</div>
                                 <div className="category-id">ID: {category.categoryId}</div>
                                 <div className="category-date-created">Date Created: {new Date(category.dateCreated).toISOString().slice(0, 10)}</div>

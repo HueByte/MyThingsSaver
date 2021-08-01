@@ -38,7 +38,7 @@ const SideMenu = () => {
             </div>
             <div className="nav-side__container">
                 {categoryContext.categories ? categoryContext.categories.map((category, index) => (
-                    <NavLink activeClassName="active" to={`/category/${category.name}`} key={index} className="item">
+                    <NavLink activeClassName="active" to={`/category/${category.categoryId}`} key={index} className="item">
                         {category.name}
                     </NavLink>
                 ))

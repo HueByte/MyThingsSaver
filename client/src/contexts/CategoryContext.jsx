@@ -38,6 +38,7 @@ const CategoryProvider = ({ children }) => {
             .catch((error) => console.error(error));
     }
 
+    // TODO: Edited entity doesn't update on sidebar
     async function ContextEditCategory(categoryId, newName) {
         if (newName.length === 0)
             return;

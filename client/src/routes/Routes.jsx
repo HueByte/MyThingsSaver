@@ -18,7 +18,7 @@ export const Routes = () => {
     const basicLayoutRoutes = [
         '/',
         '/Testing',
-        '/category/:name',
+        '/category/:id',
         '/categories',
         '/Settings'
     ]
@@ -31,7 +31,7 @@ export const Routes = () => {
             <PrivateRoute path={basicLayoutRoutes} component={BasicLayout}>
                 <BasicLayout>
                     <PrivateRoute exact path="/" component={HomePage} />
-                    <PrivateRoute path="/category/:name" component={Category} />
+                    <PrivateRoute path="/category/:id" component={Category} />
                     <PrivateRoute path="/categories" component={Categories} />
                     <PrivateRoute path="/Testing" component={TestingPage} />
                     <PrivateRoute path="/Settings" component={Settings} />

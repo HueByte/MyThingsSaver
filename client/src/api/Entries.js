@@ -1,11 +1,12 @@
+import { GetAllEntriesEndpoint } from "../routes/ApiEndpoints";
 import { HandleBasicApiResponse } from "./ApiErrors"
 
-export async function AddEntry(token, categoryId, cate) {
+export async function GetAllEntries(token, categoryId) {
     const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({})
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
     }
 
-    return await fetch().then(HandleBasicApiResponse);
+    return await fetch(`${GetAllEntriesEndpoint}?categoryId=${categoryId}`, requestOptions)
+        .then(HandleBasicApiResponse);
 }
