@@ -1,26 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Infrastructure.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
         private readonly AppDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public CategoryRepository(AppDbContext context, UserManager<ApplicationUser> userManager)
+        public CategoryRepository(AppDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         public async Task<Category> GetOneAsync(string name, string ownerId)
@@ -35,9 +30,9 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Category>> GetAllAsync(string ownerId)
         {
-            var categories = await _context.Categories.Where(cat => cat.Owner.Id == ownerId).ToListAsync();
-            if (categories.Count == 0 || categories == null)
-                throw new Exception("Couldn't find any categories");
+            var categories = await _context.Categories.Where(cat => cat.Owner.Id == ownerId).OrderByDescending(cat => cat.DateCreated).ToListAsync();
+            // if (categories.Count == 0 || categories == null)
+            //     throw new Exception("Couldn't find any categories");
 
             return categories;
         }
@@ -57,7 +52,7 @@ namespace Infrastructure.Repositories
                 CategoryEntries = null,
                 CategoryId = Guid.NewGuid().ToString(),
                 DateCreated = DateTime.UtcNow,
-                Name = cat.Name,
+                Name = cat.Name.Trim(),
                 OwnerId = ownerId
             };
 
@@ -69,11 +64,16 @@ namespace Infrastructure.Repositories
         {
             if (string.IsNullOrWhiteSpace(newCategory.Name))
                 throw new ArgumentException("Name cannot be empty");
+
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == newCategory.CategoryId && x.Owner.Id == ownerId);
             if (category == null)
                 throw new Exception("Couldn't find that category");
 
-            category.Name = newCategory.Name;
+            category.Name = newCategory.Name.Trim();
+
+            var doesExist = _context.Categories.Any(x => x.Name == category.Name);
+            if (doesExist)
+                throw new Exception("There's already category with that name");
 
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
@@ -90,6 +90,21 @@ namespace Infrastructure.Repositories
 
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Category> GetCategoryWithEntriesAsync(string categoryId, string ownerId)
+        {
+            if (string.IsNullOrWhiteSpace(categoryId))
+                throw new ArgumentException("Category ID cannot be empty");
+
+            var categoryWithEntries = await
+                EntityFrameworkQueryableExtensions
+                .FirstOrDefaultAsync<Category>(_context.Categories
+                    .Include(entity => entity.CategoryEntries),
+                param => param.CategoryId == categoryId && param.OwnerId == ownerId);
+
+            return categoryWithEntries;
+
         }
     }
 }

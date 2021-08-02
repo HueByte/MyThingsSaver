@@ -2,33 +2,21 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AddCategory, GetAllCategories, RemoveCategory } from '../api/Categories';
 import { AuthContext } from '../auth/AuthContext';
+import { CategoryContext } from '../contexts/CategoryContext';
 import { successModal } from './Modals';
 import './SideMenu.css';
 
 const SideMenu = () => {
-    const authContext = useContext(AuthContext);
-    const [categories, setCategories] = useState([]);
+    const categoryContext = useContext(CategoryContext);
     const categoryInput = useRef();
 
     useEffect(async () => {
-        // fake feed category
         categoryInput.current = document.getElementById('newCategoryInput');
-
-        await GetAllCategories(authContext.authState?.token)
-            .then(result => {
-                setCategories(result.data);
-            })
-            .catch((error) => console.log(error))
     }, [])
 
     const addNewCategory = async () => {
-        // TODO - sort by date
         if (categoryInput.current.value.length === 0) return;
-        await AddCategory(authContext.authState?.token, categoryInput.current.value)
-            .then(result => {
-                setCategories(data => ([...data, { name: categoryInput.current.value }]));
-            })
-            .catch((error) => console.log(error))
+        await categoryContext.ContextAddCategory(categoryInput.current.value);
 
         categoryInput.current.value = '';
     }
@@ -47,11 +35,10 @@ const SideMenu = () => {
             <div className="nav-side-controlls">
                 <div onClick={addNewCategory} className="basic-button nav-side-button"><i class="fa fa-plus" aria-hidden="true"></i></div>
                 <input id="newCategoryInput" onKeyDown={inputHandler} className="basic-input nav-side-input" type="text" placeholder="Category name" />
-                {/* <div onClick={toggleMinus} className="basic-button nav-side-button"><i class="fa fa-minus" aria-hidden="true"></i></div> */}
             </div>
             <div className="nav-side__container">
-                {categories ? categories.map((category, index) => (
-                    <NavLink activeClassName="active" to={`/category/${category.name}`} key={index} className="item">
+                {categoryContext.categories ? categoryContext.categories.map((category, index) => (
+                    <NavLink activeClassName="active" to={`/category/${category.categoryId}`} key={index} className="item">
                         {category.name}
                     </NavLink>
                 ))

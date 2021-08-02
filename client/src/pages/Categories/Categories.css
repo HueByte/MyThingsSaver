@@ -11,8 +11,8 @@
     position: relative;
     margin: 1rem;
     flex: 1 1 auto;
-    /* flex-basis: 0; */
     border-radius: 10px;
+    min-width: 150px;
     max-width: 300px;
     height: 150px;
     background-color: var(--Shark);
@@ -25,12 +25,27 @@
         transform: scale(1.05);
     }
 
+    .category:nth-child(odd) {
+        border-bottom: 1px solid var(--Gold);
+    }
+
 .category-link {
     height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+}
+
+.category-buddy {
+    position: absolute;
+    font-size: larger;
+    opacity: 0.2;
+    top: 10px;
+    left: 10px;
 }
 
 .category-link > *:not(:first-child) {
@@ -43,22 +58,35 @@
     place-items: center;
     color: var(--Rose);
     width: 100%;
-    font-size: medium;
+    font-size: large;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap; 
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .category-id {
-    text-align: center;
+    /* text-align: center; */
     text-overflow: ellipsis;
     width: 100%;
     color: var(--Gold);
 }
 
 .category-date-created {
-    text-align: center;
+    /* text-align: center; */
     width: 100%;
+}
+
+.add-new {
+    width: 300px;
+    display: grid;
+    place-items: center;
+    font-size: xx-large;
+}
+
+.add-new:hover {
+    color: var(--Gold);
 }
 
 .edit {
@@ -90,33 +118,33 @@
         color: var(--Rose);
     }
 
-.edit-modal {
+.modal {
     display: flex;
     flex-direction: column;
 }
 
-.edit-info {
+.modal-info {
     font-size: large;
 }
 
-.edit-menu {
+.modal-menu {
     display: flex;
     flex-direction: column;
     margin-top: 1em;
 }
 
-.edit-menu > * {
+.modal-menu > * {
     margin: .5em;
 }
 
-.edit-menu-buttons {
+.modal-menu-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-top: 1em;
 }
 
-.edit-menu-buttons > div {
+.modal-menu-buttons > div {
     max-width: 100px;
     flex: 1 1 0px;
     margin: 1em;

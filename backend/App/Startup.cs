@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using App.Configuration;
 using Microsoft.AspNetCore.Builder;
@@ -14,13 +15,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace App
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        private Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
+        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _env;
 
         public Startup(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
@@ -34,9 +36,11 @@ namespace App
             string[] origins = Configuration.GetSection("Origins").Get<string[]>();
 
             services.AddRazorPages();
+            // While updating to .net 6 add .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IngoreCycles);
             services.AddControllersWithViews();
 
-            ModuleConfiguration moduleConfiguration = new ModuleConfiguration(services, Configuration);
+
+            ModuleConfiguration moduleConfiguration = new(services, Configuration);
             moduleConfiguration.ConfigureServices();
             moduleConfiguration.ConfigureDatabase(_env.IsProduction());
             moduleConfiguration.ConfigureSecurity();
@@ -65,7 +69,7 @@ namespace App
                                 Id = "Bearer"
                             }
                         },
-                        new string[] { }
+                        Array.Empty<string>()
                     }
                 });
             });

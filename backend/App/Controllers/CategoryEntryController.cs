@@ -18,13 +18,9 @@ namespace App.Controllers
     public class CategoryEntryController : BaseApiController
     {
         private readonly ICategoryEntryRepository _categoryEntryRepository;
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public CategoryEntryController(ICategoryEntryRepository categoryEntryRepository, ICategoryRepository categoryRepository, UserManager<ApplicationUser> userManager)
+        public CategoryEntryController(ICategoryEntryRepository categoryEntryRepository)
         {
             _categoryEntryRepository = categoryEntryRepository;
-            _categoryRepository = categoryRepository;
-            _userManager = userManager;
         }
 
         [HttpPost("AddEntry")]
@@ -75,7 +71,7 @@ namespace App.Controllers
 
         [HttpGet("GetAllEntries")]
         [Authorize]
-        public async Task<IActionResult> GetAllEntries(string categoryId)
+        public async Task<IActionResult> GetAllEntries([FromQuery] string categoryId)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<List<CategoryEntry>>.EventHandleAsync(async () =>

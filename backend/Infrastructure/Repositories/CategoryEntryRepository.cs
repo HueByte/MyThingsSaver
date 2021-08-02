@@ -54,16 +54,16 @@ namespace Infrastructure.Repositories
         public async Task<List<CategoryEntry>> GetAllAsync(string categoryId, string ownerId)
         {
             var entries = await _context.CategoriesEntries.Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId).ToListAsync();
-            if (entries.Count == 0 || entries == null)
-                throw new Exception("Couldn't find any entries");
+            // if (entries.Count == 0 || entries == null)
+            //     throw new Exception("Couldn't find any entries");
 
             return entries;
         }
 
         public async Task AddOneAsync(CategoryEntryDTO entryDTO, string ownerId)
         {
-            if (string.IsNullOrWhiteSpace(entryDTO.CategoryName))
-                throw new ArgumentException("Category name cannot be empty, something went wrong");
+            if (string.IsNullOrWhiteSpace(entryDTO.EntryName))
+                throw new ArgumentException("Entry name cannot be empty, something went wrong");
 
             var entry = new CategoryEntry()
             {

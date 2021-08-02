@@ -1,5 +1,6 @@
 import { object } from 'prop-types';
 import React, { createContext, useState } from 'react';
+import { Redirect } from 'react-router';
 
 const AuthContext = createContext();
 
@@ -15,7 +16,7 @@ const AuthProvider = ({ children }) => {
 
     const signout = () => {
         localStorage.clear();
-        setAuthState(undefined);
+        setAuthState({});
         window.location.reload();
     }
 

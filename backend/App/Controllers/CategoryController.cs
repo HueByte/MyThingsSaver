@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -96,6 +97,40 @@ namespace App.Controllers
                 return Ok(result);
             else
                 return BadRequest(result);
+        }
+
+        [HttpGet("GetCategoryWithEntries")]
+        [Authorize]
+        public async Task<IActionResult> GetCategoryEntriesAsync([FromQuery] string categoryId)
+        {
+            var userid = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
+            {
+                return await _categoryRepository.GetCategoryWithEntriesAsync(categoryId, userid);
+            });
+
+            // var options = new JsonSerializerOptions
+            // {
+            //     ReferenceHandler = ReferenceHandler.Preserve,
+            //     WriteIndented = true
+            // };
+
+            // string testJson = JsonSerializer.Serialize(result, options);
+
+
+            // TODO : Update once upgrade to .net 6, temporary solution to prevent JSON circular reference error
+            var settings = new Newtonsoft.Json.JsonSerializerSettings
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                Formatting = Newtonsoft.Json.Formatting.Indented
+            };
+
+            string testJson = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
+
+            if (result.IsSuccess)
+                return Ok(testJson);
+            else
+                return BadRequest(testJson);
         }
     }
 }
