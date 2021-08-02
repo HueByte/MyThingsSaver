@@ -26,11 +26,13 @@ const Category = () => {
             {entries.map((entry, index) => (
                 <div className="entry" key={index}>
                     <div className="entry-image">{entry.image.length !== 0 ? <img src={`${entry.image}`} /> : <i class="fas fa-sticky-note"></i>}</div>
-                    <NavLink className="entry-name" to={`/entry/${entry.categoryEntryId}`}>
+                    <NavLink className="entry-name" to={`/entry/${id}/${entry.categoryEntryId}`}>
                         <span className="ellipsis">{entry.categoryEntryName}</span>
                     </NavLink>
                     <div className="entry-date">{new Date(entry.createdOn).toISOString().slice(0, 10)}</div>
-                    <div className="entry-content-preview">{entry.content}</div>
+                    <div className="entry-size">500 KB</div>
+                    <div className="entry-menu">Edit</div>
+                    <div className="entry-menu">Remove</div>
                 </div>
             ))}
         </div>

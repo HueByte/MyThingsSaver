@@ -18,17 +18,17 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<CategoryEntry> GetOneByIdAsync(string categoryId, Guid id, string ownerId)
+        public async Task<CategoryEntry> GetOneByIdAsync(Guid id, string ownerId)
         {
-            return await GetOneByIdAsync(categoryId, id.ToString(), ownerId);
+            return await GetOneByIdAsync(id.ToString(), ownerId);
         }
 
-        public async Task<CategoryEntry> GetOneByIdAsync(string categoryId, string id, string ownerId)
+        public async Task<CategoryEntry> GetOneByIdAsync(string id, string ownerId)
         {
-            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(categoryId))
-                throw new ArgumentException("Category ID and Entry ID cannot be empty");
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Entry ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryId == categoryId && entry.CategoryEntryId.ToString() == id && entry.Owner.Id == ownerId);
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.Owner.Id == ownerId);
 
             if (entry == null)
                 throw new Exception("Couldn't find that entry");

@@ -22,7 +22,7 @@ export const Routes = () => {
         '/category/:id',
         '/categories',
         '/Settings',
-        '/entry/:id'
+        '/entry/:categoryId/:entryId'
     ]
 
     return (
@@ -37,7 +37,7 @@ export const Routes = () => {
                     <PrivateRoute path="/categories" component={Categories} />
                     <PrivateRoute path="/Testing" component={TestingPage} />
                     <PrivateRoute path="/Settings" component={Settings} />
-                    <PrivateRoute path="/entry/:id" component={Entry} />
+                    <PrivateRoute path="/entry/:categoryId/:entryId" component={Entry} />
                 </BasicLayout>
             </PrivateRoute>
 
