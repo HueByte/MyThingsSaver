@@ -73,7 +73,7 @@ const Categories = () => {
     const closeAddModal = () => setShouldAddModalOpen(false);
 
     return (
-        <div className="categories__container">
+        <div className="categories__container enter-animation">
             {isFetching ? <Loader />
                 : <>
                     <div className="category add-new" onClick={invokeAddModal}><i class="fa fa-plus" aria-hidden="true"></i></div>

@@ -19,14 +19,14 @@ const Category = () => {
     useEffect(() => console.log(entries), [entries]);
 
     return (
-        <div className="entries__container">
+        <div className="entries__container enter-animation">
             {id}
             <div className="entries-menu">
                 <div className="basic-button entry-button"><i class="fa fa-plus" aria-hidden="true"></i></div>
             </div>
             {entries.map((entry, index) => (
                 <div className="entry" key={index}>
-                    <div className="entry-image">{entry.image.length !== 0 ? <img src="${entry.image}" /> : <i class="fas fa-sticky-note"></i>}</div>
+                    <div className="entry-image">{entry.image.length !== 0 ? <img src={`${entry.image}`} /> : <i class="fas fa-sticky-note"></i>}</div>
                     <div className="entry-name">{entry.categoryEntryName}</div>
                     <div className="entry-date">{entry.content}</div>
                 </div>

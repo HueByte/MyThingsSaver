@@ -44,3 +44,13 @@
 .notifications-component > .notification-container--top-right {
     top: 80px !important;
 }
+
+.enter-animation {
+    animation-name: showContent;
+    animation-duration: 500ms;
+}
+
+@keyframes showContent {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}  

@@ -69,6 +69,7 @@
     justify-content: space-between; */
     letter-spacing: 0.5px;
     color: var(--Gold);
+    
     /* prevent jumping */
     border-bottom: 1px solid var(--Shark);
 
