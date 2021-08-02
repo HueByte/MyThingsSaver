@@ -10,7 +10,8 @@ import { CategoryContext } from '../../contexts/CategoryContext';
 const Categories = () => {
     const authContext = useContext(AuthContext);
     const categoryContext = useContext(CategoryContext);
-    const [isFetching, setIsFetching] = useState(true);
+    const [isFetching, setIsFetching] = useState(false); // TODO: support loader for fetching from context
+    const lastBuddy = useRef();
 
     // add modal
     const [shouldEditModalOpen, setShouldEditModalOpen] = useState(false);
@@ -20,7 +21,16 @@ const Categories = () => {
     const categoryEditable = useRef();
 
 
-    useEffect(async () => setIsFetching(false), []);
+    useEffect(() => lastBuddy.current = '', []);
+
+    const getCategoryBuddy = () => {
+        let buddy = buddyItems[Math.floor(Math.random() * buddyItems.length)];
+        if (buddy === lastBuddy.current)
+            return getCategoryBuddy(); // repeat if last buddy is equal to current
+
+        lastBuddy.current = buddy;
+        return buddy;
+    }
 
     // Remove category
     const remove = async (id) => await categoryContext.ContextRemoveCategory(id);
@@ -74,7 +84,7 @@ const Categories = () => {
                                 <div className="category-id">ID: {category.categoryId}</div>
                                 <div className="category-date-created">Date Created: {new Date(category.dateCreated).toISOString().slice(0, 10)}</div>
                                 <div id="buddy" className="category-buddy">
-                                    {buddyItems[Math.floor(Math.random() * buddyItems.length)]}
+                                    {getCategoryBuddy()}
                                 </div>
                             </NavLink>
                             <div className="edit" onClick={() => invokeEditModal(category)}><i class="fas fa-pen-square"></i></div>
