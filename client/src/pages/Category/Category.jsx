@@ -1,8 +1,8 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import { GetAllEntries } from '../../api/Entries';
 import { AuthContext } from '../../auth/AuthContext';
-import Loader from '../../components/Loaders/Loader';
 import './Category.css';
 
 const Category = () => {
@@ -20,15 +20,17 @@ const Category = () => {
 
     return (
         <div className="entries__container enter-animation">
-            {id}
             <div className="entries-menu">
                 <div className="basic-button entry-button"><i class="fa fa-plus" aria-hidden="true"></i></div>
             </div>
             {entries.map((entry, index) => (
                 <div className="entry" key={index}>
                     <div className="entry-image">{entry.image.length !== 0 ? <img src={`${entry.image}`} /> : <i class="fas fa-sticky-note"></i>}</div>
-                    <div className="entry-name">{entry.categoryEntryName}</div>
-                    <div className="entry-date">{entry.content}</div>
+                    <NavLink className="entry-name" to={`/entry/${entry.categoryEntryId}`}>
+                        <span className="ellipsis">{entry.categoryEntryName}</span>
+                    </NavLink>
+                    <div className="entry-date">{new Date(entry.createdOn).toISOString().slice(0, 10)}</div>
+                    <div className="entry-content-preview">{entry.content}</div>
                 </div>
             ))}
         </div>

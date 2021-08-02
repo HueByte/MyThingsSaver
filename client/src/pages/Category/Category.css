@@ -20,7 +20,7 @@
     margin: 1em 0 1em 0;
     background-color: var(--Shark);
     width: 100%;
-    height: 64px;
+    height: 80px;
     display: flex;
     flex-direction: row;
 }
@@ -34,11 +34,35 @@
     display: grid;
     place-items: center;
     font-size: xx-large;
-    color: var(--Rose);
+    color: var(--Teal);
 }
 
 .entry .entry-name {
     font-size: large;
     display: grid;
     place-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 10px;
+    width: 200px;
+    background-color: var(--SharkDarkSub);
+    transition: 300ms ease-in-out;
+}
+
+.entry .entry-name:hover {
+    background-color: var(--Gold);
+    color: var(--SharkDarkSub);
+}
+
+.entry .entry-date {
+    width: 200px;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    font-size: large;
+}
+
+.entry .entry-content-preview {
+    padding: 10px;
 }

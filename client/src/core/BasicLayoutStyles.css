@@ -45,6 +45,14 @@
     top: 80px !important;
 }
 
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+}
+
 .enter-animation {
     animation-name: showContent;
     animation-duration: 500ms;

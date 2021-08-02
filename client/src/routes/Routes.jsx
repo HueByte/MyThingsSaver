@@ -13,6 +13,7 @@ import Register from '../pages/Authentication/Register';
 
 // other
 import PrivateRoute from './AuthenticatedRoute';
+import Entry from '../pages/Entry/Entry';
 
 export const Routes = () => {
     const basicLayoutRoutes = [
@@ -20,7 +21,8 @@ export const Routes = () => {
         '/Testing',
         '/category/:id',
         '/categories',
-        '/Settings'
+        '/Settings',
+        '/entry/:id'
     ]
 
     return (
@@ -35,6 +37,7 @@ export const Routes = () => {
                     <PrivateRoute path="/categories" component={Categories} />
                     <PrivateRoute path="/Testing" component={TestingPage} />
                     <PrivateRoute path="/Settings" component={Settings} />
+                    <PrivateRoute path="/entry/:id" component={Entry} />
                 </BasicLayout>
             </PrivateRoute>
 
