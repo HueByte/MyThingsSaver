@@ -15,6 +15,7 @@ const Entry = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [shouldRedirect, setShouldRedirect] = useState(false);
 
+
     useEffect(async () => {
         await GetOneEntry(authContext.authState?.token, entryId)
             .then(result => {
@@ -35,6 +36,7 @@ const Entry = () => {
     const sendUpdate = async () => {
         await UpdateOneEntry(authContext.authState?.token, entryId, name, editValue)
             .catch(error => console.error(error));
+        setIsEditing(false);
     }
 
     const removeEntry = async () => {
@@ -61,7 +63,7 @@ const Entry = () => {
                 </div>
                 <div className="entry-content">
                     {isEditing ?
-                        <MEDitor value={editValue} onChange={setEditValue} />
+                        <MEDitor value={editValue} onChange={setEditValue} commands={[]} height={500} />
                         :
                         <MEDitor.Markdown source={editValue} />
                     }

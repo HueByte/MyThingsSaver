@@ -3,6 +3,7 @@ import Menu from './Menu';
 import SideMenu from './SideMenu';
 import './BasicLayout.css';
 import './BasicLayoutStyles.css';
+import './OverrideDefaultMD.css';
 import { AuthContext } from '../auth/AuthContext';
 import { Redirect } from 'react-router';
 import { CategoryProvider } from '../contexts/CategoryContext';

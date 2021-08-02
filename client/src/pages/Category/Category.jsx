@@ -59,7 +59,7 @@ const Category = () => {
             <div className="entries-menu">
                 <div className="basic-button entry-button" onClick={() => setIsModalOpen(true)}><i class="fa fa-plus" aria-hidden="true"></i></div>
             </div>
-            {entries.map((entry, index) => (
+            {entries.length > 0 ? entries.map((entry, index) => (
                 <div className="entry" key={index}>
                     <div className="entry-image">{entry.image && entry.image.length !== 0 ? <img src={`${entry.image}`} /> : <i class="fas fa-sticky-note"></i>}</div>
                     <NavLink className="entry-name" to={`/entry/${id}/${entry.categoryEntryId}`}>
@@ -70,7 +70,7 @@ const Category = () => {
                     <NavLink to={`/entry/${id}/${entry.categoryEntryId}`} className="entry-menu">Show</NavLink>
                     <div className="entry-menu" onClick={() => removeEntry(entry.categoryEntryId)}>Remove</div>
                 </div>
-            ))}
+            )) : <>empty</>}
             <BasicModal isOpen={isModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeModal}>
                 <AddModal addEntry={addEntry} closeModal={closeModal} />
             </BasicModal>
