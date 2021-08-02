@@ -37,6 +37,15 @@
     flex-direction: column;
     justify-content: center;
     padding: 10px;
+    position: relative;
+}
+
+.category-buddy {
+    position: absolute;
+    font-size: larger;
+    opacity: 0.2;
+    top: 10px;
+    left: 10px;
 }
 
 .category-link > *:not(:first-child) {

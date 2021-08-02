@@ -71,7 +71,7 @@ namespace App.Controllers
 
         [HttpGet("GetAllEntries")]
         [Authorize]
-        public async Task<IActionResult> GetAllEntries(string categoryId)
+        public async Task<IActionResult> GetAllEntries([FromQuery] string categoryId)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<List<CategoryEntry>>.EventHandleAsync(async () =>

@@ -54,8 +54,8 @@ namespace Infrastructure.Repositories
         public async Task<List<CategoryEntry>> GetAllAsync(string categoryId, string ownerId)
         {
             var entries = await _context.CategoriesEntries.Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId).ToListAsync();
-            if (entries.Count == 0 || entries == null)
-                throw new Exception("Couldn't find any entries");
+            // if (entries.Count == 0 || entries == null)
+            //     throw new Exception("Couldn't find any entries");
 
             return entries;
         }

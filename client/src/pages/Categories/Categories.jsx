@@ -73,6 +73,9 @@ const Categories = () => {
                                 <div className="category-name">{category.name}</div>
                                 <div className="category-id">ID: {category.categoryId}</div>
                                 <div className="category-date-created">Date Created: {new Date(category.dateCreated).toISOString().slice(0, 10)}</div>
+                                <div id="buddy" className="category-buddy">
+                                    {buddyItems[Math.floor(Math.random() * buddyItems.length)]}
+                                </div>
                             </NavLink>
                             <div className="edit" onClick={() => invokeEditModal(category)}><i class="fas fa-pen-square"></i></div>
                             <div className="delete" onClick={() => remove(category.categoryId)}><i class="fa fa-times" aria-hidden="true"></i></div>
@@ -129,5 +132,7 @@ const AddDocument = ({ closeAddModal, sendRequest }) => {
         </div>
     )
 }
+
+const buddyItems = ['ヾ(•ω•`)o', '(°ロ°)', '╰（‵□′）╯', '╚(•⌂•)╝', '┗|｀O′|┛', '✪ ω ✪', '( •̀ .̫ •́ )✧']
 
 export default Categories;
