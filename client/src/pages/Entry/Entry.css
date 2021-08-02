@@ -68,4 +68,9 @@
     flex: 1;
     max-width: 100px;
     margin-left: 1em;
+    transition: 200ms;
+}
+
+.basic-info-right .hide {
+    opacity: 0;
 }

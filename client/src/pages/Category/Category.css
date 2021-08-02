@@ -88,3 +88,19 @@
 .entry .entry-menu:hover {
     color: var(--Gold);
 }
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-field .field-name {
+    padding: 5px;
+    font-weight: bolder;
+    font-size: medium;
+}
