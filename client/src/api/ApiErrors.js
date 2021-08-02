@@ -9,7 +9,7 @@ export async function HandleBasicApiResponse(response) {
     var result = await response.json();
     if (!result?.isSuccess) {
         errorModal(result?.errors.join(', '));
-        throw new Error(result?.errors.join(', '));
+        // throw new Error(result?.errors.join(', '));
     }
 
     return result

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router';
-import { GetOneEntry, UpdateOneEntry } from '../../api/Entries';
+import { Redirect, useParams } from 'react-router';
+import { DeleteOneEntry, GetOneEntry, UpdateOneEntry } from '../../api/Entries';
 import { AuthContext } from '../../auth/AuthContext';
 import Loader from '../../components/Loaders/Loader';
 import MEDitor from '@uiw/react-md-editor';
@@ -13,10 +13,16 @@ const Entry = () => {
     const [name, setName] = useState();
     const [editValue, setEditValue] = useState();
     const [isEditing, setIsEditing] = useState(false);
+    const [shouldRedirect, setShouldRedirect] = useState(false);
 
     useEffect(async () => {
         await GetOneEntry(authContext.authState?.token, entryId)
             .then(result => {
+                if (!result.isSuccess) {
+                    setShouldRedirect(true);
+                    return;
+                }
+
                 setEntry(result.data);
                 setName(result.data.categoryEntryName);
                 setEditValue(result.data.content);
@@ -31,10 +37,13 @@ const Entry = () => {
             .catch(error => console.error(error));
     }
 
-    const sendDelete = () => {
-
+    const removeEntry = async () => {
+        await DeleteOneEntry(authContext.authState?.token, entryId)
+            .then(() => setShouldRedirect(true))
+            .catch((error) => console.error(error));
     }
 
+    if (shouldRedirect) return <Redirect to={`/category/${categoryId}`} />
     return (
         <div className="entry__container">
             {entry ? <>
@@ -47,7 +56,7 @@ const Entry = () => {
                     <div className="basic-info-right">
                         <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdate}>Accept</div>
                         <div className="basic-button entry-button" onClick={switchEdit}>{isEditing ? 'close' : 'edit'}</div>
-                        <div className="basic-button entry-button">Delete</div>
+                        <div className="basic-button entry-button" onClick={removeEntry}>Delete</div>
                     </div>
                 </div>
                 <div className="entry-content">
