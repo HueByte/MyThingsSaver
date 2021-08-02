@@ -16,3 +16,4 @@ export const GetEntryByNameEndpoint = `${BaseUrl}api/CategoryEntry/GetEntryByNam
 export const GetEntryByIdEndpoint = `${BaseUrl}api/CategoryEntry/GetEntryById`;
 export const GetAllEntriesEndpoint = `${BaseUrl}api/CategoryEntry/GetAllEntries`;
 export const UpdateEntryEndpoint = `${BaseUrl}api/CategoryEntry/UpdateEntry`;
+export const DeleteEntryEndpoint = `${BaseUrl}api/CategoryEntry/DeleteEntry`;

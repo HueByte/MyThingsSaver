@@ -13,6 +13,7 @@ namespace Core.RepositoriesInterfaces
         Task<CategoryEntry> GetOneByNameAsync(string categoryId, string name, string ownerId);
         Task<List<CategoryEntry>> GetAllAsync(string categoryId, string ownerId);
         Task AddOneAsync(CategoryEntryDTO entity, string ownerId);
-        Task RemoveOneAsync(string categoryId, string id, string ownerId);
+        Task RemoveOneAsync(string id, string ownerId);
+        Task UpdateOneAsync(CategoryEntryDTO newEntry, string ownerId);
     }
 }

@@ -6,9 +6,6 @@ import Loader from '../../components/Loaders/Loader';
 import MEDitor from '@uiw/react-md-editor';
 import './Entry.css';
 
-const test = '*Hello world* \n**Hello World** \n```js\nlet x = \'tete\'';
-
-
 const Entry = () => {
     const authContext = useContext(AuthContext);
     const { categoryId, entryId } = useParams();
@@ -16,8 +13,6 @@ const Entry = () => {
     const [name, setName] = useState();
     const [editValue, setEditValue] = useState();
     const [isEditing, setIsEditing] = useState(false);
-
-    useEffect(() => console.log(entry), [entry]);
 
     useEffect(async () => {
         await GetOneEntry(authContext.authState?.token, entryId)

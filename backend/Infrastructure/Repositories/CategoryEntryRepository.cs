@@ -78,17 +78,33 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveOneAsync(string categoryId, string id, string ownerId)
+        public async Task RemoveOneAsync(string id, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("ID cannot be empty");
 
             // make sure that user owns that entry
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryId == categoryId && entry.CategoryEntryId.ToString() == id && entry.Owner.Id == ownerId);
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.OwnerId == ownerId);
             if (entry == null)
                 throw new Exception("couldn't find that entry");
 
             _context.CategoriesEntries.Remove(entry);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOneAsync(CategoryEntryDTO newEntry, string ownerId)
+        {
+            if (string.IsNullOrWhiteSpace(newEntry.EntryId))
+                throw new Exception("ID cannot be empty");
+
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == newEntry.EntryId && entry.OwnerId == ownerId);
+            if (entry == null)
+                throw new Exception("Couldn't find that entry");
+
+            entry.CategoryEntryName = newEntry.EntryName.Trim();
+            entry.Content = newEntry.Content;
+
+            _context.CategoriesEntries.Update(entry);
             await _context.SaveChangesAsync();
         }
     }

@@ -80,5 +80,33 @@ namespace App.Controllers
             else
                 return BadRequest(result);
         }
+
+        [HttpPost("UpdateEntry")]
+        [Authorize]
+        public async Task<IActionResult> UpdateOneEntry([FromBody] CategoryEntryDTO entry)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler.EventHandleAsync(async () =>
+                await _categoryEntryRepository.UpdateOneAsync(entry, userId));
+
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
+        [HttpDelete("DeleteEntry")]
+        [Authorize]
+        public async Task<IActionResult> DeleteEntryAsync([FromQuery] string id)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler.EventHandleAsync(async () =>
+                await _categoryEntryRepository.RemoveOneAsync(id, userId));
+
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
     }
 }

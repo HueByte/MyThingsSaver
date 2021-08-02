@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import { AddOneEntry, GetAllEntries } from '../../api/Entries';
+import { AddOneEntry, DeleteOneEntry, GetAllEntries } from '../../api/Entries';
 import { AuthContext } from '../../auth/AuthContext';
 import { BasicModal } from '../../components/BasicModal/BasicModal';
 import { warningModal } from '../../core/Modals';
@@ -21,18 +21,35 @@ const Category = () => {
 
     }, [id]);
 
-    useEffect(() => console.log(entries), [entries]);
-
     const addEntry = async (name) => {
         if (name.length === 0) {
             warningModal('Name cannot be empty');
             setIsModalOpen(false);
+            return;
         }
 
         await AddOneEntry(authContext.authState?.token, name, id)
+            .then(async () => {
+                await GetAllEntries(authContext.authState?.token, id)
+                    .then(result => setEntries(result.data))
+                    .catch((error) => console.error(error));
+            })
             .catch((error) => console.error(error));
 
-        // window.location.reload();
+        setIsModalOpen(false);
+    }
+
+    const removeEntry = async (entryId) => {
+        await DeleteOneEntry(authContext.authState?.token, entryId)
+            .then(async () => {
+                let newEntries = entries;
+                newEntries = newEntries.filter(entry => {
+                    return entry.categoryEntryId !== entryId;
+                })
+
+                setEntries(newEntries);
+            })
+            .catch((error) => console.error(error));
     }
 
     const closeModal = () => setIsModalOpen(false);
@@ -51,7 +68,7 @@ const Category = () => {
                     <div className="entry-date">{new Date(entry.createdOn).toISOString().slice(0, 10)}</div>
                     <div className="entry-size">500 KB</div>
                     <NavLink to={`/entry/${id}/${entry.categoryEntryId}`} className="entry-menu">Edit</NavLink>
-                    <div className="entry-menu">Remove</div>
+                    <div className="entry-menu" onClick={() => removeEntry(entry.categoryEntryId)}>Remove</div>
                 </div>
             ))}
             <BasicModal isOpen={isModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeModal}>
@@ -63,8 +80,7 @@ const Category = () => {
 
 const AddModal = ({ addEntry, closeModal }) => {
     const entryName = useRef();
-    useEffect(() => { console.log(document.getElementById('add-name-input')); entryName.current = document.getElementById('add-name-input') }, []);
-    useEffect(() => console.log(entryName.current.value))
+    useEffect(() => entryName.current = document.getElementById('add-name-input'), []);
 
     return (
         <div className="modal-container">

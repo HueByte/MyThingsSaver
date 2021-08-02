@@ -1,4 +1,4 @@
-import { AddOneEntryEndpoint, GetAllEntriesEndpoint, GetEntryByIdEndpoint, UpdateEntryEndpoint } from "../routes/ApiEndpoints";
+import { AddOneEntryEndpoint, DeleteEntryEndpoint, GetAllEntriesEndpoint, GetEntryByIdEndpoint, UpdateEntryEndpoint } from "../routes/ApiEndpoints";
 import { HandleBasicApiResponse } from "./ApiErrors"
 
 export async function GetAllEntries(token, categoryId) {
@@ -40,5 +40,15 @@ export async function AddOneEntry(token, Name, CategoryId) {
     }
 
     return await fetch(AddOneEntryEndpoint, requestOptions)
+        .then(HandleBasicApiResponse);
+}
+
+export async function DeleteOneEntry(token, id) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
+
+    return await fetch(`${DeleteEntryEndpoint}?id=${id}`, requestOptions)
         .then(HandleBasicApiResponse);
 }
