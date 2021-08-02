@@ -1,5 +1,3 @@
-using System.Dynamic;
-
 namespace Core.Entities
 {
     public class CategoryEntryDTO

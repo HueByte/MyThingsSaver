@@ -1,20 +1,13 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using App.Extensions;
-using Common.ApiResonse;
 using Common.Events;
 using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
 namespace App.Controllers
 {
