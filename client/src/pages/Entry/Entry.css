@@ -1,7 +1,71 @@
 .entry__container {
-
+    padding: 10px;
+    height: 100%;
 }
 
-.entry-display-name {
+.entry__container .basic-info {
+    max-width: 100%;
+    height: 64px;
+    padding: 10px;
+    background-color: var(--SharkDark);
+    display: flex;
+    align-items: center;
+    margin: 15px;
+    border-radius: 10px;
+}
 
+.basic-info-left {
+    display: flex;
+    align-items: center;
+    flex: 2;
+}
+
+.basic-info > div {
+    height: 100%;
+}
+
+.basic-info .icon {
+    width: 100px;
+    display: grid;
+    place-items: center;
+    font-size: xx-large;
+    color: var(--Teal);
+}
+
+.basic-info .name {
+    display: grid;
+    place-items: center;
+    font-size: large;
+    flex: 1;
+    color: var(--Teal);
+}
+
+.basic-info .date {
+    display: grid;
+    font-size: large;
+    place-items: center;
+    width: 100px;
+    flex: 1;
+}
+
+.entry-content {
+    padding: 10px;
+    margin: 15px;
+    max-width: 100%;
+    background-color: var(--SharkDark);
+    border-radius: 10px;
+    min-height: 30%;
+}
+
+.basic-info-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+}
+
+.basic-info-right .entry-button {
+    flex: 1;
+    max-width: 100px;
+    margin-left: 1em;
 }
