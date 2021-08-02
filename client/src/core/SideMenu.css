@@ -64,13 +64,17 @@
     margin-bottom: 1rem;
     transition: 250ms ease-in-out;
     cursor: pointer;
-    display: flex;
+    /* display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-between; */
     letter-spacing: 0.5px;
     color: var(--Gold);
     /* prevent jumping */
     border-bottom: 1px solid var(--Shark);
+
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
 }
 
     .nav-side__container .item:hover {

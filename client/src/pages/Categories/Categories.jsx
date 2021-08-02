@@ -143,6 +143,6 @@ const AddDocument = ({ closeAddModal, sendRequest }) => {
     )
 }
 
-const buddyItems = ['ヾ(•ω•`)o', '(°ロ°)', '╰（‵□′）╯', '╚(•⌂•)╝', '┗|｀O′|┛', '✪ ω ✪', '( •̀ .̫ •́ )✧']
+const buddyItems = ['ヾ(•ω•`)o', '(°ロ°)', '╰（‵□′）╯', '╚(•⌂•)╝', '┗|｀O′|┛', '✪ ω ✪', '(¬‿¬)', '(. ❛ ᴗ ❛.)']
 
 export default Categories;

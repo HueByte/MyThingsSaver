@@ -20,6 +20,7 @@
     transition: 200ms ease-in-out;
     border-bottom: 1px solid var(--RoseSub);
     -webkit-font-smoothing: antialiased;
+    overflow: hidden;
 }
     .category:hover {
         transform: scale(1.05);
@@ -54,8 +55,9 @@
 
 .category-name {
     padding: 10px;
-    display: grid;
-    place-items: center;
+    text-align: center;
+    /* display: grid;
+    place-items: center; */
     color: var(--Rose);
     width: 100%;
     font-size: large;
@@ -67,14 +69,12 @@
 }
 
 .category-id {
-    /* text-align: center; */
     text-overflow: ellipsis;
     width: 100%;
     color: var(--Gold);
 }
 
 .category-date-created {
-    /* text-align: center; */
     width: 100%;
 }
 
