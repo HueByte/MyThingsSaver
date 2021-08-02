@@ -16,7 +16,8 @@ const Login = () => {
     const authenticate = async () => {
         await AuthLogin(username.current.value, password.current.value)
             .then(result => {
-                authContext.setAuthState(result.data);
+                if (result.isSuccess)
+                    authContext.setAuthState(result.data);
             })
             .catch((errors) => {
                 console.log(errors);

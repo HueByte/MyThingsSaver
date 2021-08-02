@@ -19,7 +19,8 @@ const Register = () => {
     const register = async () => {
         await AuthRegister(email.current.value, username.current.value, password.current.value)
             .then(result => {
-                successModal('You can now log in');
+                if (result.isSuccess)
+                    successModal('You can now log in');
             })
             .catch((errors) => {
                 console.log('')

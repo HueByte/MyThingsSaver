@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using App.Authentication;
 using Core.Models;
@@ -5,6 +8,7 @@ using Core.RepositoriesInterfaces;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,10 +28,20 @@ namespace App.Configuration
 
         public void ConfigureDatabase(bool isProduction)
         {
-            if (isProduction)
-                _services.AddDbContextDebug(_configuration);
-            else
-                _services.AddDbContextProduction(_configuration);
+            var doesUseMySql = _configuration.GetValue<bool>("Database:DoesUseMySQL");
+            var doesUseSqlite = _configuration.GetValue<bool>("Database:DoesUseSQLite");
+            if ((doesUseSqlite && doesUseMySql) || (!doesUseSqlite && !doesUseMySql))
+                throw new Exception("Please use one database, change your appsettings.json and set one of them to true");
+
+            if (doesUseMySql)
+            {
+                if (isProduction)
+                    _services.AddDbContextMysqlProduction(_configuration);
+                else
+                    _services.AddDbContextMysqlDebug(_configuration);
+            }
+            if (doesUseSqlite)
+                _services.AddDbContextSqlite(_configuration);
         }
 
         public void ConfigureSecurity()

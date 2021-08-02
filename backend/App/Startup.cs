@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using App.Configuration;
+using Common.Types;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +30,7 @@ namespace App
         {
             // Load origins from appsettings.json
             string[] origins = Configuration.GetSection("Origins").Get<string[]>();
+            // Dictionary<string, string> databases = Configuration.GetSection("Database").Get<Dictionary<string, string>();
 
             services.AddRazorPages();
             // While updating to .net 6 add .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IngoreCycles);
@@ -70,10 +74,22 @@ namespace App
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // create ready database
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
                 context.Database.EnsureCreated();
+            }
+
+            // seed roles via RoleManager
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                if (!roleManager.RoleExistsAsync(Role.USER).GetAwaiter().GetResult())
+                    roleManager.CreateAsync(new IdentityRole(Role.USER)).GetAwaiter().GetResult();
+
+                if (!roleManager.RoleExistsAsync(Role.ADMIN).GetAwaiter().GetResult())
+                    roleManager.CreateAsync(new IdentityRole(Role.ADMIN)).GetAwaiter().GetResult();
             }
 
             app.UseForwardedHeaders();
