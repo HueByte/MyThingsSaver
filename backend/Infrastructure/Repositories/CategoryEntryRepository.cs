@@ -112,6 +112,7 @@ namespace Infrastructure.Repositories
         {
             var entries = await _context.CategoriesEntries
                 .Where(entry => entry.OwnerId == ownerId)
+                .Include(x => x.Category)
                 .OrderByDescending(entry => entry.CreatedOn)
                 .Take(10)
                 .ToListAsync();

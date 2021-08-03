@@ -16,7 +16,7 @@
     margin: 1em;
 }
 
-.entry {
+.entries__container .entry {
     font-weight: 500;
     margin: 1em 0 1em 0;
     background-color: var(--Shark);
@@ -27,11 +27,11 @@
     letter-spacing: 0.7px;
 }
 
-.entry > div {
+.entries__container .entry > div {
     height: 100%;
 }
 
-.entry .entry-image {
+.entries__container .entry .entry-image {
     width: 100px;
     display: grid;
     place-items: center;
@@ -39,7 +39,7 @@
     color: var(--Teal);
 }
 
-.entry .entry-name {
+.entries__container .entry .entry-name {
     font-size: large;
     display: grid;
     place-items: center;
@@ -52,12 +52,12 @@
     transition: 200ms ease-in-out;
 }
 
-.entry .entry-name:hover {
+.entries__container .entry .entry-name:hover {
     background-color: var(--Gold);
     color: var(--SharkDarkSub);
 }
 
-.entry .entry-date {
+.entries__container .entry .entry-date {
     width: 200px;
     padding: 10px;
     display: grid;
@@ -66,7 +66,7 @@
     color: var(--Grey)
 }
 
-.entry .entry-size {
+.entries__container .entry .entry-size {
     width: 100px;
     padding: 10px;
     display: grid;
@@ -76,7 +76,7 @@
     text-align: center;
 }
 
-.entry .entry-menu {
+.entries__container .entry .entry-menu {
     width: 100px;
     display: grid;
     place-items: center;
@@ -85,7 +85,7 @@
     transition: 100ms ease-in-out;
 }
 
-.entry .entry-menu:hover {
+.entries__container .entry .entry-menu:hover {
     color: var(--Gold);
 }
 
