@@ -63,7 +63,7 @@ const Entry = () => {
                 </div>
                 <div className="entry-content">
                     {isEditing ?
-                        <MEDitor value={editValue} onChange={setEditValue} commands={[]} height={500} preview={'preview'} />
+                        <MEDitor value={editValue} onChange={setEditValue} commands={[]} height={500} preview={'live'} />
                         :
                         <MEDitor.Markdown source={editValue} />
                     }
