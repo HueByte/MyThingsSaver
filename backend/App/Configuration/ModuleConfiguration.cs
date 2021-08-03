@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,9 @@ using Core.RepositoriesInterfaces;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -111,5 +114,17 @@ namespace App.Configuration
                    .AllowAnyMethod()
                    .AllowCredentials();
         }));
+
+        public void ConfigureForwardedHeaders(bool isProduction)
+        {
+            var isNginx = _configuration.GetValue<bool>("Network:DoesUseNginx");
+            isProduction = true;
+
+            if (isProduction && isNginx)
+                _services.Configure<ForwardedHeadersOptions>(options =>
+                {
+                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                });
+        }
     }
 }

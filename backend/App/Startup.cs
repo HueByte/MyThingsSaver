@@ -43,6 +43,7 @@ namespace App
             moduleConfiguration.ConfigureSecurity();
             moduleConfiguration.ConfigureCors(origins);
             moduleConfiguration.ConfigureSpa();
+            moduleConfiguration.ConfigureForwardedHeaders(_env.IsProduction());
 
             services.AddSwaggerGen(c =>
             {
