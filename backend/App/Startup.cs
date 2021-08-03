@@ -30,7 +30,6 @@ namespace App
         {
             // Load origins from appsettings.json
             string[] origins = Configuration.GetSection("Origins").Get<string[]>();
-            // Dictionary<string, string> databases = Configuration.GetSection("Database").Get<Dictionary<string, string>();
 
             services.AddRazorPages();
             // While updating to .net 6 add .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IngoreCycles);
@@ -43,7 +42,7 @@ namespace App
             moduleConfiguration.ConfigureSecurity();
             moduleConfiguration.ConfigureCors(origins);
             moduleConfiguration.ConfigureSpa();
-            moduleConfiguration.ConfigureForwardedHeaders(_env.IsProduction());
+            moduleConfiguration.ConfigureForwardedHeaders();
 
             services.AddSwaggerGen(c =>
             {

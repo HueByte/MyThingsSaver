@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using App.Authentication;
+using Common.Types;
 using Core.Models;
 using Core.RepositoriesInterfaces;
 using Infrastructure;
@@ -31,20 +33,21 @@ namespace App.Configuration
 
         public void ConfigureDatabase(bool isProduction)
         {
-            var doesUseMySql = _configuration.GetValue<bool>("Database:DoesUseMySQL");
-            var doesUseSqlite = _configuration.GetValue<bool>("Database:DoesUseSQLite");
-            if ((doesUseSqlite && doesUseMySql) || (!doesUseSqlite && !doesUseMySql))
-                throw new Exception("Please use one database, change your appsettings.json and set one of them to true");
+            var databaseType = _configuration.GetValue<string>("Database:Type").ToLower();
 
-            if (doesUseMySql)
+            if (databaseType == DatabaseType.MYSQL)
             {
                 if (isProduction)
                     _services.AddDbContextMysqlProduction(_configuration);
                 else
                     _services.AddDbContextMysqlDebug(_configuration);
             }
-            if (doesUseSqlite)
+            else if (databaseType == DatabaseType.SQLITE)
+            {
                 _services.AddDbContextSqlite(_configuration);
+            }
+            else
+                throw new Exception("Invalid database, please provide correct value in appsettings.json");
         }
 
         public void ConfigureSecurity()
@@ -115,12 +118,11 @@ namespace App.Configuration
                    .AllowCredentials();
         }));
 
-        public void ConfigureForwardedHeaders(bool isProduction)
+        public void ConfigureForwardedHeaders()
         {
-            var isNginx = _configuration.GetValue<bool>("Network:DoesUseNginx");
-            isProduction = true;
+            var type = _configuration.GetValue<string>("Network:Type").ToLower();
 
-            if (isProduction && isNginx)
+            if (type == NetworkType.isNginx)
                 _services.Configure<ForwardedHeadersOptions>(options =>
                 {
                     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
