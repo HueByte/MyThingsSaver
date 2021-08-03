@@ -59,6 +59,7 @@
 .nav-side__container .item {
     flex: 1;
     max-height: 100px;
+    min-height: 40px;
     font-size: medium;
     padding: 10px;
     margin-bottom: 1rem;
