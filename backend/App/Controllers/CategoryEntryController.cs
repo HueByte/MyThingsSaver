@@ -108,5 +108,21 @@ namespace App.Controllers
             else
                 return BadRequest(result);
         }
+
+        [HttpGet("GetRecent")]
+        [Authorize]
+        public async Task<IActionResult> GetRecentAsync()
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler<List<CategoryEntry>>.EventHandleAsync(async () =>
+            {
+                return await _categoryEntryRepository.GetRecentAsync(userId);
+            });
+
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
     }
 }

@@ -107,5 +107,16 @@ namespace Infrastructure.Repositories
             _context.CategoriesEntries.Update(entry);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<CategoryEntry>> GetRecentAsync(string ownerId)
+        {
+            var entries = await _context.CategoriesEntries
+                .Where(entry => entry.OwnerId == ownerId)
+                .OrderByDescending(entry => entry.CreatedOn)
+                .Take(10)
+                .ToListAsync();
+
+            return entries;
+        }
     }
 }
