@@ -17,6 +17,7 @@
 .basic-info-left {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     flex: 2;
 }
 
@@ -36,7 +37,7 @@
     display: grid;
     place-items: center;
     font-size: large;
-    flex: 1;
+    max-width: 200px;
     color: var(--Teal);
 }
 
@@ -45,7 +46,7 @@
     font-size: large;
     place-items: center;
     width: 100px;
-    flex: 1;
+    margin-left: 1em;
 }
 
 .entry-content {
