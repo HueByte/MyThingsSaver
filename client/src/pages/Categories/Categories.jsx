@@ -107,7 +107,10 @@ const Categories = () => {
 
 const EditDocument = ({ category, closeEditModal, sendRequest }) => {
     const modalEditInput = useRef();
-    useEffect(() => modalEditInput.current = document.getElementById('edit-modal-input'), []);
+    useEffect(() => {
+        modalEditInput.current = document.getElementById('edit-modal-input');
+        modalEditInput.current.value = category.name;
+    }, []);
 
     return (
         <div className="modal">
