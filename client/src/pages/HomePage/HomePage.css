@@ -23,5 +23,10 @@
 
 .homepage__container .entry .entry-image {
     font-size: xx-large;
-    color: var(--Teal);
+    color: var(--Rose);
+}
+
+.homepage__container .entry .entry-name {
+    font-size: medium;
+    color: var(--Gold);
 }
