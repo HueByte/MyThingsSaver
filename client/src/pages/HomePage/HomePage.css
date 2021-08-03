@@ -2,8 +2,9 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
     padding: 2em;
+    height: 100%;
 }
 
 .homepage__container .entry {
@@ -13,12 +14,16 @@
     flex-direction: column;
     justify-content: center;
     padding: 10px;
-    min-width: 150px;
+    min-width: 200px;
     max-width: 300px;
-    height: 150px;
+    height: 250px;
     margin: 1rem;
     background-color: var(--Shark);
     border-radius: 10px;
+}
+
+.homepage__container .entry > div {
+    margin-top: 5px;
 }
 
 .homepage__container .entry .entry-image {
@@ -27,6 +32,10 @@
 }
 
 .homepage__container .entry .entry-name {
-    font-size: medium;
+    font-size: large;
     color: var(--Gold);
+}
+
+.homepage__container .entry .entry-category {
+    font-size: medium;
 }

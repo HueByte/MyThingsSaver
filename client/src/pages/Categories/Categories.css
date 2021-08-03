@@ -3,7 +3,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 2em;
-    justify-content: space-evenly;
+    justify-content: space-around;
     z-index: 11;
 }
 

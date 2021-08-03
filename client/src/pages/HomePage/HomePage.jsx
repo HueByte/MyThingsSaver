@@ -13,7 +13,6 @@ const HomePage = () => {
     useEffect(async () => {
         await GetRecentEntries(authContext.authState?.token)
             .then(result => {
-                console.log(result);
                 if (result.isSuccess)
                     setEntries(result.data);
             })
@@ -28,7 +27,7 @@ const HomePage = () => {
         <div className="homepage__container">
             {isFetching ? <Loader /> :
                 <>
-                    {entries.map((entry, index) => (
+                    {entries.length > 0 ? entries.map((entry, index) => (
                         <NavLink to={`/entry/${entry.category.categoryId}/${entry.categoryEntryId}`} className="entry" key={index}>
                             <div className="entry-image"><i class="fas fa-sticky-note"></i></div>
                             <div className="entry-name"><span className="ellipsis">{entry.categoryEntryName}</span></div>
@@ -37,6 +36,13 @@ const HomePage = () => {
                             <div className="entry-size">500 KB</div>
                         </NavLink>
                     ))
+                        :
+                        <div style={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%' }}>
+                            <div>
+                                <p style={{ textAlign: 'center' }}>Such empty</p>
+                                <img src="https://www.pinclipart.com/picdir/big/550-5506338_pepe-the-frog-transparent-png-transparent-pepe-png.png" style={{ width: '100px' }} />
+                            </div>
+                        </div>
                     }
                 </>
             }
