@@ -18,6 +18,10 @@ const Login = () => {
         password.current = document.getElementById('password-input');
     }, [])
 
+    useEffect(async () => {
+        if (isWorking) await authenticate();
+    }, [isWorking]);
+
     const authenticate = async () => {
         if (username.current.value.length === 0 || password.current.value.length === 0) {
             warningModal('Please fill all of the fields');
@@ -50,7 +54,7 @@ const Login = () => {
                     <NavLink to="/HelpMe" className="auth-button-help">Can't log in?</NavLink>
                 </div>
                 <div className="auth-menu-side">
-                    <div onClick={authenticate} className="basic-button auth-button">Log in</div>
+                    <div onClick={() => setIsWorking(true)} className="basic-button auth-button">Log in</div>
                     <NavLink to="/auth/register" className="basic-button auth-button">Register</NavLink>
                 </div>
             </div>
