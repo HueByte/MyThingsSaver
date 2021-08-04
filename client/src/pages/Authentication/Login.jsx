@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { AuthLogin } from '../../auth/Auth';
 import { AuthContext } from '../../auth/AuthContext';
+import './Auth.css';
+import '../../core/BasicLayoutStyles.css';
+import AuthTemplate from './AuthTemplate';
 
 const Login = () => {
     const authContext = useContext(AuthContext);
@@ -26,11 +29,22 @@ const Login = () => {
 
     if (authContext.isAuthenticated()) return <Redirect to="/" />
     return (
-        <>
-            <input id='username-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
-            <input id='password-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
-            <button onClick={authenticate} style={{ backgroundColor: 'white' }}>Send</button>
-        </>
+        <AuthTemplate>
+            <div className="auth-welcome">Welcome to My things saver!</div>
+            <div className="auth-input-container">
+                <input id='username-input' type="text" className="basic-input auth-input" placeholder="Username" autocomplete="username" />
+                <input id='password-input' type="password" className="basic-input auth-input" placeholder="Password" autocomplete="current-password" />
+            </div>
+            <div className="auth-menu">
+                <div className="auth-menu-side">
+                    <NavLink to="/HelpMe" className="auth-button-help">Can't log in?</NavLink>
+                </div>
+                <div className="auth-menu-side">
+                    <div onClick={authenticate} className="basic-button auth-button">Log in</div>
+                    <NavLink to="/auth/register" className="basic-button auth-button">Register</NavLink>
+                </div>
+            </div>
+        </AuthTemplate >
     )
 }
 

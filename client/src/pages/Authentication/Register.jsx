@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
+import './Auth.css';
+import '../../core/BasicLayoutStyles.css';
+import AuthTemplate from './AuthTemplate';
 import { AuthRegister } from '../../auth/Auth';
 import { AuthContext } from '../../auth/AuthContext';
 import { errorModal, successModal } from '../../core/Modals';
@@ -22,19 +25,36 @@ const Register = () => {
                 if (result.isSuccess)
                     successModal('You can now log in');
             })
-            .catch((errors) => {
-                console.log('')
-            });
+            .catch((errors) => console.error(errors));
     }
 
     if (authContext.isAuthenticated()) return <Redirect to="/" />
     return (
-        <>
-            <input id='email-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
-            <input id='username-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
-            <input id='password-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
-            <button onClick={register} style={{ backgroundColor: 'white' }}>Send</button>
-        </>
+        // <>
+        //     <input id='email-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
+        //     <input id='username-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
+        //     <input id='password-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
+        //     <button onClick={register} style={{ backgroundColor: 'white' }}>Send</button>
+        // </>
+
+        <AuthTemplate>
+            <div className="auth-welcome">
+                <span>Welcome to My things saver!</span><br />
+                <span>Register your account here</span>
+            </div>
+            <div className="auth-input-container">
+                <input id='email-input' type="text" className="basic-input auth-input" placeholder="E-mail" autocomplete="email" />
+                <input id='username-input' type="text" className="basic-input auth-input" placeholder="Username" autocomplete="username" />
+                <input id='password-input' type="password" className="basic-input auth-input" placeholder="Password" autocomplete="current-password" />
+            </div>
+            <div className="auth-menu">
+                <div className="auth-menu-side"></div>
+                <div className="auth-menu-side">
+                    <div onClick={register} className="basic-button auth-button">Register</div>
+                    <NavLink to="/auth/login" className="basic-button auth-button">Log in</NavLink>
+                </div>
+            </div>
+        </AuthTemplate>
     )
 }
 
