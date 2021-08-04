@@ -65,6 +65,11 @@ const Entry = () => {
                         <div className="basic-button entry-button" onClick={removeEntry}>Delete</div>
                     </div>
                 </div>
+                <div className="basic-info basic-info-mobile-menu">
+                    <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdate}>Accept</div>
+                    <div className="basic-button entry-button" onClick={switchEdit}>{isEditing ? 'close' : 'edit'}</div>
+                    <div className="basic-button entry-button" onClick={removeEntry}>Delete</div>
+                </div>
                 <div className="entry-content">
                     {isEditing ?
                         <>
