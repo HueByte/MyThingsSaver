@@ -5,10 +5,11 @@ import '../../core/BasicLayoutStyles.css';
 import AuthTemplate from './AuthTemplate';
 import { AuthRegister } from '../../auth/Auth';
 import { AuthContext } from '../../auth/AuthContext';
-import { errorModal, successModal } from '../../core/Modals';
+import { errorModal, infoModal, successModal, warningModal } from '../../core/Modals';
 
 const Register = () => {
     const authContext = useContext(AuthContext);
+    const [isWorking, setIsWorking] = useState(false);
     const email = useRef();
     const username = useRef();
     const password = useRef();
@@ -19,25 +20,31 @@ const Register = () => {
         password.current = document.getElementById('password-input');
     }, [])
 
+    useEffect(async () => {
+        if (isWorking) await register();
+    }, [isWorking]);
+
     const register = async () => {
+        if (email.current.value.length === 0 || username.current.value.length === 0 || password.current.value.length === 0) {
+            warningModal('Please fill all of the fields');
+            setIsWorking(false);
+            return;
+        }
+
+        infoModal('Creating account...');
         await AuthRegister(email.current.value, username.current.value, password.current.value)
             .then(result => {
                 if (result.isSuccess)
-                    successModal('You can now log in');
+                    successModal(`You can now log in. User ${username.current.value} created!`, 10000);
             })
             .catch((errors) => console.error(errors));
+
+        setIsWorking(false);
     }
 
     if (authContext.isAuthenticated()) return <Redirect to="/" />
     return (
-        // <>
-        //     <input id='email-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
-        //     <input id='username-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
-        //     <input id='password-input' type="text" style={{ backgroundColor: 'white', width: '100%' }} />
-        //     <button onClick={register} style={{ backgroundColor: 'white' }}>Send</button>
-        // </>
-
-        <AuthTemplate>
+        <AuthTemplate isWorking={isWorking}>
             <div className="auth-welcome">
                 <span>Welcome to My things saver!</span><br />
                 <span>Register your account here</span>
@@ -50,7 +57,7 @@ const Register = () => {
             <div className="auth-menu">
                 <div className="auth-menu-side"></div>
                 <div className="auth-menu-side">
-                    <div onClick={register} className="basic-button auth-button">Register</div>
+                    <div onClick={() => setIsWorking(true)} className="basic-button auth-button">Register</div>
                     <NavLink to="/auth/login" className="basic-button auth-button">Log in</NavLink>
                 </div>
             </div>

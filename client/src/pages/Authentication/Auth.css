@@ -24,6 +24,14 @@
     z-index: 6;
 }
 
+.auth__container .overlay-loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
 .auth__container .auth-right {
     flex: 1;
     display: flex;

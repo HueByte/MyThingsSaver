@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../../assets/CloudByteColor.png';
 import './Auth.css';
+import Loader from '../../components/Loaders/Loader.jsx';
 
-const AuthTemplate = ({ children }) => {
+const AuthTemplate = ({ children, isWorking = false }) => {
     return (
         <div className="auth__wrapper">
             <div className="auth__container">
+                {isWorking ? <div className="overlay-loading"><Loader /></div> : <></>}
                 <div className="auth-left"><img src={logo} /></div>
                 <div className="auth-right">
                     {children}

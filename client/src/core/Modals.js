@@ -1,6 +1,6 @@
 import { store } from 'react-notifications-component';
 
-export const errorModal = (err) => {
+export const errorModal = (err, time = 4000) => {
     store.addNotification({
         title: 'Error',
         message: err,
@@ -10,7 +10,7 @@ export const errorModal = (err) => {
         animationIn: ["animate__animated animate__fadeIn"],
         animationOut: ["animate__animated animate__fadeOut"],
         dismiss: {
-            duration: 4000,
+            duration: time,
             onScreen: true,
             pauseOnHover: true,
             showIcon: true
@@ -18,7 +18,7 @@ export const errorModal = (err) => {
     })
 }
 
-export const warningModal = (message) => {
+export const warningModal = (message, time = 4000) => {
     store.addNotification({
         title: 'Warning',
         message: message ?? 'Something went wrong',
@@ -28,7 +28,7 @@ export const warningModal = (message) => {
         animationIn: ["animate__animated animate__fadeIn"],
         animationOut: ["animate__animated animate__fadeOut"],
         dismiss: {
-            duration: 5000,
+            duration: time,
             onScreen: true,
             pauseOnHover: true,
             showIcon: true
@@ -36,7 +36,7 @@ export const warningModal = (message) => {
     })
 }
 
-export const successModal = (message) => {
+export const successModal = (message, time = 4000) => {
     store.addNotification({
         title: 'Success!',
         message: message ?? '',
@@ -46,7 +46,7 @@ export const successModal = (message) => {
         animationIn: ["animate__animated animate__fadeIn"],
         animationOut: ["animate__animated animate__fadeOut"],
         dismiss: {
-            duration: 5000,
+            duration: time,
             onScreen: true,
             pauseOnHover: true,
             showIcon: true
@@ -54,7 +54,7 @@ export const successModal = (message) => {
     })
 }
 
-export const infoModal = (message) => {
+export const infoModal = (message, time = 4000) => {
     store.addNotification({
         title: 'Info',
         message: message ?? '',
@@ -64,7 +64,7 @@ export const infoModal = (message) => {
         animationIn: ["animate__animated animate__fadeIn"],
         animationOut: ["animate__animated animate__fadeOut"],
         dismiss: {
-            duration: 5000,
+            duration: time,
             onScreen: true,
             pauseOnHover: true
         }
