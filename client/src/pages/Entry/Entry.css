@@ -1,6 +1,6 @@
 .entry__container {
     padding: 10px 10% 10px 10%;
-    height: 100%;
+    min-height: 100%;
 }
 
 .entry__container .basic-info {
