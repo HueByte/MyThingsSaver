@@ -1,10 +1,19 @@
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
+using System.Linq;
 using System.Text;
 using App.Authentication;
+using Common.Types;
 using Core.Models;
 using Core.RepositoriesInterfaces;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,10 +33,21 @@ namespace App.Configuration
 
         public void ConfigureDatabase(bool isProduction)
         {
-            if (isProduction)
-                _services.AddDbContextDebug(_configuration);
+            var databaseType = _configuration.GetValue<string>("Database:Type").ToLower();
+
+            if (databaseType == DatabaseType.MYSQL)
+            {
+                if (isProduction)
+                    _services.AddDbContextMysqlProduction(_configuration);
+                else
+                    _services.AddDbContextMysqlDebug(_configuration);
+            }
+            else if (databaseType == DatabaseType.SQLITE)
+            {
+                _services.AddDbContextSqlite(_configuration);
+            }
             else
-                _services.AddDbContextProduction(_configuration);
+                throw new Exception("Invalid database, please provide correct value in appsettings.json");
         }
 
         public void ConfigureSecurity()
@@ -97,5 +117,16 @@ namespace App.Configuration
                    .AllowAnyMethod()
                    .AllowCredentials();
         }));
+
+        public void ConfigureForwardedHeaders()
+        {
+            var type = _configuration.GetValue<string>("Network:Type").ToLower();
+
+            if (type == NetworkType.isNginx)
+                _services.Configure<ForwardedHeadersOptions>(options =>
+                {
+                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                });
+        }
     }
 }

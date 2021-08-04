@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     padding: 1em;
+    width: 100%;
+    position: relative;
 }
 
 .entries-menu {
@@ -16,29 +18,151 @@
     margin: 1em;
 }
 
-.entry {
+.entries__container .entry {
+    font-weight: 500;
     margin: 1em 0 1em 0;
     background-color: var(--Shark);
     width: 100%;
-    height: 64px;
+    height: 80px;
     display: flex;
     flex-direction: row;
+    letter-spacing: 0.7px;
 }
 
-.entry > div {
+.entries__container .entry > div {
     height: 100%;
 }
 
-.entry .entry-image {
+.entries__container .entry .entry-image {
     width: 100px;
+    min-width: 100px;
     display: grid;
     place-items: center;
     font-size: xx-large;
-    color: var(--Rose);
+    color: var(--Teal);
 }
 
-.entry .entry-name {
+.entries__container .entry .entry-name {
     font-size: large;
     display: grid;
     place-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 10px;
+    width: 200px;
+    min-width: 100px;
+    background-color: var(--SharkDarkSub);
+    transition: 200ms ease-in-out;
+}
+
+.entries__container .entry .entry-name:hover {
+    background-color: var(--Gold);
+    color: var(--SharkDarkSub);
+}
+
+.entries__container .entry .entry-date {
+    width: 200px;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    font-size: large;
+    color: var(--Grey)
+}
+
+.entries__container .entry .entry-size {
+    width: 100px;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    font-size: large;
+    color: var(--Teal);
+    text-align: center;
+}
+
+.entries__container .entry .entry-menu {
+    width: 100px;
+    display: grid;
+    place-items: center;
+    font-size: large;
+    cursor: pointer;
+    transition: 100ms ease-in-out;
+}
+
+.entries__container .entry .entry-menu:hover {
+    color: var(--Gold);
+}
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-field .field-name {
+    padding: 5px;
+    font-weight: bolder;
+    font-size: medium;
+}
+
+.entry .entry-menu-buttons {
+    display: flex;
+}
+
+@media screen and (max-width: 1440px) {
+    .entries__container {
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .entries__container .entry {
+        border-radius: 10px;
+        min-width: 200px;
+        max-width: 250px;
+        height: unset;
+        flex: 1 1 auto;
+        flex-direction: column;
+        height: auto;
+        margin: 1em;
+        justify-content: center;
+    }
+
+    .entry .entry-menu-buttons {
+        height: 50px !important;
+        flex-shrink: 0;
+        justify-content: center;
+    }
+
+    .entries__container .entry > * {
+        width: 100% !important;
+    }
+
+    .entries__container .entry .entry-image {
+        padding: 10px;
+    }
+
+    .entries__container .entry .entry-name {
+        width: 100%;
+        height: 50px;
+        flex-shrink: 0;
+    }
+
+    .entry .entry-menu {
+        background-color: var(--SharkDark);
+        border-radius: 10px;
+        margin: 5px;
+    }
+
+    .entries__container .entry .entry-image {
+        
+    }
+}
+
+@media screen and (max-width: 425px) {
+    
 }

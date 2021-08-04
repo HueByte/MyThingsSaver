@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
@@ -20,17 +18,17 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<CategoryEntry> GetOneByIdAsync(string categoryId, Guid id, string ownerId)
+        public async Task<CategoryEntry> GetOneByIdAsync(Guid id, string ownerId)
         {
-            return await GetOneByIdAsync(categoryId, id.ToString(), ownerId);
+            return await GetOneByIdAsync(id.ToString(), ownerId);
         }
 
-        public async Task<CategoryEntry> GetOneByIdAsync(string categoryId, string id, string ownerId)
+        public async Task<CategoryEntry> GetOneByIdAsync(string id, string ownerId)
         {
-            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(categoryId))
-                throw new ArgumentException("Category ID and Entry ID cannot be empty");
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("Entry ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryId == categoryId && entry.CategoryEntryId.ToString() == id && entry.Owner.Id == ownerId);
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.Owner.Id == ownerId);
 
             if (entry == null)
                 throw new Exception("Couldn't find that entry");
@@ -80,18 +78,46 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveOneAsync(string categoryId, string id, string ownerId)
+        public async Task RemoveOneAsync(string id, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("ID cannot be empty");
 
             // make sure that user owns that entry
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryId == categoryId && entry.CategoryEntryId.ToString() == id && entry.Owner.Id == ownerId);
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.OwnerId == ownerId);
             if (entry == null)
                 throw new Exception("couldn't find that entry");
 
             _context.CategoriesEntries.Remove(entry);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOneAsync(CategoryEntryDTO newEntry, string ownerId)
+        {
+            if (string.IsNullOrWhiteSpace(newEntry.EntryId))
+                throw new Exception("ID cannot be empty");
+
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == newEntry.EntryId && entry.OwnerId == ownerId);
+            if (entry == null)
+                throw new Exception("Couldn't find that entry");
+
+            entry.CategoryEntryName = newEntry.EntryName.Trim();
+            entry.Content = newEntry.Content;
+
+            _context.CategoriesEntries.Update(entry);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<CategoryEntry>> GetRecentAsync(string ownerId)
+        {
+            var entries = await _context.CategoriesEntries
+                .Where(entry => entry.OwnerId == ownerId)
+                .Include(x => x.Category)
+                .OrderByDescending(entry => entry.CreatedOn)
+                .Take(10)
+                .ToListAsync();
+
+            return entries;
         }
     }
 }

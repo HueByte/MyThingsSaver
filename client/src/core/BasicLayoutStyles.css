@@ -44,3 +44,25 @@
 .notifications-component > .notification-container--top-right {
     top: 80px !important;
 }
+
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+}
+
+.enter-animation {
+    animation-name: showContent;
+    animation-duration: 500ms;
+}
+
+.hide-overflow {
+    overflow-y: hidden !important;
+}
+
+@keyframes showContent {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}  

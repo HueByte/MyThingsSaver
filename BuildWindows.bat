@@ -4,7 +4,7 @@ set root=%cd%
 
 cd %root%/backend/App 
 echo Publishing the API
-dotnet publish -c Release -r win-x64 --output %root%/Deploy/MyThingsSaver
+dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true --output %root%/Deploy/MyThingsSaver
 
 cd %root%/client
 echo Creating front-app build

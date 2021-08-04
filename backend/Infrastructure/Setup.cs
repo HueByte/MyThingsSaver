@@ -1,11 +1,6 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pomelo.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
-using Pomelo.EntityFrameworkCore.MySql.Design;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Infrastructure
 {
@@ -15,7 +10,7 @@ namespace Infrastructure
     public static class Setup
     {
         // For some reason this shittery must look like that for non-problematic migrations with MySQL
-        public static void AddDbContextProduction(this IServiceCollection services, IConfiguration config) =>
+        public static void AddDbContextMysqlProduction(this IServiceCollection services, IConfiguration config) =>
             services.AddDbContext<AppDbContext>(
                                 options => options.UseMySql(config.GetConnectionString("DatabaseConnectionString"),
                                 ServerVersion.AutoDetect(config.GetConnectionString("DatabaseConnectionString")),
@@ -23,8 +18,8 @@ namespace Infrastructure
 
             );
 
-        // For some reason this shittery must look like that for non-problematic migrations with MySQL
-        public static void AddDbContextDebug(this IServiceCollection services, IConfiguration config) =>
+        // // For some reason this shittery must look like that for non-problematic migrations with MySQL
+        public static void AddDbContextMysqlDebug(this IServiceCollection services, IConfiguration config) =>
             services.AddDbContext<AppDbContext>(
                                 options => options.UseMySql(config.GetConnectionString("DatabaseConnectionString"),
                                 ServerVersion.AutoDetect(config.GetConnectionString("DatabaseConnectionString")),
@@ -32,5 +27,12 @@ namespace Infrastructure
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors()
             );
+
+        public static void AddDbContextSqlite(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddDbContext<AppDbContext>(
+                options => options.UseSqlite(config.GetConnectionString("SQLiteConnectionString"), x => x.MigrationsAssembly("Infrastructure"))
+            );
+        }
     }
 }

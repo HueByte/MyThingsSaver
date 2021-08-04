@@ -1,21 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using App.Configuration;
+using Common.Types;
+using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 
 namespace App
 {
@@ -46,6 +42,7 @@ namespace App
             moduleConfiguration.ConfigureSecurity();
             moduleConfiguration.ConfigureCors(origins);
             moduleConfiguration.ConfigureSpa();
+            moduleConfiguration.ConfigureForwardedHeaders();
 
             services.AddSwaggerGen(c =>
             {
@@ -77,6 +74,24 @@ namespace App
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // create ready database
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+                context.Database.EnsureCreated();
+            }
+
+            // seed roles via RoleManager
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                if (!roleManager.RoleExistsAsync(Role.USER).GetAwaiter().GetResult())
+                    roleManager.CreateAsync(new IdentityRole(Role.USER)).GetAwaiter().GetResult();
+
+                if (!roleManager.RoleExistsAsync(Role.ADMIN).GetAwaiter().GetResult())
+                    roleManager.CreateAsync(new IdentityRole(Role.ADMIN)).GetAwaiter().GetResult();
+            }
+
             app.UseForwardedHeaders();
 
             if (env.IsDevelopment())

@@ -1,20 +1,14 @@
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using App.Extensions;
-using Common.ApiResonse;
 using Common.Events;
 using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
+using Newtonsoft.Json.Serialization;
 
 namespace App.Controllers
 {
@@ -99,6 +93,7 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
+        // TODO: change response in .net 6
         [HttpGet("GetCategoryWithEntries")]
         [Authorize]
         public async Task<IActionResult> GetCategoryEntriesAsync([FromQuery] string categoryId)
@@ -121,16 +116,17 @@ namespace App.Controllers
             // TODO : Update once upgrade to .net 6, temporary solution to prevent JSON circular reference error
             var settings = new Newtonsoft.Json.JsonSerializerSettings
             {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
                 Formatting = Newtonsoft.Json.Formatting.Indented
             };
 
-            string testJson = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
+            string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
 
             if (result.IsSuccess)
-                return Ok(testJson);
+                return Ok(resultJson);
             else
-                return BadRequest(testJson);
+                return BadRequest(resultJson);
         }
     }
 }

@@ -1,17 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using App.Authentication;
 using App.Extensions;
-using Common.ApiResonse;
 using Common.Events;
-using Common.Types;
 using Core.Entities;
-using Core.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.Controllers

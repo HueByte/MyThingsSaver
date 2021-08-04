@@ -1,4 +1,4 @@
-export const BaseUrl = 'https://localhost:5001/';
+export const BaseUrl = process.env.REACT_APP_API_URL ?? 'https://localhost:5001/';
 
 export const RegisterEndpoint = `${BaseUrl}api/Authenticate/register`;
 export const LoginEndpoint = `${BaseUrl}api/authenticate/loginUsername`;
@@ -11,6 +11,10 @@ export const CategoryUpdateEndpoint = `${BaseUrl}api/Category/UpdateCategory`;
 export const CategoryGetWithEntries = `${BaseUrl}api/Category/GetCategoryWithEntries`;
 
 export const AddEntryEndpoint = `${BaseUrl}api/CategoryEntry/AddEntry`;
+export const AddOneEntryEndpoint = `${BaseUrl}api/CategoryEntry/AddEntry`
 export const GetEntryByNameEndpoint = `${BaseUrl}api/CategoryEntry/GetEntryByName`;
 export const GetEntryByIdEndpoint = `${BaseUrl}api/CategoryEntry/GetEntryById`;
 export const GetAllEntriesEndpoint = `${BaseUrl}api/CategoryEntry/GetAllEntries`;
+export const UpdateEntryEndpoint = `${BaseUrl}api/CategoryEntry/UpdateEntry`;
+export const DeleteEntryEndpoint = `${BaseUrl}api/CategoryEntry/DeleteEntry`;
+export const GetRecentEntriesEndpoint = `${BaseUrl}api/CategoryEntry/GetRecent`;

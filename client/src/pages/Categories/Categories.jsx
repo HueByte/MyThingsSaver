@@ -73,7 +73,7 @@ const Categories = () => {
     const closeAddModal = () => setShouldAddModalOpen(false);
 
     return (
-        <div className="categories__container">
+        <div className="categories__container enter-animation">
             {isFetching ? <Loader />
                 : <>
                     <div className="category add-new" onClick={invokeAddModal}><i class="fa fa-plus" aria-hidden="true"></i></div>
@@ -107,7 +107,10 @@ const Categories = () => {
 
 const EditDocument = ({ category, closeEditModal, sendRequest }) => {
     const modalEditInput = useRef();
-    useEffect(() => modalEditInput.current = document.getElementById('edit-modal-input'), []);
+    useEffect(() => {
+        modalEditInput.current = document.getElementById('edit-modal-input');
+        modalEditInput.current.value = category.name;
+    }, []);
 
     return (
         <div className="modal">
@@ -143,6 +146,6 @@ const AddDocument = ({ closeAddModal, sendRequest }) => {
     )
 }
 
-const buddyItems = ['ヾ(•ω•`)o', '(°ロ°)', '╰（‵□′）╯', '╚(•⌂•)╝', '┗|｀O′|┛', '✪ ω ✪', '( •̀ .̫ •́ )✧']
+const buddyItems = ['ヾ(•ω•`)o', '(°ロ°)', '╰（‵□′）╯', '╚(•⌂•)╝', '┗|｀O′|┛', '✪ ω ✪', '(¬‿¬)', '(. ❛ ᴗ ❛.)']
 
 export default Categories;

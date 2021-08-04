@@ -14,10 +14,10 @@ namespace Infrastructure
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<IdentityRole>().HasData(
-                new IdentityRole() { Name = "User", NormalizedName = "user" },
-                new IdentityRole() { Name = "Admin", NormalizedName = "admin" }
-            );
+            // builder.Entity<IdentityRole>().HasData(
+            //     new IdentityRole() { Name = "User", NormalizedName = "user" },
+            //     new IdentityRole() { Name = "Admin", NormalizedName = "admin" }
+            // );
         }
 
         public DbSet<Category> Categories { get; set; }

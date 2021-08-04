@@ -44,11 +44,24 @@
 }
 
 @media screen and (max-width: 768px) {
+    html { 
+        overflow-y: auto;
+    }
+    body, #root {
+        height: unset;
+    }
+
+    .interface__wrapper {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+    }
     .main__wrapper {
         width: 100%;
-        height: 100%;
-        top: 64;
-        left: 0;
+        display: block;
+        position: static;
+        height: auto;
+        margin-top: 64px;
     }
 }
 
