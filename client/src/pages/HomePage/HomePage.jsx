@@ -31,9 +31,10 @@ const HomePage = () => {
                         <NavLink to={`/entry/${entry.category.categoryId}/${entry.categoryEntryId}`} className="entry" key={index}>
                             <div className="entry-image"><i class="fas fa-sticky-note"></i></div>
                             <div className="entry-name"><span className="ellipsis">{entry.categoryEntryName}</span></div>
-                            <div className="entry-category"><span className="ellipsis">{entry.category.name}</span></div>
-                            <div className="entry-date">{new Date(entry.createdOn).toISOString().slice(0, 10)}</div>
-                            <div className="entry-size">500 KB</div>
+                            <div className="entry-category"><span className="ellipsis">Category: {entry.category.name}</span></div>
+                            <div className="entry-date">Created on: {new Date(entry.createdOn).toISOString().slice(0, 10)}</div>
+                            <div className="entry-date">Last modified on: {new Date(entry.createdOn).toISOString().slice(0, 10)}</div>
+                            <div className="entry-size">Size: 500 KB</div>
                         </NavLink>
                     ))
                         :

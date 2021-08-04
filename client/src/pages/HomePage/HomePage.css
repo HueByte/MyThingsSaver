@@ -2,9 +2,10 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    align-items: center;
     padding: 2em;
-    height: 100%;
+    min-height: 100%;
 }
 
 .homepage__container .entry {
@@ -15,27 +16,36 @@
     justify-content: center;
     padding: 10px;
     min-width: 200px;
-    max-width: 300px;
+    max-width: 300px; 
     height: 250px;
     margin: 1rem;
     background-color: var(--Shark);
     border-radius: 10px;
+    transition: 200ms ease-in-out;
+}
+
+.homepage__container .entry:hover {
+    transform: scale(1.1);
 }
 
 .homepage__container .entry > div {
     margin-top: 5px;
+    width: 100%;
+    padding: 5px;
+    font-size: medium;
 }
 
 .homepage__container .entry .entry-image {
     font-size: xx-large;
     color: var(--Rose);
+    text-align: center;
 }
 
 .homepage__container .entry .entry-name {
-    font-size: large;
+    font-size: x-large;
+    text-align: center;
     color: var(--Gold);
 }
 
 .homepage__container .entry .entry-category {
-    font-size: medium;
 }
