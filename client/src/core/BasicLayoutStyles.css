@@ -58,6 +58,10 @@
     animation-duration: 500ms;
 }
 
+.hide-overflow {
+    overflow-y: hidden !important;
+}
+
 @keyframes showContent {
     from { opacity: 0; }
     to { opacity: 1; }

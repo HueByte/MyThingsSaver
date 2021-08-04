@@ -59,7 +59,10 @@ const DesktopMenu = ({ logout, authContext }) => {
 const MobileMenu = ({ logout, authContext }) => {
     const [isActiveMenu, setIsActiveMenu] = useState(false);
 
-    const toggleMenu = () => setIsActiveMenu(!isActiveMenu);
+    const toggleMenu = () => {
+        setIsActiveMenu(!isActiveMenu);
+        document.documentElement.classList.toggle('hide-overflow')
+    }
 
     return (
         <div className={`nav-top-mobile__wrapper${isActiveMenu ? '' : ' hide'}`}>
