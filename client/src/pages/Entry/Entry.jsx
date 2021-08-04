@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Redirect, useParams } from 'react-router';
 import { DeleteOneEntry, GetOneEntry, UpdateOneEntry } from '../../api/Entries';
 import { AuthContext } from '../../auth/AuthContext';
@@ -45,6 +45,10 @@ const Entry = () => {
             .catch((error) => console.error(error));
     }
 
+    const handleChange = (event) => {
+        setName(event.target.value);
+    }
+
     if (shouldRedirect) return <Redirect to={`/category/${categoryId}`} />
     return (
         <div className="entry__container">
@@ -63,7 +67,13 @@ const Entry = () => {
                 </div>
                 <div className="entry-content">
                     {isEditing ?
-                        <MEDitor value={editValue} onChange={setEditValue} commands={[]} height={500} preview={'live'} />
+                        <>
+                            <div className="edit-name-menu">
+                                <label>Name:</label>
+                                <input type="text" className="basic-input edit-name" placeholder={`${name}`} onChange={handleChange} />
+                            </div>
+                            <MEDitor value={editValue} onChange={setEditValue} commands={[]} height={500} preview={'live'} />
+                        </>
                         :
                         <MEDitor.Markdown source={editValue} />
                     }

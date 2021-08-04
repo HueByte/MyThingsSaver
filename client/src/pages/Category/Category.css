@@ -3,6 +3,7 @@
     flex-direction: column;
     padding: 1em;
     width: 100%;
+    position: relative;
 }
 
 .entries-menu {
