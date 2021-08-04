@@ -2,50 +2,58 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: space-around;
     padding: 2em;
-    min-height: 100%;
 }
 
 .homepage__container .entry {
+    z-index: 11;
     flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    padding: 10px;
-    min-width: 200px;
-    max-width: 300px; 
-    height: 250px;
+    min-width: 250px;
+    max-width: 300px;
+    height: 200px;
     margin: 1rem;
+    cursor: pointer;
     background-color: var(--Shark);
     border-radius: 10px;
     transition: 200ms ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
 }
 
 .homepage__container .entry:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .homepage__container .entry > div {
-    margin-top: 5px;
-    width: 100%;
-    padding: 5px;
-    font-size: medium;
+
 }
 
 .homepage__container .entry .entry-image {
     font-size: xx-large;
     color: var(--Rose);
-    text-align: center;
 }
 
 .homepage__container .entry .entry-name {
-    font-size: x-large;
+    font-size: large;
+    width: 100%;
     text-align: center;
     color: var(--Gold);
+    padding: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .homepage__container .entry .entry-category {
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 425px) {
+    
 }

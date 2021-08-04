@@ -67,8 +67,10 @@ const Category = () => {
                     </NavLink>
                     <div className="entry-date">{new Date(entry.createdOn).toISOString().slice(0, 10)}</div>
                     <div className="entry-size">500 KB</div>
-                    <NavLink to={`/entry/${id}/${entry.categoryEntryId}`} className="entry-menu">Show</NavLink>
-                    <div className="entry-menu" onClick={() => removeEntry(entry.categoryEntryId)}>Remove</div>
+                    <div className="entry-menu-buttons">
+                        <NavLink to={`/entry/${id}/${entry.categoryEntryId}`} className="entry-menu">Show</NavLink>
+                        <div className="entry-menu" onClick={() => removeEntry(entry.categoryEntryId)}>Remove</div>
+                    </div>
                 </div>
             )) : <>empty</>}
             <BasicModal isOpen={isModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeModal}>

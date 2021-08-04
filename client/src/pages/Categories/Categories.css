@@ -56,8 +56,6 @@
 .category-name {
     padding: 10px;
     text-align: center;
-    /* display: grid;
-    place-items: center; */
     color: var(--Rose);
     width: 100%;
     font-size: large;
