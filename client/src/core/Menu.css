@@ -31,6 +31,10 @@
         cursor: pointer;
     }
 
+    .nav-logo img {
+        width: 60px;
+    }
+
 .nav-content__container {
     height: 100%;
     width: Calc(100% - 240px);
