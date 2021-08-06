@@ -21,8 +21,6 @@ const HomePage = () => {
         setFetching(false);
     }, []);
 
-    useEffect(() => console.log(entries), [entries]);
-
     return (
         <div className="homepage__container">
             {isFetching ? <Loader /> :
