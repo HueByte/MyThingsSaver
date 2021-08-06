@@ -50,11 +50,30 @@ namespace Infrastructure.Repositories
             return entry;
         }
 
-        public async Task<List<CategoryEntry>> GetAllAsync(string categoryId, string ownerId)
+        public async Task<List<CategoryEntry>> GetAllAsync(string categoryId, string ownerId, bool withContent)
         {
-            var entries = await _context.CategoriesEntries.Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId).ToListAsync();
-            // if (entries.Count == 0 || entries == null)
-            //     throw new Exception("Couldn't find any entries");
+            List<CategoryEntry> entries;
+            if (withContent)
+            {
+                entries = await _context.CategoriesEntries.Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId).ToListAsync();
+            }
+            else
+            {
+                entries = await _context.CategoriesEntries
+                    .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId)
+                    .Select(e => new CategoryEntry
+                    {
+                        CreatedOn = e.CreatedOn,
+                        CategoryEntryId = e.CategoryEntryId,
+                        CategoryEntryName = e.CategoryEntryName,
+                        Image = e.Image,
+                        OwnerId = e.OwnerId,
+                        Size = e.Size,
+                        LastUpdatedOn = e.LastUpdatedOn,
+                        CategoryId = e.CategoryId
+                    })
+                    .ToListAsync();
+            }
 
             return entries;
         }

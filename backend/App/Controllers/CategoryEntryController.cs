@@ -68,12 +68,12 @@ namespace App.Controllers
 
         [HttpGet("GetAllEntries")]
         [Authorize]
-        public async Task<IActionResult> GetAllEntries([FromQuery] string categoryId)
+        public async Task<IActionResult> GetAllEntries([FromQuery] string categoryId, bool withContent)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<List<CategoryEntry>>.EventHandleAsync(async () =>
             {
-                return await _categoryEntryRepository.GetAllAsync(categoryId, userId);
+                return await _categoryEntryRepository.GetAllAsync(categoryId, userId, withContent);
             });
 
             if (result.IsSuccess)

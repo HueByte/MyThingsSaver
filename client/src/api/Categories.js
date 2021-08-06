@@ -1,4 +1,4 @@
-import { CategoryAddEndpoint, CategoryRemoveEndpoint, CategoryGetAllEndpoint, CategoryUpdateEndpoint } from "../routes/ApiEndpoints"
+import { CategoryAddEndpoint, CategoryRemoveEndpoint, CategoryGetAllEndpoint, CategoryUpdateEndpoint, CategoryGetWithEntriesEndpoint } from "../routes/ApiEndpoints"
 import { HandleBasicApiResponse } from "./ApiErrors"
 
 export async function AddCategory(token, Name) {
@@ -19,6 +19,16 @@ export async function GetAllCategories(token) {
     }
 
     return await fetch(CategoryGetAllEndpoint, requestOptions)
+        .then(HandleBasicApiResponse);
+}
+
+export async function GetCategoryWithEntries(token, CategoryId, withContent = false) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
+
+    return await fetch(`${CategoryGetWithEntriesEndpoint}?categoryId=${CategoryId}`, requestOptions)
         .then(HandleBasicApiResponse);
 }
 
