@@ -66,7 +66,7 @@ const Category = () => {
                         <span className="ellipsis">{entry.categoryEntryName}</span>
                     </NavLink>
                     <div className="entry-date">{new Date(entry.createdOn).toISOString().slice(0, 10)}</div>
-                    <div className="entry-size">500 KB</div>
+                    <div className="entry-size">{entry.size} B</div>
                     <div className="entry-menu-buttons">
                         <NavLink to={`/entry/${id}/${entry.categoryEntryId}`} className="entry-menu">Show</NavLink>
                         <div className="entry-menu" onClick={() => removeEntry(entry.categoryEntryId)}>Remove</div>
@@ -84,11 +84,15 @@ const AddModal = ({ addEntry, closeModal }) => {
     const entryName = useRef();
     useEffect(() => entryName.current = document.getElementById('add-name-input'), []);
 
+    const handleEnter = (event) => {
+        if (event.key === "Enter") addEntry(entryName.current.value)
+    }
+
     return (
         <div className="modal-container">
             <div className="modal-field">
                 <div className="field-name">Name</div>
-                <input id="add-name-input" type="text" className="basic-input" />
+                <input id="add-name-input" type="text" className="basic-input" onKeyDown={handleEnter} />
             </div>
             <div className="modal-menu">
                 <div className="basic-button" onClick={() => addEntry(entryName.current.value)}>Add</div>

@@ -10,18 +10,13 @@ namespace Core.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string CategoryId { get; set; }
-
         public string Name { get; set; }
-
-        [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTime DateCreated { get; set; }
 
         public ICollection<CategoryEntry> CategoryEntries { get; set; }
 
         [ForeignKey("OwnerId")]
         public string OwnerId { get; set; }
-
-        public ApplicationUser Owner { get; set; }
+        public virtual ApplicationUser Owner { get; set; }
     }
 }
