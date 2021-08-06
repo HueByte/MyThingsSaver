@@ -1,9 +1,11 @@
 import React from 'react';
 
 const Settings = () => {
-    return(
+    return (
         <>
-            setti
+            <div style={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center' }}>
+                Working in progress...
+            </div>
         </>
     )
 }
