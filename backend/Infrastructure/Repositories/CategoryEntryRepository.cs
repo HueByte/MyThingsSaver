@@ -132,6 +132,7 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        // Skips content to reduce download speed
         public async Task<List<CategoryEntry>> GetRecentAsync(string ownerId)
         {
             var entries = await _context.CategoriesEntries
@@ -140,6 +141,7 @@ namespace Infrastructure.Repositories
                 .Select(x => new CategoryEntry
                 {
                     CategoryEntryName = x.CategoryEntryName,
+                    CategoryEntryId = x.CategoryEntryId,
                     Size = x.Size,
                     CreatedOn = x.CreatedOn,
                     Category = x.Category
