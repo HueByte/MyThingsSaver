@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Models;
@@ -68,8 +69,10 @@ namespace Infrastructure.Repositories
                 CategoryEntryName = entryDTO.EntryName,
                 CategoryId = entryDTO.CategoryId,
                 Content = entryDTO.Content,
+                Size = ASCIIEncoding.Unicode.GetByteCount(entryDTO.Content),
                 CreatedOn = DateTime.UtcNow,
-                image = entryDTO.Image,
+                LastUpdatedOn = DateTime.UtcNow,
+                Image = entryDTO.Image,
                 OwnerId = ownerId,
                 CategoryEntryId = Guid.NewGuid().ToString()
             };
@@ -103,6 +106,8 @@ namespace Infrastructure.Repositories
 
             entry.CategoryEntryName = newEntry.EntryName.Trim();
             entry.Content = newEntry.Content;
+            entry.Size = ASCIIEncoding.Unicode.GetByteCount(newEntry.Content);
+            entry.LastUpdatedOn = DateTime.UtcNow;
 
             _context.CategoriesEntries.Update(entry);
             await _context.SaveChangesAsync();
