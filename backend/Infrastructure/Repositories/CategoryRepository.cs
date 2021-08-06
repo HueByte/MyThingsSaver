@@ -83,10 +83,7 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("Name cannot be empty");
 
-            var category = await EntityFrameworkQueryableExtensions
-                .FirstOrDefaultAsync<Category>(_context.Categories.Include(e => e.CategoryEntries),
-                param => param.CategoryId == id && param.Owner.Id == ownerId);
-
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id && x.Owner.Id == ownerId);
             if (category == null)
                 throw new Exception("Couldn't find that category");
 
