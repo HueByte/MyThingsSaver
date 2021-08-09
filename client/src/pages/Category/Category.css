@@ -39,7 +39,7 @@
     display: grid;
     place-items: center;
     font-size: xx-large;
-    color: var(--Teal);
+    color: var(--Rose);
 }
 
 .entries__container .entry .entry-name {
@@ -76,7 +76,7 @@
     display: grid;
     place-items: center;
     font-size: large;
-    color: var(--Teal);
+    color: var(--Rose);
     text-align: center;
 }
 
