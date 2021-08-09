@@ -1,4 +1,3 @@
-// export const BaseUrl = process.env.REACT_APP_API_URL ?? 'https://localhost:5001/';
 export const BaseUrl = `https://${window.location.host}/`;
 
 // api/auth

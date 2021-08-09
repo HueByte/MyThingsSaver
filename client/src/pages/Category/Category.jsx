@@ -18,8 +18,9 @@ const Category = () => {
         await GetAllEntries(authContext.authState?.token, id)
             .then(result => setEntries(result.data))
             .catch((error) => console.error(error));
-
     }, [id]);
+
+    useEffect(() => console.log(entries), [entries]);
 
     const addEntry = async (name) => {
         if (name.length === 0) {
@@ -65,7 +66,8 @@ const Category = () => {
                     <NavLink className="entry-name" to={`/entry/${id}/${entry.categoryEntryId}`}>
                         <span className="ellipsis">{entry.categoryEntryName}</span>
                     </NavLink>
-                    <div className="entry-date">{new Date(entry.createdOn).toISOString().slice(0, 10)}</div>
+                    <div className="entry-date">{new Date(entry.createdOn + 'Z').toLocaleDateString()}</div>
+                    <div className="entry-date">{new Date(entry.lastUpdatedOn + 'Z').toLocaleDateString()}</div>
                     <div className="entry-size">{entry.size} B</div>
                     <div className="entry-menu-buttons">
                         <NavLink to={`/entry/${id}/${entry.categoryEntryId}`} className="entry-menu">Show</NavLink>
