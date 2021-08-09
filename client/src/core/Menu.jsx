@@ -3,7 +3,7 @@ import { NavLink, Redirect, useLocation } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
 import './Menu.css';
 import './MobileMenu.css';
-import logo from '../assets/CloudByte.svg';
+import logo from '../assets/CloudByteColor.png';
 import HamburgerMenu from '../components/HamburgerMenu/HamburgerMenu';
 
 const Menu = () => {
