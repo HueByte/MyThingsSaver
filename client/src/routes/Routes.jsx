@@ -19,7 +19,7 @@ export const Routes = () => {
     const basicLayoutRoutes = [
         '/',
         '/Testing',
-        '/category/:id',
+        '/category/:categoryId/:entryId',
         '/categories',
         '/Settings',
         '/entry/:categoryId/:entryId'
@@ -34,7 +34,7 @@ export const Routes = () => {
                 <BasicLayout>
                     <Switch>
                         <PrivateRoute exact path="/" component={HomePage} />
-                        <PrivateRoute path="/category/:id" component={Category} />
+                        <PrivateRoute path="/category/:categoryId/:entryId" component={Category} />
                         <PrivateRoute path="/categories" component={Categories} />
                         <PrivateRoute path="/Testing" component={TestingPage} />
                         <PrivateRoute path="/Settings" component={Settings} />

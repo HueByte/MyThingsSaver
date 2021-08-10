@@ -11,14 +11,15 @@ const Category = () => {
     const authContext = useContext(AuthContext);
     const [entries, setEntries] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { id } = useParams();
+    const { categoryId, entryId } = useParams();
 
 
     useEffect(async () => {
-        await GetAllEntries(authContext.authState?.token, id)
+        await GetAllEntries(authContext.authState?.token, entryId)
             .then(result => setEntries(result.data))
             .catch((error) => console.error(error));
-    }, [id]);
+        console.log(categoryId + entryId);
+    }, [entryId]);
 
     useEffect(() => console.log(entries), [entries]);
 
@@ -29,9 +30,9 @@ const Category = () => {
             return;
         }
 
-        await AddOneEntry(authContext.authState?.token, name, id)
+        await AddOneEntry(authContext.authState?.token, name, entryId)
             .then(async () => {
-                await GetAllEntries(authContext.authState?.token, id)
+                await GetAllEntries(authContext.authState?.token, entryId)
                     .then(result => setEntries(result.data))
                     .catch((error) => console.error(error));
             })
@@ -58,18 +59,23 @@ const Category = () => {
     return (
         <div className="entries__container enter-animation">
             <div className="entries-menu">
-                <div className="basic-button entry-button" onClick={() => setIsModalOpen(true)}><i class="fa fa-plus" aria-hidden="true"></i></div>
+                <div className="category-name">
+                    <p className="ellipsis" style={{ textAlign: 'start' }}>{categoryId}</p>
+                </div>
+                <div className="basic-button entry-button-add" onClick={() => setIsModalOpen(true)}>
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </div>
             </div>
             {entries.length > 0 ? entries.map((entry, index) => (
                 <div className="entry" key={index}>
                     <div className="entry-image">{entry.image && entry.image.length !== 0 ? <img src={`${entry.image}`} /> : <i class="fas fa-sticky-note"></i>}</div>
-                    <NavLink className="entry-name" to={`/entry/${id}/${entry.categoryEntryId}`}>
+                    <NavLink className="entry-name" to={`/entry/${entryId}/${entry.categoryEntryId}`}>
                         <span className="ellipsis">{entry.categoryEntryName}</span>
                     </NavLink>
                     <div className="entry-date">{new Date(entry.lastUpdatedOn + 'Z').toLocaleDateString()}</div>
                     <div className="entry-size">{entry.size} B</div>
                     <div className="entry-menu-buttons">
-                        <NavLink to={`/entry/${id}/${entry.categoryEntryId}`} className="entry-menu">Show</NavLink>
+                        <NavLink to={`/entry/${entryId}/${entry.categoryEntryId}`} className="entry-menu">Show</NavLink>
                         <div className="entry-menu" onClick={() => removeEntry(entry.categoryEntryId)}>Remove</div>
                     </div>
                 </div>
