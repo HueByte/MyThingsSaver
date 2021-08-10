@@ -15,6 +15,7 @@
 
 .entries-menu .category-name {
     display: flex;
+    font-size: x-large;
     flex: 5;
 }
 
