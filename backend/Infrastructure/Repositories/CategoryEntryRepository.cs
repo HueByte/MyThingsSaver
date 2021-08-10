@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Models;
@@ -28,7 +29,8 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("Entry ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.Owner.Id == ownerId);
+            var entry = await _context.CategoriesEntries
+                .FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.Owner.Id == ownerId);
 
             if (entry == null)
                 throw new Exception("Couldn't find that entry");
@@ -36,24 +38,31 @@ namespace Infrastructure.Repositories
             return entry;
         }
 
-        public async Task<CategoryEntry> GetOneByNameAsync(string categoryId, string name, string ownerId)
+        public async Task<List<CategoryEntry>> GetAllAsync(string categoryId, string ownerId, bool withContent)
         {
-            if (string.IsNullOrWhiteSpace(categoryId) || string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Category ID and Entry name cannot be empty");
-
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryId == categoryId && entry.CategoryEntryName == name && entry.OwnerId == ownerId);
-
-            if (entry == null)
-                throw new Exception("Couldn't find that entry");
-
-            return entry;
-        }
-
-        public async Task<List<CategoryEntry>> GetAllAsync(string categoryId, string ownerId)
-        {
-            var entries = await _context.CategoriesEntries.Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId).ToListAsync();
-            // if (entries.Count == 0 || entries == null)
-            //     throw new Exception("Couldn't find any entries");
+            List<CategoryEntry> entries;
+            if (withContent)
+            {
+                entries = await _context.CategoriesEntries.Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId).ToListAsync();
+            }
+            else
+            {
+                entries = await _context.CategoriesEntries
+                    .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId)
+                    .Select(e => new CategoryEntry
+                    {
+                        CreatedOn = e.CreatedOn,
+                        CategoryEntryId = e.CategoryEntryId,
+                        CategoryEntryName = e.CategoryEntryName,
+                        Image = e.Image,
+                        OwnerId = e.OwnerId,
+                        Size = e.Size,
+                        LastUpdatedOn = e.LastUpdatedOn,
+                        CategoryId = e.CategoryId
+                    })
+                    .OrderByDescending(e => e.LastUpdatedOn)
+                    .ToListAsync();
+            }
 
             return entries;
         }
@@ -68,8 +77,10 @@ namespace Infrastructure.Repositories
                 CategoryEntryName = entryDTO.EntryName,
                 CategoryId = entryDTO.CategoryId,
                 Content = entryDTO.Content,
+                Size = ASCIIEncoding.Unicode.GetByteCount(entryDTO.Content),
                 CreatedOn = DateTime.UtcNow,
-                image = entryDTO.Image,
+                LastUpdatedOn = DateTime.UtcNow,
+                Image = entryDTO.Image,
                 OwnerId = ownerId,
                 CategoryEntryId = Guid.NewGuid().ToString()
             };
@@ -103,6 +114,8 @@ namespace Infrastructure.Repositories
 
             entry.CategoryEntryName = newEntry.EntryName.Trim();
             entry.Content = newEntry.Content;
+            entry.Size = ASCIIEncoding.Unicode.GetByteCount(newEntry.Content);
+            entry.LastUpdatedOn = DateTime.UtcNow;
 
             _context.CategoriesEntries.Update(entry);
             await _context.SaveChangesAsync();
@@ -113,8 +126,17 @@ namespace Infrastructure.Repositories
             var entries = await _context.CategoriesEntries
                 .Where(entry => entry.OwnerId == ownerId)
                 .Include(x => x.Category)
-                .OrderByDescending(entry => entry.CreatedOn)
-                .Take(10)
+                .Select(x => new CategoryEntry
+                {
+                    CategoryEntryName = x.CategoryEntryName,
+                    CategoryEntryId = x.CategoryEntryId,
+                    Size = x.Size,
+                    CreatedOn = x.CreatedOn,
+                    LastUpdatedOn = x.LastUpdatedOn,
+                    Category = x.Category
+                })
+                .OrderByDescending(entry => entry.LastUpdatedOn)
+                .Take(15)
                 .ToListAsync();
 
             return entries;

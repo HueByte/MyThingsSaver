@@ -19,7 +19,7 @@ export const Routes = () => {
     const basicLayoutRoutes = [
         '/',
         '/Testing',
-        '/category/:id',
+        '/category/:categoryId/:entryId',
         '/categories',
         '/Settings',
         '/entry/:categoryId/:entryId'
@@ -32,16 +32,20 @@ export const Routes = () => {
 
             <PrivateRoute path={basicLayoutRoutes} component={BasicLayout}>
                 <BasicLayout>
-                    <PrivateRoute exact path="/" component={HomePage} />
-                    <PrivateRoute path="/category/:id" component={Category} />
-                    <PrivateRoute path="/categories" component={Categories} />
-                    <PrivateRoute path="/Testing" component={TestingPage} />
-                    <PrivateRoute path="/Settings" component={Settings} />
-                    <PrivateRoute path="/entry/:categoryId/:entryId" component={Entry} />
+                    <Switch>
+                        <PrivateRoute exact path="/" component={HomePage} />
+                        <PrivateRoute path="/category/:categoryId/:entryId" component={Category} />
+                        <PrivateRoute path="/categories" component={Categories} />
+                        <PrivateRoute path="/Testing" component={TestingPage} />
+                        <PrivateRoute path="/Settings" component={Settings} />
+                        <PrivateRoute path="/entry/:categoryId/:entryId" component={Entry} />
+                        <PrivateRoute component={FOUR_ZERO_FOUR} />
+                    </Switch>
                 </BasicLayout>
             </PrivateRoute>
 
-            <Route path="*" component={FOUR_ZERO_FOUR} />
+            {/* <Route path="/404" component={FOUR_ZERO_FOUR} />
+            <Redirect from="*" to="/404" /> */}
         </Switch>
     )
 }
@@ -49,6 +53,8 @@ export const Routes = () => {
 // temp
 const FOUR_ZERO_FOUR = () => {
     return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>404</div>
+        <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <h2 style={{ textAlign: 'center' }}>Couldn't find anything<br />404</h2>
+        </div>
     )
 }

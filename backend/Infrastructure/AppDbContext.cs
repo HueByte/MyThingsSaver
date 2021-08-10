@@ -14,10 +14,23 @@ namespace Infrastructure
         {
             base.OnModelCreating(builder);
 
-            // builder.Entity<IdentityRole>().HasData(
-            //     new IdentityRole() { Name = "User", NormalizedName = "user" },
-            //     new IdentityRole() { Name = "Admin", NormalizedName = "admin" }
-            // );
+            builder.Entity<ApplicationUser>()
+                .HasMany(c => c.Categories)
+                .WithOne(c => c.Owner)
+                .HasForeignKey(c => c.OwnerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(c => c.Entries)
+                .WithOne(c => c.Owner)
+                .HasForeignKey(c => c.OwnerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CategoryEntry>()
+                .HasOne(c => c.Category)
+                .WithMany(c => c.CategoryEntries)
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public DbSet<Category> Categories { get; set; }

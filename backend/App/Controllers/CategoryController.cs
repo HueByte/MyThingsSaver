@@ -20,6 +20,38 @@ namespace App.Controllers
             _categoryRepository = categoryRepository;
         }
 
+        [HttpGet("GetAllCategories")]
+        [Authorize]
+        public async Task<IActionResult> GetAllCategoriesAsync()
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () =>
+            {
+                return await _categoryRepository.GetAllAsync(userId);
+            });
+
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
+        [HttpGet("GetCategory")]
+        [Authorize]
+        public async Task<IActionResult> GetCategoryAsync(string id)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
+            {
+                return await _categoryRepository.GetOneByIdAsync(id, userId);
+            });
+
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
         [HttpPost("AddCategory")]
         [Authorize]
         public async Task<IActionResult> AddCategoryAsync([FromBody] CategoryDTO category)
@@ -33,34 +65,6 @@ namespace App.Controllers
             else
                 return BadRequest(result);
 
-        }
-
-        [HttpGet("GetAllCategories")]
-        [Authorize]
-        public async Task<IActionResult> GetAllCategoryAsync()
-        {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () =>
-                { return await _categoryRepository.GetAllAsync(userId); });
-
-            if (result.IsSuccess)
-                return Ok(result);
-            else
-                return BadRequest(result);
-        }
-
-        [HttpGet("GetCategory")]
-        [Authorize]
-        public async Task<IActionResult> GetCategoryAsync(string name)
-        {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
-                { return await _categoryRepository.GetOneAsync(name, userId); });
-
-            if (result.IsSuccess)
-                return Ok(result);
-            else
-                return BadRequest(result);
         }
 
         [HttpPost("RemoveCategory")]
@@ -103,15 +107,6 @@ namespace App.Controllers
             {
                 return await _categoryRepository.GetCategoryWithEntriesAsync(categoryId, userid);
             });
-
-            // var options = new JsonSerializerOptions
-            // {
-            //     ReferenceHandler = ReferenceHandler.Preserve,
-            //     WriteIndented = true
-            // };
-
-            // string testJson = JsonSerializer.Serialize(result, options);
-
 
             // TODO : Update once upgrade to .net 6, temporary solution to prevent JSON circular reference error
             var settings = new Newtonsoft.Json.JsonSerializerSettings

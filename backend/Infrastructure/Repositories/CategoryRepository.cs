@@ -17,9 +17,10 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Category> GetOneAsync(string name, string ownerId)
+        public async Task<Category> GetOneByIdAsync(string id, string ownerId)
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(cat => cat.Name == name && cat.Owner.Id == ownerId);
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(cat => cat.CategoryId == id && cat.Owner.Id == ownerId);
 
             if (category == null)
                 throw new Exception("Couldn't find this category");
@@ -29,9 +30,10 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Category>> GetAllAsync(string ownerId)
         {
-            var categories = await _context.Categories.Where(cat => cat.Owner.Id == ownerId).OrderByDescending(cat => cat.DateCreated).ToListAsync();
-            // if (categories.Count == 0 || categories == null)
-            //     throw new Exception("Couldn't find any categories");
+            var categories = await _context.Categories
+                .Where(cat => cat.Owner.Id == ownerId)
+                .OrderByDescending(cat => cat.DateCreated)
+                .ToListAsync();
 
             return categories;
         }
@@ -99,11 +101,10 @@ namespace Infrastructure.Repositories
             var categoryWithEntries = await
                 EntityFrameworkQueryableExtensions
                 .FirstOrDefaultAsync<Category>(_context.Categories
-                    .Include(entity => entity.CategoryEntries),
+                    .Include(entity => entity.CategoryEntries.OrderByDescending(e => e.LastUpdatedOn)),
                 param => param.CategoryId == categoryId && param.OwnerId == ownerId);
 
             return categoryWithEntries;
-
         }
     }
 }

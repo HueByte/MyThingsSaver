@@ -9,23 +9,19 @@ namespace Core.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string CategoryEntryId { get; set; }
-
         public string CategoryEntryName { get; set; }
-
-        public Category Category { get; set; }
-
         public DateTime CreatedOn { get; set; }
-
+        public DateTime LastUpdatedOn { get; set; }
         public string Content { get; set; }
+        public byte[] Image { get; set; }
+        public int Size { get; set; }
 
-        public byte[] image { get; set; }
-
+        [ForeignKey("CategoryId")]
+        public string CategoryId { get; set; }
+        public Category Category { get; set; }
 
         [ForeignKey("OwnerId")]
         public string OwnerId { get; set; }
-
-        public ApplicationUser Owner { get; set; }
-
-        public string CategoryId { get; set; }
+        public virtual ApplicationUser Owner { get; set; }
     }
 }
