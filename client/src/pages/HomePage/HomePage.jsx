@@ -30,8 +30,8 @@ const HomePage = () => {
                             <div className="entry-image"><i class="fas fa-sticky-note"></i></div>
                             <div className="entry-name ellipsis">{entry.categoryEntryName}</div>
                             <div className="entry-category ellipsis">Category: {entry.category.name}</div>
-                            <div className="entry-date">Edited on: <span className="ellipsis">{new Date(entry.createdOn).toISOString().slice(0, 10)}</span></div>
-                            <div className="entry-date">Created on: <span className="ellipsis">{new Date(entry.createdOn).toISOString().slice(0, 10)}</span></div>
+                            <div className="entry-date">Edited on: <span className="ellipsis">{new Date(entry.lastUpdatedOn + 'Z').toLocaleDateString()}</span></div>
+                            <div className="entry-date">Created on: <span className="ellipsis">{new Date(entry.createdOn + 'Z').toLocaleDateString()}</span></div>
                             <div className="entry-size">Size: {entry.size} B</div>
                         </NavLink>
                     ))

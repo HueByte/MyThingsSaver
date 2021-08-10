@@ -29,20 +29,8 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("Entry ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.Owner.Id == ownerId);
-
-            if (entry == null)
-                throw new Exception("Couldn't find that entry");
-
-            return entry;
-        }
-
-        public async Task<CategoryEntry> GetOneByNameAsync(string categoryId, string name, string ownerId)
-        {
-            if (string.IsNullOrWhiteSpace(categoryId) || string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Category ID and Entry name cannot be empty");
-
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryId == categoryId && entry.CategoryEntryName == name && entry.OwnerId == ownerId);
+            var entry = await _context.CategoriesEntries
+                .FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.Owner.Id == ownerId);
 
             if (entry == null)
                 throw new Exception("Couldn't find that entry");
@@ -72,6 +60,7 @@ namespace Infrastructure.Repositories
                         LastUpdatedOn = e.LastUpdatedOn,
                         CategoryId = e.CategoryId
                     })
+                    .OrderByDescending(e => e.LastUpdatedOn)
                     .ToListAsync();
             }
 
@@ -132,7 +121,6 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        // Skips content to reduce download speed
         public async Task<List<CategoryEntry>> GetRecentAsync(string ownerId)
         {
             var entries = await _context.CategoriesEntries
@@ -144,10 +132,11 @@ namespace Infrastructure.Repositories
                     CategoryEntryId = x.CategoryEntryId,
                     Size = x.Size,
                     CreatedOn = x.CreatedOn,
+                    LastUpdatedOn = x.LastUpdatedOn,
                     Category = x.Category
                 })
-                .OrderByDescending(entry => entry.CreatedOn)
-                .Take(10)
+                .OrderByDescending(entry => entry.LastUpdatedOn)
+                .Take(15)
                 .ToListAsync();
 
             return entries;

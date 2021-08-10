@@ -66,7 +66,6 @@ const Category = () => {
                     <NavLink className="entry-name" to={`/entry/${id}/${entry.categoryEntryId}`}>
                         <span className="ellipsis">{entry.categoryEntryName}</span>
                     </NavLink>
-                    <div className="entry-date">{new Date(entry.createdOn + 'Z').toLocaleDateString()}</div>
                     <div className="entry-date">{new Date(entry.lastUpdatedOn + 'Z').toLocaleDateString()}</div>
                     <div className="entry-size">{entry.size} B</div>
                     <div className="entry-menu-buttons">

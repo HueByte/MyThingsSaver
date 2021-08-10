@@ -55,7 +55,7 @@ namespace App.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
-                { return await _categoryRepository.GetOneAsync(name, userId); });
+                { return await _categoryRepository.GetOneByIdAsync(name, userId); });
 
             if (result.IsSuccess)
                 return Ok(result);
