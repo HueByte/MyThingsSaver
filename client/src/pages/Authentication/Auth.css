@@ -92,3 +92,13 @@
     flex: 1;
     background-image: linear-gradient(to bottom, var(--SharkDark) 50%, var(--Rose) 50%);
 }
+
+@media screen and (max-width: 768px) {
+    .auth__wrapper {
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    
+}

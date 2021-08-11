@@ -48,6 +48,7 @@
         overflow-y: auto;
     }
     body, #root {
+        min-height: 100vh;
         height: unset;
     }
 
