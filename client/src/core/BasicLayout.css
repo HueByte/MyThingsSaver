@@ -44,14 +44,6 @@
 }
 
 @media screen and (max-width: 768px) {
-    html { 
-        overflow-y: auto;
-    }
-    body, #root {
-        min-height: 100vh;
-        height: unset;
-    }
-
     .interface__wrapper {
         position: relative;
         width: 100%;
