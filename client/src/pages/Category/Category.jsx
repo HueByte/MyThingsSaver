@@ -4,13 +4,15 @@ import { NavLink } from 'react-router-dom';
 import { AddOneEntry, DeleteOneEntry, GetAllEntries } from '../../api/Entries';
 import { AuthContext } from '../../auth/AuthContext';
 import { BasicModal } from '../../components/BasicModal/BasicModal';
-import { warningModal } from '../../core/Modals';
+import { successModal, warningModal } from '../../core/Modals';
 import './Category.css';
 
 const Category = () => {
     const authContext = useContext(AuthContext);
     const [entries, setEntries] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const entryToDelete = useRef();
     const { categoryId, entryId } = useParams();
 
 
@@ -21,12 +23,11 @@ const Category = () => {
         console.log(categoryId + entryId);
     }, [entryId]);
 
-    useEffect(() => console.log(entries), [entries]);
-
+    // Add entry
     const addEntry = async (name) => {
         if (name.length === 0) {
             warningModal('Name cannot be empty');
-            setIsModalOpen(false);
+            setIsAddModalOpen(false);
             return;
         }
 
@@ -38,8 +39,17 @@ const Category = () => {
             })
             .catch((error) => console.error(error));
 
-        setIsModalOpen(false);
+        setIsAddModalOpen(false);
     }
+
+    const closeAddModal = () => setIsAddModalOpen(false);
+
+    // Remove entry
+    const invokeDeleteModal = (category) => {
+        entryToDelete.current = category;
+        setIsDeleteModalOpen(true);
+    }
+    const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
     const removeEntry = async (entryId) => {
         await DeleteOneEntry(authContext.authState?.token, entryId)
@@ -50,11 +60,12 @@ const Category = () => {
                 })
 
                 setEntries(newEntries);
+                successModal(`Successfully removed entry`)
             })
             .catch((error) => console.error(error));
-    }
 
-    const closeModal = () => setIsModalOpen(false);
+        closeDeleteModal();
+    }
 
     return (
         <div className="entries__container enter-animation">
@@ -62,7 +73,7 @@ const Category = () => {
                 <div className="category-name">
                     <p className="ellipsis" style={{ textAlign: 'start' }}>{categoryId}</p>
                 </div>
-                <div className="basic-button entry-button-add" onClick={() => setIsModalOpen(true)}>
+                <div className="basic-button entry-button-add" onClick={() => setIsAddModalOpen(true)}>
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </div>
             </div>
@@ -76,18 +87,21 @@ const Category = () => {
                     <div className="entry-size">{entry.size} B</div>
                     <div className="entry-menu-buttons">
                         <NavLink to={`/entry/${entryId}/${entry.categoryEntryId}`} className="entry-menu">Show</NavLink>
-                        <div className="entry-menu" onClick={() => removeEntry(entry.categoryEntryId)}>Remove</div>
+                        <div className="entry-menu" onClick={() => invokeDeleteModal(entry)}>Remove</div>
                     </div>
                 </div>
             )) : <>empty</>}
-            <BasicModal isOpen={isModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeModal}>
-                <AddModal addEntry={addEntry} closeModal={closeModal} />
+            <BasicModal isOpen={isAddModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeAddModal}>
+                <AddModal addEntry={addEntry} closeAddModal={closeAddModal} />
+            </BasicModal>
+            <BasicModal isOpen={isDeleteModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeDeleteModal}>
+                <DeleteModal entry={entryToDelete.current} onDelete={removeEntry} closeDeleteModal={closeDeleteModal} />
             </BasicModal>
         </div>
     )
 }
 
-const AddModal = ({ addEntry, closeModal }) => {
+const AddModal = ({ addEntry, closeAddModal }) => {
     const entryName = useRef();
     useEffect(() => entryName.current = document.getElementById('add-name-input'), []);
 
@@ -103,7 +117,21 @@ const AddModal = ({ addEntry, closeModal }) => {
             </div>
             <div className="modal-menu">
                 <div className="basic-button" onClick={() => addEntry(entryName.current.value)}>Add</div>
-                <div className="basic-button" onClick={closeModal}>Close</div>
+                <div className="basic-button" onClick={closeAddModal}>Close</div>
+            </div>
+        </div>
+    )
+}
+
+const DeleteModal = ({ entry, onDelete, closeDeleteModal }) => {
+    return (
+        <div>
+            <p style={{ fontSize: 'larger', fontWeight: 'bold' }}>
+                Are you sure you want to delete <span className="ellipsis" style={{ color: 'var(--Rose)' }}>{entry.categoryEntryName}</span>
+            </p>
+            <div className="modal-menu-buttons">
+                <div className="basic-button accept" onClick={() => onDelete(entry.categoryEntryId)}>Yes</div>
+                <div className="basic-button close" onClick={closeDeleteModal}>No</div>
             </div>
         </div>
     )

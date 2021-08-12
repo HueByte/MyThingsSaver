@@ -3,7 +3,7 @@ import { AuthContext } from '../../auth/AuthContext';
 import { NavLink } from 'react-router-dom';
 import './Categories.css';
 import { BasicModal } from '../../components/BasicModal/BasicModal';
-import { warningModal } from '../../core/Modals';
+import { successModal, warningModal } from '../../core/Modals';
 import Loader from '../../components/Loaders/Loader';
 import { CategoryContext } from '../../contexts/CategoryContext';
 
@@ -44,7 +44,8 @@ const Categories = () => {
 
     const remove = async (id) => {
         await categoryContext.ContextRemoveCategory(id);
-        setShouldDeleteModalOpen(false);
+        successModal('Successfully removed category')
+        closeDeleteModal();
     }
 
     // Edit category
@@ -62,7 +63,7 @@ const Categories = () => {
 
         await categoryContext.ContextEditCategory(categoryId, name);
 
-        setShouldEditModalOpen(false);
+        closeEditModal();
     }
 
     // Add category
@@ -76,8 +77,8 @@ const Categories = () => {
         }
 
         await categoryContext.ContextAddCategory(Name);
-
-        setShouldAddModalOpen(false);
+        successModal('Created category');
+        closeAddModal();
     }
 
     const closeEditModal = () => setShouldEditModalOpen(false);
@@ -125,7 +126,9 @@ const Categories = () => {
 const DeleteDocument = ({ category, onDelete, closeDeleteModal }) => {
     return (
         <div>
-            <p style={{ fontSize: 'larger', fontWeight: 'bold' }}>Are you sure you want to delete <span style={{ color: 'var(--Rose)' }}>{category.name}</span></p>
+            <p style={{ fontSize: 'larger', fontWeight: 'bold' }}>
+                Are you sure you want to delete <span className="ellipsis" style={{ color: 'var(--Rose)' }}>{category.name}</span>
+            </p>
             <div className="modal-menu-buttons">
                 <div className="basic-button accept" onClick={() => onDelete(category.categoryId)}>Yes</div>
                 <div className="basic-button close" onClick={closeDeleteModal}>No</div>
