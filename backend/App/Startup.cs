@@ -134,6 +134,8 @@ namespace App
             });
 
             app.UseStaticFiles();
+
+            // Consider changing it, doesn't seem to achieve desired outcome
             app.UseSpaStaticFiles(new StaticFileOptions()
             {
                 OnPrepareResponse = ctx =>

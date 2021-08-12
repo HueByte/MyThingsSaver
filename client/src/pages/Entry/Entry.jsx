@@ -14,6 +14,7 @@ const Entry = () => {
     const [editValue, setEditValue] = useState();
     const [isEditing, setIsEditing] = useState(false);
     const [shouldRedirect, setShouldRedirect] = useState(false);
+    const [isMobileEdit, setIsMobileEdit] = useState(false);
 
 
     useEffect(async () => {
@@ -31,7 +32,10 @@ const Entry = () => {
             .catch(error => console.error(error));
     }, []);
 
-    const switchEdit = () => setIsEditing(!isEditing);
+    const switchEdit = () => {
+        window.innerWidth > 1024 ? setIsMobileEdit(false) : setIsMobileEdit(true);
+        setIsEditing(!isEditing);
+    }
 
     const sendUpdate = async () => {
         await UpdateOneEntry(authContext.authState?.token, entryId, name, editValue)
@@ -77,7 +81,7 @@ const Entry = () => {
                                 <label>Name:</label>
                                 <input type="text" className="basic-input edit-name" placeholder={`${name}`} onChange={handleChange} />
                             </div>
-                            <MEDitor value={editValue} onChange={setEditValue} commands={[]} height={500} preview={'live'} />
+                            <MEDitor value={editValue} onChange={setEditValue} commands={[]} height={500} preview={isMobileEdit ? 'edit' : 'live'} />
                         </>
                         :
                         <MEDitor.Markdown source={editValue} />

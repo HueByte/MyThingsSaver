@@ -3,6 +3,10 @@
     min-height: 100%;
 }
 
+.entry__container > div {
+    margin: 15px;
+}
+
 .entry__container .basic-info {
     max-width: 100%;
     height: 64px;
@@ -10,7 +14,6 @@
     background-color: var(--SharkDarkSub);
     display: flex;
     align-items: center;
-    margin: 15px;
     border-radius: 10px;
 }
 
@@ -52,7 +55,6 @@
 
 .entry-content {
     padding: 10px 40px 40px 40px;
-    margin: 15px;
     margin-bottom: 40px;
     max-width: 100%;
     background-color: var(--SharkDark);
@@ -106,7 +108,12 @@
 }
 
 @media screen and (max-width: 1024px) {
-    .entry__container .basic-info {
+    .entry__container > * {
+        margin: 15px 5px 15px 5px !important;
+    }
+
+    .entry__container {
+        padding: 0;
     }
 
     .basic-info-right {
@@ -120,5 +127,12 @@
         align-items: center;
         justify-content: flex-end;
     }
+
+    .entry-content {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
 
 }
