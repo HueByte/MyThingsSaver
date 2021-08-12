@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AddCategory, GetAllCategories, RemoveCategory, UpdateCategory } from '../api/Categories';
 import { AuthContext } from '../auth/AuthContext';
+import Loader from '../components/Loaders/Loader';
 import { warningModal } from '../core/Modals';
 
 const CategoryContext = createContext();
@@ -8,10 +9,12 @@ const CategoryContext = createContext();
 const CategoryProvider = ({ children }) => {
     const authContext = useContext(AuthContext);
     const [categories, setCategories] = useState([]);
+    const [isFetching, setIsFetching] = useState(true);
 
     // fetch categories on init
-    useEffect(() => {
-        ContextGetAllCategories().then(result => setCategories(result));
+    useEffect(async () => {
+        await ContextGetAllCategories().then(result => setCategories(result));
+        setIsFetching(false);
     }, []);
 
     async function ContextAddCategory(Name) {
@@ -66,6 +69,8 @@ const CategoryProvider = ({ children }) => {
         ContextRemoveCategory,
         ContextGetAllCategories
     }
+
+    if (isFetching) return <Loader />
 
     return (
         <CategoryContext.Provider value={value}>

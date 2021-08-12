@@ -14,6 +14,7 @@ import Register from '../pages/Authentication/Register';
 // other
 import PrivateRoute from './AuthenticatedRoute';
 import Entry from '../pages/Entry/Entry';
+import { CategoryProvider } from '../contexts/CategoryContext';
 
 export const Routes = () => {
     const basicLayoutRoutes = [
@@ -30,19 +31,21 @@ export const Routes = () => {
             <Route path="/auth/login" component={Login} />
             <Route path="/auth/register" component={Register} />
 
-            <PrivateRoute path={basicLayoutRoutes} component={BasicLayout}>
-                <BasicLayout>
-                    <Switch>
-                        <PrivateRoute exact path="/" component={HomePage} />
-                        <PrivateRoute path="/category/:categoryId/:entryId" component={Category} />
-                        <PrivateRoute path="/categories" component={Categories} />
-                        <PrivateRoute path="/Testing" component={TestingPage} />
-                        <PrivateRoute path="/Settings" component={Settings} />
-                        <PrivateRoute path="/entry/:categoryId/:entryId" component={Entry} />
-                        <PrivateRoute component={FOUR_ZERO_FOUR} />
-                    </Switch>
-                </BasicLayout>
-            </PrivateRoute>
+            <CategoryProvider>
+                <PrivateRoute path={basicLayoutRoutes} component={BasicLayout}>
+                    <BasicLayout>
+                        <Switch>
+                            <PrivateRoute exact path="/" component={HomePage} />
+                            <PrivateRoute path="/category/:categoryId/:entryId" component={Category} />
+                            <PrivateRoute path="/categories" component={Categories} />
+                            <PrivateRoute path="/Testing" component={TestingPage} />
+                            <PrivateRoute path="/Settings" component={Settings} />
+                            <PrivateRoute path="/entry/:categoryId/:entryId" component={Entry} />
+                            <PrivateRoute component={FOUR_ZERO_FOUR} />
+                        </Switch>
+                    </BasicLayout>
+                </PrivateRoute>
+            </CategoryProvider>
 
             {/* <Route path="/404" component={FOUR_ZERO_FOUR} />
             <Redirect from="*" to="/404" /> */}

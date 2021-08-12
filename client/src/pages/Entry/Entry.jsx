@@ -7,10 +7,13 @@ import MEDitor from '@uiw/react-md-editor';
 import './Entry.css';
 import { successModal } from '../../core/Modals';
 import { BasicModal } from '../../components/BasicModal/BasicModal';
+import { CategoryContext } from '../../contexts/CategoryContext';
 
 const Entry = () => {
     const authContext = useContext(AuthContext);
+    const categoryContext = useContext(CategoryContext);
     const { categoryId, entryId } = useParams();
+    const [categoryName, setCategoryName] = useState('');
     const [entry, setEntry] = useState();
     const [name, setName] = useState();
     const [editValue, setEditValue] = useState();
@@ -34,6 +37,9 @@ const Entry = () => {
                 setEditValue(result.data.content);
             })
             .catch(error => console.error(error));
+
+        let catname = categoryContext.categories?.find(c => c.categoryId == categoryId).name;
+        setCategoryName(catname);
     }, []);
 
     const switchEdit = () => {
@@ -48,8 +54,8 @@ const Entry = () => {
     }
 
     // Remove entry
-    const invokeDeleteModal = (category) => {
-        entryToDelete.current = category;
+    const invokeDeleteModal = (entry) => {
+        entryToDelete.current = entry;
         setIsDeleteModalOpen(true);
     }
     const closeDeleteModal = () => setIsDeleteModalOpen(false);
@@ -67,7 +73,7 @@ const Entry = () => {
         setName(event.target.value);
     }
 
-    if (shouldRedirect) return <Redirect to={`/category/${categoryId}`} />
+    if (shouldRedirect) return <Redirect to={`/category/${categoryName}/${categoryId}`} />
     return (
         <div className="entry__container">
             {entry ? <>
