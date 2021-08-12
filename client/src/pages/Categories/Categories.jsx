@@ -16,9 +16,13 @@ const Categories = () => {
     // add modal
     const [shouldEditModalOpen, setShouldEditModalOpen] = useState(false);
 
+    // delete modal
+    const [shouldDeleteModalOpen, setShouldDeleteModalOpen] = useState(false);
+    const categoryToDelete = useRef();
+
     // edit modal
     const [shouldAddModalOpen, setShouldAddModalOpen] = useState(false);
-    const categoryEditable = useRef();
+    const categoryToEdit = useRef();
 
 
     useEffect(() => lastBuddy.current = '', []);
@@ -33,11 +37,19 @@ const Categories = () => {
     }
 
     // Remove category
-    const remove = async (id) => await categoryContext.ContextRemoveCategory(id);
+    const invokeDeleteModal = (category) => {
+        categoryToDelete.current = category;
+        setShouldDeleteModalOpen(!shouldDeleteModalOpen);
+    }
+
+    const remove = async (id) => {
+        await categoryContext.ContextRemoveCategory(id);
+        setShouldDeleteModalOpen(false);
+    }
 
     // Edit category
     const invokeEditModal = (category) => {
-        categoryEditable.current = category;
+        categoryToEdit.current = category;
         setShouldEditModalOpen(!shouldEditModalOpen);
     }
 
@@ -72,6 +84,8 @@ const Categories = () => {
 
     const closeAddModal = () => setShouldAddModalOpen(false);
 
+    const closeDeleteModal = () => setShouldDeleteModalOpen(false);
+
     return (
         <div className="categories__container enter-animation">
             {isFetching ? <Loader />
@@ -88,19 +102,34 @@ const Categories = () => {
                                 </div>
                             </NavLink>
                             <div className="edit" onClick={() => invokeEditModal(category)}><i class="fas fa-pen-square"></i></div>
-                            <div className="delete" onClick={() => remove(category.categoryId)}><i class="fa fa-times" aria-hidden="true"></i></div>
+                            <div className="delete" onClick={() => invokeDeleteModal(category)}><i class="fa fa-times" aria-hidden="true"></i></div>
                         </div>
                     ))
                         : <>Empty</>
                     }
                 </>
             }
+            <BasicModal isOpen={shouldDeleteModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeDeleteModal}>
+                <DeleteDocument category={categoryToDelete.current} closeDeleteModal={closeDeleteModal} onDelete={remove} />
+            </BasicModal>
             <BasicModal isOpen={shouldEditModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeEditModal}>
-                <EditDocument category={categoryEditable.current} closeEditModal={closeEditModal} sendRequest={sendEditRequest} />
+                <EditDocument category={categoryToEdit.current} closeEditModal={closeEditModal} sendRequest={sendEditRequest} />
             </BasicModal>
             <BasicModal isOpen={shouldAddModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeAddModal}>
                 <AddDocument closeAddModal={closeAddModal} sendRequest={sendAddRequest} />
             </BasicModal>
+        </div>
+    )
+}
+
+const DeleteDocument = ({ category, onDelete, closeDeleteModal }) => {
+    return (
+        <div>
+            <p style={{ fontSize: 'larger', fontWeight: 'bold' }}>Are you sure you want to delete <span style={{ color: 'var(--Rose)' }}>{category.name}</span></p>
+            <div className="modal-menu-buttons">
+                <div className="basic-button accept" onClick={() => onDelete(category.categoryId)}>Yes</div>
+                <div className="basic-button close" onClick={closeDeleteModal}>No</div>
+            </div>
         </div>
     )
 }
