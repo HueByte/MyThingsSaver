@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../auth/AuthContext';
-import { NavLink as div, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Categories.css';
 import { BasicModal } from '../../components/BasicModal/BasicModal';
 import { warningModal } from '../../core/Modals';
