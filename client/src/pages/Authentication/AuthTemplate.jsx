@@ -8,7 +8,7 @@ const AuthTemplate = ({ children, isWorking = false }) => {
         <div className="auth__wrapper">
             <div className="auth__container">
                 {isWorking ? <div className="overlay-loading"><Loader /></div> : <></>}
-                <div className="auth-left"><img src={logo} /></div>
+                <div className="auth-left"><img src={logo} className="auth-logo" /></div>
                 <div className="auth-right">
                     {children}
                 </div>
