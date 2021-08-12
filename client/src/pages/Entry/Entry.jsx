@@ -5,6 +5,8 @@ import { AuthContext } from '../../auth/AuthContext';
 import Loader from '../../components/Loaders/Loader';
 import MEDitor from '@uiw/react-md-editor';
 import './Entry.css';
+import { successModal } from '../../core/Modals';
+import { BasicModal } from '../../components/BasicModal/BasicModal';
 
 const Entry = () => {
     const authContext = useContext(AuthContext);
@@ -15,6 +17,8 @@ const Entry = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const [isMobileEdit, setIsMobileEdit] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const entryToDelete = useRef();
 
 
     useEffect(async () => {
@@ -43,10 +47,20 @@ const Entry = () => {
         setIsEditing(false);
     }
 
+    // Remove entry
+    const invokeDeleteModal = (category) => {
+        entryToDelete.current = category;
+        setIsDeleteModalOpen(true);
+    }
+    const closeDeleteModal = () => setIsDeleteModalOpen(false);
+
     const removeEntry = async () => {
         await DeleteOneEntry(authContext.authState?.token, entryId)
             .then(() => setShouldRedirect(true))
             .catch((error) => console.error(error));
+
+        successModal('Sucessfully removed entry');
+
     }
 
     const handleChange = (event) => {
@@ -66,13 +80,13 @@ const Entry = () => {
                     <div className="basic-info-right">
                         <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdate}>Accept</div>
                         <div className="basic-button entry-button" onClick={switchEdit}>{isEditing ? 'close' : 'edit'}</div>
-                        <div className="basic-button entry-button" onClick={removeEntry}>Delete</div>
+                        <div className="basic-button entry-button" onClick={() => invokeDeleteModal(entry)}>Delete</div>
                     </div>
                 </div>
                 <div className="basic-info basic-info-mobile-menu">
                     <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdate}>Accept</div>
                     <div className="basic-button entry-button" onClick={switchEdit}>{isEditing ? 'close' : 'edit'}</div>
-                    <div className="basic-button entry-button" onClick={removeEntry}>Delete</div>
+                    <div className="basic-button entry-button" onClick={() => invokeDeleteModal(entry)}>Delete</div>
                 </div>
                 <div className="entry-content">
                     {isEditing ?
@@ -88,7 +102,24 @@ const Entry = () => {
                     }
                 </div>
             </> : <Loader />}
-        </div >
+            <BasicModal isOpen={isDeleteModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeDeleteModal}>
+                <DeleteModal entry={entryToDelete.current} onDelete={removeEntry} closeDeleteModal={closeDeleteModal} />
+            </BasicModal>
+        </div>
+    )
+}
+
+const DeleteModal = ({ entry, onDelete, closeDeleteModal }) => {
+    return (
+        <div>
+            <p style={{ fontSize: 'larger', fontWeight: 'bold' }}>
+                Are you sure you want to delete <span className="ellipsis" style={{ color: 'var(--Rose)' }}>{entry.categoryEntryName}</span>
+            </p>
+            <div className="modal-menu-buttons">
+                <div className="basic-button accept" onClick={() => onDelete(entry.categoryEntryId)}>Yes</div>
+                <div className="basic-button close" onClick={closeDeleteModal}>No</div>
+            </div>
+        </div>
     )
 }
 

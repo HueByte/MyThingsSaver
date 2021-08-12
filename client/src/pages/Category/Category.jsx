@@ -20,7 +20,6 @@ const Category = () => {
         await GetAllEntries(authContext.authState?.token, entryId)
             .then(result => setEntries(result.data))
             .catch((error) => console.error(error));
-        console.log(categoryId + entryId);
     }, [entryId]);
 
     // Add entry
