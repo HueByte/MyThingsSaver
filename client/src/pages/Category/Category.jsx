@@ -60,7 +60,7 @@ const Category = () => {
                 })
 
                 setEntries(newEntries);
-                successModal(`Successfully removed entry`)
+                successModal('Successfully removed entry')
             })
             .catch((error) => console.error(error));
 
