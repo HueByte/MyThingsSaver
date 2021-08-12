@@ -5,6 +5,7 @@
     z-index: 999;
     display: flex;
     overflow: hidden;
+    overflow-y: auto;
     flex-direction: column;
     position: fixed;
     top:0;
