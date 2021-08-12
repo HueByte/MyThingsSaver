@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
 namespace App
@@ -107,8 +108,6 @@ namespace App
 
             app.UseCors();
 
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
             app.UseRouting();
 
             app.UseAuthentication();
@@ -134,9 +133,34 @@ namespace App
                 });
             });
 
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    var headers = ctx.Context.Response.GetTypedHeaders();
+                    headers.CacheControl = new CacheControlHeaderValue
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromDays(1)
+                    };
+                }
+            });
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "../../client/";
+                spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
+                {
+                    OnPrepareResponse = ctx =>
+                    {
+                        var headers = ctx.Context.Response.GetTypedHeaders();
+                        headers.CacheControl = new CacheControlHeaderValue
+                        {
+                            Public = true,
+                            MaxAge = TimeSpan.FromDays(1)
+                        };
+                    }
+                };
 
                 if (env.IsDevelopment())
                 {
