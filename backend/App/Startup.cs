@@ -144,7 +144,7 @@ namespace App
                     headers.CacheControl = new CacheControlHeaderValue
                     {
                         Public = true,
-                        MaxAge = TimeSpan.FromDays(1)
+                        MaxAge = TimeSpan.FromDays(10)
                     };
                 }
             });
@@ -159,7 +159,7 @@ namespace App
                         headers.CacheControl = new CacheControlHeaderValue
                         {
                             Public = true,
-                            MaxAge = TimeSpan.FromDays(1)
+                            MaxAge = TimeSpan.FromDays(10)
                         };
                     }
                 };
