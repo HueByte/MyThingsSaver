@@ -106,7 +106,7 @@ const Categories = () => {
                             <div className="delete" onClick={() => invokeDeleteModal(category)}><i class="fa fa-times" aria-hidden="true"></i></div>
                         </div>
                     ))
-                        : <>Empty</>
+                        : <>EMPTY ICON</>
                     }
                 </>
             }

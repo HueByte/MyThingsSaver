@@ -41,10 +41,7 @@ const SideMenu = () => {
                     <NavLink activeClassName="active" to={`/category/${category.name}/${category.categoryId}`} key={index} className="item">
                         {category.name}
                     </NavLink>
-                ))
-                    :
-                    <div style={{ textAlign: 'center', fontSize: 'large' }}>Empty</div>
-                }
+                )) : <></>}
             </div>
         </div>
     )

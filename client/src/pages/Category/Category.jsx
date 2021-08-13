@@ -89,7 +89,10 @@ const Category = () => {
                         <div className="entry-menu" onClick={() => invokeDeleteModal(entry)}>Remove</div>
                     </div>
                 </div>
-            )) : <>empty</>}
+            )) :
+                <div>
+                    EMPTY ICON
+                </div>}
             <BasicModal isOpen={isAddModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeAddModal}>
                 <AddModal addEntry={addEntry} closeAddModal={closeAddModal} />
             </BasicModal>
