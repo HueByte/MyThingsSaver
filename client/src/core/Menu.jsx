@@ -67,7 +67,7 @@ const MobileMenu = ({ logout, authContext }) => {
     return (
         <div className={`nav-top-mobile__wrapper${isActiveMenu ? '' : ' hide'}`}>
             <div className="icon">
-                <img src={logo} />
+                <img src={logo} width="60" height="41" alt="CloudByte logo" />
             </div>
             <div className="open" onClick={toggleMenu}>
                 <HamburgerMenu shouldClose={isActiveMenu} />

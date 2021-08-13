@@ -31,8 +31,8 @@ export const Routes = () => {
             <Route path="/auth/login" component={Login} />
             <Route path="/auth/register" component={Register} />
 
-            <CategoryProvider>
-                <PrivateRoute path={basicLayoutRoutes} component={BasicLayout}>
+            <PrivateRoute path={basicLayoutRoutes} component={BasicLayout}>
+                <CategoryProvider>
                     <BasicLayout>
                         <Switch>
                             <PrivateRoute exact path="/" component={HomePage} />
@@ -44,8 +44,8 @@ export const Routes = () => {
                             <PrivateRoute component={FOUR_ZERO_FOUR} />
                         </Switch>
                     </BasicLayout>
-                </PrivateRoute>
-            </CategoryProvider>
+                </CategoryProvider>
+            </PrivateRoute>
 
             {/* <Route path="/404" component={FOUR_ZERO_FOUR} />
             <Redirect from="*" to="/404" /> */}
