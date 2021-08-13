@@ -46,9 +46,6 @@ export const Routes = () => {
                     </BasicLayout>
                 </CategoryProvider>
             </PrivateRoute>
-
-            {/* <Route path="/404" component={FOUR_ZERO_FOUR} />
-            <Redirect from="*" to="/404" /> */}
         </Switch>
     )
 }
