@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useEffect, useState, useContext, useRef, useCallback } from 'react';
 import { Redirect, useParams } from 'react-router';
 import { DeleteOneEntry, GetOneEntry, UpdateOneEntry } from '../../api/Entries';
 import { AuthContext } from '../../auth/AuthContext';
@@ -8,6 +8,7 @@ import './Entry.css';
 import { successModal } from '../../core/Modals';
 import { BasicModal } from '../../components/BasicModal/BasicModal';
 import { CategoryContext } from '../../contexts/CategoryContext';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 const Entry = () => {
     const authContext = useContext(AuthContext);
@@ -42,15 +43,20 @@ const Entry = () => {
         setCategoryName(catname);
     }, []);
 
-    const switchEdit = () => {
-        window.innerWidth > 1024 ? setIsMobileEdit(false) : setIsMobileEdit(true);
-        setIsEditing(!isEditing);
+    const sendUpdateCallback = async (newName, data) => {
+        console.log(newName);
+        await UpdateOneEntry(authContext.authState?.token, entryId, newName, data)
+            .catch(error => console.error(error));
     }
 
-    const sendUpdate = async () => {
-        await UpdateOneEntry(authContext.authState?.token, entryId, name, editValue)
-            .catch(error => console.error(error));
-        setIsEditing(false);
+    const performAutosave = AwesomeDebouncePromise(
+        sendUpdateCallback,
+        2000
+    )
+
+    const autoSave = async (value) => {
+        setEditValue(value);
+        await performAutosave(name, value);
     }
 
     // Remove entry
@@ -66,11 +72,16 @@ const Entry = () => {
             .catch((error) => console.error(error));
 
         successModal('Sucessfully removed entry');
-
     }
 
-    const handleChange = (event) => {
+    const handleChange = async (event) => {
         setName(event.target.value);
+        await performAutosave(event.target.value, editValue);
+    }
+
+    const switchEdit = () => {
+        window.innerWidth > 1024 ? setIsMobileEdit(false) : setIsMobileEdit(true);
+        setIsEditing(!isEditing);
     }
 
     if (shouldRedirect) return <Redirect to={`/category/${categoryName}/${categoryId}`} />
@@ -84,13 +95,13 @@ const Entry = () => {
                         <div className="date">{new Date(entry.lastUpdatedOn + 'Z').toLocaleDateString()}</div>
                     </div>
                     <div className="basic-info-right">
-                        <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdate}>Accept</div>
+                        <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdateCallback}>Accept</div>
                         <div className="basic-button entry-button" onClick={switchEdit}>{isEditing ? 'close' : 'edit'}</div>
                         <div className="basic-button entry-button" onClick={() => invokeDeleteModal(entry)}>Delete</div>
                     </div>
                 </div>
                 <div className="basic-info basic-info-mobile-menu">
-                    <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdate}>Accept</div>
+                    <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdateCallback}>Accept</div>
                     <div className="basic-button entry-button" onClick={switchEdit}>{isEditing ? 'close' : 'edit'}</div>
                     <div className="basic-button entry-button" onClick={() => invokeDeleteModal(entry)}>Delete</div>
                 </div>
@@ -101,7 +112,7 @@ const Entry = () => {
                                 <label>Name:</label>
                                 <input type="text" className="basic-input edit-name" placeholder={`${name}`} onChange={handleChange} />
                             </div>
-                            <MEDitor value={editValue} onChange={setEditValue} commands={[]} height={500} preview={isMobileEdit ? 'edit' : 'live'} />
+                            <MEDitor value={editValue} onChange={autoSave} commands={[]} height={500} preview={isMobileEdit ? 'edit' : 'live'} />
                         </>
                         :
                         <MEDitor.Markdown source={editValue} />

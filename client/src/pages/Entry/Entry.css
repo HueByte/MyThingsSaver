@@ -134,5 +134,7 @@
 }
 
 @media screen and (max-width: 768px) {
-
+    .entry__container .basic-info-mobile-menu {
+        justify-content: center;
+    }
 }
