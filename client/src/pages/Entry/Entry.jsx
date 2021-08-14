@@ -95,13 +95,11 @@ const Entry = () => {
                         <div className="date">{new Date(entry.lastUpdatedOn + 'Z').toLocaleDateString()}</div>
                     </div>
                     <div className="basic-info-right">
-                        <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdateCallback}>Accept</div>
                         <div className="basic-button entry-button" onClick={switchEdit}>{isEditing ? 'close' : 'edit'}</div>
                         <div className="basic-button entry-button" onClick={() => invokeDeleteModal(entry)}>Delete</div>
                     </div>
                 </div>
                 <div className="basic-info basic-info-mobile-menu">
-                    <div className={`basic-button entry-button${isEditing ? '' : ' hide'}`} onClick={sendUpdateCallback}>Accept</div>
                     <div className="basic-button entry-button" onClick={switchEdit}>{isEditing ? 'close' : 'edit'}</div>
                     <div className="basic-button entry-button" onClick={() => invokeDeleteModal(entry)}>Delete</div>
                 </div>
