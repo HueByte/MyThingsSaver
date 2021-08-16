@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AddCategory, GetAllCategories, RemoveCategory } from '../api/Categories';
-import { AuthContext } from '../auth/AuthContext';
 import { CategoryContext } from '../contexts/CategoryContext';
-import { successModal } from './Modals';
 import './SideMenu.css';
 
 const SideMenu = () => {

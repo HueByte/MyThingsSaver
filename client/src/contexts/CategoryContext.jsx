@@ -49,8 +49,12 @@ const CategoryProvider = ({ children }) => {
 
         await UpdateCategory(authContext.authState?.token, categoryId, newName)
             .then(() => {
-                let index = categories.findIndex((obj => obj.categoryId == categoryId));
-                categories[index].name = newName;
+                // needed for quick refresh of data
+                let newCategories = [...categories];
+                let index = newCategories.findIndex((obj => obj.categoryId == categoryId));
+                newCategories[index].name = newName;
+
+                setCategories(newCategories);
             })
             .catch((error) => console.log(error));
     }
