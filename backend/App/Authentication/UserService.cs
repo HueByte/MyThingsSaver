@@ -82,7 +82,6 @@ namespace App.Authentication
                 Roles = roles.ToArray(),
                 Username = user.UserName
             };
-
         }
     }
 }

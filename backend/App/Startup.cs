@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using App.Configuration;
 using Common.Types;
+using Core.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -82,15 +83,33 @@ namespace App
                 context.Database.EnsureCreated();
             }
 
-            // seed roles via RoleManager
+            // seed roles & admin
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                 if (!roleManager.RoleExistsAsync(Role.USER).GetAwaiter().GetResult())
                     roleManager.CreateAsync(new IdentityRole(Role.USER)).GetAwaiter().GetResult();
 
                 if (!roleManager.RoleExistsAsync(Role.ADMIN).GetAwaiter().GetResult())
                     roleManager.CreateAsync(new IdentityRole(Role.ADMIN)).GetAwaiter().GetResult();
+
+                var check = userManager.FindByNameAsync("admin").GetAwaiter().GetResult();
+                if (check == null)
+                {
+                    ApplicationUser admin = new()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        UserName = "admin",
+                        Email = "admin@xyz.com"
+                    };
+
+                    var result = userManager.CreateAsync(admin, "Admin12").Result;
+                    if (result.Succeeded)
+                    {
+                        userManager.AddToRoleAsync(admin, Role.ADMIN).Wait();
+                    }
+                }
             }
 
             app.UseForwardedHeaders();
