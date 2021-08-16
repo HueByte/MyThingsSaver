@@ -5,6 +5,7 @@ import './Menu.css';
 import './MobileMenu.css';
 import logo from '../assets/CloudByteColor.png';
 import HamburgerMenu from '../components/HamburgerMenu/HamburgerMenu';
+import { Role } from '../api/Roles';
 
 const Menu = () => {
     const authContext = useContext(AuthContext);
@@ -36,7 +37,10 @@ const DesktopMenu = ({ logout, authContext }) => {
                 <div className="nav-content__container left">
                     <NavLink exact to="/" activeClassName="active" className="item">Home</NavLink>
                     <NavLink to="/Categories" activeClassName="active" className="item">Categories</NavLink>
-                    <NavLink to="/Settings" activeClassName="active" className="item">Settings</NavLink>
+                    {authContext.authState.roles.find(role => role == Role.Admin) ?
+                        <NavLink to="/Settings" activeClassName="active" className="item">Settings</NavLink>
+                        : <></>
+                    }
                 </div>
                 <div className="nav-content__container right">
                     {!(authContext.isAuthenticated()) ?
@@ -75,7 +79,10 @@ const MobileMenu = ({ logout, authContext }) => {
             <div className="menu">
                 <NavLink onClick={toggleMenu} exact to="/" activeClassName="active" className="item">Home</NavLink>
                 <NavLink onClick={toggleMenu} to="/Categories" activeClassName="active" className="item">Categories</NavLink>
-                <NavLink onClick={toggleMenu} to="/Settings" activeClassName="active" className="item">Settings</NavLink>
+                {authContext.authState.roles.find(role => role == Role.Admin) ?
+                    <NavLink onClick={toggleMenu} to="/Settings" activeClassName="active" className="item">Settings</NavLink>
+                    : <></>
+                }
                 <div className="item" onClick={logout}>Log out</div>
             </div>
         </div>

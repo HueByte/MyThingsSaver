@@ -15,6 +15,7 @@ import Register from '../pages/Authentication/Register';
 import PrivateRoute from './AuthenticatedRoute';
 import Entry from '../pages/Entry/Entry';
 import { CategoryProvider } from '../contexts/CategoryContext';
+import { Role } from '../api/Roles';
 
 export const Routes = () => {
     const basicLayoutRoutes = [
@@ -39,7 +40,7 @@ export const Routes = () => {
                             <PrivateRoute path="/category/:categoryId/:entryId" component={Category} />
                             <PrivateRoute path="/categories" component={Categories} />
                             <PrivateRoute path="/Testing" component={TestingPage} />
-                            <PrivateRoute path="/Settings" component={Settings} />
+                            <PrivateRoute roles={Role.Admin} path="/Settings" component={Settings} />
                             <PrivateRoute path="/entry/:categoryId/:entryId" component={Entry} />
                             <PrivateRoute component={FOUR_ZERO_FOUR} />
                         </Switch>
