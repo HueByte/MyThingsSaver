@@ -66,6 +66,7 @@
 
 .hide {
     height: 64px;
+    overflow-y: hidden;
 }
 
 @media screen and (min-width: 769px) {
