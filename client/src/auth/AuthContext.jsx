@@ -7,7 +7,6 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [authState, setAuthState] = useState(user);
-    const [isFetching, setIsFetching] = useState(true);
 
     const setAuthInfo = (userData) => {
         localStorage.setItem('user', JSON.stringify(userData));

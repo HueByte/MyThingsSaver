@@ -89,27 +89,25 @@ const Categories = () => {
 
     return (
         <div className="categories__container enter-animation">
-            {isFetching ? <Loader />
-                : <>
-                    <div className="category add-new" onClick={invokeAddModal}><i class="fa fa-plus" aria-hidden="true"></i></div>
-                    {categoryContext.categories ? categoryContext.categories.map((category, index) => (
-                        <div key={index} className="category">
-                            <NavLink to={`/category/${category.name}/${category.categoryId}`} className="category-link">
-                                <div className="category-name">{category.name}</div>
-                                <div className="category-id">ID: {category.categoryId}</div>
-                                <div className="category-date-created">Date Created: {new Date(category.dateCreated).toISOString().slice(0, 10)}</div>
-                                <div id="buddy" className="category-buddy">
-                                    {getCategoryBuddy()}
-                                </div>
-                            </NavLink>
-                            <div className="edit" onClick={() => invokeEditModal(category)}><i class="fas fa-pen-square"></i></div>
-                            <div className="delete" onClick={() => invokeDeleteModal(category)}><i class="fa fa-times" aria-hidden="true"></i></div>
-                        </div>
-                    ))
-                        : <>EMPTY ICON</>
-                    }
-                </>
-            }
+            <>
+                <div className="category add-new" onClick={invokeAddModal}><i class="fa fa-plus" aria-hidden="true"></i></div>
+                {categoryContext.categories ? categoryContext.categories.map((category, index) => (
+                    <div key={index} className="category">
+                        <NavLink to={`/category/${category.name}/${category.categoryId}`} className="category-link">
+                            <div className="category-name">{category.name}</div>
+                            <div className="category-id">ID: {category.categoryId}</div>
+                            <div className="category-date-created">Date Created: {new Date(category.dateCreated).toISOString().slice(0, 10)}</div>
+                            <div id="buddy" className="category-buddy">
+                                {getCategoryBuddy()}
+                            </div>
+                        </NavLink>
+                        <div className="edit" onClick={() => invokeEditModal(category)}><i class="fas fa-pen-square"></i></div>
+                        <div className="delete" onClick={() => invokeDeleteModal(category)}><i class="fa fa-times" aria-hidden="true"></i></div>
+                    </div>
+                ))
+                    : <>EMPTY ICON</>
+                }
+            </>
             <BasicModal isOpen={shouldDeleteModalOpen} shouldCloseOnOverlayClick={true} onRequestClose={closeDeleteModal}>
                 <DeleteDocument category={categoryToDelete.current} closeDeleteModal={closeDeleteModal} onDelete={remove} />
             </BasicModal>
