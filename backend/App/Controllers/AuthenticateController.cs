@@ -56,7 +56,7 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpPost]
+        [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO user)
         {
             var result = await ApiEventHandler.EventHandleAsync(async () =>
