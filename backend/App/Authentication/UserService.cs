@@ -23,8 +23,8 @@ namespace App.Authentication
 
         public async Task<IdentityResult> CreateUser(RegisterDTO registerUser)
         {
-            if (registerUser == null)
-                throw new System.Exception("Register model cannot be null");
+            if (registerUser is null)
+                throw new ArgumentException("RegisterUser model cannot be null");
 
             var user = new ApplicationUser()
             {
@@ -40,6 +40,24 @@ namespace App.Authentication
 
             await _userManager.AddToRoleAsync(user, Role.USER);
             return result;
+        }
+
+        public async Task ChangePasswordAsync(ChangePasswordDTO userDTO)
+        {
+            if (userDTO is null)
+                throw new ArgumentException("User model cannot be null");
+
+            if (string.IsNullOrEmpty(userDTO.OldPassword) || string.IsNullOrEmpty(userDTO.NewPassword))
+                throw new Exception("New nad old password can't be empty");
+
+            var user = await _userManager.FindByNameAsync(userDTO.UserName);
+            if (user is null)
+                throw new Exception("Couldn't find user");
+
+            var result = await _userManager.ChangePasswordAsync(user, userDTO.OldPassword, userDTO.NewPassword);
+
+            if (!result.Succeeded)
+                throw new ExceptionList(result.Errors.Select(errors => errors.Description).ToList());
         }
 
         public async Task<VerifiedUser> LoginUserWithEmail(LoginEmailDTO userDTO)
