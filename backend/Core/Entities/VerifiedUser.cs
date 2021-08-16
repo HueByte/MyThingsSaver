@@ -7,6 +7,7 @@ namespace Core.Entities
         public string Token { get; set; }
         public string TokenType { get; set; }
         public string Username { get; set; }
+        public string[] Roles { get; set; }
         public DateTime ExpireDate { get; set; }
     }
 }

@@ -72,11 +72,14 @@ namespace App.Authentication
             if (!result.Succeeded)
                 throw new Exception("Couldn't log in, check your login or password");
 
+            var roles = await _userManager.GetRolesAsync(user);
+
             return new VerifiedUser()
             {
-                Token = await _jwtAuthentication.GenerateJsonWebToken(user),
+                Token = await _jwtAuthentication.GenerateJsonWebToken(user, roles),
                 ExpireDate = DateTime.Now.AddDays(7),
                 TokenType = "Bearer",
+                Roles = roles.ToArray(),
                 Username = user.UserName
             };
 

@@ -5,6 +5,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using App.Extensions;
+using Common.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -63,7 +64,7 @@ namespace App.Controllers
         }
 
         [HttpGet("GetConfiguration")]
-        [Authorize]
+        [Authorize(Roles = Role.ADMIN)]
         public async Task<IActionResult> GetConfig()
         {
             var canAccess = CheckIfCanAccess(this.HttpContext);
@@ -78,7 +79,7 @@ namespace App.Controllers
         }
 
         [HttpPost("ChangeConfiguration")]
-        [Authorize]
+        [Authorize(Roles = Role.ADMIN)]
         public async Task<IActionResult> ChangeSettings([FromBody] AppSettingsRoot settings)
         {
             var canAccess = CheckIfCanAccess(this.HttpContext);
