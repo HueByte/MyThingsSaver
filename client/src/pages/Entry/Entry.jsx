@@ -64,7 +64,6 @@ const Entry = () => {
         entryToDelete.current = entry;
         setIsDeleteModalOpen(true);
     }
-    const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
     const removeEntry = async () => {
         await DeleteOneEntry(authContext.authState?.token, entryId)
@@ -83,6 +82,8 @@ const Entry = () => {
         window.innerWidth > 1024 ? setIsMobileEdit(false) : setIsMobileEdit(true);
         setIsEditing(!isEditing);
     }
+
+    const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
     if (shouldRedirect) return <Redirect to={`/category/${categoryName}/${categoryId}`} />
     return (
