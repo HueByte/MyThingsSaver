@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const TestingPage = () => {
-    return(
+    useEffect(() => {
+        localStorage.clear();
+    })
+
+    return (
         <>
             Testing Page
         </>

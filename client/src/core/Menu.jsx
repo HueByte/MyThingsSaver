@@ -37,7 +37,7 @@ const DesktopMenu = ({ logout, authContext }) => {
                 <div className="nav-content__container left">
                     <NavLink exact to="/" activeClassName="active" className="item">Home</NavLink>
                     <NavLink to="/Categories" activeClassName="active" className="item">Categories</NavLink>
-                    {authContext.authState.roles.find(role => role == Role.Admin) ?
+                    {authContext.authState?.roles.find(role => role == Role.Admin) ?
                         <NavLink to="/Settings" activeClassName="active" className="item">Settings</NavLink>
                         : <></>
                     }
@@ -79,7 +79,7 @@ const MobileMenu = ({ logout, authContext }) => {
             <div className="menu">
                 <NavLink onClick={toggleMenu} exact to="/" activeClassName="active" className="item">Home</NavLink>
                 <NavLink onClick={toggleMenu} to="/Categories" activeClassName="active" className="item">Categories</NavLink>
-                {authContext.authState.roles.find(role => role == Role.Admin) ?
+                {authContext.authState?.roles.find(role => role == Role.Admin) ?
                     <NavLink onClick={toggleMenu} to="/Settings" activeClassName="active" className="item">Settings</NavLink>
                     : <></>
                 }
