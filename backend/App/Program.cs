@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace App
@@ -11,6 +12,14 @@ namespace App
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    var config = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json")
+                        .Build();
+
+                    var httpPort = config.GetValue<string>("Network:HttpPort");
+                    var httpsPort = config.GetValue<string>("Network:HttpsPort");
+
+                    webBuilder.UseUrls($"http://0.0.0.0:{httpPort};https://0.0.0.0:{httpsPort}");
                     webBuilder.UseStartup<Startup>();
                 });
     }
