@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,9 @@ namespace App.Configuration
         public void ConfigureDatabase(bool isProduction)
         {
             var databaseType = _configuration.GetValue<string>("Database:Type").ToLower();
+
+            if (string.IsNullOrEmpty(databaseType))
+                throw new ArgumentException("Database type cannot be empty");
 
             if (databaseType == DatabaseType.MYSQL)
             {

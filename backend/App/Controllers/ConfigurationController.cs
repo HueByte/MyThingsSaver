@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using App.Extensions;
 using Common.Types;
+using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -101,51 +102,5 @@ namespace App.Controllers
         }
     }
 
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
-    public class LogLevel
-    {
-        public string Default { get; set; }
-    }
 
-    public class Logging
-    {
-        public LogLevel LogLevel { get; set; }
-    }
-
-    public class ConnectionStrings
-    {
-        public string DatabaseConnectionString { get; set; }
-        public string SQLiteConnectionString { get; set; }
-    }
-
-    public class JWT
-    {
-        public string Key { get; set; }
-        public string Issuer { get; set; }
-        public string Audience { get; set; }
-    }
-
-    public class Database
-    {
-        public string Type { get; set; }
-    }
-
-    public class Network
-    {
-        public string Type { get; set; }
-        public string HttpPort { get; set; }
-        public string HttpsPort { get; set; }
-        public bool HttpsRedirection { get; set; }
-    }
-
-    public class AppSettingsRoot
-    {
-        public Logging Logging { get; set; }
-        public string AllowedHosts { get; set; }
-        public ConnectionStrings ConnectionStrings { get; set; }
-        public List<string> Origins { get; set; }
-        public JWT JWT { get; set; }
-        public Database Database { get; set; }
-        public Network Network { get; set; }
-    }
 }
