@@ -4,6 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace Core.Entities
 {
@@ -79,7 +80,10 @@ namespace Core.Entities
 
             var config = new AppSettingsRoot()
             {
-                Logging = new Logging(),
+                Logging = new Logging()
+                {
+                    LogLevel = new LogLevel() { Default = Microsoft.Extensions.Logging.LogLevel.Warning.ToString() }
+                },
                 AllowedHosts = "*",
                 ConnectionStrings = new ConnectionStrings()
                 {
