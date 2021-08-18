@@ -64,6 +64,11 @@ namespace Core.Entities
         public static string SavePath
             => AppContext.BaseDirectory + @"\save\save.sqlite";
 
+        // if appsettings doesn't exist already (either in debug or project)
+        // this will create it
+        // It will also create directory for database file,
+        // Generate RSA token for JWT,
+        // set default ports etc
         public static AppSettingsRoot Create()
         {
             if (IsCreated)
@@ -84,8 +89,8 @@ namespace Core.Entities
                 Origins = new List<string>() { "http://*/", "https://*/" },
                 JWT = new JWT()
                 {
-                    Audience = "Your domain",
-                    Issuer = "Your domain",
+                    Audience = "My domain",
+                    Issuer = "My domain",
                     Key = CreateJwtKey()
                 },
                 Database = new Database()
