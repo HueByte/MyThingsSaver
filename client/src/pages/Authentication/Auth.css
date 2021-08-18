@@ -11,7 +11,7 @@
     height: 500px;
     display: flex;
     flex-direction: row;
-    overflow: hidden;
+    overflow-y: auto;
     position: relative;
 }
 
