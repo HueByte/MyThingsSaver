@@ -65,11 +65,13 @@ namespace Core.Entities
         public static string SavePath
             => AppContext.BaseDirectory + @"\save\save.sqlite";
 
-        // if appsettings doesn't exist already (either in debug or project)
-        // this will create it
-        // It will also create directory for database file,
-        // Generate RSA token for JWT,
-        // set default ports etc
+        // Checks if appsettings.json exist
+        // if doesn't it seeds the data
+        // generates RSA key for JWT
+        // creates folder for save.sqlite which is created automatically
+        // sets default ports :80 for http and :443 for https
+        // it is expected that during debug appsettings.json should be duplicated from project folder 
+        // instead of creating new one in /debug 
         public static AppSettingsRoot Create()
         {
             if (IsCreated)

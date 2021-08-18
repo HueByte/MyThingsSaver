@@ -12,6 +12,7 @@ namespace App
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
+            // TODO : Remove Load() as it's loaded via config anyway
             AppSettingsRoot appsettings = AppSettingsRoot.IsCreated
                 ? AppSettingsRoot.Load()
                 : AppSettingsRoot.Create();
