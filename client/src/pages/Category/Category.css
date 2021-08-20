@@ -61,6 +61,7 @@
     min-width: 100px;
     background-color: var(--SharkDarkSub);
     transition: 200ms ease-in-out;
+    color: white;
 }
 
 .entries__container .entry .entry-name:hover {
@@ -94,6 +95,7 @@
     font-size: large;
     cursor: pointer;
     transition: 100ms ease-in-out;
+    color: white;
 }
 
 .entries__container .entry .entry-menu:hover {

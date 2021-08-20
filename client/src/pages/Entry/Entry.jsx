@@ -92,7 +92,7 @@ const Entry = () => {
                 <div className="basic-info">
                     <div className="basic-info-left">
                         <div className="icon"><i class="fas fa-sticky-note"></i></div>
-                        <div className="name"><span className="ellipsis">{name}</span></div>
+                        <div className="name"><abbr title={name}><span className="ellipsis">{name}</span></abbr></div>
                         <div className="date">{new Date(entry.lastUpdatedOn + 'Z').toLocaleDateString()}</div>
                     </div>
                     <div className="basic-info-right">

@@ -1,6 +1,9 @@
 .entry__container {
-    padding: 10px 10% 10px 10%;
+    padding: 10px 10%;
     min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .entry__container > div {
@@ -8,19 +11,18 @@
 }
 
 .entry__container .basic-info {
-    max-width: 100%;
+    width: 100%;
+    max-width: 1048px;
     height: 64px;
     padding: 10px;
     background-color: var(--SharkDarkSub);
     display: flex;
-    align-items: center;
     border-radius: 10px;
 }
 
 .basic-info-left {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     flex: 2;
 }
 
@@ -56,10 +58,19 @@
 .entry-content {
     padding: 10px 40px 40px 40px;
     margin-bottom: 40px;
-    max-width: 100%;
+    max-width: 1048px;
+    width: 100%;
     background-color: var(--SharkDark);
     border-radius: 10px;
     min-height: 30%;
+}
+
+.entry-content > a, a:hover, a:link, a:visited, a:active {
+    color: var(--Rose);
+}
+
+.entry-center-content {
+    max-width: 1024px;
 }
 
 .basic-info-right {
@@ -109,7 +120,7 @@
 
 @media screen and (max-width: 1024px) {
     .entry__container > * {
-        margin: 15px 5px 15px 5px !important;
+        margin: 15px 5px !important;
     }
 
     .entry__container {
@@ -121,11 +132,9 @@
     }
 
     .entry__container .basic-info-mobile-menu {
-        display: flex;
         height: 64px;
         display: flex;
         align-items: center;
-        justify-content: flex-end;
     }
 
     .entry-content {

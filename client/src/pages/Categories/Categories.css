@@ -47,6 +47,7 @@
     opacity: 0.2;
     top: 10px;
     left: 10px;
+    color: white;
 }
 
 .category-link > *:not(:first-child) {
@@ -73,6 +74,7 @@
 }
 
 .category-date-created {
+    color: white;
     width: 100%;
 }
 

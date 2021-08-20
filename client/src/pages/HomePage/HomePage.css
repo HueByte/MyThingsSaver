@@ -22,6 +22,7 @@
     justify-content: center;
     flex-direction: column;
     padding: 10px;
+    color: white;
 }
 
 .homepage__container .entry:hover {

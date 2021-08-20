@@ -64,9 +64,14 @@ A couple of things to watch out for:
 
 ----------------------------------------------------------------------------------------------------*/
 
+abbr {
+	cursor: auto;
+	text-decoration: none;
+}
+
 a, a:hover, a:link, a:visited, a:active {
 	text-decoration: none;
-	color: white;
+	color: var(--Rose);
 }
 
 input,
