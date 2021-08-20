@@ -53,6 +53,7 @@
     letter-spacing: 1px;
     transition: 200ms ease-in;
     margin-bottom: 15px;
+    color: white;
 }
 
 .nav-top-mobile__wrapper .menu .item:hover {
