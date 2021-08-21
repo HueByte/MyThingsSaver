@@ -1,4 +1,5 @@
 export const BaseUrl = `https://${window.location.host}/`;
+// export const BaseUrl = `${window.location.protocol}//${window.location.host}:${window.location.port}/`;
 
 // api/auth
 export const RegisterEndpoint = `${BaseUrl}api/Authenticate/register`;

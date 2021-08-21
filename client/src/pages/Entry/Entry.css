@@ -10,6 +10,10 @@
     margin: 15px;
 }
 
+.entry__container > h1, h2, h3, h4 {
+    color: var(--Teal);
+}
+
 .entry__container .basic-info {
     width: 100%;
     max-width: 1200px;
