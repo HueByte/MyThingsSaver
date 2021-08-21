@@ -77,6 +77,7 @@ namespace Core.Entities
             if (IsCreated)
                 return Load();
 
+            // Might trigger antivirus for some reason?
             if (!Directory.Exists(AppContext.BaseDirectory + @"\save"))
                 Directory.CreateDirectory(AppContext.BaseDirectory + @"\save");
 
