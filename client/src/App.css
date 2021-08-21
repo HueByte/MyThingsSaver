@@ -45,6 +45,22 @@ background: var(--Rose);
   --MediumScreens: 410px;
 }
 
+.rose {
+	color: var(--Rose);
+}
+
+.shark {
+	color: var(--Shark);
+}
+
+.gold {
+	color: var(--Gold);
+}
+
+.grey {
+	color: var(--Grey);
+}
+
 
 /* Form reset */
 /* ----------------------------------------------------------------------------------------------------
