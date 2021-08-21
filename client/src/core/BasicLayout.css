@@ -30,13 +30,13 @@
     bottom: 0;
     left: 0;
     padding: 0;
-    width: 100%;
+    width: 110vw;
     color: var(--SharkDark);
     z-index: 5;
 }
 
 .bottom-wave > svg {
-    width: 100%;
+    width: Calc(100% + 40px);
     height: 100%;
     transform: translateY(3px);  /* for some reason */
     display: inline-block;
