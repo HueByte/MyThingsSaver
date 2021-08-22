@@ -98,6 +98,21 @@
     background-image: linear-gradient(to bottom, var(--SharkDark) 50%, var(--Rose) 50%);
 }
 
+.auth__container .auth-bottom-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    width: 100%;
+    color: var(--SharkDark);
+    z-index: 5;
+}
+
+.auth__container .auth-bottom-wave > svg {
+    transform: translateY(3px);  /* for some reason */
+    display: inline-block;
+}
+
 @media screen and (max-width: 768px) {
     .auth__wrapper {
         align-items: start;
