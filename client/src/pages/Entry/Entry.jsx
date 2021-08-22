@@ -105,8 +105,8 @@ const Entry = () => {
                 <i class="fas fa-sticky-note"></i>
               </div>
               <div className="name">
-                <abbr title={name}>
-                  <span className="ellipsis">{name}</span>
+                <abbr title={name} className="ellipsis">
+                  <span>{name}</span>
                 </abbr>
               </div>
               <div className="date">
