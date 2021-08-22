@@ -1,19 +1,19 @@
-import './App.css';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
-import { Routes } from './routes/Routes';
-import { AuthProvider } from './auth/AuthContext';
+import "./App.css";
+import { Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import { Routes } from "./routes/Routes";
+import { AuthProvider } from "./auth/AuthContext";
 
 // notifications
-import ReactNotifications from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
-import { store } from 'react-notifications-component';
-import 'animate.css';
+import ReactNotifications from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import { store } from "react-notifications-component";
+import "animate.css";
 
 // modals
-import Modal from 'react-modal';
+import Modal from "react-modal";
 
-Modal.setAppElement('#root')
+Modal.setAppElement("#root");
 
 function App() {
   const history = createBrowserHistory();
