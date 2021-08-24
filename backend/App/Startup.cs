@@ -123,6 +123,10 @@ namespace App
             else
             {
                 app.UseHsts();
+
+                bool doHttpsRedirect = Configuration.GetValue<bool>("Network:HttpsRedirection");
+                if (doHttpsRedirect)
+                    app.UseHttpsRedirection();
             }
 
             app.UseCors();
