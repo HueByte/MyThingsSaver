@@ -89,7 +89,9 @@ namespace App.Configuration
                     ValidAudience = _configuration["JWT:Audience"],
                     RequireExpirationTime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"])),
-                    ValidateIssuerSigningKey = true
+                    ValidateIssuerSigningKey = true,
+                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    ClockSkew = TimeSpan.Zero
                 };
             });
         }

@@ -17,6 +17,7 @@ import Categories from "../pages/Categories/Categories";
 import Category from "../pages/Category/Category";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
+import Logout from "../pages/Logout/Logout";
 
 // other
 import PrivateRoute from "./AuthenticatedRoute";
@@ -32,6 +33,7 @@ export const Routes = () => {
     "/categories",
     "/Settings",
     "/entry/:categoryId/:entryId",
+    "/logout",
   ];
 
   return (
@@ -59,6 +61,7 @@ export const Routes = () => {
                 path="/entry/:categoryId/:entryId"
                 component={Entry}
               />
+              <PrivateRoute path="/logout" component={Logout} />
               <PrivateRoute component={FOUR_ZERO_FOUR} />
             </Switch>
           </BasicLayout>

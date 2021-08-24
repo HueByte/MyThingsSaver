@@ -95,7 +95,7 @@ namespace App.Authentication
             return new VerifiedUser()
             {
                 Token = await _jwtAuthentication.GenerateJsonWebToken(user, roles),
-                ExpireDate = DateTime.Now.AddDays(7),
+                ExpireDate = DateTime.Now.AddSeconds(10),
                 TokenType = "Bearer",
                 Roles = roles.ToArray(),
                 Username = user.UserName

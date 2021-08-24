@@ -38,7 +38,7 @@ namespace App.Authentication
                 issuer: _configuration["JWT:Issuer"],
                 audience: _configuration["JWT:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddDays(7),
+                expires: DateTime.Now.AddSeconds(10),
                 signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             );
 
