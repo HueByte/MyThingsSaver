@@ -26,22 +26,24 @@ const CategoryProvider = ({ children }) => {
   async function ContextAddCategory(Name) {
     if (Name.length === 0) return;
 
-    await AddCategory(authContext.authState?.token, Name.trim())
-      .then(() => {
+    return await AddCategory(authContext.authState?.token, Name.trim())
+      .then((result) => {
         ContextGetAllCategories().then((result) => setCategories(result));
+        return result?.isSuccess;
       })
       .catch((error) => console.error(error));
   }
 
   async function ContextRemoveCategory(Id) {
-    await RemoveCategory(authContext.authState?.token, Id)
-      .then(async () => {
+    return await RemoveCategory(authContext.authState?.token, Id)
+      .then(async (result) => {
         let newCategories = categories;
         newCategories = newCategories.filter((category) => {
           return category.categoryId !== Id;
         });
 
         setCategories(newCategories);
+        return result?.isSuccess;
       })
       .catch((error) => console.error(error));
   }
@@ -50,8 +52,12 @@ const CategoryProvider = ({ children }) => {
   async function ContextEditCategory(categoryId, newName) {
     if (newName.length === 0) return;
 
-    await UpdateCategory(authContext.authState?.token, categoryId, newName)
-      .then(() => {
+    return await UpdateCategory(
+      authContext.authState?.token,
+      categoryId,
+      newName
+    )
+      .then((result) => {
         // needed for quick refresh of data
         let newCategories = [...categories];
         let index = newCategories.findIndex(
@@ -60,6 +66,7 @@ const CategoryProvider = ({ children }) => {
         newCategories[index].name = newName;
 
         setCategories(newCategories);
+        return result?.isSuccess;
       })
       .catch((error) => console.log(error));
   }

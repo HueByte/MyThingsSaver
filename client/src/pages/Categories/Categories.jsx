@@ -41,8 +41,8 @@ const Categories = () => {
   };
 
   const remove = async (id) => {
-    await categoryContext.ContextRemoveCategory(id);
-    successModal("Successfully removed category");
+    let result = await categoryContext.ContextRemoveCategory(id);
+    result ?? successModal("Successfully removed category");
     closeDeleteModal();
   };
 
@@ -74,8 +74,8 @@ const Categories = () => {
       return;
     }
 
-    await categoryContext.ContextAddCategory(Name);
-    successModal("Created category");
+    let result = await categoryContext.ContextAddCategory(Name);
+    result ?? successModal("Created category");
     closeAddModal();
   };
 
