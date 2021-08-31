@@ -27,3 +27,9 @@ export async function HandleBasicApiResponse(response) {
       throw new Error("Something went wrong with connection to server!");
   }
 }
+
+// 200 - Request success
+// 400 - Api handled error
+// 401 - Api handled unauthorized, token might be expired or token might be empty/invalid
+// 404 - Handled by SPA routing
+// default - Errors weren't handled by API and something went wrong

@@ -39,7 +39,7 @@ h6 {
 .wmde-markdown > blockquote table td,
 .wmde-markdown > table th,
 .wmde-markdown > blockquote table th {
-  border: 1px solid var(--Grey);
+  border: 1px solid #332e2e;
 }
 
 .entry__container .basic-info {
