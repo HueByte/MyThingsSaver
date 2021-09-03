@@ -4,6 +4,7 @@ using App.Authentication;
 using App.Extensions;
 using Common.Events;
 using Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -110,12 +111,30 @@ namespace App.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            var refreshToken = Request.Cookies["refresh_token"];
+            await _userService.RevokeTokenAsync(refreshToken);
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(-1)
+            };
+
+            Response.Cookies.Append("refreshToken", "", cookieOptions);
+            return Ok();
+        }
+
         private void SetRefreshTokenCookie(string refreshToken)
         {
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(10)
+                Expires = DateTime.UtcNow.AddDays(10),
+                // Secure = true
             };
 
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);

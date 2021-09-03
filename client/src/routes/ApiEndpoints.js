@@ -3,6 +3,7 @@ export const BaseUrl = `${window.location.protocol}//${window.location.host}/`;
 // api/auth
 export const RegisterEndpoint = `${BaseUrl}api/Authenticate/register`;
 export const LoginEndpoint = `${BaseUrl}api/authenticate/loginUsername`;
+export const LogoutEndpoint = `${BaseUrl}api/authenticate/logout`;
 
 // api/category
 export const CategoryAddEndpoint = `${BaseUrl}api/Category/AddCategory`;

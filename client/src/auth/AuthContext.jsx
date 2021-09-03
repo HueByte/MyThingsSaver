@@ -1,6 +1,7 @@
 import { object } from "prop-types";
 import React, { createContext, useState } from "react";
 import { Redirect } from "react-router";
+import { AuthLogout } from "./Auth";
 
 const AuthContext = createContext();
 
@@ -13,7 +14,8 @@ const AuthProvider = ({ children }) => {
     setAuthState(userData);
   };
 
-  const signout = () => {
+  const signout = async () => {
+    await AuthLogout(authState?.token);
     localStorage.clear();
     setAuthState({});
     window.location.reload();
@@ -26,6 +28,7 @@ const AuthProvider = ({ children }) => {
       (Object.keys(authState).length === 0 && authState.constructor === object)
     )
       return false;
+
     return true;
   };
 

@@ -1,5 +1,9 @@
 import { HandleBasicApiResponse } from "../api/ApiErrors";
-import { LoginEndpoint, RegisterEndpoint } from "../routes/ApiEndpoints";
+import {
+  LoginEndpoint,
+  LogoutEndpoint,
+  RegisterEndpoint,
+} from "../routes/ApiEndpoints";
 
 export const AuthRegister = async (Email, Username, Password) => {
   const requestOptions = {
@@ -27,4 +31,16 @@ export const AuthLogin = async (Username, Password) => {
   return await fetch(LoginEndpoint, requestOptions).then(
     HandleBasicApiResponse
   );
+};
+
+export const AuthLogout = async (token) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return await fetch(LogoutEndpoint, requestOptions);
 };
