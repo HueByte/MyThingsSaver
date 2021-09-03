@@ -1,5 +1,5 @@
 import { object } from "prop-types";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import { AuthLogout } from "./Auth";
 
@@ -9,14 +9,23 @@ const AuthProvider = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const [authState, setAuthState] = useState(user);
 
+  useEffect(() => {
+    window.addEventListener("refreshUser", () => {
+      setAuthState(JSON.parse(localStorage.getItem("user")));
+    });
+
+    return () => {
+      window.removeEventListener("refreshUser");
+    };
+  }, []);
+
   const setAuthInfo = (userData) => {
     localStorage.setItem("user", JSON.stringify(userData));
     setAuthState(userData);
   };
 
-  const signout = async () => {
-    await AuthLogout(authState?.token);
-    localStorage.clear();
+  const signout = () => {
+    AuthLogout(authState?.token).then(localStorage.clear());
     setAuthState({});
     window.location.reload();
   };

@@ -1,25 +1,36 @@
 import { Redirect } from "react-router";
 import { errorModal } from "../core/Modals";
+import { SilentRefresh } from "../auth/Auth";
 
 export async function HandleBasicApiResponse(response) {
+  const orginalRequest = response.config;
+  console.log(orginalRequest);
+
   switch (response.status) {
     case 400:
     case 200:
       var result = await response.json();
       if (!result?.isSuccess) {
         errorModal(result?.errors.join(" "), 6000);
-        // throw new Error(result?.errors);
       }
 
       return result;
 
     case 401:
       let message = response.headers.get("www-authenticate");
-      if (message ?? message.includes("The token expired at"))
-        window.location.replace(
-          `${window.location.protocol}//${window.location.host}/logout`
-        );
-      else errorModal("Unauthorized", 6000);
+      if (message ?? message.includes("The token expired at")) {
+        let result = await SilentRefresh().then((response) => response.json()); // silent JWT refresh
+
+        if (result.isSuccess) {
+          localStorage.setItem("user", JSON.stringify(result.data));
+
+          window.dispatchEvent(new Event("refreshUser")); // trigger event to update authState
+        } else {
+          window.location.replace(
+            `${window.location.protocol}//${window.location.host}/logout`
+          );
+        }
+      } else errorModal("Unauthorized", 6000);
       break;
 
     default:

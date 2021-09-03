@@ -4,6 +4,7 @@ export const BaseUrl = `${window.location.protocol}//${window.location.host}/`;
 export const RegisterEndpoint = `${BaseUrl}api/Authenticate/register`;
 export const LoginEndpoint = `${BaseUrl}api/authenticate/loginUsername`;
 export const LogoutEndpoint = `${BaseUrl}api/authenticate/logout`;
+export const SilentLoginEndpoint = `${BaseUrl}api/authenticate/refresh-token`;
 
 // api/category
 export const CategoryAddEndpoint = `${BaseUrl}api/Category/AddCategory`;

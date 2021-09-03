@@ -136,7 +136,8 @@ namespace App.Authentication
 
         public async Task<VerifiedUser> RefreshTokenAsync(string token)
         {
-            var user = _context.Users.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+            var user = _userManager.Users.Include(e => e.RefreshTokens)
+                                         .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
             if (user == null)
                 throw new Exception("Token did not match any users");
 

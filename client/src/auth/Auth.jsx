@@ -3,6 +3,7 @@ import {
   LoginEndpoint,
   LogoutEndpoint,
   RegisterEndpoint,
+  SilentLoginEndpoint,
 } from "../routes/ApiEndpoints";
 
 export const AuthRegister = async (Email, Username, Password) => {
@@ -43,4 +44,13 @@ export const AuthLogout = async (token) => {
   };
 
   return await fetch(LogoutEndpoint, requestOptions);
+};
+
+export const SilentRefresh = async () => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  return await fetch(SilentLoginEndpoint, requestOptions);
 };

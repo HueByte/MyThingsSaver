@@ -39,7 +39,7 @@ namespace App.Authentication
                 issuer: _configuration["JWT:Issuer"],
                 audience: _configuration["JWT:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddDays(3),
+                expires: DateTime.Now.AddMinutes(10),
                 signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             );
 
@@ -54,7 +54,7 @@ namespace App.Authentication
             return new RefreshToken
             {
                 Token = Convert.ToBase64String(randomSeed),
-                Expires = DateTime.UtcNow.AddDays(10),
+                Expires = DateTime.UtcNow.AddDays(5),
                 Created = DateTime.UtcNow
             };
         }
