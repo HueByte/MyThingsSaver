@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace Core.Entities
 {
@@ -9,5 +10,9 @@ namespace Core.Entities
         public string Username { get; set; }
         public string[] Roles { get; set; }
         public DateTime ExpireDate { get; set; }
+
+        [JsonIgnore]
+        public string RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiration { get; set; }
     }
 }

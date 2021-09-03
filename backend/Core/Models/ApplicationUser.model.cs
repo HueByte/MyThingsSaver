@@ -7,5 +7,6 @@ namespace Core.Models
     {
         public ICollection<Category> Categories { get; set; }
         public ICollection<CategoryEntry> Entries { get; set; }
+        public IList<RefreshToken> RefreshTokens { get; set; }
     }
 }
