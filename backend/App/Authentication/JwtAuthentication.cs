@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Models;
@@ -23,7 +24,7 @@ namespace App.Authentication
         }
 
         // TODO: consider email/username choice system configurable
-        public async Task<string> GenerateJsonWebToken(ApplicationUser user, IList<string> roles)
+        public string GenerateJsonWebToken(ApplicationUser user, IList<string> roles)
         {
             var claims = new List<Claim>()
             {
@@ -43,6 +44,19 @@ namespace App.Authentication
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public RefreshToken CreateRefreshToken()
+        {
+            var randomSeed = new byte[32];
+            using var generator = new RNGCryptoServiceProvider();
+            generator.GetBytes(randomSeed);
+            return new RefreshToken
+            {
+                Token = Convert.ToBase64String(randomSeed),
+                Expires = DateTime.UtcNow.AddDays(10),
+                Created = DateTime.UtcNow
+            };
         }
     }
 }

@@ -6,6 +6,7 @@ namespace App.Authentication
 {
     public interface IJwtAuthentication
     {
-        Task<string> GenerateJsonWebToken(ApplicationUser user, IList<string> roles);
+        string GenerateJsonWebToken(ApplicationUser user, IList<string> roles);
+        RefreshToken CreateRefreshToken();
     }
 }
