@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -80,7 +81,8 @@ namespace App
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-                context.Database.EnsureCreated();
+                // context.Database.EnsureCreated();
+                context.Database.Migrate();
             }
 
             // seed roles & admin
@@ -104,6 +106,7 @@ namespace App
                         Email = "admin@xyz.com"
                     };
 
+                    // This is intended
                     var result = userManager.CreateAsync(admin, "Admin12").Result;
                     if (result.Succeeded)
                     {
