@@ -17,21 +17,21 @@ const BasicLayout = ({ children }) => {
       "#p1",
       { path: "#p1" },
       { path: "#pp1" },
-      { repeat: 999, duration: 3000, yoyo: true }
+      { repeat: 999, duration: 20000, yoyo: true }
     );
 
     const tweek2 = KUTE.fromTo(
       "#p2",
       { path: "#p2" },
       { path: "#pp2" },
-      { repeat: 999, duration: 3000, yoyo: true }
+      { repeat: 999, duration: 20000, yoyo: true }
     );
 
     const tweek3 = KUTE.fromTo(
       "#p3",
       { path: "#p3" },
       { path: "#pp3" },
-      { repeat: 999, duration: 6000, yoyo: true }
+      { repeat: 999, duration: 20000, yoyo: true }
     );
 
     tweek1.start();
@@ -48,9 +48,9 @@ const BasicLayout = ({ children }) => {
         <div className="bottom-wave">
           <svg
             id="visual"
-            viewBox="0 0 960 540"
+            viewBox="0 0 960 500"
             width="960"
-            height="540"
+            height="500"
             xmlns="http://www.w3.org/2000/svg"
             version="1.1"
           >
