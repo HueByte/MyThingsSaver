@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using App.Guide;
 using Common.Events;
 using Common.Types;
 using Core.Entities;
 using Core.Models;
 using Infrastructure;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,16 +19,18 @@ namespace App.Authentication
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IJwtAuthentication _jwtAuthentication;
         private readonly AppDbContext _context;
+        private readonly GuideService _guide;
         public UserService(UserManager<ApplicationUser> userManager,
                            SignInManager<ApplicationUser> signInManager,
                            IJwtAuthentication jwtAuthentication,
-                           AppDbContext context)
+                           AppDbContext context,
+                           GuideService guide)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtAuthentication = jwtAuthentication;
             _context = context;
-
+            _guide = guide;
         }
 
         public async Task<IdentityResult> CreateUser(RegisterDTO registerUser)
@@ -47,7 +50,10 @@ namespace App.Authentication
             if (!result.Succeeded)
                 throw new ExceptionList(result.Errors.Select(errors => errors.Description).ToList());
 
+            // seed data
             await _userManager.AddToRoleAsync(user, Role.USER);
+            await SeedGuide(user);
+
             return result;
         }
 
@@ -186,6 +192,50 @@ namespace App.Authentication
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        private async Task SeedGuide(ApplicationUser user)
+        {
+            var categoryId = Guid.NewGuid().ToString();
+            Category guideCategory = new()
+            {
+                CategoryEntries = null,
+                CategoryId = categoryId,
+                DateCreated = DateTime.UtcNow,
+                Name = "Guide",
+                OwnerId = user.Id
+            };
+
+            CategoryEntry welcome = new()
+            {
+                CategoryEntryName = "Welcome",
+                CategoryId = categoryId,
+                Content = _guide.WELCOME,
+                Size = ASCIIEncoding.Unicode.GetByteCount(_guide.WELCOME),
+                CreatedOn = DateTime.UtcNow,
+                LastUpdatedOn = DateTime.UtcNow,
+                Image = null,
+                OwnerId = user.Id,
+                CategoryEntryId = Guid.NewGuid().ToString()
+            };
+
+            CategoryEntry guide = new()
+            {
+                CategoryEntryName = "Guide",
+                CategoryId = categoryId,
+                Content = _guide.GUIDE,
+                Size = ASCIIEncoding.Unicode.GetByteCount(_guide.GUIDE),
+                CreatedOn = DateTime.UtcNow,
+                LastUpdatedOn = DateTime.UtcNow,
+                Image = null,
+                OwnerId = user.Id,
+                CategoryEntryId = Guid.NewGuid().ToString()
+            };
+
+            await _context.Categories.AddAsync(guideCategory);
+            await _context.CategoriesEntries.AddAsync(welcome);
+            await _context.CategoriesEntries.AddAsync(guide);
+            await _context.SaveChangesAsync();
         }
     }
 }

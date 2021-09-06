@@ -6,6 +6,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using App.Authentication;
+using App.Guide;
 using Common.Types;
 using Core.Models;
 using Core.RepositoriesInterfaces;
@@ -114,6 +115,10 @@ namespace App.Configuration
             _services.AddScoped<IUserService, UserService>();
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
             _services.AddScoped<ICategoryEntryRepository, CategoryEntryRepository>();
+
+            // guide 
+            GuideService _guide = new();
+            _services.AddSingleton(_guide);
         }
 
         public void ConfigureCors(string[] origins) => _services.AddCors(o => o.AddDefaultPolicy(builder =>
