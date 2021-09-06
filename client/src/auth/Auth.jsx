@@ -1,4 +1,4 @@
-import { HandleApiResponse, HandleBasicApiResponse } from "../api/ApiHandler";
+import { HandleApiResponse } from "../api/ApiHandler";
 import {
   LoginEndpoint,
   LogoutEndpoint,
