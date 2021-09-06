@@ -1,127 +1,126 @@
 .nav-top {
-    background-color: var(--Shark);
-    height: 64px;
-    width: 100%;
-    position: relative;
-    top: 0;
-    z-index: 998;
-    display: flex;
-    flex-direction: row;
-    box-shadow: 0px 5px 6px #1d1d22;
+  background-color: var(--Shark);
+  height: 64px;
+  width: 100%;
+  position: relative;
+  top: 0;
+  z-index: 998;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0px 5px 6px #1d1d22;
 }
 
 .nav-top > * {
-    font-weight: bold;
-    letter-spacing: .6px;
-    color: var(--Grey) !important;
+  font-weight: bold;
+  letter-spacing: 0.6px;
+  color: var(--Grey) !important;
 }
 
 .nav-logo {
-    width: 240px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 240px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-    .nav-logo .img {
-        width: 60px;
-        border-radius: 10px;
-        text-align: center;
-        cursor: pointer;
-    }
+.nav-logo .img {
+  width: 60px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+}
 
-    .nav-logo img {
-        width: 60px;
-    }
+.nav-logo img {
+  width: 60px;
+}
 
 .nav-content__container {
-    height: 100%;
-    width: Calc(100% - 240px);
-    display: flex;
-    flex-direction: row;
-    position: relative;
+  height: 100%;
+  width: Calc(100% - 240px);
+  display: flex;
+  flex-direction: row;
+  position: relative;
 }
 
 .nav-content__container .left {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    width: 60%;
-    height: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 60%;
+  height: 100%;
 }
 
 .nav-content__container .right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    position: relative;
-    width: 40%;
-    height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  width: 40%;
+  height: 100%;
 }
 
 .nav-content__container .right-item {
-    padding: 10px;
-    display: grid;
-    place-items: center;
-    font-size: small;
-    transition: 300ms ease-in-out;
-    margin-right: 5px;
-    height: fit-content;
-    width: 120px;
-    color: var(--Grey);
-    cursor: pointer;
+  padding: 10px;
+  display: grid;
+  place-items: center;
+  font-size: small;
+  transition: 300ms ease-in-out;
+  margin-right: 5px;
+  height: fit-content;
+  width: 120px;
+  color: var(--Grey);
+  cursor: pointer;
 }
 
 .nav-content__container .user {
-    cursor: default;
-    color: white;
-    border-radius: 10px;
-    background-color: var(--SharkDarkSub);
+  cursor: default;
+  color: white;
+  border-radius: 10px;
+  background-color: var(--SharkDarkSub);
 }
 
 .nav-content__container .right-item:hover {
-    color: var(--Rose);
+  color: var(--Rose);
 }
 
 .nav-content__container .user:hover {
-    color: white;
+  color: white;
 }
 
 .nav-content__container .item {
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    height: 100%;
-    cursor: pointer;
-    font-size: large;
-    transition: 300ms ease-in-out;
-    color: var(--Grey) !important;
-    border-radius: 0 0 5px 5px;
-    margin-right: 0.5rem;
-    max-width: 200px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  cursor: pointer;
+  font-size: large;
+  transition: 300ms ease-in-out;
+  color: var(--Grey) !important;
+  border-radius: 0 0 5px 5px;
+  margin-right: 0.5rem;
+  max-width: 200px;
 }
 
-    .nav-content__container .item:hover {
-        background-color: var(--Rose);
-        color: white !important;
-    }
+.nav-content__container .item:hover {
+  background-color: var(--Rose);
+  color: white !important;
+}
 
-    .nav-content__container .active {
-        color: var(--Rose);
-        background-color: var(--SharkDark) !important;
-        border-bottom: 1px solid var(--Rose);
-    }
+.nav-content__container .active {
+  color: white !important;
+  background-color: var(--SharkDark) !important;
+  border-bottom: 1px solid var(--Rose);
+}
 
-    @media screen and (max-width: 768px) {
-        .nav-top {
-            display: none;
-        }
-    }
-    
-    @media screen and (max-width: 425px) {
-        
-    }
+@media screen and (max-width: 768px) {
+  .nav-top {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 425px) {
+}
