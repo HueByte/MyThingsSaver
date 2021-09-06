@@ -1,6 +1,7 @@
 import { object } from "prop-types";
 import React, { createContext, useEffect, useState } from "react";
 import { Redirect } from "react-router";
+import { infoModal } from "../core/Modals";
 import { AuthLogout } from "./Auth";
 
 const AuthContext = createContext();
@@ -15,7 +16,9 @@ const AuthProvider = ({ children }) => {
     });
 
     return () => {
-      window.removeEventListener("refreshUser");
+      window.removeEventListener("refreshUser", () => {
+        setAuthState(JSON.parse(localStorage.getItem("user")));
+      });
     };
   }, []);
 

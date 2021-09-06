@@ -1,4 +1,4 @@
-import { HandleBasicApiResponse } from "../api/ApiErrors";
+import { HandleApiResponse, HandleBasicApiResponse } from "../api/ApiHandler";
 import {
   LoginEndpoint,
   LogoutEndpoint,
@@ -17,9 +17,7 @@ export const AuthRegister = async (Email, Username, Password) => {
     }),
   };
 
-  return await fetch(RegisterEndpoint, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await fetch(RegisterEndpoint, requestOptions).then(HandleApiResponse);
 };
 
 export const AuthLogin = async (Username, Password) => {
@@ -29,9 +27,7 @@ export const AuthLogin = async (Username, Password) => {
     body: JSON.stringify({ username: Username, password: Password }),
   };
 
-  return await fetch(LoginEndpoint, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await fetch(LoginEndpoint, requestOptions).then(HandleApiResponse);
 };
 
 export const AuthLogout = async (token) => {

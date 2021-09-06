@@ -5,7 +5,7 @@ import {
   CategoryUpdateEndpoint,
   CategoryGetWithEntriesEndpoint,
 } from "../routes/ApiEndpoints";
-import { HandleBasicApiResponse } from "./ApiErrors";
+import { AuthFetch } from "./ApiHandler";
 
 export async function AddCategory(token, Name) {
   const requestOptions = {
@@ -17,9 +17,7 @@ export async function AddCategory(token, Name) {
     body: JSON.stringify({ name: Name }),
   };
 
-  return await fetch(CategoryAddEndpoint, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await AuthFetch(CategoryAddEndpoint, requestOptions);
 }
 
 export async function GetAllCategories(token) {
@@ -31,9 +29,7 @@ export async function GetAllCategories(token) {
     },
   };
 
-  return await fetch(CategoryGetAllEndpoint, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await AuthFetch(CategoryGetAllEndpoint, requestOptions);
 }
 
 export async function GetCategoryWithEntries(
@@ -49,10 +45,10 @@ export async function GetCategoryWithEntries(
     },
   };
 
-  return await fetch(
+  return await AuthFetch(
     `${CategoryGetWithEntriesEndpoint}?categoryId=${CategoryId}`,
     requestOptions
-  ).then(HandleBasicApiResponse);
+  );
 }
 
 export async function RemoveCategory(token, CategoryId) {
@@ -65,9 +61,7 @@ export async function RemoveCategory(token, CategoryId) {
     body: JSON.stringify({ categoryId: CategoryId }),
   };
 
-  return await fetch(CategoryRemoveEndpoint, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await AuthFetch(CategoryRemoveEndpoint, requestOptions);
 }
 
 export async function UpdateCategory(token, CategoryId, Name) {
@@ -80,7 +74,5 @@ export async function UpdateCategory(token, CategoryId, Name) {
     body: JSON.stringify({ categoryId: CategoryId, name: Name }),
   };
 
-  return await fetch(CategoryUpdateEndpoint, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await AuthFetch(CategoryUpdateEndpoint, requestOptions);
 }

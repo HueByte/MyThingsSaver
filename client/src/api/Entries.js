@@ -6,7 +6,7 @@ import {
   GetRecentEntriesEndpoint,
   UpdateEntryEndpoint,
 } from "../routes/ApiEndpoints";
-import { HandleBasicApiResponse } from "./ApiErrors";
+import { AuthFetch } from "./ApiHandler";
 
 export async function GetAllEntries(token, categoryId, withContent = false) {
   const requestOptions = {
@@ -17,10 +17,10 @@ export async function GetAllEntries(token, categoryId, withContent = false) {
     },
   };
 
-  return await fetch(
+  return await AuthFetch(
     `${GetAllEntriesEndpoint}?categoryId=${categoryId}&withContent=${withContent}`,
     requestOptions
-  ).then(HandleBasicApiResponse);
+  );
 }
 
 export async function GetOneEntry(token, entryId) {
@@ -32,10 +32,10 @@ export async function GetOneEntry(token, entryId) {
     },
   };
 
-  return await fetch(
+  return await AuthFetch(
     `${GetEntryByIdEndpoint}/?id=${entryId}`,
     requestOptions
-  ).then(HandleBasicApiResponse);
+  );
 }
 
 export async function UpdateOneEntry(token, EntryId, Name, Content) {
@@ -52,9 +52,7 @@ export async function UpdateOneEntry(token, EntryId, Name, Content) {
     }),
   };
 
-  return await fetch(UpdateEntryEndpoint, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await AuthFetch(UpdateEntryEndpoint, requestOptions);
 }
 
 export async function AddOneEntry(token, Name, CategoryId) {
@@ -71,9 +69,7 @@ export async function AddOneEntry(token, Name, CategoryId) {
     }),
   };
 
-  return await fetch(AddOneEntryEndpoint, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await AuthFetch(AddOneEntryEndpoint, requestOptions);
 }
 
 export async function DeleteOneEntry(token, id) {
@@ -85,9 +81,7 @@ export async function DeleteOneEntry(token, id) {
     },
   };
 
-  return await fetch(`${DeleteEntryEndpoint}?id=${id}`, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await AuthFetch(`${DeleteEntryEndpoint}?id=${id}`, requestOptions);
 }
 
 export async function GetRecentEntries(token) {
@@ -99,7 +93,5 @@ export async function GetRecentEntries(token) {
     },
   };
 
-  return await fetch(GetRecentEntriesEndpoint, requestOptions).then(
-    HandleBasicApiResponse
-  );
+  return await AuthFetch(GetRecentEntriesEndpoint, requestOptions);
 }
