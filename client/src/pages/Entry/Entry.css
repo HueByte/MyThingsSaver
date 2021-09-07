@@ -94,7 +94,7 @@ h6 {
   width: 100%;
   background-color: var(--SharkDark);
   border-radius: 10px;
-  min-height: 30%;
+  min-height: 30vh;
 }
 
 .entry-content > a,
