@@ -117,7 +117,26 @@ const Category = () => {
           </div>
         ))
       ) : (
-        <div>EMPTY ICON</div>
+        <div
+          style={{
+            display: "grid",
+            placeItems: "center",
+            width: "100%",
+            height: "100%",
+            fontSize: "xxx-large",
+          }}
+        >
+          <i class="fas fa-folder-open"></i>
+          <span
+            style={{
+              color: "var(--Rose)",
+              fontSize: "x-large",
+              textAlign: "center",
+            }}
+          >
+            You haven't got any entries in this category yet
+          </span>
+        </div>
       )}
       <BasicModal
         isOpen={isAddModalOpen}
@@ -161,6 +180,7 @@ const AddModal = ({ addEntry, closeAddModal }) => {
           type="text"
           className="basic-input"
           onKeyDown={handleEnter}
+          autocomplete="off"
         />
       </div>
       <div className="modal-menu">

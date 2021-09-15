@@ -64,15 +64,19 @@ const HomePage = () => {
                 placeItems: "center",
                 width: "100%",
                 height: "100%",
+                fontSize: "xxx-large",
               }}
             >
-              <div>
-                <p style={{ textAlign: "center" }}>Such empty</p>
-                <img
-                  src="https://www.pinclipart.com/picdir/big/550-5506338_pepe-the-frog-transparent-png-transparent-pepe-png.png"
-                  style={{ width: "100px" }}
-                />
-              </div>
+              <i class="fas fa-folder-open"></i>
+              <span
+                style={{
+                  color: "var(--Rose)",
+                  fontSize: "x-large",
+                  textAlign: "center",
+                }}
+              >
+                You haven't got any recent entries
+              </span>
             </div>
           )}
         </>
