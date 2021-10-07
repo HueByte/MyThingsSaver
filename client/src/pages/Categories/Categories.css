@@ -18,8 +18,8 @@
   background-color: var(--Shark);
   cursor: pointer;
   transition: 200ms ease-in-out;
-  border-bottom: 1px solid var(--RoseSub);
-  border-right: 1px solid var(--Gold);
+  border-bottom: 3px solid var(--RoseSub);
+  border-right: 3px solid var(--Gold);
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
 }
@@ -28,8 +28,8 @@
 }
 
 .category:nth-child(odd) {
-  border-bottom: 1px solid var(--Gold);
-  border-bottom: 1px solid var(--RoseSub);
+  border-bottom: 3px solid var(--Gold);
+  border-right: 3px solid var(--RoseSub);
 }
 
 .category-link {

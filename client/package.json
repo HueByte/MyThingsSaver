@@ -6,7 +6,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@uiw/react-md-editor": "^3.6.3",
+    "@uiw/react-md-editor": "^3.6.5",
     "animate.css": "^4.1.1",
     "awesome-debounce-promise": "^2.1.0",
     "eslint": "^7.32.0",

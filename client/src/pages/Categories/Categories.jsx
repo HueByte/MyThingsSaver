@@ -120,7 +120,7 @@ const Categories = () => {
             </div>
           ))
         ) : (
-          <>EMPTY ICON</>
+          <></>
         )}
       </>
       <BasicModal
