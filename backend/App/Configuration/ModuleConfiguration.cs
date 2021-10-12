@@ -33,7 +33,7 @@ namespace App.Configuration
             _configuration = configuration;
         }
 
-        public void ConfigureDatabase(bool isProduction)
+        public ModuleConfiguration ConfigureDatabase(bool isProduction)
         {
             var databaseType = _configuration.GetValue<string>("Database:Type").ToLower();
 
@@ -53,9 +53,11 @@ namespace App.Configuration
             }
             else
                 throw new Exception("Invalid database, please provide correct value in appsettings.json");
+
+            return this;
         }
 
-        public void ConfigureSecurity()
+        public ModuleConfiguration ConfigureSecurity()
         {
             _services.AddIdentity<ApplicationUser, IdentityRole>()
                      .AddEntityFrameworkStores<AppDbContext>()
@@ -95,10 +97,12 @@ namespace App.Configuration
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            return this;
         }
 
         // TODO: Compare performance between ASP.NET 5 static file serving and nginx
-        public void ConfigureSpa()
+        public ModuleConfiguration ConfigureSpa()
         {
             // TODO: Fix locating files on linux/VM 
             // Localhost refused to connect
@@ -107,9 +111,11 @@ namespace App.Configuration
             {
                 config.RootPath = @"build";
             });
+
+            return this;
         }
 
-        public void ConfigureServices()
+        public ModuleConfiguration ConfigureServices()
         {
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
@@ -119,17 +125,25 @@ namespace App.Configuration
             // guide 
             GuideService _guide = new();
             _services.AddSingleton(_guide);
+
+            return this;
         }
 
-        public void ConfigureCors(string[] origins) => _services.AddCors(o => o.AddDefaultPolicy(builder =>
+        public ModuleConfiguration ConfigureCors(string[] origins)
         {
-            builder.WithOrigins(origins)
-                   .AllowAnyHeader()
-                   .AllowAnyMethod()
-                   .AllowCredentials();
-        }));
 
-        public void ConfigureForwardedHeaders()
+            _services.AddCors(o => o.AddDefaultPolicy(builder =>
+               {
+                   builder.WithOrigins(origins)
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+               }));
+
+            return this;
+        }
+
+        public ModuleConfiguration ConfigureForwardedHeaders()
         {
             var type = _configuration.GetValue<string>("Network:Type").ToLower();
 
@@ -138,6 +152,8 @@ namespace App.Configuration
                 {
                     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
                 });
+
+            return this;
         }
     }
 }

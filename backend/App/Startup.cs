@@ -39,13 +39,12 @@ namespace App
             services.AddControllersWithViews();
 
 
-            ModuleConfiguration moduleConfiguration = new(services, Configuration);
-            moduleConfiguration.ConfigureServices();
-            moduleConfiguration.ConfigureDatabase(_env.IsProduction());
-            moduleConfiguration.ConfigureSecurity();
-            moduleConfiguration.ConfigureCors(origins);
-            moduleConfiguration.ConfigureSpa();
-            moduleConfiguration.ConfigureForwardedHeaders();
+            var moduleConfiguration = new ModuleConfiguration(services, Configuration).ConfigureServices()
+                                                                                      .ConfigureDatabase(_env.IsProduction())
+                                                                                      .ConfigureSecurity()
+                                                                                      .ConfigureCors(origins)
+                                                                                      .ConfigureSpa()
+                                                                                      .ConfigureForwardedHeaders();
 
             services.AddSwaggerGen(c =>
             {
