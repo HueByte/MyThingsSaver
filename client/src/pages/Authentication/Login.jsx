@@ -53,14 +53,14 @@ const Login = () => {
           type="text"
           className="basic-input auth-input"
           placeholder="Username"
-          autocomplete="username"
+          autoComplete="username"
         />
         <input
           id="password-input"
           type="password"
           className="basic-input auth-input"
           placeholder="Password"
-          autocomplete="current-password"
+          autoComplete="current-password"
         />
       </div>
       <div className="auth-menu">

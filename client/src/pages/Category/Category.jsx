@@ -180,7 +180,7 @@ const AddModal = ({ addEntry, closeAddModal }) => {
           type="text"
           className="basic-input"
           onKeyDown={handleEnter}
-          autocomplete="off"
+          autoComplete="off"
         />
       </div>
       <div className="modal-menu">

@@ -37,7 +37,7 @@ const SideMenu = () => {
           className="basic-input nav-side-input"
           type="text"
           placeholder="Category name"
-          autocomplete="off"
+          autoComplete="off"
         />
       </div>
       <div className="nav-side__container">

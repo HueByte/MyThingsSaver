@@ -146,7 +146,7 @@ const Entry = () => {
                     className="basic-input edit-name"
                     placeholder={`${name}`}
                     onChange={handleChange}
-                    autocomplete="off"
+                    autoComplete="off"
                   />
                 </div>
                 <MEDitor

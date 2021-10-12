@@ -205,7 +205,7 @@ const EditDocument = ({ category, closeEditModal, sendRequest }) => {
           type="text"
           className="basic-input"
           onKeyDown={handleEnter}
-          autocomplete="off"
+          autoComplete="off"
         />
         <div className="modal-menu-buttons">
           <div
@@ -246,7 +246,7 @@ const AddDocument = ({ closeAddModal, sendRequest }) => {
           type="text"
           className="basic-input"
           onKeyDown={handleEnter}
-          autocomplete="off"
+          autoComplete="off"
         />
         <div className="modal-menu-buttons">
           <div
