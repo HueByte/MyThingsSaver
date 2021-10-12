@@ -32,7 +32,7 @@ namespace Infrastructure.Repositories
         {
             var categories = await _context.Categories
                 .Where(cat => cat.Owner.Id == ownerId)
-                .OrderByDescending(cat => cat.DateCreated)
+                .OrderByDescending(cat => cat.LastEditedOn)
                 .ToListAsync();
 
             return categories;
@@ -54,6 +54,7 @@ namespace Infrastructure.Repositories
                 CategoryId = Guid.NewGuid().ToString(),
                 DateCreated = DateTime.UtcNow,
                 Name = cat.Name.Trim(),
+                LastEditedOn = DateTime.UtcNow,
                 OwnerId = ownerId
             };
 
@@ -71,6 +72,7 @@ namespace Infrastructure.Repositories
                 throw new Exception("Couldn't find that category");
 
             category.Name = newCategory.Name.Trim();
+            category.LastEditedOn = DateTime.UtcNow;
 
             var doesExist = _context.Categories.Any(x => x.Name == category.Name);
             if (doesExist)

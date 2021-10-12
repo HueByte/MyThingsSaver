@@ -72,6 +72,13 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(entryDTO.EntryName))
                 throw new ArgumentException("Entry name cannot be empty, something went wrong");
 
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == entryDTO.CategoryId);
+            if (category is null)
+                throw new Exception("Couldn't find that category");
+
+            category.LastEditedOn = DateTime.UtcNow;
+            // category.CategoryEntries = new List<CategoryEntry>();
+
             var entry = new CategoryEntry()
             {
                 CategoryEntryName = entryDTO.EntryName,
@@ -86,6 +93,8 @@ namespace Infrastructure.Repositories
             };
 
             await _context.CategoriesEntries.AddAsync(entry);
+            // category.CategoryEntries.Add(entry);
+            _context.Categories.Update(category);
             await _context.SaveChangesAsync();
         }
 
