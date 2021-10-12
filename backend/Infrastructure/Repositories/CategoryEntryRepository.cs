@@ -108,7 +108,15 @@ namespace Infrastructure.Repositories
             if (entry == null)
                 throw new Exception("couldn't find that entry");
 
+
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == entry.CategoryId);
+            if (category is null)
+                throw new Exception("Couldn't find that category");
+
+            category.LastEditedOn = DateTime.UtcNow;
+
             _context.CategoriesEntries.Remove(entry);
+            _context.Categories.Update(category);
             await _context.SaveChangesAsync();
         }
 
