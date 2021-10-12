@@ -12,8 +12,8 @@ namespace Core.Models
         public string CategoryId { get; set; }
         public string Name { get; set; }
         public DateTime DateCreated { get; set; }
-
-        public ICollection<CategoryEntry> CategoryEntries { get; set; }
+        public DateTime LastEditedOn { get; set; }
+        public virtual ICollection<CategoryEntry> CategoryEntries { get; set; }
 
         [ForeignKey("OwnerId")]
         public string OwnerId { get; set; }
