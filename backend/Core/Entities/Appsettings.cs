@@ -63,7 +63,7 @@ namespace Core.Entities
 
         [JsonIgnore]
         public static string SavePath
-            => AppContext.BaseDirectory + @"\save\save.sqlite";
+            => AppContext.BaseDirectory + @"save\save.sqlite";
 
         // Checks if appsettings.json exist
         // if doesn't it seeds the data

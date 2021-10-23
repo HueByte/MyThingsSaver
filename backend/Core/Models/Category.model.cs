@@ -18,5 +18,9 @@ namespace Core.Models
         [ForeignKey("OwnerId")]
         public string OwnerId { get; set; }
         public virtual ApplicationUser Owner { get; set; }
+
+        [ForeignKey("ParentCategoryId")]
+        public string ParentCategoryId { get; set; }
+        public virtual Category ParentCategory { get; set; }
     }
 }
