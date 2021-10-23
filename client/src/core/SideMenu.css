@@ -1,128 +1,130 @@
 .nav-side {
-    position: absolute;
-    top: 64px;
-    display: flex;
-    flex-direction: column;
-    width: 240px;
-    height: Calc(100vh - 64px);
-    background-color: var(--Shark);
-    z-index: 999;
-    box-shadow: 10px 5px 6px #1d1d22;
-    overflow: hidden;
+  position: absolute;
+  top: 64px;
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  height: Calc(100vh - 64px);
+  background-color: var(--Shark);
+  z-index: 999;
+  /* box-shadow: 10px 5px 6px #1d1d22; */
+  overflow: hidden;
 }
 
 .nav-side__container {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .nav-side-title {
-    font-weight: bold;
-    height: 50px;
-    color: white;
-    font-size: large;
-    width: 100%;
-    display: grid;
-    place-content: center;
-    border-bottom: 1px solid var(--SharkDark);
+  font-weight: bold;
+  height: 50px;
+  color: white;
+  font-size: large;
+  width: 100%;
+  display: grid;
+  place-content: center;
+  border-bottom: 1px solid var(--SharkDark);
 }
 
 .nav-side-title > p {
-    padding: 5px;
+  padding: 5px;
 }
 
 .nav-side-controlls {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    background-color: var(--SharkDark);
-    width: 100%;
-    margin-bottom: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  background-color: var(--SharkDark);
+  width: 100%;
+  margin-bottom: 1em;
 }
 
 .nav-side-button {
-    font-size: large;
-    margin: 5px;
-    flex: 1;
-    background-image: linear-gradient(to bottom, var(--SharkDark) 50%, var(--Rose) 50%) !important;
+  font-size: large;
+  margin: 5px;
+  flex: 1;
+  background-image: linear-gradient(
+    to bottom,
+    var(--SharkDark) 50%,
+    var(--Rose) 50%
+  ) !important;
 }
 
 .nav-side-input {
-    margin: 5px 5px 5px 0;
-    flex: 6;
-    /* border: 1px solid var(--SharkDark) !important; */
-    background-color: var(--SharkDark) !important;
+  margin: 5px 5px 5px 0;
+  flex: 6;
+  /* border: 1px solid var(--SharkDark) !important; */
+  background-color: var(--SharkDark) !important;
 }
 
 .nav-side__container .item {
-    flex: 1;
-    max-height: 100px;
-    min-height: 40px;
-    font-size: medium;
-    padding: 10px;
-    margin-bottom: 1rem;
-    transition: 250ms ease-in-out;
-    cursor: pointer;
-    /* display: flex;
+  flex: 1;
+  max-height: 100px;
+  min-height: 40px;
+  font-size: medium;
+  padding: 10px;
+  margin-bottom: 1rem;
+  transition: 250ms ease-in-out;
+  cursor: pointer;
+  /* display: flex;
     flex-direction: row;
     justify-content: space-between; */
-    letter-spacing: 0.5px;
-    color: var(--Gold);
-    
-    /* prevent jumping */
-    border-bottom: 1px solid var(--Shark);
+  letter-spacing: 0.5px;
+  color: var(--Gold);
 
-    text-overflow: ellipsis;
-    overflow: hidden; 
-    white-space: nowrap;
+  /* prevent jumping */
+  border-bottom: 1px solid var(--Shark);
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-    .nav-side__container .item:hover {
-        color: white;
-        transform: translateX(15px);
-        border-radius: 10px;
-        background-color: var(--SharkDarkSub);
-    }
+.nav-side__container .item:hover {
+  color: white;
+  transform: translateX(15px);
+  border-radius: 10px;
+  background-color: var(--SharkDarkSub);
+}
 
-    .nav-side__container .active {
-        color: white;
-        transform: translateX(15px);
-        border-radius: 10px;
-        background-color: var(--SharkDarkSub);
-        border-bottom: 1px solid var(--Rose);
-    }
+.nav-side__container .active {
+  color: white;
+  transform: translateX(15px);
+  border-radius: 10px;
+  background-color: var(--SharkDarkSub);
+  border-bottom: 1px solid var(--Rose);
+}
 
-    .nav-side__container .active > .remove-button {
-        transform: translateX(-15px);
-    }
+.nav-side__container .active > .remove-button {
+  transform: translateX(-15px);
+}
 
-    .nav-side__container .remove-button {
-        color: var(--Grey);
-        cursor: pointer;
-        z-index: 15;
-        display: grid;
-        place-items: center;
-        height: 100%;
-        transition: 250ms ease-in-out;
-    }
+.nav-side__container .remove-button {
+  color: var(--Grey);
+  cursor: pointer;
+  z-index: 15;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  transition: 250ms ease-in-out;
+}
 
-    .nav-side__container .item:hover > .remove-button {
-        transform: translateX(-15px);
-    }
+.nav-side__container .item:hover > .remove-button {
+  transform: translateX(-15px);
+}
 
-    .nav-side__container .remove-button:hover {
-        color: var(--Rose);
-    }
-
+.nav-side__container .remove-button:hover {
+  color: var(--Rose);
+}
 
 @media screen and (max-width: 768px) {
-    .nav-side {
-        display: none;
-    }
+  .nav-side {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 425px) {
-    
 }
