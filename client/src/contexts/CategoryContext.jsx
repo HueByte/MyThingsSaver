@@ -23,10 +23,14 @@ const CategoryProvider = ({ children }) => {
     setIsFetching(false);
   }, []);
 
-  async function ContextAddCategory(Name) {
+  async function ContextAddCategory(Name, parentId) {
     if (Name.length === 0) return;
 
-    return await AddCategory(authContext.authState?.token, Name.trim())
+    return await AddCategory(
+      authContext.authState?.token,
+      Name.trim(),
+      parentId
+    )
       .then((result) => {
         ContextGetAllCategories().then((result) => setCategories(result));
         return result?.isSuccess;

@@ -19,6 +19,9 @@ namespace Infrastructure.Repositories
 
         public async Task<Category> GetOneByIdAsync(string id, string ownerId)
         {
+            if (id is null)
+                throw new Exception("ID cannot be empty");
+
             var category = await _context.Categories
                 .FirstOrDefaultAsync(cat => cat.CategoryId == id && cat.Owner.Id == ownerId);
 
@@ -26,6 +29,16 @@ namespace Infrastructure.Repositories
                 throw new Exception("Couldn't find this category");
 
             return category;
+        }
+
+        public async Task<List<Category>> GetAllParentsAsync(string ownerId)
+        {
+            var categories = await _context.Categories
+                .Where(cat => cat.Owner.Id == ownerId)
+                .OrderByDescending(cat => cat.LastEditedOn)
+                .ToListAsync();
+
+            return categories;
         }
 
         public async Task<List<Category>> GetAllAsync(string ownerId)
@@ -47,6 +60,14 @@ namespace Infrastructure.Repositories
             if (exists)
                 throw new Exception("This category already exists");
 
+            Category parentCategory;
+            if (!string.IsNullOrEmpty(cat.CategoryParentId))
+            {
+                parentCategory = await _context.Categories.FirstOrDefaultAsync(category => category.CategoryId == cat.CategoryParentId && category.OwnerId == ownerId);
+                if (parentCategory is not null && !string.IsNullOrEmpty(parentCategory.ParentCategoryId))
+                    throw new Exception("This category cannot have more subcategories");
+            }
+
 
             Category newCategory = new()
             {
@@ -55,7 +76,8 @@ namespace Infrastructure.Repositories
                 DateCreated = DateTime.UtcNow,
                 Name = cat.Name.Trim(),
                 LastEditedOn = DateTime.UtcNow,
-                OwnerId = ownerId
+                OwnerId = ownerId,
+                ParentCategoryId = cat.CategoryParentId
             };
 
             await _context.Categories.AddAsync(newCategory);

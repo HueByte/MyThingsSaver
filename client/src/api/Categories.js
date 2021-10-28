@@ -7,14 +7,14 @@ import {
 } from "../routes/ApiEndpoints";
 import { AuthFetch } from "./ApiHandler";
 
-export async function AddCategory(token, Name) {
+export async function AddCategory(token, Name, parentId = null) {
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ name: Name }),
+    body: JSON.stringify({ name: Name, categoryParentId: parentId }),
   };
 
   return await AuthFetch(CategoryAddEndpoint, requestOptions);

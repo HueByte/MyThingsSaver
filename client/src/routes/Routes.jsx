@@ -32,7 +32,7 @@ export const Routes = () => {
     "/category/:categoryId/:entryId",
     "/categories",
     "/Settings",
-    "/entry/:categoryId/:entryId",
+    "/entry/:categoryId/:subCategoryId?/:entryId",
     "/logout",
   ];
 
@@ -47,7 +47,7 @@ export const Routes = () => {
             <Switch>
               <PrivateRoute exact path="/" component={HomePage} />
               <PrivateRoute
-                path="/category/:categoryId/:entryId"
+                path="/category/:categoryId/:subCategoryId?/:entryId"
                 component={Category}
               />
               <PrivateRoute path="/categories" component={Categories} />
@@ -58,7 +58,7 @@ export const Routes = () => {
                 component={Settings}
               />
               <PrivateRoute
-                path="/entry/:categoryId/:entryId"
+                path="/entry/:categoryId/:subCategoryId?/:entryId"
                 component={Entry}
               />
               <PrivateRoute path="/logout" component={Logout} />

@@ -42,16 +42,21 @@ const SideMenu = () => {
       </div>
       <div className="nav-side__container">
         {categoryContext.categories ? (
-          categoryContext.categories.map((category, index) => (
-            <NavLink
-              activeClassName="active"
-              to={`/category/${category.name}/${category.categoryId}`}
-              key={index}
-              className="item"
-            >
-              {category.name}
-            </NavLink>
-          ))
+          categoryContext.categories.map((category, index) => {
+            if (category.parentCategoryId) {
+              return null;
+            }
+            return (
+              <NavLink
+                activeClassName="active"
+                to={`/category/${category.name}/${category.categoryId}`}
+                key={index}
+                className="item"
+              >
+                {category.name}
+              </NavLink>
+            );
+          })
         ) : (
           <></>
         )}

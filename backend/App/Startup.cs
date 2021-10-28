@@ -35,7 +35,7 @@ namespace App
             string[] origins = Configuration.GetSection("Origins").Get<string[]>();
 
             services.AddRazorPages();
-            // While updating to .net 6 add .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IngoreCycles);
+            // While migrating to .net 6 add .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IngoreCycles);
             services.AddControllersWithViews();
 
 

@@ -38,16 +38,29 @@ namespace Infrastructure.Repositories
             return entry;
         }
 
-        public async Task<List<CategoryEntry>> GetAllAsync(string categoryId, string ownerId, bool withContent)
+        public async Task<AllCategoryEntries> GetAllAsync(string categoryId, string ownerId, bool withContent)
         {
-            List<CategoryEntry> entries;
+            AllCategoryEntries entries = new();
+            // List<CategoryEntry> entries;
             if (withContent)
             {
-                entries = await _context.CategoriesEntries.Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId).ToListAsync();
+                entries.SubCategories = await _context.Categories
+                    .Where(cat => cat.ParentCategoryId == categoryId)
+                    .OrderByDescending(e => e.LastEditedOn)
+                    .ToListAsync();
+
+                entries.CategoryEntries = await _context.CategoriesEntries
+                    .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId)
+                    .ToListAsync();
             }
             else
             {
-                entries = await _context.CategoriesEntries
+                entries.SubCategories = await _context.Categories
+                    .Where(cat => cat.ParentCategoryId == categoryId)
+                    .OrderByDescending(e => e.LastEditedOn)
+                    .ToListAsync();
+
+                entries.CategoryEntries = await _context.CategoriesEntries
                     .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId)
                     .Select(e => new CategoryEntry
                     {

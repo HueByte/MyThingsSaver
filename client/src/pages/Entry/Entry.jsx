@@ -20,6 +20,7 @@ const Entry = () => {
   const authContext = useContext(AuthContext);
   const categoryContext = useContext(CategoryContext);
   const { categoryId, entryId } = useParams();
+
   const [categoryName, setCategoryName] = useState("");
   const [entry, setEntry] = useState();
   const [name, setName] = useState();
@@ -44,10 +45,23 @@ const Entry = () => {
       })
       .catch((error) => console.error(error));
 
-    let catname = categoryContext.categories?.find(
+    console.log(categoryId);
+    console.log(categoryContext);
+
+    // return <Redirect to={`/category/${categoryName}/${categoryId}`} />;
+
+    let callbackPath = "";
+    let callbackCategory = await categoryContext.categories?.find(
       (c) => c.categoryId == categoryId
-    ).name;
-    setCategoryName(catname);
+    );
+
+    if (callbackCategory?.parentCategory) {
+      callbackPath = `/category/${callbackCategory.parentCategory.name}/${callbackCategory.name}/${callbackCategory.categoryId}`;
+    } else {
+      callbackPath = `/category/${callbackCategory.name}/${callbackCategory.categoryId}`;
+    }
+
+    setCategoryName(callbackPath);
   }, []);
 
   const sendUpdateCallback = async (newName, data) => {
@@ -93,8 +107,7 @@ const Entry = () => {
 
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
-  if (shouldRedirect)
-    return <Redirect to={`/category/${categoryName}/${categoryId}`} />;
+  if (shouldRedirect) return <Redirect to={`${categoryName}`} />;
   return (
     <div className="entry__container">
       {entry ? (
