@@ -299,7 +299,7 @@ const AddModal = ({
   );
 
   const handleEnter = (event) => {
-    if (event.key === "Enter" && isEntry) sendRequest(entryName.current.value);
+    if (event.key === "Enter") sendRequest(entryName.current.value);
   };
 
   const switchType = (senderIsEntry) => {
