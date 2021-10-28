@@ -156,14 +156,6 @@
     margin: 1em;
     justify-content: center;
   }
-  /* 
-  .entries__container .entry-label__container .entry-label {
-    width: 80%;
-    text-align: center;
-    background-color: rgba(27, 27, 31, 0.7);
-    padding: 10px;
-    border-radius: 10px;
-  } */
 
   .entries__container .entry-label__container .entry-label {
     width: 90%;

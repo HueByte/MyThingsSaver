@@ -60,7 +60,6 @@ const Entry = () => {
   }, []);
 
   const sendUpdateCallback = async (newName, data) => {
-    console.log(newName);
     await UpdateOneEntry(
       authContext.authState?.token,
       entryId,
