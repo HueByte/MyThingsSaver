@@ -23,6 +23,7 @@ const Category = () => {
     subCategoryId: subCategoryName,
     entryId: mainCategoryId,
   } = useParams();
+  const isSubCategory = subCategoryName ? true : false;
 
   useEffect(async () => {
     await GetAllEntries(authContext.authState?.token, mainCategoryId)
@@ -30,7 +31,7 @@ const Category = () => {
       .catch((error) => console.error(error));
   }, [mainCategoryId]);
 
-  // Add entry
+  // add entry
   const addEntry = async (name) => {
     if (name.length === 0) {
       warningModal("Name cannot be empty");
@@ -49,6 +50,7 @@ const Category = () => {
     setIsAddModalOpen(false);
   };
 
+  // add subcategory
   const addSubCategory = async (name, parentId) => {
     if (name.length === 0) {
       warningModal("Name cannot be empty");
@@ -64,19 +66,23 @@ const Category = () => {
           .catch((error) => console.error(error));
       });
 
-    result ?? successModal("Created Subcategory");
+    if (result) successModal("Created Subcategory");
     setIsAddModalOpen(false);
   };
 
+  // close add modal
   const closeAddModal = () => setIsAddModalOpen(false);
 
+  // Open delete subcategory modal
   const invokeDeleteCategoryModal = (category) => {
     categoryToDelete.current = category;
     setIsDeleteCategoryModalOpen(true);
   };
 
+  // close delete subcategory modal
   const closeDeleteCategoryModal = () => setIsDeleteCategoryModalOpen(false);
 
+  // remove subcategory
   const removeCategory = async (categoryId) => {
     await categoryContext.ContextRemoveCategory(categoryId).then(async () => {
       let newState = entries;
@@ -92,14 +98,16 @@ const Category = () => {
     setIsDeleteCategoryModalOpen(false);
   };
 
-  // Remove entry
+  // open delete entry modal
   const invokeEntryDeleteModal = (entry) => {
     entryToDelete.current = entry;
     setIsDeleteEntryModalOpen(true);
   };
 
+  // close delete entry modal
   const closeEntryDeleteModal = () => setIsDeleteEntryModalOpen(false);
 
+  // delete entry
   const removeEntry = async (entryId) => {
     await DeleteOneEntry(authContext.authState?.token, entryId)
       .then(async () => {
@@ -110,7 +118,6 @@ const Category = () => {
         });
 
         newState.categoryEntries = newEntries;
-
         setEntries(newState);
         successModal("Successfully removed entry");
       })
@@ -125,7 +132,7 @@ const Category = () => {
         <div className="category-name">
           <p className="ellipsis" style={{ textAlign: "start" }}>
             {subCategoryName
-              ? `${categoryName}/${subCategoryName}`
+              ? `${categoryName} / ${subCategoryName}`
               : `${categoryName}`}
           </p>
         </div>
@@ -136,7 +143,9 @@ const Category = () => {
           <i class="fa fa-plus" aria-hidden="true"></i>
         </div>
       </div>
-      <h1>Entries</h1>
+      <div className="entry-label__container">
+        <h1 className="entry-label">Entries</h1>
+      </div>
       {entries?.categoryEntries?.length > 0 ? (
         entries.categoryEntries.map((entry, index) => (
           <div className="entry" key={index}>
@@ -195,10 +204,12 @@ const Category = () => {
           </span>
         </div>
       )}
-      <h1>SubCategories</h1>
       {entries?.subCategories?.length > 0 ? (
-        entries.subCategories.map((subCategory, index) => (
-          <>
+        <>
+          <div className="entry-label__container">
+            <h1 className="entry-label">Subcategories</h1>
+          </div>
+          {entries.subCategories.map((subCategory, index) => (
             <div className="entry" key={index}>
               <div className="entry-image">
                 <i class="fa fa-folder" aria-hidden="true"></i>
@@ -228,30 +239,10 @@ const Category = () => {
                 </div>
               </div>
             </div>
-          </>
-        ))
+          ))}
+        </>
       ) : (
         <></>
-        // <div
-        //   style={{
-        //     display: "grid",
-        //     placeItems: "center",
-        //     width: "100%",
-        //     height: "100%",
-        //     fontSize: "xxx-large",
-        //   }}
-        // >
-        //   <i class="fas fa-folder-open"></i>
-        //   <span
-        //     style={{
-        //       color: "var(--Rose)",
-        //       fontSize: "x-large",
-        //       textAlign: "center",
-        //     }}
-        //   >
-        //     You haven't got any entries in this category yet
-        //   </span>
-        // </div>
       )}
       <BasicModal
         isOpen={isAddModalOpen}
@@ -262,6 +253,7 @@ const Category = () => {
           addEntry={addEntry}
           addSubCategory={addSubCategory}
           mainCategoryId={mainCategoryId}
+          isSubCategory={isSubCategory}
           closeAddModal={closeAddModal}
         />
       </BasicModal>
@@ -282,7 +274,7 @@ const Category = () => {
         onRequestClose={closeDeleteCategoryModal}
       >
         <DeleteCategoryModal
-          entry={categoryToDelete.current}
+          category={categoryToDelete.current}
           onDelete={removeCategory}
           closeDeleteModal={closeDeleteCategoryModal}
         />
@@ -295,21 +287,23 @@ const AddModal = ({
   addEntry,
   addSubCategory,
   mainCategoryId,
+  isSubCategory,
   closeAddModal,
 }) => {
   const [isEntry, setIsEntry] = useState(true);
   const entryName = useRef();
+
   useEffect(
     () => (entryName.current = document.getElementById("add-name-input")),
     []
   );
 
   const handleEnter = (event) => {
-    if (event.key === "Enter") addEntry(entryName.current.value);
+    if (event.key === "Enter" && isEntry) sendRequest(entryName.current.value);
   };
 
-  const switchType = (sender) => {
-    setIsEntry(sender);
+  const switchType = (senderIsEntry) => {
+    setIsEntry(senderIsEntry);
   };
 
   const sendRequest = (name) => {
@@ -319,14 +313,19 @@ const AddModal = ({
 
   return (
     <div className="modal-container">
-      <div className="modal-menu">
-        <div className="basic-button" onClick={() => switchType(false)}>
-          SubCategory
+      {!isSubCategory ? (
+        <div className="modal-menu">
+          <div className="basic-button" onClick={() => switchType(false)}>
+            SubCategory
+          </div>
+
+          <div className="basic-button" onClick={() => switchType(true)}>
+            Entry
+          </div>
         </div>
-        <div className="basic-button" onClick={() => switchType(true)}>
-          Entry
-        </div>
-      </div>
+      ) : (
+        <></>
+      )}
       <div className="modal-field">
         <div className="field-name">
           {isEntry ? "Entry name" : "Subcategory name"}
@@ -378,11 +377,7 @@ const EntryDeleteModal = ({ entry, onDelete, closeDeleteModal }) => {
   );
 };
 
-const DeleteCategoryModal = ({
-  entry: category,
-  onDelete,
-  closeDeleteModal,
-}) => {
+const DeleteCategoryModal = ({ category, onDelete, closeDeleteModal }) => {
   return (
     <div>
       <p style={{ fontSize: "larger", fontWeight: "bold" }}>

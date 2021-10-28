@@ -25,10 +25,10 @@ namespace App.Controllers
         public async Task<IActionResult> GetAllCategoriesAsync()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () =>
+            var result = await ApiEventHandler<List<Category>>.EventHandleAsync((System.Func<Task<List<Category>>>)(async () =>
             {
-                return await _categoryRepository.GetAllParentsAsync(userId);
-            });
+                return await _categoryRepository.GetAllAsync((string)userId);
+            }));
 
             if (result.IsSuccess)
                 return Ok(result);

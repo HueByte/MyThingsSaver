@@ -31,16 +31,6 @@ namespace Infrastructure.Repositories
             return category;
         }
 
-        public async Task<List<Category>> GetAllParentsAsync(string ownerId)
-        {
-            var categories = await _context.Categories
-                .Where(cat => cat.Owner.Id == ownerId)
-                .OrderByDescending(cat => cat.LastEditedOn)
-                .ToListAsync();
-
-            return categories;
-        }
-
         public async Task<List<Category>> GetAllAsync(string ownerId)
         {
             var categories = await _context.Categories

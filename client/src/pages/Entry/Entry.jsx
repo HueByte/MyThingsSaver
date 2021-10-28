@@ -45,12 +45,7 @@ const Entry = () => {
       })
       .catch((error) => console.error(error));
 
-    console.log(categoryId);
-    console.log(categoryContext);
-
-    // return <Redirect to={`/category/${categoryName}/${categoryId}`} />;
-
-    let callbackPath = "";
+    let callbackPath = "/";
     let callbackCategory = await categoryContext.categories?.find(
       (c) => c.categoryId == categoryId
     );
