@@ -103,6 +103,10 @@ namespace Infrastructure.Repositories
             if (category == null)
                 throw new Exception("Couldn't find that category");
 
+            var subCategories = await _context.Categories.Where(x => x.ParentCategoryId == id).ToListAsync();
+            if (subCategories is not null)
+                _context.Categories.RemoveRange(subCategories);
+
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
         }
