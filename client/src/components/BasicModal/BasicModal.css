@@ -1,0 +1,17 @@
+.basic-modal .list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-menu-horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-menu-vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-menu-vertical .item {
+}

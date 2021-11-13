@@ -182,9 +182,10 @@ const Category = () => {
             </div>
           </div>
         ))
-      ) : (
+      ) : entries?.subCategories?.length == 0 ? (
         <div
           style={{
+            padding: "2em",
             display: "grid",
             placeItems: "center",
             width: "100%",
@@ -203,6 +204,8 @@ const Category = () => {
             You haven't got any entries in this category yet
           </span>
         </div>
+      ) : (
+        <>/</>
       )}
       {entries?.subCategories?.length > 0 ? (
         <>

@@ -46,7 +46,9 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(cat.Name))
                 throw new ArgumentException("Name cannot be empty");
 
-            var exists = await _context.Categories.AnyAsync(category => category.Name == cat.Name && category.OwnerId == ownerId);
+            var exists = await _context.Categories.AnyAsync(category => category.Name == cat.Name
+                                                                && category.OwnerId == ownerId
+                                                                && cat.CategoryParentId == category.ParentCategoryId);
             if (exists)
                 throw new Exception("This category already exists");
 
