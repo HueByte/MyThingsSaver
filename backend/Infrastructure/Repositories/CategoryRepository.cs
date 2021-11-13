@@ -22,10 +22,9 @@ namespace Infrastructure.Repositories
             if (id is null)
                 throw new Exception("ID cannot be empty");
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(cat => cat.CategoryId == id && cat.Owner.Id == ownerId);
+            var category = await _context.Categories.FirstOrDefaultAsync(cat => cat.CategoryId == id && cat.Owner.Id == ownerId);
 
-            if (category == null)
+            if (category is null)
                 throw new Exception("Couldn't find this category");
 
             return category;
@@ -118,9 +117,7 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(categoryId))
                 throw new ArgumentException("Category ID cannot be empty");
 
-            var categoryWithEntries = await
-                EntityFrameworkQueryableExtensions
-                .FirstOrDefaultAsync<Category>(_context.Categories
+            var categoryWithEntries = await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<Category>(_context.Categories
                     .Include(entity => entity.CategoryEntries.OrderByDescending(e => e.LastUpdatedOn)),
                 param => param.CategoryId == categoryId && param.OwnerId == ownerId);
 

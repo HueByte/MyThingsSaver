@@ -105,7 +105,7 @@ namespace App
                         Email = "admin@xyz.com"
                     };
 
-                    // This is intended
+                    // This is intended for now as default password for admin which will be required to be changed
                     var result = userManager.CreateAsync(admin, "Admin12").Result;
                     if (result.Succeeded)
                     {

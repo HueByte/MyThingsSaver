@@ -25,10 +25,8 @@ namespace App.Controllers
         public async Task<IActionResult> GetAllCategoriesAsync()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var result = await ApiEventHandler<List<Category>>.EventHandleAsync((System.Func<Task<List<Category>>>)(async () =>
-            {
-                return await _categoryRepository.GetAllAsync((string)userId);
-            }));
+            var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () =>
+                await _categoryRepository.GetAllAsync(userId));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -42,9 +40,7 @@ namespace App.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
-            {
-                return await _categoryRepository.GetOneByIdAsync(id, userId);
-            });
+                await _categoryRepository.GetOneByIdAsync(id, userId));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -104,9 +100,7 @@ namespace App.Controllers
         {
             var userid = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
-            {
-                return await _categoryRepository.GetCategoryWithEntriesAsync(categoryId, userid);
-            });
+                await _categoryRepository.GetCategoryWithEntriesAsync(categoryId, userid));
 
             // TODO : Update once upgrade to .net 6, temporary solution to prevent JSON circular reference error
             var settings = new Newtonsoft.Json.JsonSerializerSettings

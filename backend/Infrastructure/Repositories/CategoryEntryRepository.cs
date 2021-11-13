@@ -41,7 +41,7 @@ namespace Infrastructure.Repositories
         public async Task<AllCategoryEntries> GetAllAsync(string categoryId, string ownerId, bool withContent)
         {
             AllCategoryEntries entries = new();
-            // List<CategoryEntry> entries;
+
             if (withContent)
             {
                 entries.SubCategories = await _context.Categories
@@ -51,6 +51,7 @@ namespace Infrastructure.Repositories
 
                 entries.CategoryEntries = await _context.CategoriesEntries
                     .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == ownerId)
+                    .OrderByDescending(e => e.LastUpdatedOn)
                     .ToListAsync();
             }
             else
@@ -90,7 +91,6 @@ namespace Infrastructure.Repositories
                 throw new Exception("Couldn't find that category");
 
             category.LastEditedOn = DateTime.UtcNow;
-            // category.CategoryEntries = new List<CategoryEntry>();
 
             var entry = new CategoryEntry()
             {
@@ -106,7 +106,6 @@ namespace Infrastructure.Repositories
             };
 
             await _context.CategoriesEntries.AddAsync(entry);
-            // category.CategoryEntries.Add(entry);
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
         }

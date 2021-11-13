@@ -101,7 +101,6 @@ namespace App.Configuration
             return this;
         }
 
-        // TODO: Compare performance between ASP.NET 5 static file serving and nginx
         public ModuleConfiguration ConfigureSpa()
         {
             // TODO: Fix locating files on linux/VM 

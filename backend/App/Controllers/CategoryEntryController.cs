@@ -26,9 +26,7 @@ namespace App.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<CategoryEntry>.EventHandleAsync(async () =>
-            {
-                return await _categoryEntryRepository.GetOneByIdAsync(id, userId);
-            });
+                await _categoryEntryRepository.GetOneByIdAsync(id, userId));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -42,9 +40,7 @@ namespace App.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<AllCategoryEntries>.EventHandleAsync(async () =>
-            {
-                return await _categoryEntryRepository.GetAllAsync(categoryId, userId, withContent);
-            });
+                await _categoryEntryRepository.GetAllAsync(categoryId, userId, withContent));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -101,9 +97,7 @@ namespace App.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<List<CategoryEntry>>.EventHandleAsync(async () =>
-            {
-                return await _categoryEntryRepository.GetRecentAsync(userId);
-            });
+                await _categoryEntryRepository.GetRecentAsync(userId));
 
             var settings = new Newtonsoft.Json.JsonSerializerSettings
             {

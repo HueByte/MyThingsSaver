@@ -118,7 +118,7 @@ namespace App.Authentication
             RefreshToken activeRefreshToken;
             if (user.RefreshTokens.Any(a => a.IsActive))
             {
-                activeRefreshToken = user.RefreshTokens.Where(a => a.IsActive == true).FirstOrDefault();
+                activeRefreshToken = user.RefreshTokens.FirstOrDefault(a => a.IsActive == true);
             }
             else
             {
@@ -131,7 +131,7 @@ namespace App.Authentication
             return new VerifiedUser()
             {
                 Token = _jwtAuthentication.GenerateJsonWebToken(user, roles),
-                ExpireDate = DateTime.Now.AddDays(3),
+                ExpireDate = DateTime.Now.AddDays(5),
                 RefreshToken = activeRefreshToken.Token,
                 RefreshTokenExpiration = activeRefreshToken.Expires,
                 TokenType = "Bearer",
@@ -165,7 +165,7 @@ namespace App.Authentication
             return new VerifiedUser()
             {
                 Token = _jwtAuthentication.GenerateJsonWebToken(user, roles),
-                ExpireDate = DateTime.Now.AddDays(3),
+                ExpireDate = DateTime.Now.AddDays(5),
                 RefreshToken = newRefreshToken.Token,
                 RefreshTokenExpiration = newRefreshToken.Expires,
                 TokenType = "Bearer",
