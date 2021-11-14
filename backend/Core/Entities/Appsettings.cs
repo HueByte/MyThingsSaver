@@ -42,6 +42,7 @@ namespace Core.Entities
         public string HttpPort { get; set; }
         public string HttpsPort { get; set; }
         public bool UseHttps { get; set; }
+        public bool UseHSTS { get; set; }
         public bool HttpsRedirection { get; set; }
     }
 
@@ -111,6 +112,7 @@ namespace Core.Entities
                     HttpsPort = "443",
                     UseHttps = false,
                     HttpsRedirection = false,
+                    UseHSTS = false,
                     Type = "standalone"
                 }
             };

@@ -90,6 +90,27 @@ Browser security prevents a web page from making requests to a different domain 
 * `Type` determines how app behaviour. If you're using it as standalone version set it to `standalone`, if you're using nginx set it to `nginx` to successfully configure right headers forwarding
 * `HttpPort` and `HttpsPort` set them to ports you want your app to run on
 * `HttpsRedirection` set true if you want redirect your users to app on https ports
+* `UseHttps` Configures app to run also at `HttpsPort` 
+* `UseHSTS` HTTP Strict Transport Security Protocol which enforce using HTTPS and prevents sending any communication over HTTP
+
+### Overall Network configuration 
+It's handled by `Network` object in `appsettings.json`
+
+* Nginx & HTTPS</br>Example nginx configuration file is inside `examples` folder.</br>
+   1. Install [nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
+   2. Replace [nginx configuration](http://nginx.org/en/docs/beginners_guide.html) file with `examples/nginx.conf`
+   3. Create `.cert` folder in the nginx root folder
+   4. Get SSL certificates from [GreenLock](https://greenlock.domains/) if you don't have them
+   5. Move your certificate files to `.cert` folder
+   6. Open and edit `appsettings.json`
+   7. Change `Type` in `Network` to `nginx`
+   8. If you're using example nginx config you can set `HttpsRedirection` to `false` because it's handled by nginx
+   9. If you're using example nginx config you can set `UseHSTS` to `false` because HSTS is handled by nginx
+   10. Set ports to different ones than 80 and 443 because nginx will be using them (example: `"HttpPort"`: `"5000"`)
+   11. Run nginx
+   12. Run App
+
+* Standalone</br>Currently standalone HTTPS isn't supported so running options like `UseHSTS`, `UseHttps`, `HttpsRedirection` might break your app.
 </br>
 
 # `Q&A`

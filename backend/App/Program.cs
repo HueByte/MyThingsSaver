@@ -28,10 +28,15 @@ namespace App
                         .AddJsonFile("appsettings.json")
                         .Build();
 
+                    var useHttps = config.GetValue<bool>("Network:UseHttps");
                     var httpPort = config.GetValue<string>("Network:HttpPort");
                     var httpsPort = config.GetValue<string>("Network:HttpsPort");
 
-                    webBuilder.UseUrls($"http://0.0.0.0:{httpPort};https://0.0.0.0:{httpsPort}");
+                    if (useHttps)
+                        webBuilder.UseUrls($"http://0.0.0.0:{httpPort};https://0.0.0.0:{httpsPort}");
+                    else
+                        webBuilder.UseUrls($"http://0.0.0.0:{httpPort}");
+
                     webBuilder.UseStartup<Startup>();
                 });
         }

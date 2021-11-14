@@ -144,7 +144,7 @@ namespace App.Configuration
         {
             var type = _configuration.GetValue<string>("Network:Type").ToLower();
 
-            if (type == NetworkType.isNginx)
+            if (type == NetworkType.NGINX)
                 _services.Configure<ForwardedHeadersOptions>(options =>
                 {
                     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;

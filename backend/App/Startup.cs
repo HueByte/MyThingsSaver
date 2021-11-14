@@ -98,11 +98,12 @@ namespace App
             }
             else
             {
-                bool doUseHttps = Configuration.GetValue<bool>("Network:UseHttps");
-                if (doUseHttps)
+                bool doUseHSTS = Configuration.GetValue<bool>("Network:UseHSTS");
+                bool doHttpsRedirect = Configuration.GetValue<bool>("Network:HttpsRedirection");
+
+                if (doUseHSTS)
                     app.UseHsts();
 
-                bool doHttpsRedirect = Configuration.GetValue<bool>("Network:HttpsRedirection");
                 if (doHttpsRedirect)
                     app.UseHttpsRedirection();
             }
