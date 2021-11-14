@@ -25,7 +25,7 @@
     <Content Include="Guide/Templates/*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="../../examples/*.*">
+    <Content Include="../../examples/*.*" LinkBase="examples">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
