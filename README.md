@@ -1,11 +1,16 @@
-# `MyThingsSaver`
-Application that allows you to save your things in well designed and comfortable environment.</br>
-It's still in the early stage of development but it's fully usable now with v1.0.0 release!
+<p align="center">
+   <a href="https://github.com/HueByte/MyThingsSaver">
+      <img src="https://github.com/HueByte/MyThingsSaver/blob/master/client/public/favicon.png" title="MyThingsSaver Logo"/>
+   </a>
+</p>
 
+# `MyThingsSaver`
+Easy to use with modern design application that allows you to save your things in well designed and comfortable environment.</br>
+With powerful Markdown editor you can save your notes, lists, tasks and even import tables from other software.<br>
+It's still in the early stage of development but it's fully usable now with v1.0.0 release!
 </br>
 
-# `How to start`
-## `For normal usage:`
+# `Start`
 ### Requirements
 * ASP.NET core 5.x runtime
 
@@ -20,10 +25,9 @@ It's still in the early stage of development but it's fully usable now with v1.0
 2. Unpack it
 3. Locate **App.dll** in root directory
 4. run command: `dotnet App.dll`
-
 </br>
 
-## `For Development:` 
+# `For Development:` 
 ### Development requirements
 * npm
 * dotnet 5.x SDK
@@ -32,12 +36,10 @@ It's still in the early stage of development but it's fully usable now with v1.0
    1. git clone repository 
    2. go to *MyThingsSaver/backend/App*
    3. run command: `dotnet run`
-
 </br>
 
 # `Configuration `
 If you want to reset your settings just remove `appsettings.json` from app's root directory, it will generate new file with default settings and new JWT key
-
 </br>
 
 ### Logging 
@@ -88,7 +90,6 @@ Browser security prevents a web page from making requests to a different domain 
 * `Type` determines how app behaviour. If you're using it as standalone version set it to `standalone`, if you're using nginx set it to `nginx` to successfully configure right headers forwarding
 * `HttpPort` and `HttpsPort` set them to ports you want your app to run on
 * `HttpsRedirection` set true if you want redirect your users to app on https ports
-
 </br>
 
 # `Q&A`
