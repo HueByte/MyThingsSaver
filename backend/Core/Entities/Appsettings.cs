@@ -55,7 +55,7 @@ namespace Core.Entities
         public Network Network { get; set; }
 
         [JsonIgnore]
-        public static string FILE_NAME = AppContext.BaseDirectory + "appsettings.json";
+        public static string FILE_NAME = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
 
         [JsonIgnore]
         public static bool IsCreated
@@ -63,7 +63,7 @@ namespace Core.Entities
 
         [JsonIgnore]
         public static string SavePath
-            => AppContext.BaseDirectory + @"save\save.sqlite";
+            => Path.Combine(AppContext.BaseDirectory, @"save/save.sqlite");
 
         // Checks if appsettings.json exist
         // if doesn't it seeds the data

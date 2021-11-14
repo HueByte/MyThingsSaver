@@ -173,6 +173,7 @@ namespace App
                     };
                 }
             });
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "../../client/";

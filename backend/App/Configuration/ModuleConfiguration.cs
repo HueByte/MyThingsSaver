@@ -108,7 +108,7 @@ namespace App.Configuration
             // also see Startup.cs#95
             _services.AddSpaStaticFiles(config =>
             {
-                config.RootPath = @"build";
+                config.RootPath = "build";
             });
 
             return this;

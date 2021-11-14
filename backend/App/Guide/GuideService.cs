@@ -12,7 +12,7 @@ namespace App.Guide
         public int GUIDE_SIZE { get; set; }
 
         private static string FolderPath
-            => AppContext.BaseDirectory + @"\Guide\Templates";
+            => AppContext.BaseDirectory + Path.Combine("Guide", "Templates");
 
         public GuideService()
         {
