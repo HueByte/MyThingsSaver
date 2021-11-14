@@ -16,10 +16,11 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
+        path: ~/backend
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet MyThingsSaver/backend/backend.sln restore
+      run: dotnet restore
     - name: Build
-      run: dotnet build backend/backend.sln --no-restore
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test backend/backend.sln --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal
