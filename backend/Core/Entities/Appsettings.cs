@@ -78,8 +78,8 @@ namespace Core.Entities
                 return Load();
 
             // Might trigger antivirus for some reason?
-            if (!Directory.Exists(AppContext.BaseDirectory + @"\save"))
-                Directory.CreateDirectory(AppContext.BaseDirectory + @"\save");
+            if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, "save")))
+                Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "save"));
 
             var config = new AppSettingsRoot()
             {
