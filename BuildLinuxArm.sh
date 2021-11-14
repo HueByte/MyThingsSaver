@@ -3,7 +3,7 @@
 $root = $PWD
 
 cd $root/backend/App
-dotnet publish r linux-arm -o $root/Deploy
+dotnet publish -r linux-arm -o $root/Deploy
 
 cd $root/client
 npm update --all
