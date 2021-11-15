@@ -41,19 +41,22 @@ namespace App.Configuration
             if (string.IsNullOrEmpty(databaseType))
                 throw new ArgumentException("Database type cannot be empty");
 
-            if (databaseType == DatabaseType.MYSQL)
+            switch (databaseType)
             {
-                if (isProduction)
-                    _services.AddDbContextMysqlProduction(_configuration);
-                else
-                    _services.AddDbContextMysqlDebug(_configuration);
+                case DatabaseType.MYSQL:
+                    if (isProduction)
+                        _services.AddDbContextMysqlProduction(_configuration);
+                    else
+                        _services.AddDbContextMysqlDebug(_configuration);
+                    break;
+
+                case DatabaseType.SQLITE:
+                    _services.AddDbContextSqlite(_configuration);
+                    break;
+
+                default:
+                    throw new Exception("Invalid database, please provide correct value in appsettings.json");
             }
-            else if (databaseType == DatabaseType.SQLITE)
-            {
-                _services.AddDbContextSqlite(_configuration);
-            }
-            else
-                throw new Exception("Invalid database, please provide correct value in appsettings.json");
 
             return this;
         }
@@ -145,10 +148,12 @@ namespace App.Configuration
             var type = _configuration.GetValue<string>("Network:Type").ToLower();
 
             if (type == NetworkType.NGINX)
+            {
                 _services.Configure<ForwardedHeadersOptions>(options =>
                 {
                     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
                 });
+            }
 
             return this;
         }
