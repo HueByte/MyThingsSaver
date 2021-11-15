@@ -112,12 +112,12 @@ You can change it to the following:
 
 | Log Level | Severity | Description |
 | --- | --- | --- | 
-Trace | 0 | Logs messages only for tracing purposes for the developers.
-Debug | 1 |Logs messages for short-term debugging purposes.
-Information | 2	| Logs messages for the flow of the application.
-Warning | 3 | Logs messages for abnormal or unexpected events in the application flow.
-Error |	4 | Logs error messages.
-Critical | 	5 | Logs failures messages that require immediate attention.
+| Trace | 0 | Logs messages only for tracing purposes for the developers. |
+| Debug | 1 |Logs messages for short-term debugging purposes. |
+| Information | 2	| Logs messages for the flow of the application. |
+| Warning | 3 | Logs messages for abnormal or unexpected events in the application flow. |
+| Error | 4 | Logs error messages. |
+| Critical | 5 | Logs failures messages that require immediate attention. |
 
 ### AllowedHosts
 AllowedHosts is used for host filtering to bind your app to specific hostnames<br>
@@ -131,7 +131,7 @@ Default ConnectionString schemes:
 | Name | Scheme | 
 | --- | --- |
 | `DatabaseConnectionString` | server=;uid=;pwd=;database=mythingssaver |
-| `SQLiteConnectionString` | Data Source=
+| `SQLiteConnectionString` | Data Source= |
 
 ### Database
 Determines which database should be used<br>
