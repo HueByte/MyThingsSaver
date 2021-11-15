@@ -128,6 +128,7 @@ Connection strings to your database, by default SQLite with connection contained
 You can change target database in `Database` setting
 
 Default ConnectionString schemes: 
+
 | Name | Scheme | 
 | --- | --- |
 | `DatabaseConnectionString` | server=;uid=;pwd=;database=mythingssaver |
@@ -136,6 +137,7 @@ Default ConnectionString schemes:
 ### Database
 Determines which database should be used<br>
 Options:
+
 | Database | Setting name | ConnectionString used |
 | --- | --- | --- |
 | MySQL | mysql | `DatabaseConnectionString` |
