@@ -1,6 +1,6 @@
 <p align="center">
    <a href="https://github.com/HueByte/MyThingsSaver">
-      <img src="https://github.com/HueByte/MyThingsSaver/blob/master/client/public/favicon.png" title="MyThingsSaver Logo"/>
+      <img src="https://raw.githubusercontent.com/HueByte/MyThingsSaver/master/client/public/favicon.png" title="MyThingsSaver Logo"/>
    </a>
 </p>
 
