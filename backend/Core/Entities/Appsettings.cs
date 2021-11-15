@@ -87,7 +87,7 @@ namespace Core.Entities
             {
                 Logging = new Logging()
                 {
-                    LogLevel = new LogLevel() { Default = Microsoft.Extensions.Logging.LogLevel.Warning.ToString() }
+                    LogLevel = new LogLevel() { Default = Microsoft.Extensions.Logging.LogLevel.Information.ToString() }
                 },
                 AllowedHosts = "*",
                 ConnectionStrings = new ConnectionStrings()
@@ -136,7 +136,7 @@ namespace Core.Entities
 
         private static string CreateJwtKey()
         {
-            var rsa = new RSACryptoServiceProvider(1024);
+            var rsa = new RSACryptoServiceProvider(2048);
             var result = ExportPrivateKey(rsa);
             return result;
         }
