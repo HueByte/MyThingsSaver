@@ -4,13 +4,13 @@
    </a>
 </p>
 
-# `MyThingsSaver`
+# `👾 MyThingsSaver`
 Easy to use with modern design application that allows you to save your things in well designed and comfortable environment.</br>
 With powerful Markdown editor you can save your notes, lists, tasks and even import tables from other software.<br>
 It's still in the early stage of development but it's fully usable now with v1.0.0 release!
 </br>
 
-# `Start`
+# `🌀 Start`
 ### System
 | OS | App Version | 
 | --- | --- | 
@@ -22,21 +22,21 @@ It's still in the early stage of development but it's fully usable now with v1.0
 
 > If you have problem running the app try installing [aspnet runtime 5](https://dotnet.microsoft.com/download/dotnet/5.0) for your OS
 
-### Windows
+### `Windows`
 1. Download **MyThingsSaver.zip**
 2. Unpack it
 3. Locate **App.exe** in the root directory
 4. Run **App.exe**
 5. Type http://localhost/ in your browser
 
-### Linux
+### `Linux`
 1. Download **MyThingsSaver.zip**
 2. Unpack it
 3. Locate **App.dll** or **App** file in the root directory
 4. run command: `dotnet App.dll` / or run `App` file
 5. Type http://localhost/ in your browser
 
-### MacOS
+### `MacOS`
 1. Download **MyThingsSaver.zip**
 2. Unpack it
 3. Locate `App` File in the root directory
@@ -53,7 +53,7 @@ It's still in the early stage of development but it's fully usable now with v1.0
 ### Example desired output
 <img src="https://i.imgur.com/SAqa3S7.png" title="example">
 
-# `For Development:` 
+# `👨‍💻 For Development:` 
 ### Development requirements
 * npm
 * dotnet 5.x SDK
@@ -64,7 +64,7 @@ It's still in the early stage of development but it's fully usable now with v1.0
    3. run command: `dotnet run`
 </br>
 
-# `Configuration `
+# `⚙️ Configuration `
 If you want to reset your settings just remove `appsettings.json` from app's root directory, it will generate new file with default settings and new JWT key
 </br>
 
@@ -149,7 +149,7 @@ Browser security prevents a web page from making requests to a different domain 
 * `Audience` Put your domain here. Claim that identifies the recipients that the [JWT](https://jwt.io/) is intended for
 </br>
 
-# `Q&A`
+# `👨‍🏫 Q&A`
 ### Where's my save file? (SQLite)
 > You can find your save file inside `save` directory in root folder. It will be called `save.sqlite`
 
