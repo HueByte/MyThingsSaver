@@ -25,21 +25,21 @@ It's still in the early stage of development but it's fully usable now with v1.0
 > If you have problem running the app try installing [aspnet runtime 5](https://dotnet.microsoft.com/download/dotnet/5.0) for your OS
 
 ### `Windows`
-1. Download **MyThingsSaver.zip**
+1. Download [MyThingsSaver.zip](https://github.com/HueByte/MyThingsSaver/releases/tag/v1.0.0)
 2. Unpack it
 3. Locate **App.exe** in the root directory
 4. Run **App.exe**
 5. Type http://localhost/ in your browser
 
 ### `Linux`
-1. Download **MyThingsSaver.zip**
+1. Download [MyThingsSaver.zip](https://github.com/HueByte/MyThingsSaver/releases/tag/v1.0.0)
 2. Unpack it
 3. Locate **App.dll** or **App** file in the root directory
 4. run command: `dotnet App.dll` / or run `App` file
 5. Type http://localhost/ in your browser
 
 ### `MacOS`
-1. Download **MyThingsSaver.zip**
+1. Download [MyThingsSaver.zip](https://github.com/HueByte/MyThingsSaver/releases/tag/v1.0.0)
 2. Unpack it
 3. Locate `App` File in the root directory
 4. Run `App` file
