@@ -11,7 +11,9 @@ It's still in the early stage of development but it's fully usable now with v1.0
 </br>
 
 # `🌀 Start`
+
 ### System
+
 | OS | App Version | 
 | --- | --- | 
 | Linux 64bit | Linux64_Standalone |
