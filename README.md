@@ -4,7 +4,7 @@
    </a>
 </p>
 
-# `👾 MyThingsSaver`
+# `👾 My Things Saver`
 Easy to use with modern design application that allows you to save your things in well designed and comfortable environment.</br>
 With powerful Markdown editor you can save your notes, lists, tasks and even import tables from other software.<br>
 It's still in the early stage of development but it's fully usable now with v1.0.0 release!
