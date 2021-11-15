@@ -25,21 +25,21 @@ It's still in the early stage of development but it's fully usable now with v1.0
 ### Windows
 1. Download **MyThingsSaver.zip**
 2. Unpack it
-3. Locate **App.exe** in root directory
+3. Locate **App.exe** in the root directory
 4. Run **App.exe**
 5. Type http://localhost/ in your browser
 
 ### Linux
 1. Download **MyThingsSaver.zip**
 2. Unpack it
-3. Locate **App.dll** or **App** file in root directory
+3. Locate **App.dll** or **App** file in the root directory
 4. run command: `dotnet App.dll` / or run `App` file
 5. Type http://localhost/ in your browser
 
 ### MacOS
 1. Download **MyThingsSaver.zip**
 2. Unpack it
-3. Locate `App` File
+3. Locate `App` File in the root directory
 4. Run `App` file
 5. Type http://localhost/ in your browser
 </br>
@@ -50,7 +50,7 @@ It's still in the early stage of development but it's fully usable now with v1.0
 * Type http://YourPublicIP/ in your browser (App needs to be port forwarded - [How to?](https://www.noip.com/support/knowledgebase/general-port-forwarding-guide/))
 
 
-### This should be example desired output 
+### Example desired output
 <img src="https://i.imgur.com/SAqa3S7.png" title="example">
 
 # `For Development:` 
@@ -73,7 +73,7 @@ Handled by `Network` object in `appsettings.json`
 
 * Nginx & HTTPS</br>Example nginx configuration file is inside `examples` folder.</br>
    1. Install [nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
-   2. Replace [nginx configuration](http://nginx.org/en/docs/beginners_guide.html) file with `examples/nginx.conf`
+   2. Replace [nginx configuration file](http://nginx.org/en/docs/beginners_guide.html) with `examples/nginx.conf`
    3. Create `.cert` folder in the nginx root folder
    4. Get SSL certificates from [GreenLock](https://greenlock.domains/) if you don't have them
    5. Move your certificate files to `.cert` folder
@@ -150,6 +150,9 @@ Browser security prevents a web page from making requests to a different domain 
 </br>
 
 # `Q&A`
+### Where's my save file? (SQLite)
+> You can find your save file inside `save` directory in root folder. It will be called `save.sqlite`
+
 ### How do I keep my `appsettings.json` in the same state every debug?
 > Once your `appsettings.json` is generated just move it to the *backend/App* directory.</br>
 > It will be automatically moved to your debug folder every build
