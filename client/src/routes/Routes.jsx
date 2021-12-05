@@ -17,11 +17,11 @@ import Categories from "../pages/Categories/Categories";
 import Category from "../pages/Category/Category";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
+import Entry from "../pages/Entry/Entry";
 import Logout from "../pages/Logout/Logout";
 
 // other
 import PrivateRoute from "./AuthenticatedRoute";
-import Entry from "../pages/Entry/Entry";
 import { CategoryProvider } from "../contexts/CategoryContext";
 import { Role } from "../api/Roles";
 
