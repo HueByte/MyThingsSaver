@@ -43,10 +43,10 @@ export const ApiProvider = ({ children }) => {
 };
 
 const ParamBuilder = (endpoint, params) => {
-  let result = "";
+  let result = endpoint;
   let isFirst = true;
 
-  params.foreach((item) => {
+  params?.foreach((item) => {
     if (isFirst) {
       result += `?${item.key}${item.value}`;
     } else {
