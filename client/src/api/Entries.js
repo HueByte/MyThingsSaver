@@ -1,10 +1,10 @@
 import {
-  AddOneEntryEndpoint,
-  DeleteEntryEndpoint,
-  GetAllEntriesEndpoint,
-  GetEntryByIdEndpoint,
-  GetRecentEntriesEndpoint,
-  UpdateEntryEndpoint,
+  EntriesAddEnpoint,
+  EntriesDeleteEndpoint,
+  EntriesGetAllEndpoint,
+  EntryGetEndpoint,
+  EntriesGetRecentEndpoint,
+  EntriesUpdateEndpoint,
 } from "../routes/ApiEndpoints";
 import { AuthFetch } from "./ApiHandler";
 
@@ -18,7 +18,7 @@ export async function GetAllEntries(token, categoryId, withContent = false) {
   };
 
   return await AuthFetch(
-    `${GetAllEntriesEndpoint}?categoryId=${categoryId}&withContent=${withContent}`,
+    `${EntriesGetAllEndpoint}?categoryId=${categoryId}&withContent=${withContent}`,
     requestOptions
   );
 }
@@ -32,10 +32,7 @@ export async function GetOneEntry(token, entryId) {
     },
   };
 
-  return await AuthFetch(
-    `${GetEntryByIdEndpoint}/?id=${entryId}`,
-    requestOptions
-  );
+  return await AuthFetch(`${EntryGetEndpoint}/?id=${entryId}`, requestOptions);
 }
 
 export async function UpdateOneEntry(token, EntryId, Name, Content) {
@@ -52,7 +49,7 @@ export async function UpdateOneEntry(token, EntryId, Name, Content) {
     }),
   };
 
-  return await AuthFetch(UpdateEntryEndpoint, requestOptions);
+  return await AuthFetch(EntriesUpdateEndpoint, requestOptions);
 }
 
 export async function AddOneEntry(token, Name, CategoryId) {
@@ -69,7 +66,7 @@ export async function AddOneEntry(token, Name, CategoryId) {
     }),
   };
 
-  return await AuthFetch(AddOneEntryEndpoint, requestOptions);
+  return await AuthFetch(EntriesAddEnpoint, requestOptions);
 }
 
 export async function DeleteOneEntry(token, id) {
@@ -81,7 +78,7 @@ export async function DeleteOneEntry(token, id) {
     },
   };
 
-  return await AuthFetch(`${DeleteEntryEndpoint}?id=${id}`, requestOptions);
+  return await AuthFetch(`${EntriesDeleteEndpoint}?id=${id}`, requestOptions);
 }
 
 export async function GetRecentEntries(token) {
@@ -93,5 +90,5 @@ export async function GetRecentEntries(token) {
     },
   };
 
-  return await AuthFetch(GetRecentEntriesEndpoint, requestOptions);
+  return await AuthFetch(EntriesGetRecentEndpoint, requestOptions);
 }
