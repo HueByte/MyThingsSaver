@@ -1,12 +1,5 @@
 import React, { Suspense } from "react";
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-  Link,
-  Redirect,
-  NavLink,
-} from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 // components/pages
 import BasicLayout from "../core/BasicLayout";

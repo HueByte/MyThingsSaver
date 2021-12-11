@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import Loader from "../../components/Loaders/Loader";
 import KUTE from "kute.js";
+import { EntriesGetAllEndpoint } from "../../api/ApiEndpoints";
+import { useContext } from "react";
+import { ApiContext } from "../../api/ApiRequest";
 
 const TestingPage = () => {
-  useEffect(() => {
+  const api = useContext(ApiContext);
+  useEffect(async () => {
     const tween = KUTE.fromTo(
       "#first",
       { path: "#first" },
@@ -12,6 +16,9 @@ const TestingPage = () => {
     );
 
     tween.start();
+
+    let result = await api.Get(EntriesGetAllEndpoint);
+    console.log(result);
   }, []);
 
   return (
