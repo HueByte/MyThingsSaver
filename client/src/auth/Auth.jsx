@@ -4,7 +4,7 @@ import {
   LogoutEndpoint,
   RegisterEndpoint,
   SilentLoginEndpoint,
-} from "../routes/ApiEndpoints";
+} from "../api/ApiEndpoints";
 
 export const AuthRegister = async (Email, Username, Password) => {
   const requestOptions = {

@@ -4,7 +4,7 @@ import {
   CategoryGetAllEndpoint,
   CategoryUpdateEndpoint,
   CategoryGetWithEntriesEndpoint,
-} from "../routes/ApiEndpoints";
+} from "./ApiEndpoints";
 import { AuthFetch } from "./ApiHandler";
 
 export async function AddCategory(token, Name, parentId = null) {
