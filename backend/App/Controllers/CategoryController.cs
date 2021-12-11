@@ -20,9 +20,9 @@ namespace App.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        [HttpGet("GetAllCategories")]
+        [HttpGet("GetAll")]
         [Authorize]
-        public async Task<IActionResult> GetAllCategoriesAsync()
+        public async Task<IActionResult> GetAll()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () =>
@@ -34,9 +34,9 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpGet("GetCategory")]
+        [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetCategoryAsync(string id)
+        public async Task<IActionResult> GetCategory(string id)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
@@ -48,9 +48,9 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpPost("AddCategory")]
+        [HttpPost("Add")]
         [Authorize]
-        public async Task<IActionResult> AddCategoryAsync([FromBody] CategoryDTO category)
+        public async Task<IActionResult> AddCategory([FromBody] CategoryDTO category)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -63,7 +63,7 @@ namespace App.Controllers
 
         }
 
-        [HttpPost("RemoveCategory")]
+        [HttpPost("Remove")]
         [Authorize]
         public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDTO category)
         {
@@ -77,9 +77,9 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpPost("UpdateCategory")]
+        [HttpPost("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateCategoryAsync([FromBody] CategoryDTO category)
+        public async Task<IActionResult> Updatecategory([FromBody] CategoryDTO category)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -94,9 +94,9 @@ namespace App.Controllers
         }
 
         // TODO: change response in .net 6
-        [HttpGet("GetCategoryWithEntries")]
+        [HttpGet("GetWithEntries")]
         [Authorize]
-        public async Task<IActionResult> GetCategoryEntriesAsync([FromQuery] string categoryId)
+        public async Task<IActionResult> GetCategoryWithEntries([FromQuery] string categoryId)
         {
             var userid = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>

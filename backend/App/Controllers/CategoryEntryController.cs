@@ -20,9 +20,9 @@ namespace App.Controllers
             _categoryEntryRepository = categoryEntryRepository;
         }
 
-        [HttpGet("GetEntryById")]
+        [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetEntryByIdAsync(string id)
+        public async Task<IActionResult> GetById(string id)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<CategoryEntry>.EventHandleAsync(async () =>
@@ -34,9 +34,9 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpGet("GetAllEntries")]
+        [HttpGet("GetAll")]
         [Authorize]
-        public async Task<IActionResult> GetAllEntries([FromQuery] string categoryId, bool withContent)
+        public async Task<IActionResult> GetAll([FromQuery] string categoryId, bool withContent)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<AllCategoryEntries>.EventHandleAsync(async () =>
@@ -48,9 +48,9 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpPost("AddEntry")]
+        [HttpPost("Add")]
         [Authorize]
-        public async Task<IActionResult> AddEntryAsync([FromBody] CategoryEntryDTO entry)
+        public async Task<IActionResult> Add([FromBody] CategoryEntryDTO entry)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -62,9 +62,9 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpPost("UpdateEntry")]
+        [HttpPost("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateOneEntry([FromBody] CategoryEntryDTO entry)
+        public async Task<IActionResult> Update([FromBody] CategoryEntryDTO entry)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -76,9 +76,9 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        [HttpDelete("DeleteEntry")]
+        [HttpDelete("Delete")]
         [Authorize]
-        public async Task<IActionResult> DeleteEntryAsync([FromQuery] string id)
+        public async Task<IActionResult> Delete([FromQuery] string id)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -93,7 +93,7 @@ namespace App.Controllers
         // TODO: change response in .net 6
         [HttpGet("GetRecent")]
         [Authorize]
-        public async Task<IActionResult> GetRecentAsync()
+        public async Task<IActionResult> GetRecent()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<List<CategoryEntry>>.EventHandleAsync(async () =>

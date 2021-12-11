@@ -1,24 +1,24 @@
 export const BaseUrl = `${window.location.protocol}//${window.location.host}/`;
+export const ApiEndpoint = `${BaseUrl}api`;
 
 // api/auth
-export const RegisterEndpoint = `${BaseUrl}api/Authenticate/register`;
-export const LoginEndpoint = `${BaseUrl}api/authenticate/loginUsername`;
-export const LogoutEndpoint = `${BaseUrl}api/authenticate/logout`;
-export const SilentLoginEndpoint = `${BaseUrl}api/authenticate/refresh-token`;
+export const RegisterEndpoint = `${ApiEndpoint}/Authenticate/register`;
+export const LoginEndpoint = `${ApiEndpoint}/Authenticate/loginUsername`;
+export const LogoutEndpoint = `${ApiEndpoint}/Authenticate/logout`;
+export const SilentLoginEndpoint = `${ApiEndpoint}/Authenticate/refresh-token`;
 
 // api/category
-export const CategoryAddEndpoint = `${BaseUrl}api/Category/AddCategory`;
-export const CategoryRemoveEndpoint = `${BaseUrl}api/Category/RemoveCategory`;
-export const CategoryGetAllEndpoint = `${BaseUrl}api/Category/GetAllCategories`;
-export const CategoryGetEndpoint = `${BaseUrl}api/Category/RemoveCategory`;
-export const CategoryUpdateEndpoint = `${BaseUrl}api/Category/UpdateCategory`;
-export const CategoryGetWithEntriesEndpoint = `${BaseUrl}api/Category/GetCategoryWithEntries`;
+export const CategoryGetAllEndpoint = `${ApiEndpoint}/Category/GetAll`;
+export const CategoryGetEndpoint = `${ApiEndpoint}/Category/Get`;
+export const CategoryAddEndpoint = `${ApiEndpoint}/Category/Add`;
+export const CategoryRemoveEndpoint = `${ApiEndpoint}/Category/Remove`;
+export const CategoryUpdateEndpoint = `${ApiEndpoint}/Category/Update`;
+export const CategoryGetWithEntriesEndpoint = `${ApiEndpoint}/Category/GetWithEntries`;
 
 // api/CategoryEntry
-export const AddOneEntryEndpoint = `${BaseUrl}api/CategoryEntry/AddEntry`;
-export const GetEntryByNameEndpoint = `${BaseUrl}api/CategoryEntry/GetEntryByName`;
-export const GetEntryByIdEndpoint = `${BaseUrl}api/CategoryEntry/GetEntryById`;
-export const GetAllEntriesEndpoint = `${BaseUrl}api/CategoryEntry/GetAllEntries`;
-export const UpdateEntryEndpoint = `${BaseUrl}api/CategoryEntry/UpdateEntry`;
-export const DeleteEntryEndpoint = `${BaseUrl}api/CategoryEntry/DeleteEntry`;
-export const GetRecentEntriesEndpoint = `${BaseUrl}api/CategoryEntry/GetRecent`;
+export const GetEntryByIdEndpoint = `${ApiEndpoint}/CategoryEntry/Get`;
+export const GetAllEntriesEndpoint = `${ApiEndpoint}/CategoryEntry/GetAll`;
+export const AddOneEntryEndpoint = `${ApiEndpoint}/CategoryEntry/Add`;
+export const UpdateEntryEndpoint = `${ApiEndpoint}/CategoryEntry/Update`;
+export const DeleteEntryEndpoint = `${ApiEndpoint}/CategoryEntry/Delete`;
+export const GetRecentEntriesEndpoint = `${ApiEndpoint}/CategoryEntry/GetRecent`;
