@@ -42,6 +42,9 @@ namespace Infrastructure.Repositories
         {
             AllCategoryEntries entries = new();
 
+            if (string.IsNullOrEmpty(ownerId) || string.IsNullOrEmpty(categoryId))
+                throw new ArgumentException("Owner ID or Category ID was empty");
+
             if (withContent)
             {
                 entries.SubCategories = await _context.Categories

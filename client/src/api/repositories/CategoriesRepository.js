@@ -5,74 +5,33 @@ import {
   CategoryUpdateEndpoint,
   CategoryGetWithEntriesEndpoint,
 } from "../ApiEndpoints";
+import ApiClient from "../ApiClient";
 import { AuthFetch } from "../ApiHandler";
 
-export async function AddCategory(token, Name, parentId = null) {
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ name: Name, categoryParentId: parentId }),
-  };
+class CategoriesRepository {
+  static async Add(token, name, parentID = null) {
+    let body = JSON.stringify({ name: name, categoryParentId: parentID });
+    return await ApiClient.Post(token, CategoryAddEndpoint, body);
+  }
 
-  return await AuthFetch(CategoryAddEndpoint, requestOptions);
+  static async GetAll(token) {
+    return await ApiClient.Get(token, CategoryGetAllEndpoint);
+  }
+
+  static async GetWithEntries(token, categoryID, withContent = false) {
+    let params = [{ key: "CategoryID", value: categoryID }];
+    return await ApiClient.Get(token, CategoryGetWithEntriesEndpoint, params);
+  }
+
+  static async Remove(token, categoryID) {
+    let body = JSON.stringify({ categoryId: categoryID });
+    return await ApiClient.Post(token, CategoryRemoveEndpoint, body);
+  }
+
+  static async Update(token, categoryID, name) {
+    let body = JSON.stringify({ categoryId: categoryID, name: name });
+    return await ApiClient.Post(token, CategoryUpdateEndpoint, body);
+  }
 }
 
-export async function GetAllCategories(token) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  return await AuthFetch(CategoryGetAllEndpoint, requestOptions);
-}
-
-export async function GetCategoryWithEntries(
-  token,
-  CategoryId,
-  withContent = false
-) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  return await AuthFetch(
-    `${CategoryGetWithEntriesEndpoint}?categoryId=${CategoryId}`,
-    requestOptions
-  );
-}
-
-export async function RemoveCategory(token, CategoryId) {
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ categoryId: CategoryId }),
-  };
-
-  return await AuthFetch(CategoryRemoveEndpoint, requestOptions);
-}
-
-export async function UpdateCategory(token, CategoryId, Name) {
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ categoryId: CategoryId, name: Name }),
-  };
-
-  return await AuthFetch(CategoryUpdateEndpoint, requestOptions);
-}
+export default CategoriesRepository;

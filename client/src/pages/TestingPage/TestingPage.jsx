@@ -5,7 +5,6 @@ import { EntriesGetAllEndpoint } from "../../api/ApiEndpoints";
 import { useContext } from "react";
 
 const TestingPage = () => {
-  const api = useContext(ApiContext);
   useEffect(async () => {
     const tween = KUTE.fromTo(
       "#first",

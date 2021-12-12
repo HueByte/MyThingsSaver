@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { GetRecentEntries } from "../../api/repositories/EntriesRepository";
+import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import "./HomePage.css";
@@ -11,7 +11,7 @@ const HomePage = () => {
   const [isFetching, setFetching] = useState(true);
 
   useEffect(async () => {
-    await GetRecentEntries(authContext.authState?.token)
+    await EntriesRepository.GetRecent(authContext.authState?.token)
       .then((result) => {
         if (result.isSuccess) setEntries(result.data);
       })

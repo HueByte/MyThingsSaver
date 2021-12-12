@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { NavLink } from "react-router-dom";
-import {
-  AddOneEntry,
-  DeleteOneEntry,
-  GetAllEntries,
-} from "../../api/repositories/EntriesRepository";
+import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import { CategoryContext } from "../../contexts/CategoryContext";
@@ -30,7 +26,7 @@ const Category = () => {
   const isSubCategory = subCategoryName ? true : false;
 
   useEffect(async () => {
-    await GetAllEntries(authContext.authState?.token, mainCategoryId)
+    await EntriesRepository.GetAll(authContext.authState?.token, mainCategoryId)
       .then((result) => setEntries(result.data))
       .catch((error) => console.error(error));
   }, [mainCategoryId]);
@@ -43,9 +39,16 @@ const Category = () => {
       return;
     }
 
-    await AddOneEntry(authContext.authState?.token, name, mainCategoryId)
+    await EntriesRepository.Add(
+      authContext.authState?.token,
+      name,
+      mainCategoryId
+    )
       .then(async () => {
-        await GetAllEntries(authContext.authState?.token, mainCategoryId)
+        await EntriesRepository.GetAll(
+          authContext.authState?.token,
+          mainCategoryId
+        )
           .then((result) => setEntries(result.data))
           .catch((error) => console.error(error));
       })
@@ -65,7 +68,10 @@ const Category = () => {
     let result = await categoryContext
       .ContextAddCategory(name, parentId)
       .then(async () => {
-        await GetAllEntries(authContext.authState?.token, mainCategoryId)
+        await EntriesRepository.GetAll(
+          authContext.authState?.token,
+          mainCategoryId
+        )
           .then((result) => setEntries(result.data))
           .catch((error) => console.error(error));
       });
@@ -113,10 +119,9 @@ const Category = () => {
 
   // delete entry
   const removeEntry = async (entryId) => {
-    await DeleteOneEntry(authContext.authState?.token, entryId)
+    await EntriesRepository.Delete(authContext.authState?.token, entryId)
       .then(async () => {
         let newState = entries;
-        console.log(newState);
         let newEntries = newState.categoryEntries.filter((entry) => {
           return entry.categoryEntryId !== entryId;
         });

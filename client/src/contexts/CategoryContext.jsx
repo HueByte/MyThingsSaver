@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import {
-  AddCategory,
-  GetAllCategories,
-  RemoveCategory,
-  UpdateCategory,
-} from "../api/repositories/CategoriesRepository";
+import CategoriesRepository from "../api/repositories/CategoriesRepository";
 import { AuthContext } from "../auth/AuthContext";
 import Loader from "../components/Loaders/Loader";
 import { warningModal } from "../core/Modals";
@@ -27,7 +22,7 @@ const CategoryProvider = ({ children }) => {
   async function ContextAddCategory(Name, parentId) {
     if (Name.length === 0) return;
 
-    return await AddCategory(
+    return await CategoriesRepository.Add(
       authContext.authState?.token,
       Name.trim(),
       parentId
@@ -40,7 +35,7 @@ const CategoryProvider = ({ children }) => {
   }
 
   async function ContextRemoveCategory(Id) {
-    return await RemoveCategory(authContext.authState?.token, Id)
+    return await CategoriesRepository.Remove(authContext.authState?.token, Id)
       .then(async (result) => {
         let newCategories = categories;
         newCategories = newCategories.filter((category) => {
@@ -57,7 +52,7 @@ const CategoryProvider = ({ children }) => {
   async function ContextEditCategory(categoryId, newName) {
     if (newName.length === 0) return;
 
-    return await UpdateCategory(
+    return await CategoriesRepository.Update(
       authContext.authState?.token,
       categoryId,
       newName
@@ -77,7 +72,7 @@ const CategoryProvider = ({ children }) => {
   }
 
   async function ContextGetAllCategories() {
-    let result = await GetAllCategories(authContext.authState?.token)
+    let result = await CategoriesRepository.GetAll(authContext.authState?.token)
       .then((result) => {
         return result.data;
       })

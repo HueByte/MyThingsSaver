@@ -6,11 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { Redirect, useParams } from "react-router";
-import {
-  DeleteOneEntry,
-  GetOneEntry,
-  UpdateOneEntry,
-} from "../../api/repositories/EntriesRepository";
+import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
@@ -36,7 +32,7 @@ const Entry = () => {
   const entryToDelete = useRef();
 
   useEffect(async () => {
-    await GetOneEntry(authContext.authState?.token, entryId)
+    await EntriesRepository.Get(authContext.authState?.token, entryId)
       .then((result) => {
         if (!result.isSuccess) {
           setShouldRedirect(true);
@@ -64,7 +60,7 @@ const Entry = () => {
   }, []);
 
   const sendUpdateCallback = async (newName, data) => {
-    await UpdateOneEntry(
+    await EntriesRepository.Update(
       authContext.authState?.token,
       entryId,
       newName,
@@ -86,7 +82,7 @@ const Entry = () => {
   };
 
   const removeEntry = async () => {
-    await DeleteOneEntry(authContext.authState?.token, entryId)
+    await EntriesRepository.Delete(authContext.authState?.token, entryId)
       .then(() => setShouldRedirect(true))
       .catch((error) => console.error(error));
 

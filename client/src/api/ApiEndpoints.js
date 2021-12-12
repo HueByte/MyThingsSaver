@@ -16,7 +16,7 @@ export const CategoryUpdateEndpoint = `${ApiEndpoint}/Category/Update`;
 export const CategoryGetWithEntriesEndpoint = `${ApiEndpoint}/Category/GetWithEntries`;
 
 // api/CategoryEntry
-export const EntryGetEndpoint = `${ApiEndpoint}/CategoryEntry/Get`;
+export const EntriesGetEndpoint = `${ApiEndpoint}/CategoryEntry/Get`;
 export const EntriesGetAllEndpoint = `${ApiEndpoint}/CategoryEntry/GetAll`;
 export const EntriesAddEnpoint = `${ApiEndpoint}/CategoryEntry/Add`;
 export const EntriesUpdateEndpoint = `${ApiEndpoint}/CategoryEntry/Update`;
