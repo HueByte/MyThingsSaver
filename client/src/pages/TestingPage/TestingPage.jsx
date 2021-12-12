@@ -3,7 +3,6 @@ import Loader from "../../components/Loaders/Loader";
 import KUTE from "kute.js";
 import { EntriesGetAllEndpoint } from "../../api/ApiEndpoints";
 import { useContext } from "react";
-import { ApiContext } from "../../api/ApiRequest";
 
 const TestingPage = () => {
   const api = useContext(ApiContext);
@@ -17,8 +16,8 @@ const TestingPage = () => {
 
     tween.start();
 
-    let result = await api.Get(EntriesGetAllEndpoint);
-    console.log(result);
+    // let result = await api.Get(EntriesGetAllEndpoint);
+    // console.log(result);
   }, []);
 
   return (

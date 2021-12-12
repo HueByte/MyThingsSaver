@@ -4,7 +4,7 @@ import {
   GetAllCategories,
   RemoveCategory,
   UpdateCategory,
-} from "../api/Categories";
+} from "../api/repositories/CategoriesRepository";
 import { AuthContext } from "../auth/AuthContext";
 import Loader from "../components/Loaders/Loader";
 import { warningModal } from "../core/Modals";

@@ -6,7 +6,11 @@ import React, {
   useCallback,
 } from "react";
 import { Redirect, useParams } from "react-router";
-import { DeleteOneEntry, GetOneEntry, UpdateOneEntry } from "../../api/Entries";
+import {
+  DeleteOneEntry,
+  GetOneEntry,
+  UpdateOneEntry,
+} from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";

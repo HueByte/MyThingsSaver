@@ -4,8 +4,8 @@ import {
   CategoryGetAllEndpoint,
   CategoryUpdateEndpoint,
   CategoryGetWithEntriesEndpoint,
-} from "./ApiEndpoints";
-import { AuthFetch } from "./ApiHandler";
+} from "../ApiEndpoints";
+import { AuthFetch } from "../ApiHandler";
 
 export async function AddCategory(token, Name, parentId = null) {
   const requestOptions = {

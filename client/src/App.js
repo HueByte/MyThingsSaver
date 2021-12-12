@@ -3,7 +3,6 @@ import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Routes } from "./routes/Routes";
 import { AuthProvider } from "./auth/AuthContext";
-import { ApiProvider } from "./api/ApiRequest";
 
 // notifications
 import ReactNotifications from "react-notifications-component";
@@ -21,10 +20,8 @@ function App() {
   return (
     <Router history={history}>
       <AuthProvider>
-        <ApiProvider>
-          <ReactNotifications isMobile={true} />
-          <Routes />
-        </ApiProvider>
+        <ReactNotifications isMobile={true} />
+        <Routes />
       </AuthProvider>
     </Router>
   );

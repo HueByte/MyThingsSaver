@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { GetRecentEntries } from "../../api/Entries";
+import { GetRecentEntries } from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import "./HomePage.css";

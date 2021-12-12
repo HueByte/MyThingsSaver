@@ -1,7 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { NavLink } from "react-router-dom";
-import { AddOneEntry, DeleteOneEntry, GetAllEntries } from "../../api/Entries";
+import {
+  AddOneEntry,
+  DeleteOneEntry,
+  GetAllEntries,
+} from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import { CategoryContext } from "../../contexts/CategoryContext";

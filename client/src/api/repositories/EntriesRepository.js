@@ -5,8 +5,8 @@ import {
   EntryGetEndpoint,
   EntriesGetRecentEndpoint,
   EntriesUpdateEndpoint,
-} from "./ApiEndpoints";
-import { AuthFetch } from "./ApiHandler";
+} from "../ApiEndpoints";
+import { AuthFetch } from "../ApiHandler";
 
 export async function GetAllEntries(token, categoryId, withContent = false) {
   const requestOptions = {

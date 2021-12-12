@@ -1,13 +1,7 @@
-import React, { createContext, useContext } from "react";
-import { AuthContext } from "../auth/AuthContext";
 import { AuthFetch } from "./ApiHandler";
 
-export const ApiContext = createContext();
-
-export const ApiProvider = ({ children }) => {
-  const authContext = useContext(AuthContext);
-
-  const Get = async (endpoint, params = null) => {
+class ApiClient {
+  static async Get(endpoint, params = null) {
     const requestOptons = {
       method: "GET",
       headers: {
@@ -19,9 +13,9 @@ export const ApiProvider = ({ children }) => {
     let resultEndpoint = params ? ParamBuilder(endpoint, params) : endpoint;
 
     return await AuthFetch(resultEndpoint, requestOptons);
-  };
+  }
 
-  const Post = async (endpoint, body) => {
+  static async Post(endpoint, body) {
     const requestOptons = {
       method: "POST",
       headers: {
@@ -32,15 +26,10 @@ export const ApiProvider = ({ children }) => {
     };
 
     return await AuthFetch(endpoint, requestOptons);
-  };
+  }
+}
 
-  const value = {
-    Get,
-    Post,
-  };
-
-  return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
-};
+export default ApClient;
 
 const ParamBuilder = (endpoint, params) => {
   let result = endpoint;
