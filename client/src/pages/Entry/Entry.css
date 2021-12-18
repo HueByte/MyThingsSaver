@@ -52,17 +52,17 @@ h6 {
   border-radius: 10px;
 }
 
-.basic-info-left {
+.entry__container .basic-info-left {
   display: flex;
   align-items: center;
   flex: 2;
 }
 
-.basic-info > div {
+.entry__container .basic-info > div {
   height: 100%;
 }
 
-.basic-info .icon {
+.entry__container .basic-info .icon {
   width: 100px;
   display: grid;
   place-items: center;
@@ -70,7 +70,7 @@ h6 {
   color: var(--Teal);
 }
 
-.basic-info .name {
+.entry__container .basic-info .name {
   display: grid;
   place-items: center;
   font-size: large;
@@ -78,7 +78,7 @@ h6 {
   color: var(--Teal);
 }
 
-.basic-info .date {
+.entry__container .basic-info .date {
   display: grid;
   font-size: large;
   place-items: center;
@@ -87,7 +87,7 @@ h6 {
   color: var(--Grey);
 }
 
-.entry-content {
+.entry__container .entry-content {
   padding: 20px 40px 40px 40px;
   margin-bottom: 40px;
   max-width: 1200px;
@@ -97,7 +97,7 @@ h6 {
   min-height: 30vh;
 }
 
-.entry-content > a,
+.entry__container .entry-content > a,
 a:hover,
 a:link,
 a:visited,
@@ -105,29 +105,29 @@ a:active {
   color: var(--Gold);
 }
 
-.entry-center-content {
+.entry__container .entry-center-content {
   max-width: 1024px;
 }
 
-.basic-info-right {
+.entry__container .basic-info-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   flex: 1;
 }
 
-.entry-button {
+.entry__container .entry-button {
   flex: 1;
   max-width: 100px;
   margin-left: 1em;
   transition: 200ms;
 }
 
-.entry__container .hide {
+.entry__container .entry__container .hide {
   opacity: 0;
 }
 
-.edit-name-menu {
+.entry__container .edit-name-menu {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -136,7 +136,7 @@ a:active {
   font-weight: bold;
 }
 
-.edit-name {
+.entry__container .edit-name {
   margin-left: 1em;
 }
 
@@ -144,7 +144,7 @@ a:active {
   display: none;
 }
 
-.edit-name:focus {
+.entry__container .edit-name:focus {
   border: 1px solid var(--Teal) !important;
 }
 
@@ -163,7 +163,7 @@ a:active {
     padding: 0;
   }
 
-  .basic-info-right {
+  .entry__container .basic-info-right {
     display: none;
   }
 
@@ -173,7 +173,7 @@ a:active {
     align-items: center;
   }
 
-  .entry-content {
+  .entry__container .entry-content {
     padding: 10px;
   }
 }

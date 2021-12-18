@@ -10,7 +10,7 @@
 }
 
 .main__wrapper {
-  width: Calc(100vw - 250px);
+  width: Calc(100% - 250px);
   position: absolute;
   left: 240px;
   top: 64px;
@@ -23,7 +23,7 @@
 }
 
 .interface__wrapper .expanded {
-  width: calc(100vw);
+  width: 100%;
   left: 0;
 }
 
