@@ -19,7 +19,7 @@
   overflow-y: auto;
   transition: 1s ease-in-out;
   z-index: 10;
-  transform: 200ms;
+  transition: 300ms;
 }
 
 .interface__wrapper .expanded {
