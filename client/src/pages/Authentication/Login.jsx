@@ -43,6 +43,10 @@ const Login = () => {
     setIsWorking(false);
   };
 
+  const handleEnter = async (event) => {
+    if (event.key === "Enter") await authenticate();
+  };
+
   if (authContext.isAuthenticated()) return <Navigate to="/" />;
   return (
     <AuthTemplate isWorking={isWorking}>
@@ -71,6 +75,7 @@ const Login = () => {
         </div>
         <div className="auth-menu-side">
           <div
+            onKeyDown={handleEnter}
             onClick={() => setIsWorking(true)}
             className="basic-button auth-button"
           >

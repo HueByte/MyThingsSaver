@@ -58,6 +58,10 @@ const Register = () => {
     setIsWorking(false);
   };
 
+  const handleEnter = async (event) => {
+    if (event.key === "Enter") await authenticate();
+  };
+
   if (authContext.isAuthenticated()) return <Navigate to="/" />;
   return (
     <AuthTemplate isWorking={isWorking}>
@@ -93,6 +97,7 @@ const Register = () => {
         <div className="auth-menu-side"></div>
         <div className="auth-menu-side">
           <div
+            onKeyDown={handleEnter}
             onClick={() => setIsWorking(true)}
             className="basic-button auth-button"
           >
