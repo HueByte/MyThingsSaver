@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { AuthContext } from "../../auth/AuthContext";
 
 const Logout = () => {
@@ -10,7 +10,7 @@ const Logout = () => {
     setRedirect(true);
   }, []);
 
-  return <>{redirect ? <Redirect to="/auth/login" /> : <>logging out...</>}</>;
+  return <>{redirect ? <Navigate to="/auth/login" /> : <>logging out...</>}</>;
 };
 
 export default Logout;

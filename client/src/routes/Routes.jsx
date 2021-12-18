@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Routes, Route, Switch } from "react-router-dom";
 
-// components/pages
+// elements/pages
 import BasicLayout from "../core/BasicLayout/BasicLayout.jsx";
 import HomePage from "../pages/HomePage/HomePage";
 import TestingPage from "../pages/TestingPage/TestingPage";
@@ -18,49 +18,96 @@ import PrivateRoute from "./AuthenticatedRoute";
 import { CategoryProvider } from "../contexts/CategoryContext";
 import { Role } from "../api/Roles";
 
-export const Routes = () => {
-  const basicLayoutRoutes = [
-    "/",
-    "/Testing",
-    "/category/:categoryId/:entryId",
-    "/categories",
-    "/Settings",
-    "/entry/:categoryId/:subCategoryId?/:entryId",
-    "/logout",
-  ];
-
+export const ClientRouter = () => {
   return (
-    <Switch>
-      <Route path="/auth/login" component={Login} />
-      <Route path="/auth/register" component={Register} />
+    <Routes>
+      <Route path="auth/login" element={<Login />} />
+      <Route path="auth/register" element={<Register />} />
 
-      <PrivateRoute path={basicLayoutRoutes} component={BasicLayout}>
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <BasicLayout />
+          </PrivateRoute>
+        }
+      >
+        <Route
+          index
+          element={
+            <PrivateRoute>
+              <HomePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/categories"
+          element={
+            <PrivateRoute>
+              <Categories />
+            </PrivateRoute>
+          }
+        />
+        <Route path="category">
+          <Route
+            path=":categoryName/:subCategoryName/:fetchCategoryId"
+            element={
+              <PrivateRoute>
+                <Category />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path=":categoryName/:fetchCategoryId"
+            element={
+              <PrivateRoute>
+                <Category />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+        <Route
+          path="logout"
+          element={
+            <PrivateRoute>
+              <Logout />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoute roles={Role.Admin}>
+              <Settings />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<FOUR_ZERO_FOUR />} />
+      </Route>
+
+      {/* <PrivateRoute path="/" element={<BasicLayout />}>
         <CategoryProvider>
-          <BasicLayout>
-            <Switch>
-              <PrivateRoute exact path="/" component={HomePage} />
-              <PrivateRoute
-                path="/category/:categoryId/:subCategoryId?/:entryId"
-                component={Category}
-              />
-              <PrivateRoute path="/categories" component={Categories} />
-              <PrivateRoute path="/Testing" component={TestingPage} />
-              <PrivateRoute
-                roles={Role.Admin}
-                path="/Settings"
-                component={Settings}
-              />
-              <PrivateRoute
-                path="/entry/:categoryId/:subCategoryId?/:entryId"
-                component={Entry}
-              />
-              <PrivateRoute path="/logout" component={Logout} />
-              <PrivateRoute component={FOUR_ZERO_FOUR} />
-            </Switch>
-          </BasicLayout>
+          <PrivateRoute index element={HomePage} />
+          <PrivateRoute
+            path="category/:categoryId/:subCategoryId?/:entryId"
+            element={Category}
+          />
+          <PrivateRoute path="categories" element={Categories} />
+          <PrivateRoute path="Testing" element={TestingPage} />
+          <PrivateRoute
+            roles={Role.Admin}
+            path="/Settings"
+            element={Settings}
+          />
+          <PrivateRoute
+            path="entry/:categoryId/:subCategoryId?/:entryId"
+            element={Entry}
+          />
+          <PrivateRoute path="logout" element={Logout} />
+          <PrivateRoute element={FOUR_ZERO_FOUR} />
         </CategoryProvider>
-      </PrivateRoute>
-    </Switch>
+      </PrivateRoute> */}
+    </Routes>
   );
 };
 
@@ -75,7 +122,7 @@ const FOUR_ZERO_FOUR = () => {
         justifyContent: "center",
       }}
     >
-      <h2 style={{ textAlign: "center" }}>
+      <h2 style={{ textAlign: "center", color: "#FFF" }}>
         Couldn't find anything
         <br />
         404

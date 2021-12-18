@@ -5,7 +5,7 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { Redirect, useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
@@ -102,7 +102,7 @@ const Entry = () => {
 
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
-  if (shouldRedirect) return <Redirect to={`${categoryName}`} />;
+  if (shouldRedirect) return <Navigate to={`${categoryName}`} />;
   return (
     <div className="entry__container">
       {entry ? (

@@ -1,7 +1,7 @@
 import "./App.css";
-import { Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import { Routes } from "./routes/Routes";
+import { ClientRouter } from "./routes/Routes";
 import { AuthProvider } from "./auth/AuthContext";
 
 // notifications
@@ -12,18 +12,21 @@ import "animate.css";
 
 // modals
 import Modal from "react-modal";
+import { CategoryProvider } from "./contexts/CategoryContext";
 
 Modal.setAppElement("#root");
 
 function App() {
   const history = createBrowserHistory();
   return (
-    <Router history={history}>
+    <BrowserRouter history={history}>
       <AuthProvider>
-        <ReactNotifications isMobile={true} />
-        <Routes />
+        <CategoryProvider>
+          <ReactNotifications isMobile={true} />
+          <ClientRouter />
+        </CategoryProvider>
       </AuthProvider>
-    </Router>
+    </BrowserRouter>
   );
 }
 

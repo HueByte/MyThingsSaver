@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { NavLink, Redirect, useLocation } from "react-router-dom";
+import { NavLink, Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../../auth/AuthContext";
 import "./Menu.css";
 import "./MobileMenu.css";
@@ -20,7 +20,7 @@ const Menu = () => {
           <MobileMenu logout={logout} authContext={authContext} />
         </>
       ) : (
-        <Redirect to="/auth/login" />
+        <Navigate to="/auth/login" />
       )}
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import "./Auth.css";
 import "../../core/BasicLayout/BasicLayoutStyles.css";
 import AuthTemplate from "./AuthTemplate";
@@ -58,7 +58,7 @@ const Register = () => {
     setIsWorking(false);
   };
 
-  if (authContext.isAuthenticated()) return <Redirect to="/" />;
+  if (authContext.isAuthenticated()) return <Navigate to="/" />;
   return (
     <AuthTemplate isWorking={isWorking}>
       <div className="auth-welcome">

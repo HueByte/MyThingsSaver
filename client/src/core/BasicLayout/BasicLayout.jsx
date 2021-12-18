@@ -5,12 +5,13 @@ import "./BasicLayout.css";
 import "./BasicLayoutStyles.css";
 import "../OverrideDefaultMD.css";
 import { AuthContext } from "../../auth/AuthContext";
-import { Redirect } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import KUTE from "kute.js";
 import Wave from "./components/Wave";
 import { useState } from "react";
+import { CategoryProvider } from "../../contexts/CategoryContext";
 
-const BasicLayout = ({ children }) => {
+const BasicLayout = () => {
   const authContext = useContext(AuthContext);
   const [isEnabled, setIsEnabled] = useState(false);
   useEffect(() => {
@@ -40,12 +41,12 @@ const BasicLayout = ({ children }) => {
         <Menu />
         <SideMenu isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
         <main className={`main__wrapper ${isEnabled ? "" : "expanded"}`}>
-          {children}
+          <Outlet />
         </main>
         <Wave />
       </div>
     );
-  else return <Redirect to="/auth/login" />;
+  else return <Navigate to="/auth/login" />;
 };
 
 export default BasicLayout;

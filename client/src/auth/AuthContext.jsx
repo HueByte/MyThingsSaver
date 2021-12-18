@@ -1,6 +1,5 @@
 import { object } from "prop-types";
 import React, { createContext, useEffect, useState } from "react";
-import { Redirect } from "react-router";
 import { infoModal } from "../core/Modals";
 import { AuthLogout } from "./Auth";
 

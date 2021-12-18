@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { AuthLogin } from "../../auth/Auth";
 import { AuthContext } from "../../auth/AuthContext";
 import "./Auth.css";
@@ -43,7 +43,7 @@ const Login = () => {
     setIsWorking(false);
   };
 
-  if (authContext.isAuthenticated()) return <Redirect to="/" />;
+  if (authContext.isAuthenticated()) return <Navigate to="/" />;
   return (
     <AuthTemplate isWorking={isWorking}>
       <div className="auth-welcome">Welcome to My things saver!</div>

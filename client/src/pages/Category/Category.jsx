@@ -8,7 +8,7 @@ import { CategoryContext } from "../../contexts/CategoryContext";
 import { successModal, warningModal } from "../../core/Modals";
 import "./Category.css";
 
-const Category = () => {
+const Category = ({ match }) => {
   const authContext = useContext(AuthContext);
   const categoryContext = useContext(CategoryContext);
   const [entries, setEntries] = useState([]);
@@ -18,18 +18,18 @@ const Category = () => {
     useState(false);
   const entryToDelete = useRef();
   const categoryToDelete = useRef();
-  const {
-    categoryId: categoryName,
-    subCategoryId: subCategoryName,
-    entryId: mainCategoryId,
-  } = useParams();
+  const { categoryName, subCategoryName, fetchCategoryId } = useParams();
+
   const isSubCategory = subCategoryName ? true : false;
 
   useEffect(async () => {
-    await EntriesRepository.GetAll(authContext.authState?.token, mainCategoryId)
+    await EntriesRepository.GetAll(
+      authContext.authState?.token,
+      fetchCategoryId
+    )
       .then((result) => setEntries(result.data))
       .catch((error) => console.error(error));
-  }, [mainCategoryId]);
+  }, [fetchCategoryId]);
 
   // add entry
   const addEntry = async (name) => {
@@ -42,12 +42,12 @@ const Category = () => {
     await EntriesRepository.Add(
       authContext.authState?.token,
       name,
-      mainCategoryId
+      fetchCategoryId
     )
       .then(async () => {
         await EntriesRepository.GetAll(
           authContext.authState?.token,
-          mainCategoryId
+          fetchCategoryId
         )
           .then((result) => setEntries(result.data))
           .catch((error) => console.error(error));
@@ -70,7 +70,7 @@ const Category = () => {
       .then(async () => {
         await EntriesRepository.GetAll(
           authContext.authState?.token,
-          mainCategoryId
+          fetchCategoryId
         )
           .then((result) => setEntries(result.data))
           .catch((error) => console.error(error));
@@ -167,7 +167,7 @@ const Category = () => {
             </div>
             <NavLink
               className="entry-name"
-              to={`/entry/${mainCategoryId}/${entry.categoryEntryId}`}
+              to={`/entry/${fetchCategoryId}/${entry.categoryEntryId}`}
             >
               <span className="ellipsis">{entry.categoryEntryName}</span>
             </NavLink>
@@ -177,7 +177,7 @@ const Category = () => {
             <div className="entry-size">{entry.size} B</div>
             <div className="entry-menu-buttons">
               <NavLink
-                to={`/entry/${mainCategoryId}/${entry.categoryEntryId}`}
+                to={`/entry/${fetchCategoryId}/${entry.categoryEntryId}`}
                 className="entry-menu"
               >
                 Show
@@ -264,7 +264,7 @@ const Category = () => {
         <AddModal
           addEntry={addEntry}
           addSubCategory={addSubCategory}
-          mainCategoryId={mainCategoryId}
+          mainCategoryId={fetchCategoryId}
           isSubCategory={isSubCategory}
           closeAddModal={closeAddModal}
         />
