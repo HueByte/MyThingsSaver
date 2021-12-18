@@ -84,29 +84,6 @@ export const ClientRouter = () => {
         />
         <Route path="*" element={<FOUR_ZERO_FOUR />} />
       </Route>
-
-      {/* <PrivateRoute path="/" element={<BasicLayout />}>
-        <CategoryProvider>
-          <PrivateRoute index element={HomePage} />
-          <PrivateRoute
-            path="category/:categoryId/:subCategoryId?/:entryId"
-            element={Category}
-          />
-          <PrivateRoute path="categories" element={Categories} />
-          <PrivateRoute path="Testing" element={TestingPage} />
-          <PrivateRoute
-            roles={Role.Admin}
-            path="/Settings"
-            element={Settings}
-          />
-          <PrivateRoute
-            path="entry/:categoryId/:subCategoryId?/:entryId"
-            element={Entry}
-          />
-          <PrivateRoute path="logout" element={Logout} />
-          <PrivateRoute element={FOUR_ZERO_FOUR} />
-        </CategoryProvider>
-      </PrivateRoute> */}
     </Routes>
   );
 };
