@@ -15,6 +15,7 @@ import { successModal } from "../../core/Modals";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
+import DropdownButton from "../../components/Dropdown/Dropdown";
 
 const Entry = () => {
   const authContext = useContext(AuthContext);
@@ -121,15 +122,17 @@ const Entry = () => {
               </div>
             </div>
             <div className="basic-info-right">
-              <div className="basic-button entry-button" onClick={switchEdit}>
-                {isEditing ? "close" : "edit"}
-              </div>
-              <div
-                className="basic-button entry-button"
-                onClick={() => invokeDeleteModal(entry)}
-              >
-                Delete
-              </div>
+              <DropdownButton title={"Options"}>
+                <div className="dropdown-option" onClick={switchEdit}>
+                  {isEditing ? "close" : "edit"}
+                </div>
+                <div
+                  className="dropdown-option"
+                  onClick={() => invokeDeleteModal(entry)}
+                >
+                  Delete
+                </div>
+              </DropdownButton>
             </div>
           </div>
           <div className="basic-info basic-info-mobile-menu">
