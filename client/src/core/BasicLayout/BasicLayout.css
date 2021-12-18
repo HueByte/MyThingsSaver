@@ -19,6 +19,12 @@
   overflow-y: auto;
   transition: 1s ease-in-out;
   z-index: 10;
+  transform: 200ms;
+}
+
+.interface__wrapper .expanded {
+  width: calc(100vw);
+  left: 0;
 }
 
 .main__wrapper > * {

@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import { NavLink, Redirect, useLocation } from "react-router-dom";
-import { AuthContext } from "../auth/AuthContext";
+import { AuthContext } from "../../../../auth/AuthContext";
 import "./Menu.css";
 import "./MobileMenu.css";
-import logo from "../assets/CloudByteColor.png";
-import HamburgerMenu from "../components/HamburgerMenu/HamburgerMenu";
-import { Role } from "../api/Roles";
+import logo from "../../../../assets/CloudByteColor.png";
+import HamburgerMenu from "../../../../components/HamburgerMenu/HamburgerMenu";
+import { Role } from "../../../../api/Roles";
 
 const Menu = () => {
   const authContext = useContext(AuthContext);
@@ -35,7 +35,7 @@ const DesktopMenu = ({ logout, authContext }) => {
             src={logo}
             alt="logo"
             width="60"
-            height="41"
+            height="40"
             alt="CloudByte logo"
           />
         </div>
