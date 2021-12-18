@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from "react";
-import Menu from "./Menu";
-import SideMenu from "./SideMenu";
+import Menu from "../Menu";
+import SideMenu from "../SideMenu";
 import "./BasicLayout.css";
 import "./BasicLayoutStyles.css";
-import "./OverrideDefaultMD.css";
-import { AuthContext } from "../auth/AuthContext";
+import "../OverrideDefaultMD.css";
+import { AuthContext } from "../../auth/AuthContext";
 import { Redirect } from "react-router";
 import KUTE from "kute.js";
 

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Redirect } from "react-router-dom";
 import "./Auth.css";
-import "../../core/BasicLayoutStyles.css";
+import "../../core/BasicLayout/BasicLayoutStyles.css";
 import AuthTemplate from "./AuthTemplate";
 import { AuthRegister } from "../../auth/Auth";
 import { AuthContext } from "../../auth/AuthContext";

@@ -3,7 +3,7 @@ import { NavLink, Redirect } from "react-router-dom";
 import { AuthLogin } from "../../auth/Auth";
 import { AuthContext } from "../../auth/AuthContext";
 import "./Auth.css";
-import "../../core/BasicLayoutStyles.css";
+import "../../core/BasicLayout/BasicLayoutStyles.css";
 import AuthTemplate from "./AuthTemplate";
 import { warningModal } from "../../core/Modals";
 

@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 
 // components/pages
-import BasicLayout from "../core/BasicLayout";
+import BasicLayout from "../core/BasicLayout/BasicLayout.jsx";
 import HomePage from "../pages/HomePage/HomePage";
 import TestingPage from "../pages/TestingPage/TestingPage";
 import Settings from "../pages/Settings/Settings";
