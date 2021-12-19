@@ -10,10 +10,10 @@ const { env } = require("process");
 const target = "https://localhost:5001";
 
 module.exports = function (app) {
-  const appProxy = createProxyMiddleware({
+  const appProxy = createProxyMiddleware("/api", {
     target: target,
     secure: false,
   });
 
-  app.use("/api", appProxy);
+  app.use(appProxy);
 };

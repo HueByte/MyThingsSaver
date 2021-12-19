@@ -6,6 +6,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Text.Json.Serialization;
 using App.Authentication;
 using App.Guide;
 using Common.Types;
@@ -66,7 +67,8 @@ namespace App.Configuration
 
         public ModuleConfiguration ConfigureControllersWithViews()
         {
-            _services.AddControllersWithViews();
+            _services.AddControllersWithViews()
+                     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ;
 
             return this;
         }

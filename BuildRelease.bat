@@ -8,7 +8,7 @@ echo ==== Restore Packages ====
 echo .
 dotnet restore %app%
 
-echo ==== Updating Client packages ====
+echo ==== Building Client ====
 cd %client%
 start /B /wait "Building Front" cmd /c "npm update" 
 start /B /wait "Fixing audits" cmd /c "npm audit fix"
