@@ -1,0 +1,152 @@
+.categories__container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 2em;
+  justify-content: center;
+  z-index: 11;
+}
+
+.category {
+  position: relative;
+  margin: 1rem;
+  flex: 1 1 auto;
+  border-radius: 10px;
+  min-width: 150px;
+  max-width: 300px;
+  height: 150px;
+  background-color: var(--Shark);
+  cursor: pointer;
+  transition: 200ms ease-in-out;
+  border-bottom: 3px solid var(--RoseSub);
+  border-right: 3px solid var(--Gold);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+.category:hover {
+  transform: scale(1.05);
+}
+
+.category:nth-child(odd) {
+  border-bottom: 3px solid var(--Gold);
+  border-right: 3px solid var(--RoseSub);
+}
+
+.category-link {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  position: relative;
+}
+
+.category-buddy {
+  position: absolute;
+  font-size: larger;
+  opacity: 0.2;
+  top: 10px;
+  left: 10px;
+  color: white;
+}
+
+.category-link > *:not(:first-child) {
+  margin-top: 0.5em;
+}
+
+.category-name {
+  padding: 10px;
+  text-align: center;
+  color: var(--Rose);
+  width: 100%;
+  font-size: large;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.category-id {
+  text-overflow: ellipsis;
+  width: 100%;
+  color: var(--Gold);
+}
+
+.category-date-created {
+  color: white;
+  width: 100%;
+}
+
+.add-new {
+  width: 300px;
+  display: grid;
+  place-items: center;
+  font-size: xx-large;
+}
+
+.add-new:hover {
+  color: var(--Gold);
+}
+
+.edit {
+  position: absolute;
+  right: 30px;
+  bottom: 5px;
+  z-index: 12;
+  font-size: large;
+  color: var(--Grey);
+}
+
+.edit:hover {
+  transform: scale(1.1);
+  color: var(--Rose);
+}
+
+.delete {
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+  z-index: 12;
+  font-size: large;
+  color: var(--Grey);
+}
+
+.delete:hover {
+  transform: scale(1.1);
+  color: var(--Rose);
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-info {
+  font-size: large;
+}
+
+.modal-menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+}
+
+.modal-menu > * {
+  margin: 0.5em;
+}
+
+.modal-menu-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1em;
+}
+
+.modal-menu-buttons > div {
+  max-width: 100px;
+  flex: 1 1 0px;
+  margin: 1em;
+}

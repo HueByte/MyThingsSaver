@@ -1,0 +1,154 @@
+.auth__wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth__container {
+    width: 900px;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
+    position: relative;
+}
+
+.auth__container .auth-left {
+    flex: 1;
+    height: 100%;
+    background-color: white;
+    display: grid;
+    place-items: center;
+    z-index: 6;
+}
+
+.auth__container .auth-logo {
+    width: 208px;
+}
+
+.auth__container .overlay-loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.auth__container .auth-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--Shark);
+}
+
+.auth__container .auth-right > * {
+    z-index: 10;
+}
+
+.auth__container .auth-welcome {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    letter-spacing: 0.7px;
+}
+
+.auth__container .auth-input-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+.auth__container .auth-input {
+    background-color: var(--SharkDark);
+    padding: 10px;
+    margin: 1em;
+}
+
+.auth__container .auth-menu {
+    display: flex;
+    width: 90%;
+    flex-direction: row;
+}
+
+.auth__container .auth-menu-side {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.auth__container .auth-button-help {
+    margin-left: 1em;
+    padding-left: 10px;
+    color: var(--Grey);
+}
+
+.auth__container .auth-button-help:hover {
+    color: white;
+}
+
+.auth__container .auth-button {
+    margin-right: 1em;
+    flex: 1;
+    color: white;
+    background-image: linear-gradient(to bottom, var(--SharkDark) 50%, var(--Rose) 50%);
+}
+
+.auth__container .auth-bottom-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    width: 100%;
+    color: var(--SharkDark);
+    z-index: 5;
+}
+
+.auth__container .auth-bottom-wave > svg {
+    transform: translateY(3px);  /* for some reason */
+    display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+    .auth__wrapper {
+        align-items: start;
+        height: 100vh;
+    }
+
+    .auth__container {
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .auth__container .auth-logo {
+        width: 104px;
+    }
+
+    .auth__container .auth-left {
+        height: 100px;
+        flex-grow: 0;
+    }
+
+    .auth__container .auth-right {
+        flex: 9;
+    }
+
+    .auth__container .auth-menu {
+        flex-direction: column;
+    }
+
+    .auth__container .auth-button {
+        margin: 1em 1em 0 1em;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .auth__container .auth-menu-side {
+        flex-direction: column;
+    }
+}

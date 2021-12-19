@@ -175,4 +175,5 @@ else
     app.Urls.Add($"http://0.0.0.0:{httpPort}");
 }
 
+app.MapGet("/api", () => "Hello World!");
 app.Run();
