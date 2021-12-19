@@ -167,12 +167,12 @@ var httpsPort = appsettings.Network.HttpsPort;
 
 if (useHttps)
 {
-    app.Urls.Add($"http://0.0.0.0:{httpPort}");
-    app.Urls.Add($"https://0.0.0.0:{httpsPort}");
+    app.Urls.Add($"http://localhost:{httpPort}");
+    app.Urls.Add($"https://localhost:{httpsPort}");
 }
 else
 {
-    app.Urls.Add($"http://0.0.0.0:{httpPort}");
+    app.Urls.Add($"http://localhost:{httpPort}");
 }
 
 app.MapGet("/api", () => "Hello World!");

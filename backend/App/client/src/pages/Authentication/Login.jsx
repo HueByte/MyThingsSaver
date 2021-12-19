@@ -16,6 +16,10 @@ const Login = () => {
   useEffect(() => {
     username.current = document.getElementById("username-input");
     password.current = document.getElementById("password-input");
+
+    var result = fetch("/api", { method: "GET" }).then((result) =>
+      console.log(result)
+    );
   }, []);
 
   useEffect(async () => {

@@ -10,6 +10,7 @@
     "animate.css": "^4.1.1",
     "awesome-debounce-promise": "^2.1.0",
     "eslint": "^8.5.0",
+    "http-proxy-middleware": "^2.0.1",
     "kute.js": "^2.2.0",
     "npm": "^8.3.0",
     "react": "^17.0.2",
@@ -20,13 +21,16 @@
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
+    "rimraf": "^3.0.2",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "prestart": "node aspnetcore-https && node aspnetcore-react",
+    "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "cross-env CI=true react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src/"
   },
   "eslintConfig": {
     "extends": [
