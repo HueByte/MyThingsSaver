@@ -59,7 +59,7 @@ const Register = () => {
   };
 
   const handleEnter = async (event) => {
-    if (event.key === "Enter") await authenticate();
+    if (event.key === "Enter") await register();
   };
 
   if (authContext.isAuthenticated()) return <Navigate to="/" />;
