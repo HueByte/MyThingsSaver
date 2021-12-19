@@ -17,8 +17,8 @@ const Login = () => {
     username.current = document.getElementById("username-input");
     password.current = document.getElementById("password-input");
 
-    var result = fetch("/api", { method: "GET" }).then((result) =>
-      console.log(result)
+    var result = fetch("https://localhost:3000/api", { method: "GET" }).then(
+      (result) => console.log(result)
     );
   }, []);
 
