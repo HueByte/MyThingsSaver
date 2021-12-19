@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using App.Authentication;
 using App.Guide;
 using Common.Types;
+using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
 using Infrastructure;
@@ -27,16 +29,17 @@ namespace App.Configuration
     public class ModuleConfiguration
     {
         private readonly IServiceCollection _services;
-        private readonly IConfiguration _configuration;
-        public ModuleConfiguration(IServiceCollection services, IConfiguration configuration)
+        private readonly AppSettingsRoot _configuration;
+        public ModuleConfiguration(IServiceCollection services, AppSettingsRoot configuration)
         {
-            _services = services;
+            _services = services ?? new ServiceCollection();
             _configuration = configuration;
         }
 
         public ModuleConfiguration ConfigureDatabase(bool isProduction)
         {
-            var databaseType = _configuration.GetValue<string>("Database:Type").ToLower();
+            // var databaseType = _configuration.GetValue<string>("Database:Type").ToLower();
+            var databaseType = _configuration.Database.Type.ToLower();
 
             if (string.IsNullOrEmpty(databaseType))
                 throw new ArgumentException("Database type cannot be empty");
@@ -45,18 +48,25 @@ namespace App.Configuration
             {
                 case DatabaseType.MYSQL:
                     if (isProduction)
-                        _services.AddDbContextMysqlProduction(_configuration);
+                        _services.AddDbContextMysqlProduction(_configuration.ConnectionStrings.DatabaseConnectionString);
                     else
-                        _services.AddDbContextMysqlDebug(_configuration);
+                        _services.AddDbContextMysqlDebug(_configuration.ConnectionStrings.DatabaseConnectionString);
                     break;
 
                 case DatabaseType.SQLITE:
-                    _services.AddDbContextSqlite(_configuration);
+                    _services.AddDbContextSqlite(_configuration.ConnectionStrings.SQLiteConnectionString);
                     break;
 
                 default:
                     throw new Exception("Invalid database, please provide correct value in appsettings.json");
             }
+
+            return this;
+        }
+
+        public ModuleConfiguration ConfigureControllersWithViews()
+        {
+            _services.AddControllersWithViews();
 
             return this;
         }
@@ -92,10 +102,10 @@ namespace App.Configuration
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = _configuration["JWT:Issuer"],
-                    ValidAudience = _configuration["JWT:Audience"],
+                    ValidIssuer = _configuration.JWT.Issuer,
+                    ValidAudience = _configuration.JWT.Audience,
                     RequireExpirationTime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key)),
                     ValidateIssuerSigningKey = true,
                     // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ClockSkew = TimeSpan.Zero
@@ -107,10 +117,11 @@ namespace App.Configuration
 
         public ModuleConfiguration ConfigureSpa()
         {
-            _services.AddSpaStaticFiles(config =>
-            {
-                config.RootPath = "build";
-            });
+            // .net 6 ?
+            // _services.AddSpaStaticFiles(config =>
+            // {
+            //     config.RootPath = "build";
+            // });
 
             return this;
         }
@@ -129,9 +140,9 @@ namespace App.Configuration
             return this;
         }
 
-        public ModuleConfiguration ConfigureCors(string[] origins)
+        public ModuleConfiguration ConfigureCors()
         {
-
+            var origins = _configuration.Origins.ToArray();
             _services.AddCors(o => o.AddDefaultPolicy(builder =>
                {
                    builder.WithOrigins(origins)
@@ -145,7 +156,7 @@ namespace App.Configuration
 
         public ModuleConfiguration ConfigureForwardedHeaders()
         {
-            var type = _configuration.GetValue<string>("Network:Type").ToLower();
+            var type = _configuration.Network.Type;
 
             if (type == NetworkType.NGINX)
             {
@@ -189,5 +200,7 @@ namespace App.Configuration
 
             return this;
         }
+
+        public IServiceCollection Build() => _services;
     }
 }

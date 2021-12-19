@@ -39,13 +39,13 @@ namespace App
             services.AddControllersWithViews();
 
 
-            var moduleConfiguration = new ModuleConfiguration(services, Configuration).ConfigureServices()
-                                                                                      .ConfigureDatabase(_env.IsProduction())
-                                                                                      .ConfigureSecurity()
-                                                                                      .ConfigureCors(origins)
-                                                                                      .ConfigureSpa()
-                                                                                      .ConfigureSwagger()
-                                                                                      .ConfigureForwardedHeaders();
+            // var moduleConfiguration = new ModuleConfiguration(services, Configuration).ConfigureServices()
+            //                                                                           .ConfigureDatabase(_env.IsProduction())
+            //                                                                           .ConfigureSecurity()
+            //                                                                           .ConfigureCors()
+            //                                                                           .ConfigureSpa()
+            //                                                                           .ConfigureSwagger()
+            //                                                                           .ConfigureForwardedHeaders();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
