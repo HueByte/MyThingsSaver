@@ -4,6 +4,7 @@ using Core.Entities;
 using Core.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,12 +21,12 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 
 builder.Host.ConfigureServices(services =>
 {
-    services = new ModuleConfiguration(services, appsettings).ConfigureServices()
+    services = new ModuleConfiguration(services, appsettings).AddAppSettings()
+                                                             .ConfigureServices()
                                                              .ConfigureControllersWithViews()
                                                              .ConfigureDatabase(builder.Environment.IsProduction())
                                                              .ConfigureSecurity()
                                                              .ConfigureCors()
-                                                             .ConfigureSpa()
                                                              .ConfigureSwagger()
                                                              .ConfigureForwardedHeaders()
                                                              .Build();
@@ -95,6 +96,11 @@ app.UseHttpLogging();
 app.UseCors();
 app.UseForwardedHeaders();
 
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseStaticFiles(new StaticFileOptions()
 {
     OnPrepareResponse = ctx =>
@@ -107,11 +113,6 @@ app.UseStaticFiles(new StaticFileOptions()
         };
     }
 });
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthentication();
 
 app.MapControllers();
 
@@ -130,5 +131,11 @@ else
 }
 
 app.MapGet("/api", () => "Hello World!");
+
+app.MapGet("/api/test/{token}", async ([FromQuery] token) =>
+{
+    Results.Text("ok");
+});
+
 app.MapFallbackToFile("index.html");
 app.Run();

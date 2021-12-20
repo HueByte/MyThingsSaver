@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json.Serialization;
 using App.Authentication;
@@ -16,12 +9,9 @@ using Core.RepositoriesInterfaces;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -35,6 +25,13 @@ namespace App.Configuration
         {
             _services = services ?? new ServiceCollection();
             _configuration = configuration;
+        }
+
+        public ModuleConfiguration AddAppSettings()
+        {
+            _services.AddSingleton(_configuration);
+
+            return this;
         }
 
         public ModuleConfiguration ConfigureDatabase(bool isProduction)
@@ -98,33 +95,50 @@ namespace App.Configuration
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            })
+            .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidIssuer = _configuration.JWT.Issuer,
-                    ValidAudience = _configuration.JWT.Audience,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "",
+                    ValidAudience = "",
                     RequireExpirationTime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key)),
-                    ValidateIssuerSigningKey = true,
-                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+
                     ClockSkew = TimeSpan.Zero
                 };
+
+                options.Authority = "";
+                // options.Authority = "https://localhost:5001";
+                // options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration();
             });
+
+
+            // TokenValidationParameters jw = new()
+            // {
+            //     ValidateIssuer = false,
+            //     ValidateAudience = false,
+            //     ValidateLifetime = true,
+            //     ValidateIssuerSigningKey = true,
+            //     ValidIssuer = "",
+            //     ValidAudience = "",
+            //     RequireExpirationTime = true,
+            //     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key)),
+
+            //     ClockSkew = TimeSpan.Zero
+            // };
+
+            IdentityModelEventSource.ShowPII = true;
 
             return this;
         }
 
         public ModuleConfiguration ConfigureSpa()
         {
-            // .net 6 ?
-            // _services.AddSpaStaticFiles(config =>
-            // {
-            //     config.RootPath = "build";
-            // });
-
             return this;
         }
 

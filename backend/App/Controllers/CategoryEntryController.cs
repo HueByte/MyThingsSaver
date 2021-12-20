@@ -8,7 +8,7 @@ using Core.Models;
 using Core.RepositoriesInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Serialization;
+// using Newtonsoft.Json.Serialization;
 
 namespace App.Controllers
 {
@@ -99,19 +99,19 @@ namespace App.Controllers
             var result = await ApiEventHandler<List<CategoryEntry>>.EventHandleAsync(async () =>
                 await _categoryEntryRepository.GetRecentAsync(userId));
 
-            var settings = new Newtonsoft.Json.JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
-                Formatting = Newtonsoft.Json.Formatting.Indented
-            };
+            // var settings = new Newtonsoft.Json.JsonSerializerSettings
+            // {
+            //     ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            //     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+            //     Formatting = Newtonsoft.Json.Formatting.Indented
+            // };
 
-            string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
+            // string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
 
             if (result.IsSuccess)
-                return Ok(resultJson);
+                return Ok(result);
             else
-                return BadRequest(resultJson);
+                return BadRequest(result);
         }
     }
 }

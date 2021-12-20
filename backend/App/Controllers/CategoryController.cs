@@ -8,7 +8,7 @@ using Core.Models;
 using Core.RepositoriesInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Serialization;
+// using Newtonsoft.Json.Serialization;
 
 namespace App.Controllers
 {
@@ -103,19 +103,19 @@ namespace App.Controllers
                 await _categoryRepository.GetCategoryWithEntriesAsync(categoryId, userid));
 
             // TODO : Update once upgrade to .net 6, temporary solution to prevent JSON circular reference error
-            var settings = new Newtonsoft.Json.JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
-                Formatting = Newtonsoft.Json.Formatting.Indented
-            };
+            // var settings = new Newtonsoft.Json.JsonSerializerSettings
+            // {
+            //     ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            //     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+            //     Formatting = Newtonsoft.Json.Formatting.Indented
+            // };
 
-            string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
+            // string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
 
             if (result.IsSuccess)
-                return Ok(resultJson);
+                return Ok(result);
             else
-                return BadRequest(resultJson);
+                return BadRequest(result);
         }
     }
 }
