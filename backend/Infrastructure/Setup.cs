@@ -4,34 +4,35 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
 {
+    // Manual migration
     // navigate to root folder of infrastructure
     // run migration with: dotnet ef migrations add migration --startup-project ../App/
     // update database with: dotnet ef database update --startup-project ../App
     public static class Setup
     {
         // For some reason this shittery must look like that for non-problematic migrations with MySQL
-        public static void AddDbContextMysqlProduction(this IServiceCollection services, IConfiguration config) =>
+        public static void AddDbContextMysqlProduction(this IServiceCollection services, string connectionString) =>
             services.AddDbContext<AppDbContext>(
-                                options => options.UseMySql(config.GetConnectionString("DatabaseConnectionString"),
-                                ServerVersion.AutoDetect(config.GetConnectionString("DatabaseConnectionString")),
+                                options => options.UseMySql(connectionString,
+                                ServerVersion.AutoDetect(connectionString),
                                 x => x.MigrationsAssembly("Infrastructure"))
 
             );
 
         // // For some reason this shittery must look like that for non-problematic migrations with MySQL
-        public static void AddDbContextMysqlDebug(this IServiceCollection services, IConfiguration config) =>
+        public static void AddDbContextMysqlDebug(this IServiceCollection services, string connectionString) =>
             services.AddDbContext<AppDbContext>(
-                                options => options.UseMySql(config.GetConnectionString("DatabaseConnectionString"),
-                                ServerVersion.AutoDetect(config.GetConnectionString("DatabaseConnectionString")),
+                                options => options.UseMySql(connectionString,
+                                ServerVersion.AutoDetect(connectionString),
                                 x => x.MigrationsAssembly("Infrastructure"))
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors()
             );
 
-        public static void AddDbContextSqlite(this IServiceCollection services, IConfiguration config)
+        public static void AddDbContextSqlite(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<AppDbContext>(
-                options => options.UseSqlite(config.GetConnectionString("SQLiteConnectionString"), x => x.MigrationsAssembly("Infrastructure"))
+                options => options.UseSqlite(connectionString, x => x.MigrationsAssembly("Infrastructure"))
             );
         }
     }

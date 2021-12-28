@@ -1,24 +1,17 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using App.Authentication;
 using App.Guide;
 using Common.Types;
+using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -27,16 +20,24 @@ namespace App.Configuration
     public class ModuleConfiguration
     {
         private readonly IServiceCollection _services;
-        private readonly IConfiguration _configuration;
-        public ModuleConfiguration(IServiceCollection services, IConfiguration configuration)
+        private readonly AppSettingsRoot _configuration;
+        public ModuleConfiguration(IServiceCollection services, AppSettingsRoot configuration)
         {
-            _services = services;
+            _services = services ?? new ServiceCollection();
             _configuration = configuration;
+        }
+
+        public ModuleConfiguration AddAppSettings()
+        {
+            _services.AddSingleton(_configuration);
+
+            return this;
         }
 
         public ModuleConfiguration ConfigureDatabase(bool isProduction)
         {
-            var databaseType = _configuration.GetValue<string>("Database:Type").ToLower();
+            // var databaseType = _configuration.GetValue<string>("Database:Type").ToLower();
+            var databaseType = _configuration.Database.Type.ToLower();
 
             if (string.IsNullOrEmpty(databaseType))
                 throw new ArgumentException("Database type cannot be empty");
@@ -45,18 +46,26 @@ namespace App.Configuration
             {
                 case DatabaseType.MYSQL:
                     if (isProduction)
-                        _services.AddDbContextMysqlProduction(_configuration);
+                        _services.AddDbContextMysqlProduction(_configuration.ConnectionStrings.DatabaseConnectionString);
                     else
-                        _services.AddDbContextMysqlDebug(_configuration);
+                        _services.AddDbContextMysqlDebug(_configuration.ConnectionStrings.DatabaseConnectionString);
                     break;
 
                 case DatabaseType.SQLITE:
-                    _services.AddDbContextSqlite(_configuration);
+                    _services.AddDbContextSqlite(_configuration.ConnectionStrings.SQLiteConnectionString);
                     break;
 
                 default:
                     throw new Exception("Invalid database, please provide correct value in appsettings.json");
             }
+
+            return this;
+        }
+
+        public ModuleConfiguration ConfigureControllersWithViews()
+        {
+            _services.AddControllersWithViews()
+                     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ;
 
             return this;
         }
@@ -86,18 +95,21 @@ namespace App.Configuration
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            })
+            .AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = _configuration["JWT:Issuer"],
-                    ValidAudience = _configuration["JWT:Audience"],
+                    ValidateIssuer = true,
                     RequireExpirationTime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"])),
+                    ValidIssuer = _configuration.JWT.Issuer,
+                    ValidAudience = _configuration.JWT.Audience,
                     ValidateIssuerSigningKey = true,
-                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key)),
                     ClockSkew = TimeSpan.Zero
                 };
             });
@@ -107,11 +119,6 @@ namespace App.Configuration
 
         public ModuleConfiguration ConfigureSpa()
         {
-            _services.AddSpaStaticFiles(config =>
-            {
-                config.RootPath = "build";
-            });
-
             return this;
         }
 
@@ -129,9 +136,9 @@ namespace App.Configuration
             return this;
         }
 
-        public ModuleConfiguration ConfigureCors(string[] origins)
+        public ModuleConfiguration ConfigureCors()
         {
-
+            var origins = _configuration.Origins.ToArray();
             _services.AddCors(o => o.AddDefaultPolicy(builder =>
                {
                    builder.WithOrigins(origins)
@@ -145,7 +152,7 @@ namespace App.Configuration
 
         public ModuleConfiguration ConfigureForwardedHeaders()
         {
-            var type = _configuration.GetValue<string>("Network:Type").ToLower();
+            var type = _configuration.Network.Type;
 
             if (type == NetworkType.NGINX)
             {
@@ -189,5 +196,7 @@ namespace App.Configuration
 
             return this;
         }
+
+        public IServiceCollection Build() => _services;
     }
 }

@@ -1,44 +1,101 @@
-using System;
+using App;
+using App.Configuration;
+using Common.Types;
 using Core.Entities;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using Core.Models;
+using Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace App
+var builder = WebApplication.CreateBuilder(args);
+
+
+AppSettingsRoot appsettings = AppSettingsRoot.IsCreated
+    ? AppSettingsRoot.Load()
+    : AppSettingsRoot.Create();
+
+builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 {
-    public class Program
-    {
-        public static void Main(string[] args) => CreateHostBuilder(args).Build().Run();
+    config.AddJsonFile($"{AppContext.BaseDirectory}/appsettings.json", optional: false, reloadOnChange: true);
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            // TODO : Remove Load() as it's loaded via config anyway
-            AppSettingsRoot appsettings = AppSettingsRoot.IsCreated
-                ? AppSettingsRoot.Load()
-                : AppSettingsRoot.Create();
+builder.Host.ConfigureServices(services =>
+{
+    services = new ModuleConfiguration(services, appsettings).AddAppSettings()
+                                                             .ConfigureServices()
+                                                             .ConfigureControllersWithViews()
+                                                             .ConfigureDatabase(builder.Environment.IsProduction())
+                                                             .ConfigureSecurity()
+                                                             .ConfigureCors()
+                                                             .ConfigureSwagger()
+                                                             .ConfigureForwardedHeaders()
+                                                             .Build();
+});
 
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    config.AddJsonFile($"{AppContext.BaseDirectory}/appsettings.json", optional: false, reloadOnChange: true);
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    var config = new ConfigurationBuilder()
-                        .AddJsonFile("appsettings.json")
-                        .Build();
+var app = builder.Build();
 
-                    var useHttps = config.GetValue<bool>("Network:UseHttps");
-                    var httpPort = config.GetValue<string>("Network:HttpPort");
-                    var httpsPort = config.GetValue<string>("Network:HttpsPort");
+app = new BeforeStart(app).PerformMigrations()
+                          .SeedIdentity()
+                          .Initialize();
 
-                    if (useHttps)
-                        webBuilder.UseUrls($"http://0.0.0.0:{httpPort};https://0.0.0.0:{httpsPort}");
-                    else
-                        webBuilder.UseUrls($"http://0.0.0.0:{httpPort}");
-
-                    webBuilder.UseStartup<Startup>();
-                });
-        }
-    }
+// configue app
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "App v1"));
 }
+
+else
+{
+    bool doUseHSTS = appsettings.Network.UseHSTS;
+    bool doHttpsRedirect = appsettings.Network.HttpsRedirection;
+
+    if (doUseHSTS)
+        app.UseHsts();
+
+    if (doHttpsRedirect)
+        app.UseHttpsRedirection();
+}
+
+app.UseHttpLogging();
+app.UseCors();
+app.UseForwardedHeaders();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseStaticFiles(new StaticFileOptions()
+{
+    OnPrepareResponse = ctx =>
+    {
+        var headerse = ctx.Context.Response.GetTypedHeaders();
+        headerse.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+        {
+            Public = true,
+            MaxAge = TimeSpan.FromDays(10)
+        };
+    }
+});
+
+app.MapControllers();
+
+var useHttps = appsettings.Network.UseHttps;
+var httpPort = appsettings.Network.HttpPort;
+var httpsPort = appsettings.Network.HttpsPort;
+
+if (useHttps)
+{
+    app.Urls.Add($"http://localhost:{httpPort}");
+    app.Urls.Add($"https://localhost:{httpsPort}");
+}
+else
+{
+    app.Urls.Add($"http://localhost:{httpPort}");
+}
+
+app.MapFallbackToFile("index.html");
+app.Run();
