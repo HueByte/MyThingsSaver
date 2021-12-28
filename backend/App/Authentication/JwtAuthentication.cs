@@ -29,21 +29,14 @@ namespace App.Authentication
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key));
             var token = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddDays(1),
+                expires: DateTime.UtcNow.AddMinutes(5),
+                issuer: _configuration.JWT.Issuer,
+                audience: _configuration.JWT.Audience,
                 claims: claims,
                 signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-
-            // var token = new JwtSecurityToken(
-            //     // issuer: _configuration.JWT.Issuer,
-            //     audience: _configuration.JWT.Audience,
-            //     issuer: "https://localhost:5001",
-            //     claims: claims,
-            //     expires: DateTime.Now.AddMinutes(5),
-            //     signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
-            // );
         }
 
         public RefreshToken CreateRefreshToken()

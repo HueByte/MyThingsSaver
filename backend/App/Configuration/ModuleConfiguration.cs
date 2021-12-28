@@ -103,34 +103,16 @@ namespace App.Configuration
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateAudience = false,
-                    ValidateIssuer = false,
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    RequireExpirationTime = true,
+                    ValidIssuer = _configuration.JWT.Issuer,
+                    ValidAudience = _configuration.JWT.Audience,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key)),
-                    // ClockSkew = TimeSpan.Zero
+                    ClockSkew = TimeSpan.Zero
                 };
-
-                options.Authority = "";
-                // options.Authority = "https://localhost:5001";
-                // options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration();
             });
-
-
-            // TokenValidationParameters jw = new()
-            // {
-            //     ValidateIssuer = false,
-            //     ValidateAudience = false,
-            //     ValidateLifetime = true,
-            //     ValidateIssuerSigningKey = true,
-            //     ValidIssuer = "",
-            //     ValidAudience = "",
-            //     RequireExpirationTime = true,
-            //     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key)),
-
-            //     ClockSkew = TimeSpan.Zero
-            // };
-
-            IdentityModelEventSource.ShowPII = true;
 
             return this;
         }
