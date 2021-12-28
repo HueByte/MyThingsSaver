@@ -94,7 +94,6 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
-        // TODO: change response in .net 6
         [HttpGet("GetWithEntries")]
         [Authorize]
         public async Task<IActionResult> GetCategoryWithEntries([FromQuery] string categoryId)
@@ -102,16 +101,6 @@ namespace App.Controllers
             var userid = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
                 await _categoryRepository.GetCategoryWithEntriesAsync(categoryId, userid));
-
-            // TODO : Update once upgrade to .net 6, temporary solution to prevent JSON circular reference error
-            // var settings = new Newtonsoft.Json.JsonSerializerSettings
-            // {
-            //     ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            //     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
-            //     Formatting = Newtonsoft.Json.Formatting.Indented
-            // };
-
-            // string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(result, settings);
 
             if (result.IsSuccess)
                 return Ok(result);
