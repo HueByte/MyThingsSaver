@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-around;
-  padding: 2em;
+  padding: 2em 10em;
 }
 
 .homepage__container .entry {
@@ -14,7 +14,6 @@
   height: 200px;
   margin: 1rem;
   cursor: pointer;
-  /* background-color: var(--Shark); */
   border: 1px solid var(--DarkGrey);
   background-color: rgba(33, 33, 39, 0.9);
   backdrop-filter: blur(0.8px);
