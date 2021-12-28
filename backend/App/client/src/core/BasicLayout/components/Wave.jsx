@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
+import KUTE from "kute.js";
+import { useEffect } from "react";
+import { AuthContext } from "../../../auth/AuthContext";
 
 const Wave = () => {
+  const authContext = useContext(AuthContext);
+  useEffect(() => {
+    if (!authContext.isAuthenticated()) return;
+
+    const tweek1 = KUTE.fromTo(
+      "#p2",
+      { path: "#p2" },
+      { path: "#pp2" },
+      { repeat: 999, duration: 20000, yoyo: true }
+    );
+
+    const tweek2 = KUTE.fromTo(
+      "#p3",
+      { path: "#p3" },
+      { path: "#pp3" },
+      { repeat: 999, duration: 20000, yoyo: true }
+    );
+
+    tweek1.start();
+    tweek2.start();
+  }, []);
   return (
     <div className="bottom-wave">
       <svg

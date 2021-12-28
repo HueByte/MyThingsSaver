@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import CategoriesRepository from "../api/repositories/CategoriesRepository";
 import { AuthContext } from "../auth/AuthContext";
 import Loader from "../components/Loaders/Loader";
-import { warningModal } from "../core/Modals";
 
 const CategoryContext = createContext();
 

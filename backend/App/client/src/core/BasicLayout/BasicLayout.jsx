@@ -16,35 +16,20 @@ const BasicLayout = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   useEffect(() => {
     if (!authContext.isAuthenticated()) return;
-
-    const tweek1 = KUTE.fromTo(
-      "#p2",
-      { path: "#p2" },
-      { path: "#pp2" },
-      { repeat: 999, duration: 20000, yoyo: true }
-    );
-
-    const tweek2 = KUTE.fromTo(
-      "#p3",
-      { path: "#p3" },
-      { path: "#pp3" },
-      { repeat: 999, duration: 20000, yoyo: true }
-    );
-
-    tweek1.start();
-    tweek2.start();
   }, []);
 
   if (authContext.isAuthenticated())
     return (
-      <div className="interface__wrapper">
-        <Menu />
-        <SideMenu isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
-        <main className={`main__wrapper ${isEnabled ? "" : "expanded"}`}>
-          <Outlet />
-        </main>
-        <Wave />
-      </div>
+      <CategoryProvider>
+        <div className="interface__wrapper">
+          <Menu />
+          <SideMenu isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
+          <main className={`main__wrapper ${isEnabled ? "" : "expanded"}`}>
+            <Outlet />
+          </main>
+          <Wave />
+        </div>
+      </CategoryProvider>
     );
   else return <Navigate to="/auth/login" />;
 };
