@@ -98,18 +98,16 @@ namespace App.Configuration
             })
             .AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = false,
                     ValidateAudience = false,
-                    ValidateLifetime = true,
+                    ValidateIssuer = false,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "",
-                    ValidAudience = "",
-                    RequireExpirationTime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key)),
-
-                    ClockSkew = TimeSpan.Zero
+                    // ClockSkew = TimeSpan.Zero
                 };
 
                 options.Authority = "";

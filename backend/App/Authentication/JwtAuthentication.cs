@@ -29,11 +29,9 @@ namespace App.Authentication
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key));
             var token = new JwtSecurityToken(
-                issuer: "",
-                audience: "",
-                expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.UtcNow.AddDays(1),
                 claims: claims,
-                signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+                signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);

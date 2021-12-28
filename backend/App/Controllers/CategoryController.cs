@@ -6,6 +6,7 @@ using Common.Events;
 using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 // using Newtonsoft.Json.Serialization;
@@ -21,7 +22,7 @@ namespace App.Controllers
         }
 
         [HttpGet("GetAll")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetAll()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
