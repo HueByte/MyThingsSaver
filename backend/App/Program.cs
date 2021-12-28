@@ -1,3 +1,4 @@
+using App;
 using App.Configuration;
 using Common.Types;
 using Core.Entities;
@@ -34,43 +35,9 @@ builder.Host.ConfigureServices(services =>
 
 var app = builder.Build();
 
-// create ready database
-using (var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
-{
-    var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-    // context.Database.EnsureCreated();
-    context.Database.Migrate();
-}
-
-// seed roles & admin
-using (var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
-{
-    var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-    if (!roleManager.RoleExistsAsync(Role.USER).GetAwaiter().GetResult())
-        roleManager.CreateAsync(new IdentityRole(Role.USER)).GetAwaiter().GetResult();
-
-    if (!roleManager.RoleExistsAsync(Role.ADMIN).GetAwaiter().GetResult())
-        roleManager.CreateAsync(new IdentityRole(Role.ADMIN)).GetAwaiter().GetResult();
-
-    var check = userManager.FindByNameAsync("admin").GetAwaiter().GetResult();
-    if (check == null)
-    {
-        ApplicationUser admin = new()
-        {
-            Id = Guid.NewGuid().ToString(),
-            UserName = "admin",
-            Email = "admin@xyz.com"
-        };
-
-        // This is intended for now as default password for admin which will be required to be changed
-        var result = userManager.CreateAsync(admin, "Admin12").Result;
-        if (result.Succeeded)
-        {
-            userManager.AddToRoleAsync(admin, Role.ADMIN).Wait();
-        }
-    }
-}
+app = new BeforeStart(app).PerformMigrations()
+                          .SeedIdentity()
+                          .Initialize();
 
 // configue app
 if (app.Environment.IsDevelopment())
@@ -129,13 +96,6 @@ else
 {
     app.Urls.Add($"http://localhost:{httpPort}");
 }
-
-app.MapGet("/api", () => "Hello World!");
-
-app.MapGet("/api/test/{token}", async ([FromQuery] token) =>
-{
-    Results.Text("ok");
-});
 
 app.MapFallbackToFile("index.html");
 app.Run();
