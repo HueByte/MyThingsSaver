@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using App.Authentication;
 using App.Extensions;
 using Common.Events;
+using Core.DTO;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

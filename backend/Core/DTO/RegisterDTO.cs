@@ -1,4 +1,4 @@
-namespace Core.Entities
+namespace Core.DTO
 {
     public class RegisterDTO
     {

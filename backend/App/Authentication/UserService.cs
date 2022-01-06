@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using App.Guide;
 using Common.Constants;
 using Common.Events;
+using Core.DTO;
 using Core.Entities;
 using Core.Models;
 using Infrastructure;
