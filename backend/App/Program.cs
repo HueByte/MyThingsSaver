@@ -1,6 +1,6 @@
 using App;
 using App.Configuration;
-using Common.Types;
+using Common.Constants;
 using Core.Entities;
 using Core.Models;
 using Infrastructure;

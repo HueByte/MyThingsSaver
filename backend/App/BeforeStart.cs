@@ -1,5 +1,5 @@
 using System.Reflection.Metadata.Ecma335;
-using Common.Types;
+using Common.Constants;
 using Core.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;

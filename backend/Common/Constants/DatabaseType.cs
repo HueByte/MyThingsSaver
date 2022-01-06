@@ -1,4 +1,4 @@
-namespace Common.Types
+namespace Common.Constants
 {
     public class DatabaseType
     {
