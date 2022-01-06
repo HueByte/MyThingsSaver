@@ -13,6 +13,8 @@ import "animate.css";
 // modals
 import Modal from "react-modal";
 import { CategoryProvider } from "./contexts/CategoryContext";
+import { Suspense } from "react";
+import Loader from "./components/Loaders/Loader";
 
 Modal.setAppElement("#root");
 
@@ -22,12 +24,20 @@ function App() {
     <BrowserRouter history={history}>
       <AuthProvider>
         <CategoryProvider>
-          <ReactNotifications isMobile={true} />
-          <ClientRouter />
+          <Suspense fallback={<Loader />}>
+            <ErrorBoundary>
+              <ReactNotifications isMobile={true} />
+              <ClientRouter />
+            </ErrorBoundary>
+          </Suspense>
         </CategoryProvider>
       </AuthProvider>
     </BrowserRouter>
   );
 }
+
+const ErrorBoundary = ({ children }) => {
+  return <>{children}</>;
+};
 
 export default App;

@@ -1,22 +1,27 @@
-import React, { Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { Routes, Route, Switch } from "react-router-dom";
-
-// elements/pages
-import BasicLayout from "../core/BasicLayout/BasicLayout.jsx";
-import HomePage from "../pages/HomePage/HomePage";
-import TestingPage from "../pages/TestingPage/TestingPage";
-import Settings from "../pages/Settings/Settings";
-import Categories from "../pages/Categories/Categories";
-import Category from "../pages/Category/Category";
-import Login from "../pages/Authentication/Login";
-import Register from "../pages/Authentication/Register";
-import Entry from "../pages/Entry/Entry";
-import Logout from "../pages/Logout/Logout";
 
 // other
 import PrivateRoute from "./AuthenticatedRoute";
 import { CategoryProvider } from "../contexts/CategoryContext";
 import { Role } from "../api/Roles";
+
+// elements/pages
+const HomePage = React.lazy(() => import("../pages/HomePage/HomePage"));
+const TestingPage = React.lazy(() =>
+  import("../pages/TestingPage/TestingPage")
+);
+const Settings = React.lazy(() => import("../pages/Settings/Settings"));
+const Categories = React.lazy(() => import("../pages/Categories/Categories"));
+const Category = React.lazy(() => import("../pages/Category/Category"));
+const Login = React.lazy(() => import("../pages/Authentication/Login"));
+const Register = React.lazy(() => import("../pages/Authentication/Register"));
+const Entry = React.lazy(() => import("../pages/Entry/Entry"));
+const Logout = React.lazy(() => import("../pages/Logout/Logout"));
+
+const BasicLayout = React.lazy(() =>
+  import("../core/BasicLayout/BasicLayout.jsx")
+);
 
 export const ClientRouter = () => {
   return (
