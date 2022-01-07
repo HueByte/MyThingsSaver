@@ -31,21 +31,22 @@
   .controls {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
     background-color: var(--SharkDark);
     width: 100%;
     margin-bottom: 1em;
 
     .button {
       font-size: medium;
-      // margin: variables.$s-margin;
-      flex: 1;
+      margin: variables.$s-margin;
+      padding: 10px;
+      flex: 1 1;
       background-image: transitions.$linear-gradient-bottom-top;
     }
 
     .input {
+      margin: 5px 5px 5px 0;
+      flex: 6 0 auto;
       // margin: 5px 5px 5px 0;
-      flex: 6;
       /* border: 1px solid var(--SharkDark) !important; */
       background-color: var(--SharkDark) !important;
     }
