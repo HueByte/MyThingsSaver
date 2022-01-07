@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import "./Dropdown.css";
+import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
+import "./Dropdown.scss";
 
 const DropdownButton = ({ title, children }) => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -11,8 +12,12 @@ const DropdownButton = ({ title, children }) => {
 
   return (
     <div className="dropdown-menu" onClick={toggleMenu}>
-      <div className="dropdown-button">{title}</div>
-      <div className="dropdown-content">{children}</div>
+      {title ? (
+        <div className="button">{title}</div>
+      ) : (
+        <div className="hamburger">{title ?? <HamburgerMenu size={40} />}</div>
+      )}
+      <div className="content">{children}</div>
     </div>
   );
 };

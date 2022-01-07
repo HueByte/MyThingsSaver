@@ -1,0 +1,64 @@
+@use "../../styles/variables" as variables;
+@use "../../styles/transitions" as transitions;
+
+$drop-width: 128px;
+
+.dropdown-menu {
+  position: relative;
+  font-weight: bold;
+  font-size: larger;
+  letter-spacing: 0.7px;
+  text-align: center;
+  text-transform: uppercase;
+  max-width: $drop-width;
+
+  &:hover {
+    .content {
+      opacity: 1;
+      transform: translate(0%);
+      z-index: 15;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+  }
+
+  .button {
+    padding: 10px;
+  }
+
+  .content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    top: 50px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(-2em);
+    width: $drop-width;
+    transition: transitions.$medium;
+    background-color: var(--Shark);
+    transition-delay: 1s;
+
+    border-radius: 5px;
+
+    .option {
+      width: 100%;
+      padding: 1em;
+      transition: transitions.$medium;
+
+      &:hover {
+        cursor: pointer;
+        background-color: var(--Rose);
+      }
+
+      &:first-child {
+        border-radius: 5px 5px 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 5px 5px;
+      }
+    }
+  }
+}

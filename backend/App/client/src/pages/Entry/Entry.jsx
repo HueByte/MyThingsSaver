@@ -122,12 +122,12 @@ const Entry = () => {
               </div>
             </div>
             <div className="basic-info-right">
-              <DropdownButton title={"Options"}>
-                <div className="dropdown-option" onClick={switchEdit}>
-                  {isEditing ? "close" : "edit"}
+              <DropdownButton>
+                <div className="option" onClick={switchEdit}>
+                  {isEditing ? "Close" : "Edit"}
                 </div>
                 <div
-                  className="dropdown-option"
+                  className="option"
                   onClick={() => invokeDeleteModal(entry)}
                 >
                   Delete
