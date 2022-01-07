@@ -1,3 +1,6 @@
+@use "../../styles/variables" as variables;
+@use "../../styles/transitions" as transitions;
+
 .basic-input {
   background-color: var(--Shark);
   border: 1px solid var(--Shark);
@@ -8,21 +11,24 @@
   -webkit-transition: 0.5s;
   outline: none;
   box-sizing: border-box;
-}
-.basic-input:hover {
-  border: 1px solid var(--Grey);
+
+  &:hover {
+    border: 1px solid var(--Grey);
+  }
+
+  &:focus {
+    border: 1px solid var(--Rose);
+  }
 }
 
-.basic-input:focus {
-  border: 1px solid var(--Rose);
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-  -webkit-text-fill-color: white;
-  -webkit-box-shadow: 0 0 0px 1000px var(--SharkDark) inset;
-  border: 1px solid var(--SharkDark);
+input {
+  *:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px var(--SharkDark) inset;
+    border: 1px solid var(--SharkDark);
+  }
 }
 
 .basic-button {
@@ -36,21 +42,18 @@ input:-webkit-autofill:focus {
   place-items: center;
   cursor: pointer;
   background-size: 100% 200%;
-  background-image: linear-gradient(
-    to bottom,
-    var(--Shark) 50%,
-    var(--Rose) 50%
-  );
+  background-image: transitions.$linear-gradient-bottom-top;
   transition: background-position 0.2s ease-in-out, color 0.2s ease-in-out,
     transform 0.2s ease-in-out;
+
+  &:hover {
+    background-position: 0 100%;
+    color: #fff;
+    border-color: var(--Rose);
+  }
 }
 
-.basic-button:hover {
-  background-position: 0 100%;
-  color: #fff;
-  border-color: var(--Rose);
-}
-đđđ .notifications-component > .notification-container--top-right {
+.notifications-component > .notification-container--top-right {
   top: 80px !important;
 }
 
