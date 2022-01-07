@@ -73,14 +73,6 @@ export const ClientRouter = () => {
         </Route>
         <Route path="entry/:categoryId/:entryId" element={<Entry />} />
         <Route
-          path="logout"
-          element={
-            <PrivateRoute>
-              <Logout />
-            </PrivateRoute>
-          }
-        />
-        <Route
           path="/settings"
           element={
             <PrivateRoute roles={Role.Admin}>
@@ -90,6 +82,14 @@ export const ClientRouter = () => {
         />
         <Route path="*" element={<FOUR_ZERO_FOUR />} />
       </Route>
+      <Route
+        path="logout"
+        element={
+          <PrivateRoute>
+            <Logout />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };
