@@ -30,7 +30,7 @@ $read-width: 724px;
   .top-info {
     width: 100%;
     height: variables.$entry-info-height;
-    background-color: theme.$SharkDarkSub;
+    background-color: rgba($color: theme.$SharkDarkSub, $alpha: 0.9);
     display: flex;
     border-radius: 10px;
 
@@ -125,10 +125,6 @@ $read-width: 724px;
   }
 }
 
-.entry__container .basic-info-mobile-menu {
-  display: none;
-}
-
 .w-md-editor {
   table {
     color: white !important;
@@ -136,6 +132,8 @@ $read-width: 724px;
 }
 
 .wmde-markdown {
+  font-family: "Ubuntu Mono", monospace;
+
   table {
     th {
       background-color: var(--SharkDarkSub);

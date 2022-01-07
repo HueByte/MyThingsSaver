@@ -109,8 +109,7 @@ textarea {
   line-height: 1;
 
   /* Browsers have different default form fonts */
-  font-size: 13px;
-  font-family: Arial;
+  font-size: 16px;
 }
 
 /* Remove the stupid outer glow in Webkit */
