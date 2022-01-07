@@ -1,0 +1,70 @@
+@use "../../styles/variables" as variables;
+
+.interface__wrapper {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: stretch;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  * {
+    z-index: 11;
+  }
+
+  .main__wrapper {
+    width: Calc(100% - variables.$side-menu-width);
+    position: absolute;
+    left: variables.$side-menu-width;
+    top: variables.$top-menu-height;
+    height: Calc(100% - variables.$top-menu-height);
+    overflow: hidden;
+    overflow-y: auto;
+    transition: 1s ease-in-out;
+    z-index: 10;
+    transition: 300ms;
+
+    &.expanded {
+      width: 100%;
+      left: 0;
+    }
+  }
+
+  .bottom-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    width: 110vw;
+    color: var(--SharkDark);
+    z-index: 5;
+  }
+
+  .bottom-wave > svg {
+    width: Calc(100% + 40px);
+    height: 100%;
+    transform: translateY(3px); /* for some reason */
+    display: inline-block;
+  }
+}
+
+@media screen and (max-width: variables.$medium-resolution) {
+  .interface__wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+
+    .main__wrapper {
+      width: 100%;
+      display: block;
+      position: static;
+      height: auto;
+      margin-top: variables.$top-menu-height-mobile;
+    }
+  }
+}
+
+@media screen and (max-width: variables.$small-resolution) {
+}

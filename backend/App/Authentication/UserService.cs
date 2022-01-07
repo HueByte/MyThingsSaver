@@ -3,8 +3,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using App.Guide;
+using Common.Constants;
 using Common.Events;
-using Common.Types;
+using Core.DTO;
 using Core.Entities;
 using Core.Models;
 using Infrastructure;
@@ -132,7 +133,7 @@ namespace App.Authentication
             {
                 Token = _jwtAuthentication.GenerateJsonWebToken(user, roles),
                 ExpireDate = DateTime.Now.AddDays(5),
-                RefreshToken = activeRefreshToken.Token,
+                RefreshToken = activeRefreshToken?.Token,
                 RefreshTokenExpiration = activeRefreshToken.Expires,
                 TokenType = "Bearer",
                 Roles = roles.ToArray(),
@@ -233,8 +234,7 @@ namespace App.Authentication
             };
 
             await _context.Categories.AddAsync(guideCategory);
-            await _context.CategoriesEntries.AddAsync(welcome);
-            await _context.CategoriesEntries.AddAsync(guide);
+            await _context.CategoriesEntries.AddRangeAsync(new CategoryEntry[] { welcome, guide });
             await _context.SaveChangesAsync();
         }
     }

@@ -1,0 +1,120 @@
+@use "../../../../styles/variables" as variables;
+@use "../../../../styles/transitions" as transitions;
+
+.nav-top {
+  background-color: var(--Shark);
+  height: 64px;
+  width: 100%;
+  position: relative;
+  top: 0;
+  z-index: 998;
+  display: flex;
+  flex-direction: row;
+
+  * {
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    color: var(--Grey) !important;
+  }
+
+  .logo {
+    width: 240px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .img {
+      width: 60px;
+      border-radius: 10px;
+      text-align: center;
+    }
+  }
+
+  .active {
+    color: white !important;
+    background-color: var(--SharkDark) !important;
+    border-bottom: 2px solid var(--Rose) !important;
+  }
+
+  .content {
+    height: 100%;
+    width: Calc(100% - variables.$top-menu-icon-width);
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+    .left {
+      display: flex;
+      flex-direction: row;
+      position: relative;
+      width: 60%;
+      height: 100%;
+
+      .item {
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        height: 100%;
+        cursor: pointer;
+        font-size: large;
+        transition: transitions.$default;
+        color: var(--Grey) !important;
+        border-bottom: 2px solid var(--Shark);
+        margin-right: 0.5rem;
+        max-width: 200px;
+
+        &:hover {
+          background-color: var(--Rose);
+          color: white !important;
+        }
+      }
+    }
+
+    .right {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+      width: 40%;
+      height: 100%;
+
+      .item {
+        padding: 10px;
+        display: grid;
+        place-items: center;
+        font-size: small;
+        transition: transitions.$default;
+        margin-right: 5px;
+        height: fit-content;
+        width: 120px;
+        color: var(--Grey);
+        cursor: pointer;
+
+        &:hover {
+          color: var(--Rose);
+        }
+      }
+
+      .user {
+        color: white !important;
+        cursor: default;
+        border-radius: 10px;
+        background-color: var(--SharkDarkSub);
+
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: variables.$medium-resolution) {
+  .nav-top {
+    display: none;
+  }
+}
