@@ -46,7 +46,7 @@
   }
 }
 
-@media screen and (max-width: variables.$medium-resolution) {
+@media screen and (max-width: variables.$small-resolution) {
   .interface__wrapper {
     position: relative;
     width: 100%;
@@ -57,10 +57,10 @@
       display: block;
       position: static;
       height: auto;
-      margin-top: variables.$top-menu-height-mobile;
+      margin-top: 0;
     }
   }
 }
 
-@media screen and (max-width: variables.$small-resolution) {
+@media screen and (max-width: variables.$mobile-resolution) {
 }

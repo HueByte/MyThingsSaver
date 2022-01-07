@@ -1,11 +1,17 @@
 // Resolutions
-$medium-resolution: 768px;
-$small-resolution: 425px;
+$medium-resolution: 1024px;
+$small-resolution: 768px;
+$mobile-resolution: 425px;
 
 // Common values
-$small-margin: 1em;
-$medium-margin: 2em;
-$big-margin: 4em;
+$s-margin: 0.5rem;
+$m-margin: 2rem;
+$b-margin: 4rem;
+
+$s-padding: 5px;
+$m-padding: 10px;
+$b-padding: 15px;
+$l-padding: 4rem;
 
 // Sizes
 // top menu
@@ -17,6 +23,9 @@ $top-menu-width: 100%;
 
 $top-menu-icon-width: 240px;
 
-// sode menu
+// side menu
 $side-menu-height: 64px;
 $side-menu-width: 250px;
+
+// entry sizes
+$entry-info-height: 64px;

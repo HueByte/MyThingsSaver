@@ -1,5 +1,6 @@
 @use "../../styles/variables" as variables;
 @use "../../styles/transitions" as transitions;
+@use "../../styles/theme" as theme;
 
 $drop-width: 128px;
 
@@ -37,10 +38,12 @@ $drop-width: 128px;
     transform: translate(-2em);
     width: $drop-width;
     transition: transitions.$medium;
-    background-color: var(--Shark);
+    background-color: rgba($color: theme.$Shark, $alpha: 0.6);
+    backdrop-filter: blur(1px);
     transition-delay: 1s;
 
     border-radius: 5px;
+    border: 1px solid theme.$Grey;
 
     .option {
       width: 100%;

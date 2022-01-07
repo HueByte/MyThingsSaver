@@ -113,7 +113,7 @@
   }
 }
 
-@media screen and (max-width: variables.$medium-resolution) {
+@media screen and (max-width: variables.$mobile-resolution) {
   .nav-top {
     display: none;
   }

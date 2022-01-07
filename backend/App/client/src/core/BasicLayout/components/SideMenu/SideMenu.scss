@@ -11,7 +11,7 @@
   background-color: var(--Shark);
   z-index: 999;
   overflow: hidden;
-  transition: transitions.$medium;
+  transition: transitions.$fast;
 
   .title {
     font-weight: bold;
@@ -102,7 +102,7 @@
   border-radius: 10px;
   cursor: pointer;
   z-index: 999;
-  transition: transitions.$medium;
+  transition: transitions.$fast;
 
   &:hover {
     background-color: rgba(255, 255, 255);
@@ -110,10 +110,10 @@
 }
 
 .side-menu-collapse {
-  transform: translateX(-240px);
+  transform: translateX(-#{variables.$side-menu-width});
 }
 
-@media screen and (max-width: variables.$medium-resolution) {
+@media screen and (max-width: variables.$small-resolution) {
   .nav-side {
     display: none;
   }
@@ -123,5 +123,5 @@
   }
 }
 
-@media screen and (max-width: variables.$small-resolution) {
+@media screen and (max-width: variables.$mobile-resolution) {
 }

@@ -10,7 +10,7 @@ import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
-import "./Entry.css";
+import "./Entry.scss";
 import { successModal } from "../../core/Modals";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import { CategoryContext } from "../../contexts/CategoryContext";
@@ -107,12 +107,12 @@ const Entry = () => {
     <div className="entry__container">
       {entry ? (
         <>
-          <div className="basic-info">
-            <div className="basic-info-left">
+          <div className="top-info">
+            <div className="left">
               <div className="icon">
                 <i class="fas fa-sticky-note"></i>
               </div>
-              <div className="name">
+              <div className="title">
                 <abbr title={name} className="ellipsis">
                   <span>{name}</span>
                 </abbr>
@@ -121,7 +121,7 @@ const Entry = () => {
                 {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
               </div>
             </div>
-            <div className="basic-info-right">
+            <div className="right">
               <DropdownButton>
                 <div className="option" onClick={switchEdit}>
                   {isEditing ? "Close" : "Edit"}
@@ -135,7 +135,7 @@ const Entry = () => {
               </DropdownButton>
             </div>
           </div>
-          <div className="basic-info basic-info-mobile-menu">
+          {/* <div className="basic-info basic-info-mobile-menu">
             <div className="basic-button entry-button" onClick={switchEdit}>
               {isEditing ? "close" : "edit"}
             </div>
@@ -145,31 +145,33 @@ const Entry = () => {
             >
               Delete
             </div>
-          </div>
-          <div className="entry-content">
-            {isEditing ? (
-              <>
-                <div className="edit-name-menu">
-                  <label>Name:</label>
-                  <input
-                    type="text"
-                    className="basic-input edit-name"
-                    placeholder={`${name}`}
-                    onChange={handleChange}
-                    autoComplete="off"
+          </div> */}
+          <div className="content__container">
+            <div className={`content${isEditing ? " content-expand" : ""}`}>
+              {isEditing ? (
+                <>
+                  <div className="edit-name">
+                    <label>Name:</label>
+                    <input
+                      type="text"
+                      className="basic-input"
+                      placeholder={`${name}`}
+                      onChange={handleChange}
+                      autoComplete="off"
+                    />
+                  </div>
+                  <MEDitor
+                    value={editValue}
+                    onChange={autoSave}
+                    commands={[]}
+                    height={500}
+                    preview={isMobileEdit ? "edit" : "live"}
                   />
-                </div>
-                <MEDitor
-                  value={editValue}
-                  onChange={autoSave}
-                  commands={[]}
-                  height={500}
-                  preview={isMobileEdit ? "edit" : "live"}
-                />
-              </>
-            ) : (
-              <MEDitor.Markdown source={editValue} />
-            )}
+                </>
+              ) : (
+                <MEDitor.Markdown source={editValue} />
+              )}
+            </div>
           </div>
         </>
       ) : (
