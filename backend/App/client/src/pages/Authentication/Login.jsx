@@ -3,7 +3,7 @@ import { NavLink, Navigate } from "react-router-dom";
 import { AuthLogin } from "../../auth/Auth";
 import { AuthContext } from "../../auth/AuthContext";
 import "./Auth.css";
-import "../../core/BasicLayout/BasicLayoutStyles.css";
+import "../../core/BasicLayout/BasicLayoutStyles.scss";
 import AuthTemplate from "./AuthTemplate";
 import { warningModal } from "../../core/Modals";
 

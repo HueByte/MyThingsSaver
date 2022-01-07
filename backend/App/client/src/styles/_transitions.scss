@@ -1,0 +1,10 @@
+// animated
+$linear-gradient-bottom-top: linear-gradient(
+  to bottom,
+  var(--SharkDark) 50%,
+  var(--Rose) 50%
+) !important;
+
+// basic transition
+$default: 300ms ease-out;
+$medium: 400ms ease-out;

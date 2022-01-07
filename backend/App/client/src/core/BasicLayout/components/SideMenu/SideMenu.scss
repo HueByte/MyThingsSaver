@@ -1,0 +1,127 @@
+@use "../../../../styles/variables" as variables;
+@use "../../../../styles/transitions" as transitions;
+
+.nav-side {
+  position: absolute;
+  top: variables.$side-menu-height;
+  display: flex;
+  flex-direction: column;
+  width: variables.$side-menu-width;
+  height: Calc(100vh - variables.$top-menu-height);
+  background-color: var(--Shark);
+  z-index: 999;
+  overflow: hidden;
+  transition: transitions.$medium;
+
+  .title {
+    font-weight: bold;
+    height: 50px;
+    color: white;
+    font-size: large;
+    width: 100%;
+    display: grid;
+    place-content: center;
+    border-bottom: 1px solid var(--SharkDark);
+
+    & > p {
+      padding: 5px;
+    }
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background-color: var(--SharkDark);
+    width: 100%;
+    margin-bottom: 1em;
+
+    .button {
+      font-size: large;
+      margin: 5px;
+      flex: 1;
+      background-image: transitions.$linear-gradient-bottom-top;
+    }
+
+    .input {
+      margin: 5px 5px 5px 0;
+      flex: 6;
+      /* border: 1px solid var(--SharkDark) !important; */
+      background-color: var(--SharkDark) !important;
+    }
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .item {
+      flex: 1;
+      max-height: 100px;
+      min-height: 40px;
+      font-size: medium;
+      padding: 10px;
+      margin-bottom: 1rem;
+      transition: transitions.$default;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      color: var(--Gold);
+      /* prevent jumping */
+      border-bottom: 1px solid var(--Shark);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+
+      &:hover {
+        color: white;
+        transform: translateX(15px);
+        border-radius: 10px;
+        background-color: var(--SharkDarkSub);
+      }
+    }
+
+    .active {
+      color: white;
+      transform: translateX(15px);
+      border-radius: 10px;
+      background-color: var(--SharkDarkSub);
+      border-bottom: 1px solid var(--Rose);
+    }
+  }
+}
+
+.nav-side-expander {
+  position: absolute;
+  left: 250px;
+  top: calc(50vh);
+  width: 10px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 999;
+  transition: transitions.$default;
+
+  &:hover {
+    background-color: rgba(255, 255, 255);
+  }
+}
+
+.side-menu-collapse {
+  transform: translateX(-240px);
+}
+
+@media screen and (max-width: variables.$medium-resolution) {
+  .nav-side {
+    display: none;
+  }
+
+  .nav-side-expander {
+    display: none;
+  }
+}
+
+@media screen and (max-width: variables.$small-resolution) {
+}

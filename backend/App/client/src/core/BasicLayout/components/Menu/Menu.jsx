@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { NavLink, Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../../auth/AuthContext";
-import "./Menu.css";
-import "./MobileMenu.css";
+import "./Menu.scss";
+import "./MobileMenu.scss";
 import logo from "../../../../assets/CloudByteColor.png";
 import HamburgerMenu from "../../../../components/HamburgerMenu/HamburgerMenu";
 import { Role } from "../../../../api/Roles";
@@ -29,8 +29,8 @@ const Menu = () => {
 const DesktopMenu = ({ logout, authContext }) => {
   return (
     <div className="nav-top">
-      <div className="nav-logo">
-        <div className="nav-logo img">
+      <div className="logo">
+        <div className="img">
           <img
             src={logo}
             alt="logo"
@@ -40,8 +40,8 @@ const DesktopMenu = ({ logout, authContext }) => {
           />
         </div>
       </div>
-      <div className="nav-content__container">
-        <div className="nav-content__container left">
+      <div className="content">
+        <div className="left">
           <NavLink exact to="/" activeClassName="active" className="item">
             Home
           </NavLink>
@@ -56,22 +56,20 @@ const DesktopMenu = ({ logout, authContext }) => {
             <></>
           )}
         </div>
-        <div className="nav-content__container right">
+        <div className="right">
           {!authContext.isAuthenticated() ? (
             <>
-              <NavLink to="/auth/login" className="right-item">
+              <NavLink to="/auth/login" className="item">
                 Login
               </NavLink>
-              <NavLink to="/auth/register" className="right-item">
+              <NavLink to="/auth/register" className="item">
                 Register
               </NavLink>
             </>
           ) : (
             <>
-              <div className="right-item user">
-                {authContext.authState?.username}
-              </div>
-              <div className="right-item" onClick={logout}>
+              <div className="item user">{authContext.authState?.username}</div>
+              <div className="item" onClick={logout}>
                 Log out
               </div>
             </>
@@ -91,7 +89,7 @@ const MobileMenu = ({ logout, authContext }) => {
   };
 
   return (
-    <div className={`nav-top-mobile__wrapper${isActiveMenu ? "" : " hide"}`}>
+    <div className={`nav-top-mobile${isActiveMenu ? "" : " mobile-hide"}`}>
       <div className="icon">
         <img src={logo} width="60" height="41" alt="CloudByte logo" />
       </div>

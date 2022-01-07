@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import Menu from "./components/Menu/Menu";
 import SideMenu from "./components/SideMenu/SideMenu";
-import "./BasicLayout.css";
-import "./BasicLayoutStyles.css";
+import "./BasicLayout.scss";
+import "./BasicLayoutStyles.scss";
 import "../OverrideDefaultMD.css";
 import { AuthContext } from "../../auth/AuthContext";
 import { Navigate, Outlet } from "react-router";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { CategoryContext } from "../../../../contexts/CategoryContext";
-import "./SideMenu.css";
+import "./SideMenu.scss";
 
 const SideMenu = ({ isEnabled, setIsEnabled }) => {
   const categoryContext = useContext(CategoryContext);
@@ -29,30 +29,27 @@ const SideMenu = ({ isEnabled, setIsEnabled }) => {
   return (
     <>
       <div
-        className={`nav-side-expander ${isEnabled ? "" : "collapse"}`}
+        className={`nav-side-expander ${isEnabled ? "" : "side-menu-collapse"}`}
         onClick={collapse}
       ></div>
-      <div className={`nav-side ${isEnabled ? "" : "collapse"}`}>
-        <div className="nav-side-title">
+      <div className={`nav-side ${isEnabled ? "" : "side-menu-collapse"}`}>
+        <div className="title">
           <p>Your Categories</p>
         </div>
-        <div className="nav-side-controlls">
-          <div
-            onClick={addNewCategory}
-            className="basic-button nav-side-button"
-          >
+        <div className="controls">
+          <div onClick={addNewCategory} className="basic-button button">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </div>
           <input
             id="newCategoryInput"
             onKeyDown={inputHandler}
-            className="basic-input nav-side-input"
+            className="basic-input input"
             type="text"
             placeholder="Category name"
             autoComplete="off"
           />
         </div>
-        <div className="nav-side__container">
+        <div className="container">
           {categoryContext.categories ? (
             categoryContext.categories.map((category, index) => {
               if (category.parentCategoryId) {
