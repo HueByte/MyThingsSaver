@@ -24,7 +24,7 @@
     border-bottom: 1px solid var(--SharkDark);
 
     & > p {
-      padding: 5px;
+      padding: variables.$s-padding;
     }
   }
 
@@ -63,8 +63,8 @@
       max-height: 100px;
       min-height: 40px;
       font-size: medium;
-      padding: 10px;
-      margin-bottom: 1rem;
+      padding: variables.$s-padding variables.$m-padding;
+      margin-bottom: variables.$s-margin;
       transition: transitions.$default;
       cursor: pointer;
       letter-spacing: 0.5px;
@@ -74,6 +74,8 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
 
       &:hover {
         color: white;

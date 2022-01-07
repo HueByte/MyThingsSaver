@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
-import "./HomePage.css";
+import "./HomePage.scss";
 
 const HomePage = () => {
   const authContext = useContext(AuthContext);
@@ -33,28 +33,34 @@ const HomePage = () => {
                 className="entry"
                 key={index}
               >
-                <div className="entry-image">
+                <div className="image">
                   <i class="fas fa-sticky-note"></i>
                 </div>
-                <div className="entry-name ellipsis">
-                  {entry.categoryEntryName}
+                <div className="name ellipsis">{entry.categoryEntryName}</div>
+                <div className="information">
+                  <div className="line gold">
+                    <div className="item">Category:</div>
+                    <div className="item ellipsis">{entry.category.name}</div>
+                  </div>
+                  <div className="line">
+                    <div className="item">Edited on:</div>
+                    <div className="item">
+                      {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
+                    </div>
+                  </div>
+                  <div className="line">
+                    <div className="item">Created on:</div>
+                    <div className="item">
+                      {new Date(entry.createdOn + "Z").toLocaleDateString()}
+                    </div>
+                  </div>
+                  <div className="line">
+                    <div className="item">Size:</div>
+                    <div className="item">
+                      <div>{entry.size} B</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="entry-category ellipsis gold">
-                  Category: {entry.category.name}
-                </div>
-                <div className="entry-date">
-                  Edited on:{" "}
-                  <span className="ellipsis">
-                    {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="entry-date">
-                  Created on:{" "}
-                  <span className="ellipsis">
-                    {new Date(entry.createdOn + "Z").toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="entry-size">Size: {entry.size} B</div>
               </NavLink>
             ))
           ) : (
