@@ -25,7 +25,7 @@ $top-menu-icon-width: 240px;
 
 // side menu
 $side-menu-height: 64px;
-$side-menu-width: 250px;
+$side-menu-width: $top-menu-icon-width;
 
 // entry sizes
 $entry-info-height: 64px;

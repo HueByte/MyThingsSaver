@@ -24,7 +24,7 @@ const Category = ({ match }) => {
 
   useEffect(async () => {
     await EntriesRepository.GetAll(
-      authContext.authState?.token,
+      authContext?.authState?.token,
       fetchCategoryId
     )
       .then((result) => setEntries(result.data))

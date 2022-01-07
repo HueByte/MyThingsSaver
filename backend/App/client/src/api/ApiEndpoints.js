@@ -5,7 +5,7 @@ export const ApiEndpoint = `${BaseUrl}api`;
 export const RegisterEndpoint = `${ApiEndpoint}/Authenticate/register`;
 export const LoginEndpoint = `${ApiEndpoint}/Authenticate/loginUsername`;
 export const LogoutEndpoint = `${ApiEndpoint}/Authenticate/logout`;
-export const SilentLoginEndpoint = `${ApiEndpoint}//Authenticate/refresh-token`;
+export const SilentLoginEndpoint = `${ApiEndpoint}/Authenticate/refresh-token`;
 
 // api/Category
 export const CategoryGetAllEndpoint = `${ApiEndpoint}/Category/GetAll`;

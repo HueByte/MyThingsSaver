@@ -73,7 +73,7 @@ const CategoryProvider = ({ children }) => {
   async function ContextGetAllCategories() {
     let result = await CategoriesRepository.GetAll(authContext.authState?.token)
       .then((result) => {
-        return result.data;
+        return result?.data;
       })
       .catch((error) => console.error(error));
 
