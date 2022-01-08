@@ -46,7 +46,8 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(ownerId))
                 throw new ArgumentException("Owner ID cannot be empty");
 
-            var rootCategories = await _context.Categories.Where(category => category.Level == 0).ToListAsync();
+            var rootCategories = await _context.Categories.Where(category => category.Level == 0 && category.OwnerId == ownerId)
+                                                          .ToListAsync();
 
             return rootCategories;
         }
