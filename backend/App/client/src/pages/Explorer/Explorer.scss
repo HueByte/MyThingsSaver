@@ -2,6 +2,16 @@
 @use "../../styles/transitions" as transitions;
 @use "../../styles/theme" as theme;
 
+.border-gradient {
+  border-right: 2px solid;
+  border-image-slice: 1;
+  border-width: 2px;
+}
+
+.border-gradient-purple {
+  border-image-source: linear-gradient(to top, theme.$Rose, #d53a9d);
+}
+
 .categories__wrapper {
   display: flex;
   align-items: center;
@@ -21,8 +31,7 @@
     .left-menu {
       width: 15%;
       max-width: 90%;
-      border: 1px solid magenta;
-      border-right: 1px solid theme.$Grey;
+      //   border-right: 1px solid theme.$Grey;
       resize: horizontal;
       overflow: auto;
 
@@ -40,14 +49,13 @@
     .content {
       display: flex;
       flex-direction: column;
-      flex: 9;
-      border: 1px solid cyan;
       padding: variables.$m-padding;
+      flex: 9;
+      min-width: 50px;
 
       .item {
         display: flex;
         align-items: center;
-        flex-wrap: nowrap;
         padding: variables.$m-padding;
         transition: transitions.$medium;
         margin-bottom: variables.$s-margin;
@@ -55,8 +63,8 @@
         overflow: hidden;
         cursor: pointer;
         border: 1px solid transparent;
-        width: 100%;
         align-items: flex-start;
+        overflow: hidden;
 
         &:hover {
           transform: scale(1.1);
@@ -73,24 +81,38 @@
           padding-right: variables.$s-padding;
         }
 
-        .icon {
-        }
+        .information {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          flex: 3 1;
 
-        .text {
-          max-width: 30%;
-        }
+          .icon {
+          }
 
-        .date {
-        }
+          .text {
+            flex: 1 1;
+          }
 
-        .size {
+          .date {
+            flex: 1 1;
+          }
+
+          .size {
+            flex: 1 1;
+          }
         }
 
         .actions {
-          max-width: 50%;
+          flex: 1;
           display: flex;
           align-items: center;
-          align-self: flex-end;
+          justify-content: flex-end;
+
+          i:hover {
+            color: white;
+            transform: scale(1.1);
+          }
         }
       }
     }
