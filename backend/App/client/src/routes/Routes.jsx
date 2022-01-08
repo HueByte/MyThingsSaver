@@ -5,6 +5,7 @@ import { Routes, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./AuthenticatedRoute";
 import { CategoryProvider } from "../contexts/CategoryContext";
 import { Role } from "../api/Roles";
+import Explorer from "../pages/Explorer/Explorer";
 
 // elements/pages
 const HomePage = React.lazy(() => import("../pages/HomePage/HomePage"));
@@ -50,6 +51,14 @@ export const ClientRouter = () => {
           element={
             <PrivateRoute>
               <Categories />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="explore"
+          element={
+            <PrivateRoute>
+              <Explorer />
             </PrivateRoute>
           }
         />

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../auth/AuthContext";
 import { NavLink } from "react-router-dom";
-import "./Categories.css";
+import "./Categories.scss";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import { successModal, warningModal } from "../../core/Modals";
 import Loader from "../../components/Loaders/Loader";

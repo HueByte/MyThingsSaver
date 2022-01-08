@@ -1,0 +1,98 @@
+@use "../../styles/variables" as variables;
+@use "../../styles/transitions" as transitions;
+@use "../../styles/theme" as theme;
+
+.categories__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    width: variables.$medium-resolution;
+    min-height: 80vh;
+    border-radius: 15px;
+    border: 1px solid theme.$Grey;
+    background-color: rgba($color: theme.$Shark, $alpha: 0.9);
+
+    .left-menu {
+      width: 15%;
+      max-width: 90%;
+      border: 1px solid magenta;
+      border-right: 1px solid theme.$Grey;
+      resize: horizontal;
+      overflow: auto;
+
+      .item {
+        padding: variables.$s-padding;
+        cursor: pointer;
+        transition: transitions.$fast;
+
+        &:hover {
+          color: theme.$Rose;
+        }
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      flex: 9;
+      border: 1px solid cyan;
+      padding: variables.$m-padding;
+
+      .item {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding: variables.$m-padding;
+        transition: transitions.$medium;
+        margin-bottom: variables.$s-margin;
+        border-radius: 5px;
+        overflow: hidden;
+        cursor: pointer;
+        border: 1px solid transparent;
+        width: 100%;
+        align-items: flex-start;
+
+        &:hover {
+          transform: scale(1.1);
+          color: theme.$Rose;
+          background-color: theme.$SharkDark;
+          border: 1px solid theme.$Rose;
+        }
+
+        &:nth-child(odd) {
+          background-color: theme.$SharkDark;
+        }
+
+        * {
+          padding-right: variables.$s-padding;
+        }
+
+        .icon {
+        }
+
+        .text {
+          max-width: 30%;
+        }
+
+        .date {
+        }
+
+        .size {
+        }
+
+        .actions {
+          max-width: 50%;
+          display: flex;
+          align-items: center;
+          align-self: flex-end;
+        }
+      }
+    }
+  }
+}
