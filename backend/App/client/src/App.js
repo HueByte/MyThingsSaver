@@ -24,14 +24,14 @@ function App() {
   return (
     <BrowserRouter history={history}>
       <AuthProvider>
-        <CategoryProvider>
-          <Suspense fallback={<Loader />}>
-            <ErrorBoundary>
-              <ReactNotifications isMobile={true} />
-              <ClientRouter />
-            </ErrorBoundary>
-          </Suspense>
-        </CategoryProvider>
+        {/* <CategoryProvider> */}
+        <Suspense fallback={<Loader />}>
+          <ErrorBoundary>
+            <ReactNotifications isMobile={true} />
+            <ClientRouter />
+          </ErrorBoundary>
+        </Suspense>
+        {/* </CategoryProvider> */}
       </AuthProvider>
     </BrowserRouter>
   );

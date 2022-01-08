@@ -8,12 +8,19 @@ const CategoryContext = createContext();
 const CategoryProvider = ({ children }) => {
   const authContext = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
+  const [rootCategories, setRootCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
 
   // fetch categories on init
   useEffect(async () => {
-    if (authContext.isAuthenticated())
+    if (authContext.isAuthenticated()) {
       await ContextGetAllCategories().then((result) => setCategories(result));
+
+      await ContextGetAllRootCategories().then((result) =>
+        setRootCategories(result)
+      );
+    }
 
     setIsFetching(false);
   }, []);
