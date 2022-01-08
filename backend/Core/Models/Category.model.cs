@@ -22,5 +22,6 @@ namespace Core.Models
         [ForeignKey("ParentCategoryId")]
         public string ParentCategoryId { get; set; }
         public virtual Category ParentCategory { get; set; }
+        public virtual ICollection<Category> ChildCategories { get; set; }
     }
 }

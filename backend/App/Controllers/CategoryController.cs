@@ -108,5 +108,25 @@ namespace App.Controllers
             else
                 return BadRequest(result);
         }
+
+        [HttpGet("test")]
+        [Authorize]
+        public async Task<IActionResult> Test([FromQuery] string name)
+        {
+            // root ID - 08992e73-57f8-4472-8a2b-131e93aabf7a
+            var rootID = "2a09cd6e-f9a0-4e2e-a4a5-58c2dea12395";
+
+            var category = new CategoryDTO()
+            {
+                CategoryParentId = rootID,
+                Name = name
+            };
+
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            await _categoryRepository.AddOneAsync(category, userId);
+
+            return Ok();
+        }
     }
 }

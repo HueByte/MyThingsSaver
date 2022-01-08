@@ -66,15 +66,13 @@
         align-items: flex-start;
         overflow: hidden;
 
-        &:hover {
-          transform: scale(1.1);
-          color: theme.$Rose;
-          background-color: theme.$SharkDark;
-          border: 1px solid theme.$Rose;
-        }
-
         &:nth-child(odd) {
           background-color: theme.$SharkDark;
+        }
+
+        &:hover {
+          color: black;
+          background-color: white;
         }
 
         * {
@@ -91,7 +89,7 @@
           }
 
           .text {
-            flex: 1 1;
+            flex: 2 1;
           }
 
           .date {
@@ -110,7 +108,7 @@
           justify-content: flex-end;
 
           i:hover {
-            color: white;
+            color: theme.$Rose;
             transform: scale(1.1);
           }
         }

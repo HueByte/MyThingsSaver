@@ -29,7 +29,7 @@ namespace App.Authentication
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key));
             var token = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddMinutes(5),
+                expires: DateTime.UtcNow.AddMinutes(30),
                 issuer: _configuration.JWT.Issuer,
                 audience: _configuration.JWT.Audience,
                 claims: claims,

@@ -52,15 +52,6 @@ namespace Infrastructure.Repositories
             if (exists)
                 throw new Exception("This category already exists");
 
-            Category parentCategory;
-            if (!string.IsNullOrEmpty(cat.CategoryParentId))
-            {
-                parentCategory = await _context.Categories.FirstOrDefaultAsync(category => category.CategoryId == cat.CategoryParentId && category.OwnerId == ownerId);
-                if (parentCategory is not null && !string.IsNullOrEmpty(parentCategory.ParentCategoryId))
-                    throw new Exception("This category cannot have more subcategories");
-            }
-
-
             Category newCategory = new()
             {
                 CategoryEntries = null,
