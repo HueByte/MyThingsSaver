@@ -41,26 +41,66 @@ namespace Infrastructure.Repositories
             return categories;
         }
 
+        public async Task<List<Category>> GetRootCategoriesAsync(string ownerId)
+        {
+            if (string.IsNullOrWhiteSpace(ownerId))
+                throw new ArgumentException("Owner ID cannot be empty");
+
+            var rootCategories = await _context.Categories.Where(category => category.Level == 0).ToListAsync();
+
+            return rootCategories;
+        }
+
+        public async Task<List<Category>> GetSubcategoriesAsync(string parentId, string ownerId)
+        {
+            if (string.IsNullOrWhiteSpace(parentId) && string.IsNullOrWhiteSpace(ownerId))
+                throw new ArgumentException("Parent ID and Owner ID cannot be empty");
+
+            var subCategories = await _context.Categories.Where(category => category.ParentCategoryId == parentId
+                                                                      && category.OwnerId == ownerId).ToListAsync();
+
+            return subCategories;
+        }
+
         public async Task AddOneAsync(CategoryDTO cat, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(cat.Name))
                 throw new ArgumentException("Name cannot be empty");
 
+
             var exists = await _context.Categories.AnyAsync(category => category.Name == cat.Name
                                                                 && category.OwnerId == ownerId
-                                                                && cat.CategoryParentId == category.ParentCategoryId);
+                                                                && category.ParentCategoryId == cat.CategoryParentId);
             if (exists)
                 throw new Exception("This category already exists");
 
+            Category parent;
+            string path = ownerId;
+            byte level = 0;
+            if (!string.IsNullOrWhiteSpace(cat.CategoryParentId))
+            {
+                parent = await _context.Categories.FirstOrDefaultAsync(category => category.OwnerId == ownerId
+                                                                            && category.CategoryId == cat.CategoryParentId);
+
+                if (parent is null)
+                    throw new NullReferenceException("Parent category doesn't exist");
+
+                path = parent.Path;
+                level = (byte)(parent.Level + 1);
+            }
+
+            string newCategoryId = Guid.NewGuid().ToString();
             Category newCategory = new()
             {
                 CategoryEntries = null,
-                CategoryId = Guid.NewGuid().ToString(),
+                CategoryId = newCategoryId,
                 DateCreated = DateTime.UtcNow,
                 Name = cat.Name.Trim(),
                 LastEditedOn = DateTime.UtcNow,
                 OwnerId = ownerId,
-                ParentCategoryId = cat.CategoryParentId
+                ParentCategoryId = cat.CategoryParentId,
+                Path = $"{path}/{newCategoryId}",
+                Level = level
             };
 
             await _context.Categories.AddAsync(newCategory);
@@ -84,6 +124,12 @@ namespace Infrastructure.Repositories
                 throw new Exception("There's already category with that name");
 
             _context.Categories.Update(category);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateMultipleAsync(List<Category> newCategories, string ownderId)
+        {
+            _context.Categories.UpdateRange(newCategories);
             await _context.SaveChangesAsync();
         }
 
@@ -115,5 +161,7 @@ namespace Infrastructure.Repositories
 
             return categoryWithEntries;
         }
+
+        private string[] ParsePath(string path) => path.Split('/');
     }
 }

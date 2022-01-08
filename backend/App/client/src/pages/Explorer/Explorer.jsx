@@ -1,7 +1,14 @@
 import React from "react";
+import { useEffect } from "react";
+import { useContext } from "react";
+import { CategoryContext } from "../../contexts/CategoryContext";
 import "./Explorer.scss";
 
 const Explorer = () => {
+  const categoryContext = useContext(CategoryContext);
+
+  useEffect(() => {}, []);
+
   return (
     <div className="categories__wrapper">
       <div className="container">

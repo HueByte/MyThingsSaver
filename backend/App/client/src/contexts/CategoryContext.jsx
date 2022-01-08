@@ -80,6 +80,31 @@ const CategoryProvider = ({ children }) => {
     return result;
   }
 
+  async function ContextGetAllRootCategories() {
+    let result = await CategoriesRepository.GetRoot(
+      authContext.authState?.token
+    )
+      .then((result) => {
+        return result?.data;
+      })
+      .catch((error) => console.error(error));
+
+    return result;
+  }
+
+  async function ContextGetAllSubCategories(parentID) {
+    let result = await CategoriesRepository.GetSub(
+      authContext.authState?.token,
+      parentID
+    )
+      .then((result) => {
+        return result?.data;
+      })
+      .catch((error) => console.error(error));
+
+    return result;
+  }
+
   const value = {
     categories,
     setCategories: (categoryData) => setCategories(categoryData),

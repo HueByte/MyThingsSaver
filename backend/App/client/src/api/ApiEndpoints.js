@@ -1,5 +1,5 @@
-export const BaseUrl = `${window.location.protocol}//${window.location.host}/`;
-export const ApiEndpoint = `${BaseUrl}api`;
+export const BaseUrl = `${window.location.protocol}//${window.location.host}`;
+export const ApiEndpoint = `${BaseUrl}/api`;
 
 // api/Authenticate
 export const RegisterEndpoint = `${ApiEndpoint}/Authenticate/register`;
@@ -9,6 +9,8 @@ export const SilentLoginEndpoint = `${ApiEndpoint}/Authenticate/refresh-token`;
 
 // api/Category
 export const CategoryGetAllEndpoint = `${ApiEndpoint}/Category/GetAll`;
+export const CategoryGetAllRootEndpoint = `${ApiEndpoint}/Category/GetAllRoot`;
+export const CategoryGetAllSubEndpoint = `${ApiEndpoint}/Category/GetAllSub`;
 export const CategoryGetEndpoint = `${ApiEndpoint}/Category/Get`;
 export const CategoryAddEndpoint = `${ApiEndpoint}/Category/Add`;
 export const CategoryRemoveEndpoint = `${ApiEndpoint}/Category/Remove`;

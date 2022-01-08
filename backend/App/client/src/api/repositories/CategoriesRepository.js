@@ -4,6 +4,8 @@ import {
   CategoryGetAllEndpoint,
   CategoryUpdateEndpoint,
   CategoryGetWithEntriesEndpoint,
+  CategoryGetAllRootEndpoint,
+  CategoryGetAllSubEndpoint,
 } from "../ApiEndpoints";
 import ApiClient from "../ApiClient";
 import { AuthFetch } from "../ApiHandler";
@@ -16,6 +18,15 @@ class CategoriesRepository {
 
   static async GetAll(token) {
     return await ApiClient.Get(token, CategoryGetAllEndpoint);
+  }
+
+  static async GetRoot(token) {
+    return await ApiClient.Get(token, CategoryGetAllRootEndpoint);
+  }
+
+  static async GetSub(token, parentID) {
+    let params = [{ key: "parentId", value: parentID }];
+    return await ApiClient.Get(token, CategoryGetAllSubEndpoint, params);
   }
 
   static async GetWithEntries(token, categoryID, withContent = false) {
