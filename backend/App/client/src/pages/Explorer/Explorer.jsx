@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
+import Loader from "../../components/Loaders/Loader";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import "./Explorer.scss";
 
@@ -13,9 +14,13 @@ const Explorer = () => {
   const auth = useContext(AuthContext);
   const [currentEntries, setCurrentEntries] = useState([]);
   const [currentCategoryID, setCurrentCategoryID] = useState();
+  const [lastUsedPath, setLastUsedPath] = useState();
+  const [finishedFetching, setFinishedFetching] = useState(false);
+  const [isLoadingEntries, setIsLoadingEntries] = useState(true);
 
   useEffect(async () => {
-    let lastCategoryID = localStorage.getItem("lastCategory");
+    let lastPath = localStorage.getItem("lastPath")?.split("/");
+    let lastCategoryID = lastPath ? lastPath[lastPath.length - 1] : null;
 
     if (lastCategoryID) {
       let result = await EntriesRepository.GetAll(
@@ -23,12 +28,22 @@ const Explorer = () => {
         lastCategoryID
       ).catch((error) => console.error(error));
 
+      console.log(lastPath);
+
       setCurrentEntries(result.data.categoryEntries);
       setCurrentCategoryID(lastCategoryID);
+      setLastUsedPath(lastPath);
     }
+
+    setFinishedFetching(true);
+    setIsLoadingEntries(false);
   }, []);
 
+  useEffect(() => setIsLoadingEntries(false), [currentEntries]);
+
   const fetchEntries = async (category) => {
+    setIsLoadingEntries(true);
+
     let result = await EntriesRepository.GetAll(
       auth?.authState?.token,
       category.categoryId
@@ -36,7 +51,8 @@ const Explorer = () => {
 
     setCurrentEntries(result.data.categoryEntries);
     setCurrentCategoryID(category.categoryId);
-    localStorage.setItem("lastCategory", category.categoryId);
+    setLastUsedPath(category.path);
+    localStorage.setItem("lastPath", category.path);
   };
 
   return (
@@ -44,7 +60,7 @@ const Explorer = () => {
       <div className="container">
         <div className="left-menu border-gradient border-gradient-purple">
           <div className="item ellipsis">{auth.authState?.username}</div>
-          {categoryContext.categories ? (
+          {finishedFetching && categoryContext.categories ? (
             <>
               {categoryContext.categories.map((category, index) => {
                 if (category.level == 0) {
@@ -54,6 +70,7 @@ const Explorer = () => {
                         index={index}
                         category={category}
                         fetch={fetchEntries}
+                        recentPath={lastUsedPath}
                       />
                     </>
                   );
@@ -65,40 +82,44 @@ const Explorer = () => {
           )}
         </div>
         <div className="content">
-          {currentEntries ? (
-            <>
-              {currentEntries.map((entry, index) => {
-                return (
-                  <NavLink
-                    key={index}
-                    className="item"
-                    to={`/entry/${currentCategoryID}/${entry.categoryEntryId}`}
-                  >
-                    <div className="information">
-                      <div className="icon">
-                        <i class="fas fa-sticky-note"></i>
+          {!isLoadingEntries ? (
+            currentEntries ? (
+              <>
+                {currentEntries.map((entry, index) => {
+                  return (
+                    <NavLink
+                      key={index}
+                      className="item"
+                      to={`/entry/${currentCategoryID}/${entry.categoryEntryId}`}
+                    >
+                      <div className="information">
+                        <div className="icon">
+                          <i class="fas fa-sticky-note"></i>
+                        </div>
+                        <div className="text ellipsis">
+                          {entry.categoryEntryName}
+                        </div>
+                        <div className="date">
+                          {new Date(
+                            entry.lastUpdatedOn + "Z"
+                          ).toLocaleDateString()}
+                        </div>
+                        <div className="size">{entry.size} B</div>
+                        <div className="size">md</div>
                       </div>
-                      <div className="text ellipsis">
-                        {entry.categoryEntryName}
+                      <div className="actions">
+                        <i class="fas fa-pen-square"></i>
+                        <i class="fa fa-times" aria-hidden="true"></i>
                       </div>
-                      <div className="date">
-                        {new Date(
-                          entry.lastUpdatedOn + "Z"
-                        ).toLocaleDateString()}
-                      </div>
-                      <div className="size">{entry.size} B</div>
-                      <div className="size">md</div>
-                    </div>
-                    <div className="actions">
-                      <i class="fas fa-pen-square"></i>
-                      <i class="fa fa-times" aria-hidden="true"></i>
-                    </div>
-                  </NavLink>
-                );
-              })}
-            </>
+                    </NavLink>
+                  );
+                })}
+              </>
+            ) : (
+              <></>
+            )
           ) : (
-            <></>
+            <Loader />
           )}
         </div>
       </div>
@@ -108,8 +129,15 @@ const Explorer = () => {
 
 export default Explorer;
 
-const Item = ({ index, category, fetch }) => {
+const Item = ({ index, category, fetch, recentPath }) => {
   const [showChilds, setShowChilds] = useState(false);
+
+  useEffect(() => {
+    if (recentPath?.includes(category.categoryId)) {
+      setShowChilds(true);
+    }
+  }, []);
+
   return (
     <>
       <div
@@ -144,6 +172,7 @@ const Item = ({ index, category, fetch }) => {
               index={index}
               category={subCategory}
               fetch={() => fetch(subCategory)}
+              recentPath={recentPath}
             />
           );
         })
