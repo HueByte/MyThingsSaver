@@ -28,8 +28,6 @@ const Explorer = () => {
         lastCategoryID
       ).catch((error) => console.error(error));
 
-      console.log(lastPath);
-
       setCurrentEntries(result.data.categoryEntries);
       setCurrentCategoryID(lastCategoryID);
       setLastUsedPath(lastPath);
@@ -149,12 +147,18 @@ const Item = ({ index, category, fetch, recentPath }) => {
         {category.childCategories ? (
           showChilds ? (
             <i
-              onClick={() => setShowChilds(!showChilds)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowChilds(!showChilds);
+              }}
               class="fa fa-angle-down"
             ></i>
           ) : (
             <i
-              onClick={() => setShowChilds(!showChilds)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowChilds(!showChilds);
+              }}
               class="fa fa-angle-right"
             ></i>
           )
