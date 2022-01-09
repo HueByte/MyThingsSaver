@@ -11,22 +11,6 @@ const Explorer = () => {
   const [subCategories, setSubCategories] = useState([]);
   const auth = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log(categoryContext.categories);
-  }, []);
-
-  useEffect(() => console.log(subCategories), [subCategories]);
-
-  // const populateRoot = async (category) => {
-  //   // console.log(category);
-  //   var result = await categoryContext.ContextGetAllSubCategories(
-  //     category.categoryId
-  //   );
-
-  //   setSubCategories(result);
-  //   console.log(result);
-  // };
-
   return (
     <div className="categories__wrapper">
       <div className="container">
@@ -38,14 +22,7 @@ const Explorer = () => {
                 if (category.level == 0) {
                   return (
                     <>
-                      <Item key={index} category={category} />
-                      {categoryContext.categories.map((subCategory, index) => {
-                        if (
-                          subCategory.parentCategoryId == category.categoryId
-                        ) {
-                          return <Item key={index} category={subCategory} />;
-                        }
-                      })}
+                      <Item index={index} category={category} />
                     </>
                   );
                 }
@@ -149,20 +126,36 @@ const Explorer = () => {
 
 export default Explorer;
 
+const Item = ({ index, category }) => {
+  const [showChilds, setShowChilds] = useState(false);
+  return (
+    <>
+      <div
+        key={index}
+        className="item ellipsis"
+        onClick={() => setShowChilds(!showChilds)}
+        style={determineDepth(category)}
+      >
+        {category.name}
+      </div>
+      {showChilds ? (
+        category.childCategories?.map((subCategory, index) => {
+          return <Item index={index} category={subCategory} />;
+        })
+      ) : (
+        <></>
+      )}
+    </>
+  );
+};
+
 const determineDepth = (category) => {
   if (category.level > 0) {
     const style = {
       marginLeft: `${category.level * 5 + 10}px`,
       border: "none",
     };
+
     return style;
   }
-};
-
-const Item = ({ category }) => {
-  return (
-    <div className="item ellipsis" style={determineDepth(category)}>
-      {category.name}
-    </div>
-  );
 };
