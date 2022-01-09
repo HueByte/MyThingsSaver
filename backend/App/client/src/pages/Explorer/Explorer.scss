@@ -23,25 +23,36 @@
     display: flex;
     flex-direction: row;
     width: variables.$medium-resolution;
-    min-height: 80vh;
+    min-height: 20vh;
+    height: 80vh;
     border-radius: 15px;
-    border: 1px solid theme.$Grey;
-    background-color: rgba($color: theme.$Shark, $alpha: 0.9);
 
     .left-menu {
-      width: 15%;
+      width: 16%;
       max-width: 90%;
-      //   border-right: 1px solid theme.$Grey;
       resize: horizontal;
       overflow: auto;
+      overflow-x: hidden;
+      padding: variables.$s-padding;
+      border: 1px solid theme.$Grey;
+      border-radius: 15px 0 0 15px;
+      background-color: rgba($color: theme.$SharkDark, $alpha: 0.9);
 
       .item {
+        border-left: 1px solid theme.$Grey;
         padding: variables.$s-padding;
+        margin-left: variables.$m-padding;
         cursor: pointer;
         transition: transitions.$fast;
 
         &:hover {
           color: theme.$Rose;
+        }
+
+        &:first-child {
+          border: none;
+          color: theme.$Teal;
+          margin-left: variables.$s-padding !important;
         }
       }
     }
@@ -52,6 +63,9 @@
       padding: variables.$m-padding;
       flex: 9;
       min-width: 50px;
+      border: 1px solid theme.$Grey;
+      border-radius: 0 15px 15px 0;
+      background-color: rgba($color: theme.$Shark, $alpha: 0.9);
 
       .item {
         display: flex;
@@ -97,6 +111,10 @@
           }
 
           .size {
+            flex: 1 1;
+          }
+
+          .type {
             flex: 1 1;
           }
         }

@@ -115,10 +115,13 @@ const CategoryProvider = ({ children }) => {
   const value = {
     categories,
     setCategories: (categoryData) => setCategories(categoryData),
+    rootCategories,
     ContextAddCategory,
     ContextEditCategory,
     ContextRemoveCategory,
     ContextGetAllCategories,
+    ContextGetAllSubCategories,
+    ContextGetAllRootCategories,
   };
 
   if (isFetching) return <Loader />;
