@@ -7,7 +7,6 @@ import {
   EntriesUpdateEndpoint,
 } from "../ApiEndpoints";
 import ApiClient from "../ApiClient";
-import { AuthFetch } from "../ApiHandler";
 
 class EntriesRepository {
   static async Get(token, entryID) {

@@ -2,14 +2,42 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import "./Explorer.scss";
 
 const Explorer = () => {
   const categoryContext = useContext(CategoryContext);
-  const [subCategories, setSubCategories] = useState([]);
   const auth = useContext(AuthContext);
+  const [currentEntries, setCurrentEntries] = useState([]);
+  const [currentCategoryID, setCurrentCategoryID] = useState();
+
+  useEffect(async () => {
+    let lastCategoryID = localStorage.getItem("lastCategory");
+
+    if (lastCategoryID) {
+      let result = await EntriesRepository.GetAll(
+        auth?.authState?.token,
+        lastCategoryID
+      ).catch((error) => console.error(error));
+
+      setCurrentEntries(result.data.categoryEntries);
+      setCurrentCategoryID(lastCategoryID);
+    }
+  }, []);
+
+  const fetchEntries = async (category) => {
+    let result = await EntriesRepository.GetAll(
+      auth?.authState?.token,
+      category.categoryId
+    ).catch((error) => console.error(error));
+
+    setCurrentEntries(result.data.categoryEntries);
+    setCurrentCategoryID(category.categoryId);
+    localStorage.setItem("lastCategory", category.categoryId);
+  };
 
   return (
     <div className="categories__wrapper">
@@ -22,7 +50,11 @@ const Explorer = () => {
                 if (category.level == 0) {
                   return (
                     <>
-                      <Item index={index} category={category} />
+                      <Item
+                        index={index}
+                        category={category}
+                        fetch={fetchEntries}
+                      />
                     </>
                   );
                 }
@@ -33,91 +65,41 @@ const Explorer = () => {
           )}
         </div>
         <div className="content">
-          <div className="item">
-            <div className="information">
-              <div className="icon">
-                <i class="fas fa-sticky-note"></i>
-              </div>
-              <div className="text ellipsis">
-                I'm some item reeeeeeeeeeeeeeeeeeeeeeeee
-              </div>
-              <div className="date">11/11/2020</div>
-              <div className="size">100 B</div>
-              <div className="size">md</div>
-            </div>
-            <div className="actions">
-              <i class="fas fa-pen-square"></i>
-              <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-          </div>
-          <div className="item">
-            <div className="information">
-              <div className="icon">
-                <i class="fas fa-sticky-note"></i>
-              </div>
-              <div className="text ellipsis">
-                I'm some item reeeeeeeeeeeeeeeeeeeeeeeee
-              </div>
-              <div className="date">11/11/2020</div>
-              <div className="size">100 B</div>
-              <div className="size">md</div>
-            </div>
-            <div className="actions">
-              <i class="fas fa-pen-square"></i>
-              <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-          </div>
-          <div className="item">
-            <div className="information">
-              <div className="icon">
-                <i class="fas fa-sticky-note"></i>
-              </div>
-              <div className="text ellipsis">
-                I'm some item reeeeeeeeeeeeeeeeeeeeeeeee
-              </div>
-              <div className="date">11/11/2020</div>
-              <div className="size">100 B</div>
-              <div className="size">md</div>
-            </div>
-            <div className="actions">
-              <i class="fas fa-pen-square"></i>
-              <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-          </div>
-          <div className="item">
-            <div className="information">
-              <div className="icon">
-                <i class="fas fa-sticky-note"></i>
-              </div>
-              <div className="text ellipsis">
-                I'm some item reeeeeeeeeeeeeeeeeeeeeeeee
-              </div>
-              <div className="date">11/11/2020</div>
-              <div className="size">100 B</div>
-              <div className="size">md</div>
-            </div>
-            <div className="actions">
-              <i class="fas fa-pen-square"></i>
-              <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-          </div>
-          <div className="item">
-            <div className="information">
-              <div className="icon">
-                <i class="fas fa-sticky-note"></i>
-              </div>
-              <div className="text ellipsis">
-                I'm some item reeeeeeeeeeeeeeeeeeeeeeeee
-              </div>
-              <div className="date">11/11/2020</div>
-              <div className="size">100 B</div>
-              <div className="size">md</div>
-            </div>
-            <div className="actions">
-              <i class="fas fa-pen-square"></i>
-              <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-          </div>
+          {currentEntries ? (
+            <>
+              {currentEntries.map((entry, index) => {
+                return (
+                  <NavLink
+                    key={index}
+                    className="item"
+                    to={`/entry/${currentCategoryID}/${entry.categoryEntryId}`}
+                  >
+                    <div className="information">
+                      <div className="icon">
+                        <i class="fas fa-sticky-note"></i>
+                      </div>
+                      <div className="text ellipsis">
+                        {entry.categoryEntryName}
+                      </div>
+                      <div className="date">
+                        {new Date(
+                          entry.lastUpdatedOn + "Z"
+                        ).toLocaleDateString()}
+                      </div>
+                      <div className="size">{entry.size} B</div>
+                      <div className="size">md</div>
+                    </div>
+                    <div className="actions">
+                      <i class="fas fa-pen-square"></i>
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </div>
+                  </NavLink>
+                );
+              })}
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>
@@ -126,21 +108,44 @@ const Explorer = () => {
 
 export default Explorer;
 
-const Item = ({ index, category }) => {
+const Item = ({ index, category, fetch }) => {
   const [showChilds, setShowChilds] = useState(false);
   return (
     <>
       <div
         key={index}
         className="item ellipsis"
-        onClick={() => setShowChilds(!showChilds)}
+        onClick={() => fetch(category)}
         style={determineDepth(category)}
       >
+        {category.childCategories ? (
+          showChilds ? (
+            <i
+              onClick={() => setShowChilds(!showChilds)}
+              class="fa fa-angle-down"
+            ></i>
+          ) : (
+            <i
+              onClick={() => setShowChilds(!showChilds)}
+              class="fa fa-angle-right"
+            ></i>
+          )
+        ) : (
+          <>
+            <i style={{ marginLeft: "10px" }}></i>
+          </>
+        )}
         {category.name}
       </div>
       {showChilds ? (
         category.childCategories?.map((subCategory, index) => {
-          return <Item index={index} category={subCategory} />;
+          return (
+            <Item
+              index={index}
+              category={subCategory}
+              fetch={() => fetch(subCategory)}
+            />
+          );
         })
       ) : (
         <></>

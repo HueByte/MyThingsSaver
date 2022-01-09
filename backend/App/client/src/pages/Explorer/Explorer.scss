@@ -45,6 +45,10 @@
         cursor: pointer;
         transition: transitions.$fast;
 
+        i {
+          margin-right: variables.$ss-margin;
+        }
+
         &:hover {
           color: theme.$Rose;
         }
@@ -79,6 +83,7 @@
         border: 1px solid transparent;
         align-items: flex-start;
         overflow: hidden;
+        color: white;
 
         &:nth-child(odd) {
           background-color: theme.$SharkDark;
