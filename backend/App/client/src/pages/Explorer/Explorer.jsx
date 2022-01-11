@@ -1,4 +1,5 @@
 import React from "react";
+import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
@@ -10,11 +11,17 @@ import { CategoryContext } from "../../contexts/CategoryContext";
 import "./Explorer.scss";
 
 const Explorer = () => {
+  console.error = function () {};
   const categoryContext = useContext(CategoryContext);
   const auth = useContext(AuthContext);
+
   const [currentEntries, setCurrentEntries] = useState([]);
   const [currentCategoryID, setCurrentCategoryID] = useState();
+  const [items, setItems] = useState([]);
+  const [itemsToDelete, setItemsToDelete] = useState([]);
+
   const [lastUsedPath, setLastUsedPath] = useState();
+
   const [finishedFetching, setFinishedFetching] = useState(false);
   const [isLoadingEntries, setIsLoadingEntries] = useState(true);
 
@@ -29,7 +36,7 @@ const Explorer = () => {
       ).catch((error) => console.error(error));
 
       setCurrentEntries(result.data.categoryEntries);
-      setCurrentCategoryID(lastCategoryID);
+      changeCurrentCategory(lastCategoryID);
       setLastUsedPath(lastPath);
     }
 
@@ -39,8 +46,60 @@ const Explorer = () => {
 
   useEffect(() => setIsLoadingEntries(false), [currentEntries]);
 
+  useEffect(() => console.log(items), [items]);
+
+  useEffect(() => {
+    if (!isLoadingEntries && Object.keys(items).length > 0) {
+      console.log(typeof items[currentCategoryID]);
+
+      // items[currentCategoryID]();
+    }
+  }, [isLoadingEntries]);
+
+  useEffect(() => {
+    if (currentCategoryID && Object.keys(items).length > 0) {
+      console.log("making it active");
+      items[currentCategoryID](true);
+    }
+  }, [currentCategoryID]);
+
+  useEffect(() => {
+    if (itemsToDelete.length > 0) {
+      let newItems = items;
+
+      itemsToDelete.forEach((item) => {
+        delete newItems[item];
+      });
+
+      setItems(newItems);
+      setItemsToDelete([]);
+    }
+  }, [itemsToDelete]);
+
+  const changeCurrentCategory = (categoryId) => {
+    console.log(currentCategoryID, "vs", categoryId);
+
+    // if (Object.keys(items).length > 0) {
+    //   console.log(currentCategoryID);
+    //   items[currentCategoryID]();
+    // }
+
+    setCurrentCategoryID(categoryId);
+  };
+
+  const removeFromItemList = (category) => {
+    setItemsToDelete((state) => [...state, category.categoryId]);
+  };
+
+  const itemsContainer = {
+    setItems: setItems,
+    removeFromItemList: removeFromItemList,
+  };
+
   const fetchEntries = async (category) => {
     setIsLoadingEntries(true);
+    console.log("Making it inactive");
+    items[category.categoryId](false);
 
     let result = await EntriesRepository.GetAll(
       auth?.authState?.token,
@@ -48,7 +107,7 @@ const Explorer = () => {
     ).catch((error) => console.error(error));
 
     setCurrentEntries(result.data.categoryEntries);
-    setCurrentCategoryID(category.categoryId);
+    changeCurrentCategory(category.categoryId);
     setLastUsedPath(category.path);
     localStorage.setItem("lastPath", category.path);
   };
@@ -69,6 +128,7 @@ const Explorer = () => {
                         category={category}
                         fetch={fetchEntries}
                         recentPath={lastUsedPath}
+                        itemsContainer={itemsContainer}
                       />
                     </>
                   );
@@ -127,20 +187,35 @@ const Explorer = () => {
 
 export default Explorer;
 
-const Item = ({ index, category, fetch, recentPath }) => {
+const Item = ({ index, category, recentPath, fetch, itemsContainer }) => {
   const [showChilds, setShowChilds] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
+    itemsContainer.setItems((state) => ({
+      ...state,
+      [category.categoryId]: (value) => setIsActive(value),
+    }));
+
     if (recentPath?.includes(category.categoryId)) {
       setShowChilds(true);
     }
+
+    return () => {
+      itemsContainer.removeFromItemList(category);
+    };
   }, []);
+
+  const toggleActive = () => {
+    console.log("bnok", isActive);
+    setIsActive(!isActive);
+  };
 
   return (
     <>
       <div
         key={index}
-        className="item ellipsis"
+        className={`item ellipsis${isActive ? " active" : ""}`}
         onClick={() => fetch(category)}
         style={determineDepth(category)}
       >
@@ -177,6 +252,7 @@ const Item = ({ index, category, fetch, recentPath }) => {
               category={subCategory}
               fetch={() => fetch(subCategory)}
               recentPath={recentPath}
+              itemsContainer={itemsContainer}
             />
           );
         })

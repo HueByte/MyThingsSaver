@@ -58,6 +58,10 @@
           color: theme.$Teal;
           margin-left: variables.$s-padding !important;
         }
+
+        &.active {
+          color: theme.$Teal;
+        }
       }
     }
 

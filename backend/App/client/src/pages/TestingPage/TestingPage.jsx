@@ -16,7 +16,6 @@ const TestingPage = () => {
     tween.start();
 
     // let result = await api.Get(EntriesGetAllEndpoint);
-    // console.log(result);
   }, []);
 
   return (
