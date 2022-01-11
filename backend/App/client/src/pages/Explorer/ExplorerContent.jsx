@@ -15,9 +15,10 @@ const ExplorerContent = () => {
   const [currentEntries, setCurrentEntries] = useState([]);
   let { categoryId } = useParams();
 
-  useEffect(() => setIsLoadingEntries(false), [currentEntries]);
-
+  // fetch entries once url parameter is retrieved
   useEffect(() => fetchEntries(categoryId), [categoryId]);
+
+  useEffect(() => setIsLoadingEntries(false), [currentEntries]);
 
   const fetchEntries = async (categoryId) => {
     setIsLoadingEntries(true);
@@ -41,7 +42,7 @@ const ExplorerContent = () => {
                 <NavLink
                   key={entry.categoryEntryId}
                   className="item"
-                  to={`/entry/${categoryId}/${entry.categoryEntryId}`}
+                  to={`/entry/${lastUsedId}/${entry.categoryEntryId}`}
                 >
                   <div className="information">
                     <div className="icon">

@@ -3,22 +3,20 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import Loader from "../../components/Loaders/Loader";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import "./Explorer.scss";
-import { successModal } from "../../core/Modals";
 
 const Explorer = () => {
   const categoryContext = useContext(CategoryContext);
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [lastUsedId, setLastUsedId] = useState("");
   const [lastUsedPath, setLastUsedPath] = useState();
   const [finishedLoading, setFinishedLoading] = useState(false);
-  const [redirectToEntry, setRedirectToEntry] = useState(false);
 
   useEffect(() => {
     let lastPath = localStorage.getItem("lastPath")?.split("/");
@@ -27,12 +25,14 @@ const Explorer = () => {
         (x) => x.categoryId == lastPath[lastPath.length - 1]
       );
 
-      setLastUsedPath(result?.path);
+      setLastUsedPath(result?.path.split("/"));
+      navigate(`/explore/${result.categoryId}`);
     }
 
     setFinishedLoading(true);
   }, []);
 
+  // once entires are fetched update lastPath in localstorage
   useEffect(() => {
     if (lastUsedId) {
       var result = categoryContext.categories.find(

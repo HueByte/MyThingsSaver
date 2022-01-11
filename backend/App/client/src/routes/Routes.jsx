@@ -59,6 +59,7 @@ export const ClientRouter = () => {
         />
         <Route path="explore" element={<Explorer />}>
           <Route path=":categoryId" element={<ExplorerContent />} />
+          {/* <Route path="" element={<ExplorerContent />} /> */}
         </Route>
         <Route path="category">
           <Route
