@@ -11,7 +11,6 @@ import { CategoryContext } from "../../contexts/CategoryContext";
 import "./Explorer.scss";
 
 const Explorer = () => {
-  console.error = function () {};
   const categoryContext = useContext(CategoryContext);
   const auth = useContext(AuthContext);
 
@@ -46,21 +45,8 @@ const Explorer = () => {
 
   useEffect(() => setIsLoadingEntries(false), [currentEntries]);
 
-  useEffect(() => console.log(items), [items]);
-
   useEffect(() => {
-    if (!isLoadingEntries && Object.keys(items).length > 0) {
-      console.log(typeof items[currentCategoryID]);
-
-      // items[currentCategoryID]();
-    }
-  }, [isLoadingEntries]);
-
-  useEffect(() => {
-    if (currentCategoryID && Object.keys(items).length > 0) {
-      console.log("making it active");
-      items[currentCategoryID](true);
-    }
+    switchActive(currentCategoryID, true);
   }, [currentCategoryID]);
 
   useEffect(() => {
@@ -77,13 +63,6 @@ const Explorer = () => {
   }, [itemsToDelete]);
 
   const changeCurrentCategory = (categoryId) => {
-    console.log(currentCategoryID, "vs", categoryId);
-
-    // if (Object.keys(items).length > 0) {
-    //   console.log(currentCategoryID);
-    //   items[currentCategoryID]();
-    // }
-
     setCurrentCategoryID(categoryId);
   };
 
@@ -97,9 +76,8 @@ const Explorer = () => {
   };
 
   const fetchEntries = async (category) => {
+    switchActive(currentCategoryID, false);
     setIsLoadingEntries(true);
-    console.log("Making it inactive");
-    items[category.categoryId](false);
 
     let result = await EntriesRepository.GetAll(
       auth?.authState?.token,
@@ -110,6 +88,12 @@ const Explorer = () => {
     changeCurrentCategory(category.categoryId);
     setLastUsedPath(category.path);
     localStorage.setItem("lastPath", category.path);
+  };
+
+  const switchActive = (categoryId, value) => {
+    if (categoryId && Object.keys(items).length > 0) {
+      items[categoryId](value);
+    }
   };
 
   return (
@@ -194,7 +178,9 @@ const Item = ({ index, category, recentPath, fetch, itemsContainer }) => {
   useEffect(() => {
     itemsContainer.setItems((state) => ({
       ...state,
-      [category.categoryId]: (value) => setIsActive(value),
+      [category.categoryId]: (value) => {
+        setIsActive(value);
+      },
     }));
 
     if (recentPath?.includes(category.categoryId)) {
@@ -205,11 +191,6 @@ const Item = ({ index, category, recentPath, fetch, itemsContainer }) => {
       itemsContainer.removeFromItemList(category);
     };
   }, []);
-
-  const toggleActive = () => {
-    console.log("bnok", isActive);
-    setIsActive(!isActive);
-  };
 
   return (
     <>
