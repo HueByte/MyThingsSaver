@@ -37,6 +37,8 @@
       border: 1px solid theme.$Grey;
       border-radius: 15px 0 0 15px;
       background-color: rgba($color: theme.$SharkDark, $alpha: 0.9);
+      display: flex;
+      flex-direction: column;
 
       .item {
         border-left: 1px solid theme.$Grey;
@@ -44,6 +46,7 @@
         margin-left: variables.$m-padding;
         cursor: pointer;
         transition: transitions.$fast;
+        color: white;
 
         i {
           margin-right: variables.$ss-margin;

@@ -5,7 +5,6 @@ import { Routes, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./AuthenticatedRoute";
 import { CategoryProvider } from "../contexts/CategoryContext";
 import { Role } from "../api/Roles";
-import Explorer from "../pages/Explorer/Explorer";
 
 // elements/pages
 const HomePage = React.lazy(() => import("../pages/HomePage/HomePage"));
@@ -19,6 +18,10 @@ const Login = React.lazy(() => import("../pages/Authentication/Login"));
 const Register = React.lazy(() => import("../pages/Authentication/Register"));
 const Entry = React.lazy(() => import("../pages/Entry/Entry"));
 const Logout = React.lazy(() => import("../pages/Logout/Logout"));
+const Explorer = React.lazy(() => import("../pages/Explorer/Explorer"));
+const ExplorerContent = React.lazy(() =>
+  import("../pages/Explorer/ExplorerContent")
+);
 
 const BasicLayout = React.lazy(() =>
   import("../core/BasicLayout/BasicLayout.jsx")
@@ -54,14 +57,9 @@ export const ClientRouter = () => {
             </PrivateRoute>
           }
         />
-        <Route
-          path="explore"
-          element={
-            <PrivateRoute>
-              <Explorer />
-            </PrivateRoute>
-          }
-        />
+        <Route path="explore" element={<Explorer />}>
+          <Route path=":categoryId" element={<ExplorerContent />} />
+        </Route>
         <Route path="category">
           <Route
             path=":categoryName/:subCategoryName/:fetchCategoryId"
