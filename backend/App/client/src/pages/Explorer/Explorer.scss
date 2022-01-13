@@ -118,6 +118,16 @@
         color: white;
         animation: 300ms ease-out 0s 1 onload;
 
+        &:first-child {
+          background-color: theme.$SharkDark;
+          cursor: default;
+
+          &:hover {
+            color: white;
+            background-color: theme.$SharkDark;
+          }
+        }
+
         &:nth-child(odd) {
           background-color: theme.$SharkDark;
         }

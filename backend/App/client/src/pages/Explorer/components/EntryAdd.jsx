@@ -6,24 +6,36 @@ import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { warningModal } from "../../../core/Modals";
 
-const EntryAdd = ({ auth, entry, categoryId, setEntries }) => {
-  const [isActive, setIsActive] = useState(false);
+const EntryAdd = ({
+  isActive,
+  setIsActive,
+  auth,
+  entry,
+  categoryId,
+  setEntries,
+}) => {
   const entryName = useRef();
 
   const closeModal = () => setIsActive(false);
 
   useEffect(() => {
+    console.log("test");
     entryName.current = document.getElementById("entry-name-input");
   }, []);
 
-  const addEntry = async () => {
-    if (entryName.current.length === 0) {
+  const sendRequest = async () => {
+    console.log(entryName.current);
+    if (entryName.current.value.length === 0) {
       warningModal("Name cannot be empty");
       setIsActive(false);
       return;
     }
 
-    await EntriesRepository.Add(auth?.token, entryName.current, categoryId)
+    await EntriesRepository.Add(
+      auth?.token,
+      entryName.current.value,
+      categoryId
+    )
       .then(async () => {
         await EntriesRepository.GetAll(auth?.token, categoryId)
           .then((result) => setEntries(result.data))
@@ -51,8 +63,12 @@ const EntryAdd = ({ auth, entry, categoryId, setEntries }) => {
             autoComplete="off"
           />
           <div className="modal-menu">
-            <div className="basic-button">Add</div>
-            <div className="basic-button">Close</div>
+            <div className="basic-button" onClick={sendRequest}>
+              Add
+            </div>
+            <div className="basic-button" onClick={closeModal}>
+              Close
+            </div>
           </div>
         </div>
       </BasicModal>

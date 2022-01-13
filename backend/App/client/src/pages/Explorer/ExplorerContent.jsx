@@ -17,6 +17,9 @@ const ExplorerContent = () => {
   const [isLoadingEntries, setIsLoadingEntries] = useState(true);
   const [currentEntries, setCurrentEntries] = useState([]);
   const [currentEntry, setCurrentEntry] = useState(null);
+
+  //actions
+  const [isAddActive, setIsAddActive] = useState(false);
   let { categoryId } = useParams();
 
   // fetch entries once url parameter is retrieved
@@ -41,6 +44,24 @@ const ExplorerContent = () => {
       {!isLoadingEntries ? (
         currentEntries ? (
           <>
+            <div className="item">
+              <div className="information">
+                <div className="icon">
+                  <i class="fas fa-sticky-note"></i>
+                </div>
+                <div className="text ellipsis">Title</div>
+                <div className="date">Date</div>
+                <div className="size">Size</div>
+                <div className="size">Type</div>
+              </div>
+              <div className="actions">
+                <i
+                  class="fa fa-plus"
+                  aria-hidden="true"
+                  onClick={() => setIsAddActive(true)}
+                ></i>
+              </div>
+            </div>
             {currentEntries.map((entry) => {
               return (
                 <NavLink
@@ -69,6 +90,8 @@ const ExplorerContent = () => {
               );
             })}
             <EntryAdd
+              isActive={isAddActive}
+              setIsActive={setIsAddActive}
               auth={auth?.authState}
               entry={currentEntry}
               categoryId={categoryId}
