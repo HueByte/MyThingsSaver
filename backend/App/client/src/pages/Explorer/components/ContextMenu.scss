@@ -1,0 +1,45 @@
+@use "../../../styles/theme" as theme;
+@use "../../../styles/variables" as variables;
+@use "../../../styles/transitions" as transitions;
+
+#context-menu {
+  position: fixed;
+  z-index: 10000;
+  width: 150px;
+  border: 1px solid theme.$Grey;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0);
+  transform-origin: top left;
+
+  &.visible {
+    transform: scale(1);
+    transition: transitions.$fast;
+  }
+
+  a {
+    color: white;
+  }
+
+  .item {
+    padding: variables.$m-padding;
+    transition: transitions.$fast;
+    background-color: theme.$SharkDark;
+    cursor: pointer;
+
+    &:first-child {
+      border: 1px 1px 0 1px;
+      border-radius: 5px 5px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 5px 5px;
+    }
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+}

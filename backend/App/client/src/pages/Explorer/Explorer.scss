@@ -48,6 +48,7 @@
         transition: transitions.$fast;
         color: white;
         animation: 300ms ease-out 0s 1 onload;
+        width: 100%;
 
         i {
           margin-right: variables.$ss-margin;
@@ -60,7 +61,18 @@
         &:first-child {
           border: none;
           color: theme.$Teal;
+          cursor: default;
           margin-left: variables.$s-padding !important;
+
+          i {
+            align-self: flex-end;
+            font-size: 14px;
+            cursor: pointer;
+
+            &:hover {
+              color: theme.$Rose;
+            }
+          }
         }
 
         &.active {
@@ -117,6 +129,7 @@
 
         * {
           padding-right: variables.$s-padding;
+          white-space: nowrap;
         }
 
         .information {

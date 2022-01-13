@@ -8,17 +8,18 @@ import { Outlet, useNavigate, useParams } from "react-router";
 import Loader from "../../components/Loaders/Loader";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import "./Explorer.scss";
+import ContextMenu from "./components/ContextMenu";
 
 const Explorer = () => {
   const categoryContext = useContext(CategoryContext);
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
+  let { categoryId } = useParams();
 
   const [lastUsedId, setLastUsedId] = useState("");
   const [lastUsedPath, setLastUsedPath] = useState();
   const [finishedLoading, setFinishedLoading] = useState(false);
-
-  let { categoryId } = useParams();
+  const [contextMenuCategory, setContextMenuCategory] = useState();
 
   useEffect(() => {
     let lastPath = localStorage.getItem("lastPath")?.split("/");
@@ -49,11 +50,12 @@ const Explorer = () => {
   return (
     <div className="categories__wrapper">
       <div className="container">
-        <div className="left-menu border-gradient border-gradient-purple">
-          <div className="item ellipsis">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            {auth.authState?.username}
-          </div>
+        <div
+          className="left-menu"
+          id="explorer-menu"
+          onContextMenu={() => setContextMenuCategory(null)}
+        >
+          <div className="item ellipsis">{auth.authState?.username}</div>
           {finishedLoading ? (
             <>
               {categoryContext.categories ? (
@@ -66,6 +68,7 @@ const Explorer = () => {
                             key={category.categoryId}
                             category={category}
                             recentPath={lastUsedPath}
+                            setCurrentContextItem={setContextMenuCategory}
                           />
                         </>
                       );
@@ -84,13 +87,14 @@ const Explorer = () => {
           <Outlet context={[lastUsedId, setLastUsedId]} />
         </div>
       </div>
+      <ContextMenu category={contextMenuCategory} />
     </div>
   );
 };
 
 export default Explorer;
 
-const Item = ({ category, recentPath }) => {
+const Item = ({ category, recentPath, setCurrentContextItem }) => {
   const [showChilds, setShowChilds] = useState(false);
 
   useEffect(() => {
@@ -105,6 +109,10 @@ const Item = ({ category, recentPath }) => {
         to={`/explore/${category.categoryId}`}
         className="item ellipsis"
         style={determineDepth(category)}
+        onContextMenu={(e) => {
+          e.stopPropagation();
+          setCurrentContextItem(category);
+        }}
       >
         {category.childCategories ? (
           showChilds ? (
@@ -125,9 +133,7 @@ const Item = ({ category, recentPath }) => {
             ></i>
           )
         ) : (
-          <>
-            <i style={{ marginLeft: "10px" }}></i>
-          </>
+          <i style={{ marginLeft: "10px" }}></i>
         )}
         {category.name}
       </NavLink>
@@ -138,6 +144,7 @@ const Item = ({ category, recentPath }) => {
               key={subCategory.categoryId}
               category={subCategory}
               recentPath={recentPath}
+              setCurrentContextItem={setCurrentContextItem}
             />
           );
         })
