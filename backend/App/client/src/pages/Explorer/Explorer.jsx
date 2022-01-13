@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../auth/AuthContext";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate, useParams } from "react-router";
 import Loader from "../../components/Loaders/Loader";
 import { CategoryContext } from "../../contexts/CategoryContext";
 import "./Explorer.scss";
@@ -18,9 +18,11 @@ const Explorer = () => {
   const [lastUsedPath, setLastUsedPath] = useState();
   const [finishedLoading, setFinishedLoading] = useState(false);
 
+  let { categoryId } = useParams();
+
   useEffect(() => {
     let lastPath = localStorage.getItem("lastPath")?.split("/");
-    if (lastPath) {
+    if (lastPath && !categoryId) {
       var result = categoryContext.categories.find(
         (x) => x.categoryId == lastPath[lastPath.length - 1]
       );
@@ -48,7 +50,10 @@ const Explorer = () => {
     <div className="categories__wrapper">
       <div className="container">
         <div className="left-menu border-gradient border-gradient-purple">
-          <div className="item ellipsis">{auth.authState?.username}</div>
+          <div className="item ellipsis">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            {auth.authState?.username}
+          </div>
           {finishedLoading ? (
             <>
               {categoryContext.categories ? (
