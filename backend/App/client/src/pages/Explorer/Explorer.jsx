@@ -30,6 +30,12 @@ const Explorer = () => {
 
       setLastUsedPath(result?.path.split("/"));
       navigate(`/explore/${result.categoryId}`);
+    } else if (categoryId) {
+      var result = categoryContext.categories.find(
+        (x) => x.categoryId == categoryId
+      );
+
+      setLastUsedPath(result?.path.split("/"));
     }
 
     setFinishedLoading(true);
@@ -98,7 +104,10 @@ const Item = ({ category, recentPath, setCurrentContextItem }) => {
   const [showChilds, setShowChilds] = useState(false);
 
   useEffect(() => {
+    console.log(recentPath);
+
     if (recentPath?.includes(category.categoryId)) {
+      console.log("bonker", category.name);
       setShowChilds(true);
     }
   }, []);
