@@ -27,7 +27,6 @@ const ContextMenu = ({ category }) => {
   }, []);
 
   const onContextMenu = (event) => {
-    console.log(event);
     event.preventDefault();
 
     const { clientX: mouseX, clientY: mouseY } = event;

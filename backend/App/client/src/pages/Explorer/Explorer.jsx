@@ -72,14 +72,12 @@ const Explorer = () => {
                   {categoryContext.categories.map((category) => {
                     if (category.level == 0) {
                       return (
-                        <>
-                          <Item
-                            key={category.categoryId}
-                            category={category}
-                            recentPath={lastUsedPath}
-                            setCurrentContextItem={setContextMenuCategory}
-                          />
-                        </>
+                        <Item
+                          key={category.categoryId}
+                          category={category}
+                          recentPath={lastUsedPath}
+                          setCurrentContextItem={setContextMenuCategory}
+                        />
                       );
                     }
                   })}
@@ -107,10 +105,7 @@ const Item = ({ category, recentPath, setCurrentContextItem }) => {
   const [showChilds, setShowChilds] = useState(false);
 
   useEffect(() => {
-    console.log(recentPath);
-
     if (recentPath?.includes(category.categoryId)) {
-      console.log("bonker", category.name);
       setShowChilds(true);
     }
   }, []);
