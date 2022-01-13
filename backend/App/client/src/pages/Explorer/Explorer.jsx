@@ -22,20 +22,23 @@ const Explorer = () => {
   const [contextMenuCategory, setContextMenuCategory] = useState();
 
   useEffect(() => {
-    let lastPath = localStorage.getItem("lastPath")?.split("/");
-    if (lastPath && !categoryId) {
-      var result = categoryContext.categories.find(
-        (x) => x.categoryId == lastPath[lastPath.length - 1]
-      );
-
-      setLastUsedPath(result?.path.split("/"));
-      navigate(`/explore/${result.categoryId}`);
-    } else if (categoryId) {
+    if (categoryId) {
       var result = categoryContext.categories.find(
         (x) => x.categoryId == categoryId
       );
 
       setLastUsedPath(result?.path.split("/"));
+    } else {
+      let lastPath = localStorage.getItem("lastPath")?.split("/");
+
+      if (lastPath) {
+        var result = categoryContext.categories.find(
+          (x) => x.categoryId == lastPath[lastPath.length - 1]
+        );
+
+        setLastUsedPath(result?.path.split("/"));
+        navigate(`/explore/${result.categoryId}`);
+      }
     }
 
     setFinishedLoading(true);
