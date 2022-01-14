@@ -1,50 +1,34 @@
 import React from "react";
-import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { warningModal } from "../../../core/Modals";
 
-const EntryAdd = ({
-  isActive,
-  setIsActive,
-  auth,
-  entry,
-  categoryId,
-  setEntries,
-}) => {
-  const entryName = useRef();
-
-  const closeModal = () => setIsActive(false);
-
-  useEffect(() => {
-    console.log("test");
-    entryName.current = document.getElementById("entry-name-input");
-  }, []);
+const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
+  const [entryName, setEntryName] = useState();
 
   const sendRequest = async () => {
-    console.log(entryName.current);
-    if (entryName.current.value.length === 0) {
+    console.log(entryName);
+    if (entryName?.length === 0) {
       warningModal("Name cannot be empty");
       setIsActive(false);
       return;
     }
 
-    await EntriesRepository.Add(
-      auth?.token,
-      entryName.current.value,
-      categoryId
-    )
+    await EntriesRepository.Add(auth?.token, entryName, categoryId)
       .then(async () => {
         await EntriesRepository.GetAll(auth?.token, categoryId)
-          .then((result) => setEntries(result.data))
+          .then((result) => setEntries(result?.data?.categoryEntries))
           .catch((error) => console.error(error));
       })
       .catch((error) => console.error(error));
 
     setIsActive(false);
   };
+
+  const closeModal = () => setIsActive(false);
+
   return (
     <>
       <BasicModal
@@ -52,25 +36,30 @@ const EntryAdd = ({
         shouldCloseOnOverlayClick={true}
         onRequestClose={closeModal}
       >
-        <div className="modal-container">
-          <div className="modal-field">
-            <div className="field-name">Entry name</div>
-          </div>
-          <input
-            id="entry-name-input"
-            type="text"
-            className="basic-input"
-            autoComplete="off"
-          />
-          <div className="modal-menu">
-            <div className="basic-button" onClick={sendRequest}>
-              Add
+        {isActive ? (
+          <div className="modal-container">
+            <div className="modal-field">
+              <div className="field-name">Entry name</div>
             </div>
-            <div className="basic-button" onClick={closeModal}>
-              Close
+            <input
+              id="entry-name-input"
+              type="text"
+              className="basic-input"
+              autoComplete="off"
+              onInput={(e) => setEntryName(e.target.value)}
+            />
+            <div className="modal-menu">
+              <div className="basic-button" onClick={sendRequest}>
+                Add
+              </div>
+              <div className="basic-button" onClick={closeModal}>
+                Close
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
       </BasicModal>
     </>
   );

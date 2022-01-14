@@ -93,7 +93,6 @@ const ExplorerContent = () => {
               isActive={isAddActive}
               setIsActive={setIsAddActive}
               auth={auth?.authState}
-              entry={currentEntry}
               categoryId={categoryId}
               setEntries={setCurrentEntries}
             />
