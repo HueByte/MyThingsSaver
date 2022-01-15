@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
 import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { errorModal, successModal } from "../../../core/Modals";

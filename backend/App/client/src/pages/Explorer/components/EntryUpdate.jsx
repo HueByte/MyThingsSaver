@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";

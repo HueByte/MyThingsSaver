@@ -1,12 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import Menu from "./components/Menu/Menu";
-import SideMenu from "./components/SideMenu/SideMenu";
 import "./BasicLayout.scss";
 import "./BasicLayoutStyles.scss";
 import "../OverrideDefaultMD.css";
 import { AuthContext } from "../../auth/AuthContext";
 import { Navigate, Outlet } from "react-router";
-import KUTE from "kute.js";
 import Wave from "./components/Wave";
 import { useState } from "react";
 import { CategoryProvider } from "../../contexts/CategoryContext";

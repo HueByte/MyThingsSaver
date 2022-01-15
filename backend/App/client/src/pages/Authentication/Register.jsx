@@ -5,12 +5,7 @@ import "../../core/BasicLayout/BasicLayoutStyles.scss";
 import AuthTemplate from "./AuthTemplate";
 import { AuthRegister } from "../../auth/Auth";
 import { AuthContext } from "../../auth/AuthContext";
-import {
-  errorModal,
-  infoModal,
-  successModal,
-  warningModal,
-} from "../../core/Modals";
+import { infoModal, successModal, warningModal } from "../../core/Modals";
 
 const Register = () => {
   const authContext = useContext(AuthContext);

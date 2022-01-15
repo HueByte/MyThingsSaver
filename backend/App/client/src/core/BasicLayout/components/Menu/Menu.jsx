@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { NavLink, Navigate, useLocation } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import { AuthContext } from "../../../../auth/AuthContext";
 import "./Menu.scss";
 import "./MobileMenu.scss";

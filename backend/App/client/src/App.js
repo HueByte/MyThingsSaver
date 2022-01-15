@@ -13,7 +13,6 @@ import "animate.css";
 
 // modals
 import Modal from "react-modal";
-import { CategoryProvider } from "./contexts/CategoryContext";
 import { Suspense } from "react";
 import Loader from "./components/Loaders/Loader";
 

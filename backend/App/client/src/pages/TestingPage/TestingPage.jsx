@@ -1,8 +1,5 @@
 import React, { useEffect } from "react";
-import Loader from "../../components/Loaders/Loader";
 import KUTE from "kute.js";
-import { EntriesGetAllEndpoint } from "../../api/ApiEndpoints";
-import { useContext } from "react";
 
 const TestingPage = () => {
   useEffect(async () => {

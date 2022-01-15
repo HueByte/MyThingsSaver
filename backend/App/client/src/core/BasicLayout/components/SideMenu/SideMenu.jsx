@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { CategoryContext } from "../../../../contexts/CategoryContext";
 import "./SideMenu.scss";

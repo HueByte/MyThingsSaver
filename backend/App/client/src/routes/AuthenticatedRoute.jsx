@@ -1,5 +1,5 @@
 import React, { Component, useContext, useEffect } from "react";
-import { Navigate, Route } from "react-router";
+import { Navigate } from "react-router";
 import { AuthContext } from "../auth/AuthContext";
 
 export const PrivateRoute = ({ roles, children }) => {

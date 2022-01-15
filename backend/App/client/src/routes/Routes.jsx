@@ -1,9 +1,8 @@
-import React, { lazy, Suspense } from "react";
-import { Routes, Route, Switch } from "react-router-dom";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 
 // other
 import PrivateRoute from "./AuthenticatedRoute";
-import { CategoryProvider } from "../contexts/CategoryContext";
 import { Role } from "../api/Roles";
 
 // elements/pages
