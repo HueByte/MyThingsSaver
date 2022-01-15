@@ -5,6 +5,7 @@ import {
   EntriesGetEndpoint,
   EntriesGetRecentEndpoint,
   EntriesUpdateEndpoint,
+  EntriesUpdateWithoutContentEndpoint,
 } from "../ApiEndpoints";
 import ApiClient from "../ApiClient";
 
@@ -33,6 +34,19 @@ class EntriesRepository {
       content: content,
     });
     return await ApiClient.Post(token, EntriesUpdateEndpoint, body);
+  }
+
+  static async UpdateWithoutContent(token, entryID, name, categoryID) {
+    let body = JSON.stringify({
+      entryId: entryID,
+      entryName: name,
+      categoryId: categoryID,
+    });
+    return await ApiClient.Post(
+      token,
+      EntriesUpdateWithoutContentEndpoint,
+      body
+    );
   }
 
   static async Add(token, name, categoryID) {

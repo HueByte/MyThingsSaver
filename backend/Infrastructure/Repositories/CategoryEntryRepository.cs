@@ -141,13 +141,33 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(newEntry.EntryId))
                 throw new Exception("ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == newEntry.EntryId && entry.OwnerId == ownerId);
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == newEntry.EntryId
+                                                                                      && entry.OwnerId == ownerId);
             if (entry == null)
                 throw new Exception("Couldn't find that entry");
 
             entry.CategoryEntryName = newEntry.EntryName.Trim();
             entry.Content = newEntry.Content;
             entry.Size = ASCIIEncoding.Unicode.GetByteCount(newEntry.Content);
+            entry.LastUpdatedOn = DateTime.UtcNow;
+
+            _context.CategoriesEntries.Update(entry);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOneWithoutContentAsync(CategoryEntryDTO newEntry, string ownerId)
+        {
+            if (string.IsNullOrWhiteSpace(newEntry.EntryId))
+                throw new Exception("ID cannot be empty");
+
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == newEntry.EntryId
+                                                                                      && entry.OwnerId == ownerId);
+
+            if (entry == null)
+                throw new Exception("Couldn't find that entry");
+
+            entry.CategoryEntryName = newEntry.EntryName.Trim();
+            entry.CategoryId = newEntry.CategoryId;
             entry.LastUpdatedOn = DateTime.UtcNow;
 
             _context.CategoriesEntries.Update(entry);

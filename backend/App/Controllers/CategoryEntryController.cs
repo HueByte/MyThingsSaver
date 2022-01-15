@@ -77,6 +77,20 @@ namespace App.Controllers
                 return BadRequest(result);
         }
 
+        [HttpPost("UpdateWithoutContent")]
+        [Authorize]
+        public async Task<IActionResult> UpdateWithoutContent([FromBody] CategoryEntryDTO entry)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = await ApiEventHandler.EventHandleAsync(async () =>
+                await _categoryEntryRepository.UpdateOneWithoutContentAsync(entry, userId));
+
+            if (result.IsSuccess)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
         [HttpDelete("Delete")]
         [Authorize]
         public async Task<IActionResult> Delete([FromQuery] string id)

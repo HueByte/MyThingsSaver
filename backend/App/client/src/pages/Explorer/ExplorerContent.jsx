@@ -8,6 +8,7 @@ import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import EntryDelete from "./components/EntryDelete";
+import EntryUpdate from "./components/EntryUpdate";
 const EntryAdd = React.lazy(() => import("./components/EntryAdd"));
 // import { EntryAdd } from "./components/Actions/EntryActions";
 // const Register = React.lazy(() => import("../pages/Authentication/Register"));
@@ -45,6 +46,11 @@ const ExplorerContent = () => {
   const invokeDelete = (entry) => {
     setCurrentEntry(entry);
     setIsDeleteActive(true);
+  };
+
+  const invokeEdit = (entry) => {
+    setCurrentEntry(entry);
+    setIsEditActive(true);
   };
 
   return (
@@ -91,7 +97,13 @@ const ExplorerContent = () => {
                     <div className="size">md</div>
                   </div>
                   <div className="actions">
-                    <i class="fas fa-pen-square"></i>
+                    <i
+                      class="fas fa-pen-square"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        invokeEdit(entry);
+                      }}
+                    ></i>
                     <i
                       class="fa fa-times"
                       aria-hidden="true"
@@ -104,6 +116,7 @@ const ExplorerContent = () => {
                 </NavLink>
               );
             })}
+
             <EntryAdd
               isActive={isAddActive}
               setIsActive={setIsAddActive}
@@ -117,6 +130,15 @@ const ExplorerContent = () => {
               setIsActive={setIsDeleteActive}
               auth={auth?.authState}
               entryToDelete={currentEntry}
+              entries={currentEntries}
+              setEntries={setCurrentEntries}
+            />
+
+            <EntryUpdate
+              isActive={isEditActive}
+              setIsActive={setIsEditActive}
+              auth={auth?.authState}
+              entryToEdit={currentEntry}
               entries={currentEntries}
               setEntries={setCurrentEntries}
             />
