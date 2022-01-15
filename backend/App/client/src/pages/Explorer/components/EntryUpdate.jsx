@@ -27,7 +27,7 @@ const EntryUpdate = ({
       name,
       entryToEdit.categoryId
     )
-      .then((result) => {
+      .then(() => {
         let newEntries = [...entries];
         let index = newEntries.findIndex(
           (obj) => obj.categoryEntryId == entryToEdit.categoryEntryId
@@ -36,7 +36,7 @@ const EntryUpdate = ({
         newEntries[index].categoryEntryName = name;
         setEntries(newEntries);
       })
-      .catch((e) => console.log(e));
+      .catch(() => errorModal("Something went wrong while updating entry"));
 
     setIsActive(false);
   };

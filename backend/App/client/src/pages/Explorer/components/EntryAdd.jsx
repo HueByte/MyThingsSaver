@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
-import { warningModal } from "../../../core/Modals";
+import { errorModal, warningModal } from "../../../core/Modals";
 
 const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
   const [entryName, setEntryName] = useState();
@@ -18,9 +18,11 @@ const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
       .then(async () => {
         await EntriesRepository.GetAll(auth?.token, categoryId)
           .then((result) => setEntries(result?.data?.categoryEntries))
-          .catch((error) => console.error(error));
+          .catch(() =>
+            errorModal("Something went wrong while fetching updated entries")
+          );
       })
-      .catch((error) => console.error(error));
+      .catch(() => errorModal("Something went wrong with adding entry"));
 
     setIsActive(false);
   };
