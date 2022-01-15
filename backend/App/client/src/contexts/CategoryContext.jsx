@@ -8,8 +8,8 @@ const CategoryContext = createContext();
 const CategoryProvider = ({ children }) => {
   const authContext = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
+  // const [subCategories, setSubCategories] = useState([]);
 
   // fetch categories on init
   useEffect(async () => {
@@ -20,12 +20,12 @@ const CategoryProvider = ({ children }) => {
     setIsFetching(false);
   }, []);
 
-  async function ContextAddCategory(Name, parentId) {
-    if (Name.length === 0) return;
+  async function ContextAddCategory(name, parentId) {
+    if (name.length === 0) return;
 
     return await CategoriesRepository.Add(
       authContext.authState?.token,
-      Name.trim(),
+      name.trim(),
       parentId
     )
       .then((result) => {
@@ -35,12 +35,15 @@ const CategoryProvider = ({ children }) => {
       .catch((error) => console.error(error));
   }
 
-  async function ContextRemoveCategory(Id) {
-    return await CategoriesRepository.Remove(authContext.authState?.token, Id)
+  async function ContextRemoveCategory(categoryId) {
+    return await CategoriesRepository.Remove(
+      authContext.authState?.token,
+      categoryId
+    )
       .then(async (result) => {
         let newCategories = categories;
         newCategories = newCategories.filter((category) => {
-          return category.categoryId !== Id;
+          return category.categoryId !== categoryId;
         });
 
         setCategories(newCategories);
@@ -64,6 +67,7 @@ const CategoryProvider = ({ children }) => {
         let index = newCategories.findIndex(
           (obj) => obj.categoryId == categoryId
         );
+
         newCategories[index].name = newName;
 
         setCategories(newCategories);
@@ -114,8 +118,8 @@ const CategoryProvider = ({ children }) => {
     ContextEditCategory,
     ContextRemoveCategory,
     ContextGetAllCategories,
-    ContextGetAllSubCategories,
     ContextGetAllRootCategories,
+    ContextGetAllSubCategories,
   };
 
   if (isFetching) return <Loader />;
