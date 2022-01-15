@@ -100,7 +100,7 @@ namespace Infrastructure.Repositories
             {
                 CategoryEntryName = entryDTO.EntryName,
                 CategoryId = entryDTO.CategoryId,
-                Content = entryDTO.Content,
+                Content = "",
                 Size = ASCIIEncoding.Unicode.GetByteCount(entryDTO.Content),
                 CreatedOn = DateTime.UtcNow,
                 LastUpdatedOn = DateTime.UtcNow,
