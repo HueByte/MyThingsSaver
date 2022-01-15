@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { Navigate, useParams } from "react-router";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
@@ -13,16 +7,13 @@ import MEDitor from "@uiw/react-md-editor";
 import "./Entry.scss";
 import { successModal } from "../../core/Modals";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
-import { CategoryContext } from "../../contexts/CategoryContext";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import DropdownButton from "../../components/Dropdown/Dropdown";
 
 const Entry = () => {
   const authContext = useContext(AuthContext);
-  const categoryContext = useContext(CategoryContext);
   const { categoryId, entryId } = useParams();
 
-  const [categoryName, setCategoryName] = useState("");
   const [entry, setEntry] = useState();
   const [name, setName] = useState();
   const [editValue, setEditValue] = useState();
@@ -45,19 +36,6 @@ const Entry = () => {
         setEditValue(result.data.content);
       })
       .catch((error) => console.error(error));
-
-    let callbackPath = "/";
-    let callbackCategory = await categoryContext.categories?.find(
-      (c) => c.categoryId == categoryId
-    );
-
-    if (callbackCategory?.parentCategory) {
-      callbackPath = `/category/${callbackCategory.parentCategory.name}/${callbackCategory.name}/${callbackCategory.categoryId}`;
-    } else {
-      callbackPath = `/category/${callbackCategory.name}/${callbackCategory.categoryId}`;
-    }
-
-    setCategoryName(callbackPath);
   }, []);
 
   const sendUpdateCallback = async (newName, data) => {
@@ -102,7 +80,7 @@ const Entry = () => {
 
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
-  if (shouldRedirect) return <Navigate to={`${categoryName}`} />;
+  if (shouldRedirect) return <Navigate to={`/explore/${categoryId}`} />;
   return (
     <div className="entry__container">
       {entry ? (
@@ -135,17 +113,6 @@ const Entry = () => {
               </DropdownButton>
             </div>
           </div>
-          {/* <div className="basic-info basic-info-mobile-menu">
-            <div className="basic-button entry-button" onClick={switchEdit}>
-              {isEditing ? "close" : "edit"}
-            </div>
-            <div
-              className="basic-button entry-button"
-              onClick={() => invokeDeleteModal(entry)}
-            >
-              Delete
-            </div>
-          </div> */}
           <div className="content__container">
             <div className={`content${isEditing ? " content-expand" : ""}`}>
               {isEditing ? (
@@ -194,25 +161,23 @@ const Entry = () => {
 
 const DeleteModal = ({ entry, onDelete, closeDeleteModal }) => {
   return (
-    <div>
-      <p style={{ fontSize: "larger", fontWeight: "bold" }}>
+    <>
+      <div className="content">
         Are you sure you want to delete{" "}
-        <span className="ellipsis" style={{ color: "var(--Rose)" }}>
-          {entry.categoryEntryName}
-        </span>
-      </p>
-      <div className="modal-menu-buttons">
+        <span class="title">{entry.categoryEntryName} ?</span>
+      </div>
+      <div className="menu horizontal">
         <div
-          className="basic-button accept"
+          className="basic-button item"
           onClick={() => onDelete(entry.categoryEntryId)}
         >
           Yes
         </div>
-        <div className="basic-button close" onClick={closeDeleteModal}>
+        <div className="basic-button item" onClick={closeDeleteModal}>
           No
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

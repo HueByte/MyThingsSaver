@@ -12,8 +12,6 @@ const TestingPage = React.lazy(() =>
   import("../pages/TestingPage/TestingPage")
 );
 const Settings = React.lazy(() => import("../pages/Settings/Settings"));
-const Categories = React.lazy(() => import("../pages/Categories/Categories"));
-const Category = React.lazy(() => import("../pages/Category/Category"));
 const Login = React.lazy(() => import("../pages/Authentication/Login"));
 const Register = React.lazy(() => import("../pages/Authentication/Register"));
 const Entry = React.lazy(() => import("../pages/Entry/Entry"));
@@ -49,35 +47,9 @@ export const ClientRouter = () => {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/categories"
-          element={
-            <PrivateRoute>
-              <Categories />
-            </PrivateRoute>
-          }
-        />
         <Route path="explore" element={<Explorer />}>
           <Route path=":categoryId" element={<ExplorerContent />} />
           {/* <Route path="" element={<ExplorerContent />} /> */}
-        </Route>
-        <Route path="category">
-          <Route
-            path=":categoryName/:subCategoryName/:fetchCategoryId"
-            element={
-              <PrivateRoute>
-                <Category />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path=":categoryName/:fetchCategoryId"
-            element={
-              <PrivateRoute>
-                <Category />
-              </PrivateRoute>
-            }
-          />
         </Route>
         <Route path="entry/:categoryId/:entryId" element={<Entry />} />
         <Route

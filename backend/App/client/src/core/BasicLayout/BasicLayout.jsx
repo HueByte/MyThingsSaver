@@ -14,6 +14,7 @@ import { CategoryProvider } from "../../contexts/CategoryContext";
 const BasicLayout = () => {
   const authContext = useContext(AuthContext);
   const [isEnabled, setIsEnabled] = useState(false);
+
   useEffect(() => {
     if (!authContext.isAuthenticated()) return;
   }, []);
@@ -23,7 +24,7 @@ const BasicLayout = () => {
       <CategoryProvider>
         <div className="interface__wrapper">
           <Menu />
-          <SideMenu isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
+          {/* <SideMenu isEnabled={isEnabled} setIsEnabled={setIsEnabled} /> */}
           <main className={`main__wrapper ${isEnabled ? "" : "expanded"}`}>
             <Outlet />
           </main>
