@@ -1,17 +1,37 @@
-.basic-modal .list-container {
-  display: flex;
-  flex-direction: column;
-}
+@use "../../styles/variables" as variables;
+@use "../../styles/theme" as theme;
 
-.modal-menu-horizontal {
-  display: flex;
-  flex-direction: row;
-}
+.basic-modal {
+  .menu {
+    display: flex;
+    align-items: center;
+    margin-top: variables.$s-margin;
 
-.modal-menu-vertical {
-  display: flex;
-  flex-direction: column;
-}
+    &.vertical {
+      flex-direction: column;
+    }
 
-.modal-menu-vertical .item {
+    &.horizontal {
+      flex-direction: row;
+    }
+
+    .item {
+      margin: variables.$s-margin;
+      flex: 1;
+    }
+  }
+
+  .content {
+    .field-name {
+      margin: variables.$s-margin;
+      padding: variables.$s-padding;
+    }
+
+    .field-input {
+    }
+
+    .title {
+      color: theme.$Rose;
+    }
+  }
 }

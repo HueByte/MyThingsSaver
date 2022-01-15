@@ -1,6 +1,6 @@
 import React, { Children, useState } from "react";
 import ReactModal from "react-modal";
-import Modal from "react-modal";
+import "./BasicModal.scss";
 
 const customStyles = {
   overlay: {
@@ -16,7 +16,7 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     backgroundColor: "rgb(27,27,27)",
-    border: "0px",
+    border: "1px solid #a7a7a7",
     borderRadius: "10px",
   },
 };
@@ -24,7 +24,7 @@ const customStyles = {
 export const BasicModal = ({ children, ...params }) => {
   return (
     <ReactModal style={customStyles} {...params}>
-      {children}
+      <div className="basic-modal">{children}</div>
     </ReactModal>
   );
 };

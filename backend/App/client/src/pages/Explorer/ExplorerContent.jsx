@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
 import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
+import EntryDelete from "./components/EntryDelete";
 const EntryAdd = React.lazy(() => import("./components/EntryAdd"));
 // import { EntryAdd } from "./components/Actions/EntryActions";
 // const Register = React.lazy(() => import("../pages/Authentication/Register"));
@@ -16,11 +17,13 @@ const ExplorerContent = () => {
   const [lastUsedId, setLastUsedId] = useOutletContext();
   const [isLoadingEntries, setIsLoadingEntries] = useState(true);
   const [currentEntries, setCurrentEntries] = useState([]);
-  const [currentEntry, setCurrentEntry] = useState(null);
+  let { categoryId } = useParams();
 
   //actions
+  const [currentEntry, setCurrentEntry] = useState(null);
   const [isAddActive, setIsAddActive] = useState(false);
-  let { categoryId } = useParams();
+  const [isEditActive, setIsEditActive] = useState(false);
+  const [isDeleteActive, setIsDeleteActive] = useState(false);
 
   // fetch entries once url parameter is retrieved
   useEffect(() => fetchEntries(categoryId), [categoryId]);
@@ -37,6 +40,11 @@ const ExplorerContent = () => {
 
     setCurrentEntries(result.data.categoryEntries);
     setLastUsedId(() => categoryId);
+  };
+
+  const invokeDelete = (entry) => {
+    setCurrentEntry(entry);
+    setIsDeleteActive(true);
   };
 
   return (
@@ -84,7 +92,14 @@ const ExplorerContent = () => {
                   </div>
                   <div className="actions">
                     <i class="fas fa-pen-square"></i>
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                    <i
+                      class="fa fa-times"
+                      aria-hidden="true"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        invokeDelete(entry);
+                      }}
+                    ></i>
                   </div>
                 </NavLink>
               );
@@ -94,6 +109,15 @@ const ExplorerContent = () => {
               setIsActive={setIsAddActive}
               auth={auth?.authState}
               categoryId={categoryId}
+              setEntries={setCurrentEntries}
+            />
+
+            <EntryDelete
+              isActive={isDeleteActive}
+              setIsActive={setIsDeleteActive}
+              auth={auth?.authState}
+              entryToDelete={currentEntry}
+              entries={currentEntries}
               setEntries={setCurrentEntries}
             />
           </>

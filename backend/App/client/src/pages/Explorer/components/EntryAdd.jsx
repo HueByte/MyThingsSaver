@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { useEffect } from "react";
 import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { warningModal } from "../../../core/Modals";
@@ -9,7 +8,6 @@ const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
   const [entryName, setEntryName] = useState();
 
   const sendRequest = async () => {
-    console.log(entryName);
     if (entryName?.length === 0) {
       warningModal("Name cannot be empty");
       setIsActive(false);
@@ -30,38 +28,36 @@ const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
   const closeModal = () => setIsActive(false);
 
   return (
-    <>
-      <BasicModal
-        isOpen={isActive}
-        shouldCloseOnOverlayClick={true}
-        onRequestClose={closeModal}
-      >
-        {isActive ? (
-          <div className="modal-container">
-            <div className="modal-field">
-              <div className="field-name">Entry name</div>
-            </div>
+    <BasicModal
+      isOpen={isActive}
+      shouldCloseOnOverlayClick={true}
+      onRequestClose={closeModal}
+    >
+      {isActive ? (
+        <>
+          <div className="content">
+            <div className="field-name">Entry name</div>
             <input
               id="entry-name-input"
               type="text"
-              className="basic-input"
+              className="basic-input field-input"
               autoComplete="off"
               onInput={(e) => setEntryName(e.target.value)}
             />
-            <div className="modal-menu">
-              <div className="basic-button" onClick={sendRequest}>
-                Add
-              </div>
-              <div className="basic-button" onClick={closeModal}>
-                Close
-              </div>
+          </div>
+          <div className="menu horizontal">
+            <div className="basic-button item" onClick={sendRequest}>
+              Add
+            </div>
+            <div className="basic-button item" onClick={closeModal}>
+              Close
             </div>
           </div>
-        ) : (
-          <></>
-        )}
-      </BasicModal>
-    </>
+        </>
+      ) : (
+        <></>
+      )}
+    </BasicModal>
   );
 };
 
