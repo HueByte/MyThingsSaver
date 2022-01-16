@@ -9,9 +9,7 @@ import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import EntryDelete from "./components/EntryDelete";
 import EntryUpdate from "./components/EntryUpdate";
-const EntryAdd = React.lazy(() => import("./components/EntryAdd"));
-// import { EntryAdd } from "./components/Actions/EntryActions";
-// const Register = React.lazy(() => import("../pages/Authentication/Register"));
+import EntryAdd from "./components/EntryAdd";
 
 const ExplorerContent = () => {
   const auth = useContext(AuthContext);
