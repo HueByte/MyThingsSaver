@@ -84,7 +84,7 @@ namespace Infrastructure.Repositories
                                                                             && category.CategoryId == cat.CategoryParentId);
 
                 if (parent is null)
-                    throw new NullReferenceException("Parent category doesn't exist");
+                    throw new NullReferenceException("This parent category doesn't exist");
 
                 path = parent.Path;
                 level = (byte)(parent.Level + 1);
@@ -128,8 +128,10 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        // TODO: finish it
         public async Task UpdateMultipleAsync(List<Category> newCategories, string ownderId)
         {
+            // not finished
             _context.Categories.UpdateRange(newCategories);
             await _context.SaveChangesAsync();
         }
@@ -142,10 +144,6 @@ namespace Infrastructure.Repositories
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id && x.Owner.Id == ownerId);
             if (category == null)
                 throw new Exception("Couldn't find that category");
-
-            var subCategories = await _context.Categories.Where(x => x.ParentCategoryId == id).ToListAsync();
-            if (subCategories is not null)
-                _context.Categories.RemoveRange(subCategories);
 
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();

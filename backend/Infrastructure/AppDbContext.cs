@@ -31,6 +31,12 @@ namespace Infrastructure
                 .WithMany(c => c.CategoryEntries)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Category>()
+                .HasOne(c => c.ParentCategory)
+                .WithMany(c => c.ChildCategories)
+                .HasForeignKey(c => c.ParentCategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public DbSet<Category> Categories { get; set; }
