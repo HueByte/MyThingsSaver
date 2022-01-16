@@ -46,7 +46,7 @@
         margin-left: variables.$m-padding;
         transition: transitions.$fast;
         cursor: pointer;
-        height: 28px;
+        min-height: 28px;
         color: white;
         animation: 300ms ease-out 0s 1 onload;
         width: 100%;
