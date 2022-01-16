@@ -13,11 +13,13 @@
 
     &.horizontal {
       flex-direction: row;
+      justify-content: space-evenly;
     }
 
     .item {
       margin: variables.$s-margin;
       flex: 1;
+      max-width: 128px;
     }
   }
 

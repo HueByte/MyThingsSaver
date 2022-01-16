@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
@@ -55,7 +55,7 @@ const ExplorerContent = () => {
     <>
       {!isLoadingEntries ? (
         currentEntries ? (
-          <>
+          <div className="content">
             <div className="item">
               <div className="information">
                 <div className="icon">
@@ -140,7 +140,7 @@ const ExplorerContent = () => {
               entries={currentEntries}
               setEntries={setCurrentEntries}
             />
-          </>
+          </div>
         ) : (
           <></>
         )

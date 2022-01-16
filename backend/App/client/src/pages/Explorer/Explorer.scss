@@ -44,8 +44,9 @@
         border-left: 1px solid theme.$Grey;
         padding: variables.$s-padding;
         margin-left: variables.$m-padding;
-        cursor: pointer;
         transition: transitions.$fast;
+        cursor: pointer;
+        height: 28px;
         color: white;
         animation: 300ms ease-out 0s 1 onload;
         width: 100%;
@@ -93,102 +94,103 @@
       }
     }
 
-    .content {
-      display: flex;
-      flex-direction: column;
+    .content__wrapper {
       padding: variables.$m-padding;
-      flex: 9;
-      min-width: 50px;
       border: 1px solid theme.$Grey;
-      border-radius: 0 15px 15px 0;
       background-color: rgba($color: theme.$Shark, $alpha: 0.9);
+      border-radius: 0 15px 15px 0;
+      min-width: 50px;
+      flex: 9;
 
-      .item {
+      .content {
         display: flex;
-        align-items: center;
-        padding: variables.$m-padding;
-        transition: transitions.$medium;
-        margin-bottom: variables.$s-margin;
-        border-radius: 5px;
-        overflow: hidden;
-        cursor: pointer;
-        border: 1px solid transparent;
-        align-items: flex-start;
-        overflow: hidden;
-        color: white;
-        animation: 300ms ease-out 0s 1 onload;
+        flex-direction: column;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: variables.$s-padding;
 
-        &:first-child {
-          background-color: theme.$SharkDark;
-          cursor: default;
-
-          &:hover {
-            color: white;
-            background-color: theme.$SharkDark;
-          }
-        }
-
-        &:nth-child(odd) {
-          background-color: theme.$SharkDark;
-        }
-
-        &:hover {
-          color: black;
-          background-color: white;
-        }
-
-        * {
-          padding-right: variables.$s-padding;
-          white-space: nowrap;
-        }
-
-        .information {
+        .item {
           display: flex;
           flex-direction: row;
-          justify-content: space-evenly;
-          flex: 3 1;
+          min-height: 40px;
+          transition: transitions.$medium;
+          border-radius: 5px;
+          margin-bottom: variables.$s-margin;
+          overflow: hidden;
+          color: white;
 
-          .icon {
+          &:first-child {
+            background-color: theme.$SharkDark;
+            cursor: default;
+
+            &:hover {
+              color: white;
+              background-color: theme.$SharkDark;
+            }
           }
 
-          .text {
-            flex: 2 1;
+          &:nth-child(odd) {
+            background-color: theme.$SharkDark;
           }
 
-          .date {
-            flex: 1 1;
+          &:hover {
+            color: black;
+            background-color: white;
           }
 
-          .size {
-            flex: 1 1;
+          & > * {
+            margin: variables.$m-padding;
           }
 
-          .type {
-            flex: 1 1;
+          .information {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex: 3 1;
+            white-space: nowrap;
+
+            * {
+              margin-right: variables.$s-margin;
+              flex: 1 1;
+            }
+
+            .icon {
+              flex: 0;
+            }
+
+            .text {
+              flex: 2 1;
+              min-width: 10%;
+            }
           }
-        }
 
-        .actions {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
+          .actions {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            justify-content: flex-end;
 
-          i:hover {
-            color: theme.$Rose;
-            transform: scale(1.1);
-          }
-        }
+            * {
+              margin-right: variables.$s-margin;
+            }
 
-        @keyframes onload {
-          0% {
-            transform: translate(-20px);
-            opacity: 0;
+            i:hover {
+              color: theme.$Rose;
+              transform: scale(1.1);
+            }
           }
 
-          100% {
-            transform: translate(0px);
-            opacity: 1;
+          @keyframes onload {
+            0% {
+              transform: translate(-20px);
+              opacity: 0;
+            }
+
+            100% {
+              transform: translate(0px);
+              opacity: 1;
+            }
           }
         }
       }

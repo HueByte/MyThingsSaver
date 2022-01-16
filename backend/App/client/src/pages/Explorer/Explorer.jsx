@@ -90,7 +90,7 @@ const Explorer = () => {
             <Loader />
           )}
         </div>
-        <div className="content">
+        <div className="content__wrapper">
           <Outlet context={[lastUsedId, setLastUsedId]} />
         </div>
       </div>
