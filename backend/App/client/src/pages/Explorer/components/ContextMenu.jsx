@@ -50,13 +50,25 @@ const ContextMenu = ({ category }) => {
     }
   };
 
-  const Open = () => navigate(`/explore/${category.categoryId}`);
+  const Open = () => {
+    navigate(`/explore/${category.categoryId}`);
+    contextMenu.current.classList.remove("visible");
+  };
 
-  const invokeAdd = () => setIsAddActive(true);
+  const invokeAdd = () => {
+    setIsAddActive(true);
+    contextMenu.current.classList.remove("visible");
+  };
 
-  const invokeRemove = () => setIsRemoveActive(true);
+  const invokeRemove = () => {
+    setIsRemoveActive(true);
+    contextMenu.current.classList.remove("visible");
+  };
 
-  const invokeEdit = () => setIsEditActive(true);
+  const invokeEdit = () => {
+    setIsEditActive(true);
+    contextMenu.current.classList.remove("visible");
+  };
 
   return (
     <>
