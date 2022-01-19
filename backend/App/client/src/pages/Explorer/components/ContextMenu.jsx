@@ -6,11 +6,13 @@ import { useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
 import CategoryAdd from "./CategoryAdd";
 import CategoryRemove from "./CategoryRemove";
+import CategoryUpdate from "./CategoryUpdate";
 import "./ContextMenu.scss";
 
 const ContextMenu = ({ category }) => {
   const [isAddActive, setIsAddActive] = useState(false);
   const [isRemoveActive, setIsRemoveActive] = useState(false);
+  const [isEditActive, setIsEditActive] = useState(false);
 
   const contextMenu = useRef();
   const contextScope = useRef();
@@ -48,19 +50,13 @@ const ContextMenu = ({ category }) => {
     }
   };
 
-  const Open = () => {
-    navigate(`/explore/${category.categoryId}`);
-  };
+  const Open = () => navigate(`/explore/${category.categoryId}`);
 
-  const invokeAdd = () => {
-    setIsAddActive(true);
-  };
+  const invokeAdd = () => setIsAddActive(true);
 
-  const invokeRemove = () => {
-    setIsRemoveActive(true);
-  };
+  const invokeRemove = () => setIsRemoveActive(true);
 
-  const Edit = () => {};
+  const invokeEdit = () => setIsEditActive(true);
 
   return (
     <>
@@ -84,6 +80,9 @@ const ContextMenu = ({ category }) => {
             <div className="item" onClick={invokeRemove}>
               Remove
             </div>
+            <div className="item" onClick={invokeEdit}>
+              Edit
+            </div>
           </>
         ) : (
           <div className="item" onClick={invokeAdd}>
@@ -99,6 +98,11 @@ const ContextMenu = ({ category }) => {
       <CategoryRemove
         isActive={isRemoveActive}
         setIsActive={setIsRemoveActive}
+        category={category}
+      />
+      <CategoryUpdate
+        isActive={isEditActive}
+        setIsActive={setIsEditActive}
         category={category}
       />
     </>

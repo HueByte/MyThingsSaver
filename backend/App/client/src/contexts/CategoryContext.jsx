@@ -52,6 +52,13 @@ const CategoryProvider = ({ children }) => {
       .catch((error) => console.error(error));
   }
 
+  async function ContextRemoveChildCategory(categoryId) {
+    await CategoriesRepository.Remove(authContext.authState?.token, categoryId);
+
+    let newCategogries = await ContextGetAllCategories();
+    setCategories(newCategogries);
+  }
+
   // TODO: Edited entity doesn't update on sidebar
   async function ContextEditCategory(categoryId, newName) {
     if (newName.length === 0) return;
@@ -74,6 +81,19 @@ const CategoryProvider = ({ children }) => {
         return result?.isSuccess;
       })
       .catch((error) => console.log(error));
+  }
+
+  async function ContextEditChildCategory(categoryId, newName) {
+    if (newName.length === 0) return;
+
+    await CategoriesRepository.Update(
+      authContext.authState?.token,
+      categoryId,
+      newName
+    );
+
+    let newCategories = await ContextGetAllCategories();
+    setCategories(newCategories);
   }
 
   async function ContextGetAllCategories() {
@@ -116,7 +136,9 @@ const CategoryProvider = ({ children }) => {
     setCategories: (categoryData) => setCategories(categoryData),
     ContextAddCategory,
     ContextEditCategory,
+    ContextEditChildCategory,
     ContextRemoveCategory,
+    ContextRemoveChildCategory,
     ContextGetAllCategories,
     ContextGetAllRootCategories,
     ContextGetAllSubCategories,

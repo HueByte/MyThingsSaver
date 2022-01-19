@@ -9,6 +9,7 @@ using Core.DTO;
 using Core.Entities;
 using Core.Models;
 using Infrastructure;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,17 +22,20 @@ namespace App.Authentication
         private readonly IJwtAuthentication _jwtAuthentication;
         private readonly AppDbContext _context;
         private readonly GuideService _guide;
+        private readonly CategoryRepository _categoryRepository;
         public UserService(UserManager<ApplicationUser> userManager,
                            SignInManager<ApplicationUser> signInManager,
                            IJwtAuthentication jwtAuthentication,
                            AppDbContext context,
-                           GuideService guide)
+                           GuideService guide,
+                           CategoryRepository categoryRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtAuthentication = jwtAuthentication;
             _context = context;
             _guide = guide;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<IdentityResult> CreateUser(RegisterDTO registerUser)
@@ -204,7 +208,9 @@ namespace App.Authentication
                 CategoryId = categoryId,
                 DateCreated = DateTime.UtcNow,
                 Name = "Guide",
-                OwnerId = user.Id
+                OwnerId = user.Id,
+                Path = $"{user.Id}/{categoryId}",
+                Level = 0
             };
 
             CategoryEntry welcome = new()

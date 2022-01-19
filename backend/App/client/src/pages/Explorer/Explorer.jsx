@@ -23,11 +23,12 @@ const Explorer = () => {
 
   useEffect(() => {
     if (categoryId) {
+      console.log(categoryContext.categories);
       var result = categoryContext.categories.find(
         (x) => x.categoryId == categoryId
       );
 
-      setLastUsedPath(result?.path.split("/"));
+      setLastUsedPath(result?.path?.split("/"));
     } else {
       let lastPath = localStorage.getItem("lastPath")?.split("/");
 
@@ -37,7 +38,7 @@ const Explorer = () => {
         );
 
         setLastUsedPath(result?.path.split("/"));
-        navigate(`/explore/${result.categoryId}`);
+        if (result) navigate(`/explore/${result?.categoryId}`);
       }
     }
 

@@ -8,7 +8,11 @@ const CategoryRemove = ({ isActive, setIsActive, category }) => {
   const categoryContext = useContext(CategoryContext);
 
   const sendRequest = async () => {
-    await categoryContext.ContextRemoveCategory(category.categoryId);
+    if (!category.parentCategoryId) {
+      await categoryContext.ContextRemoveCategory(category.categoryId);
+    } else {
+      await categoryContext.ContextRemoveChildCategory(category.categoryId);
+    }
 
     setIsActive(false);
   };

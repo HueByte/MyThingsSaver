@@ -118,7 +118,6 @@ const ExplorerContent = () => {
             <EntryAdd
               isActive={isAddActive}
               setIsActive={setIsAddActive}
-              auth={auth?.authState}
               categoryId={categoryId}
               setEntries={setCurrentEntries}
             />
@@ -126,7 +125,6 @@ const ExplorerContent = () => {
             <EntryDelete
               isActive={isDeleteActive}
               setIsActive={setIsDeleteActive}
-              auth={auth?.authState}
               entryToDelete={currentEntry}
               entries={currentEntries}
               setEntries={setCurrentEntries}
@@ -135,7 +133,6 @@ const ExplorerContent = () => {
             <EntryUpdate
               isActive={isEditActive}
               setIsActive={setIsEditActive}
-              auth={auth?.authState}
               entryToEdit={currentEntry}
               entries={currentEntries}
               setEntries={setCurrentEntries}
