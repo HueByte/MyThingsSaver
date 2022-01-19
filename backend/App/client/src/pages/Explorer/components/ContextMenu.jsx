@@ -5,10 +5,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
 import CategoryAdd from "./CategoryAdd";
+import CategoryRemove from "./CategoryRemove";
 import "./ContextMenu.scss";
 
 const ContextMenu = ({ category }) => {
   const [isAddActive, setIsAddActive] = useState(false);
+  const [isRemoveActive, setIsRemoveActive] = useState(false);
 
   const contextMenu = useRef();
   const contextScope = useRef();
@@ -54,7 +56,9 @@ const ContextMenu = ({ category }) => {
     setIsAddActive(true);
   };
 
-  const Delete = () => {};
+  const invokeRemove = () => {
+    setIsRemoveActive(true);
+  };
 
   const Edit = () => {};
 
@@ -77,7 +81,9 @@ const ContextMenu = ({ category }) => {
             <div className="item" onClick={invokeAdd}>
               Add
             </div>
-            <div className="item">Remove</div>
+            <div className="item" onClick={invokeRemove}>
+              Remove
+            </div>
           </>
         ) : (
           <div className="item" onClick={invokeAdd}>
@@ -89,6 +95,11 @@ const ContextMenu = ({ category }) => {
         isActive={isAddActive}
         setIsActive={setIsAddActive}
         parentCategory={category}
+      />
+      <CategoryRemove
+        isActive={isRemoveActive}
+        setIsActive={setIsRemoveActive}
+        category={category}
       />
     </>
   );

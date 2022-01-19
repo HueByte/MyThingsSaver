@@ -4,7 +4,7 @@ import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { CategoryContext } from "../../../contexts/CategoryContext";
 import { warningModal } from "../../../core/Modals";
 
-const CategoryAdd = ({ isActive, setIsActive, auth, parentCategory }) => {
+const CategoryAdd = ({ isActive, setIsActive, parentCategory }) => {
   const categoryContext = useContext(CategoryContext);
   const [categoryName, setCategoryName] = useState();
 
