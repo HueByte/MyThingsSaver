@@ -1,28 +1,24 @@
-import React from "react";
+import { useContext } from "react";
 import { useState } from "react";
-import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
-import { errorModal, warningModal } from "../../../core/Modals";
+import { CategoryContext } from "../../../contexts/CategoryContext";
+import { warningModal } from "../../../core/Modals";
 
-const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
-  const [entryName, setEntryName] = useState();
+const CategoryAdd = ({ isActive, setIsActive, auth, parentCategory }) => {
+  const categoryContext = useContext(CategoryContext);
+  const [categoryName, setCategoryName] = useState();
 
   const sendRequest = async () => {
-    if (entryName?.length === 0) {
+    if (categoryName?.length === 0) {
       warningModal("Name cannot be empty");
       setIsActive(false);
       return;
     }
 
-    await EntriesRepository.Add(auth?.token, entryName, categoryId)
-      .then(async () => {
-        await EntriesRepository.GetAll(auth?.token, categoryId)
-          .then((result) => setEntries(result?.data?.categoryEntries))
-          .catch(() =>
-            errorModal("Something went wrong while fetching updated entries")
-          );
-      })
-      .catch(() => errorModal("Something went wrong with adding entry"));
+    await categoryContext.ContextAddCategory(
+      categoryName,
+      parentCategory?.categoryId
+    );
 
     setIsActive(false);
   };
@@ -38,12 +34,12 @@ const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
       {isActive ? (
         <>
           <div className="content">
-            <div className="field-name">Entry name</div>
+            <div className="field-name">Category Name</div>
             <input
               type="text"
               className="basic-input field-input"
               autoComplete="off"
-              onInput={(e) => setEntryName(e.target.value)}
+              onInput={(e) => setCategoryName(e.target.value)}
             />
           </div>
           <div className="menu horizontal">
@@ -62,4 +58,4 @@ const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
   );
 };
 
-export default EntryAdd;
+export default CategoryAdd;

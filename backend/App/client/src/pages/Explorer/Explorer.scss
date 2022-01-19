@@ -2,6 +2,9 @@
 @use "../../styles/transitions" as transitions;
 @use "../../styles/theme" as theme;
 
+$menu-item-height: 26px;
+$content-item-height: 40px;
+
 .border-gradient {
   border-right: 2px solid;
   border-image-slice: 1;
@@ -46,7 +49,7 @@
         margin-left: variables.$m-padding;
         transition: transitions.$fast;
         cursor: pointer;
-        min-height: 28px;
+        min-height: $menu-item-height;
         color: white;
         animation: 300ms ease-out 0s 1 onload;
         width: 100%;
@@ -113,7 +116,7 @@
         .item {
           display: flex;
           flex-direction: row;
-          min-height: 40px;
+          min-height: $content-item-height;
           transition: transitions.$medium;
           border-radius: 5px;
           margin-bottom: variables.$s-margin;

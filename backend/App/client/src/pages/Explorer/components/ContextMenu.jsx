@@ -1,11 +1,15 @@
 import React from "react";
+import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
+import CategoryAdd from "./CategoryAdd";
 import "./ContextMenu.scss";
 
 const ContextMenu = ({ category }) => {
+  const [isAddActive, setIsAddActive] = useState(false);
+
   const contextMenu = useRef();
   const contextScope = useRef();
   const bodyScope = useRef();
@@ -46,34 +50,47 @@ const ContextMenu = ({ category }) => {
     navigate(`/explore/${category.categoryId}`);
   };
 
-  const Add = () => {};
+  const invokeAdd = () => {
+    setIsAddActive(true);
+  };
 
   const Delete = () => {};
 
   const Edit = () => {};
 
   return (
-    <div id="context-menu">
-      {category ? (
-        <>
-          <div className="item ellipsis" onClick={Open}>
-            {category.name}
-          </div>
+    <>
+      <div id="context-menu">
+        {category ? (
+          <>
+            <div className="item ellipsis" onClick={Open}>
+              {category.name}
+            </div>
 
-          <NavLink
-            to={`/explore/${category.categoryId}`}
-            className="item"
-            target="_blank"
-          >
-            Open in new tab
-          </NavLink>
-          <div className="item">Add</div>
-          <div className="item">Remove</div>
-        </>
-      ) : (
-        <div className="item">Add New</div>
-      )}
-    </div>
+            <NavLink
+              to={`/explore/${category.categoryId}`}
+              className="item"
+              target="_blank"
+            >
+              Open in new tab
+            </NavLink>
+            <div className="item" onClick={invokeAdd}>
+              Add
+            </div>
+            <div className="item">Remove</div>
+          </>
+        ) : (
+          <div className="item" onClick={invokeAdd}>
+            Add New
+          </div>
+        )}
+      </div>
+      <CategoryAdd
+        isActive={isAddActive}
+        setIsActive={setIsAddActive}
+        parentCategory={category}
+      />
+    </>
   );
 };
 
