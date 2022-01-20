@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
@@ -9,17 +8,12 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
   const categoryContext = useContext(CategoryContext);
   const [categoryName, setCategoryName] = useState();
 
-  useEffect(() => {
-    if (isActive) setCategoryName(category?.name);
-  }, [isActive]);
-
   const sendRequest = async () => {
     if (!category) {
       errorModal("Something went wrong");
       setIsActive(false);
       return;
     }
-
     if (category.name == categoryName) {
       return;
     }
@@ -41,8 +35,6 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
 
   const closeModal = () => setIsActive(false);
 
-  const onEnter = () => sendRequest();
-
   return (
     <BasicModal
       isOpen={isActive}
@@ -57,7 +49,7 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
               type="text"
               className="basic-input field-input"
               autoComplete="off"
-              defaultValue={category.name}
+              value={category.name}
               onInput={(e) => setCategoryName(e.target.value)}
             />
           </div>
