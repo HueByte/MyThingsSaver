@@ -56,19 +56,15 @@ const ExplorerContent = () => {
       {!isLoadingEntries ? (
         currentEntries ? (
           <div className="content">
-            <div className="item">
-              <div className="information">
-                <div className="icon">
-                  <i class="fas fa-sticky-note"></i>
-                </div>
-                <div className="text ellipsis">Title</div>
-                <div className="date">Date</div>
-                <div className="size">Size</div>
-                <div className="size">Type</div>
-              </div>
-              <div className="actions">
+            <div className="row header">
+              <div className="space"></div>
+              <div className="column header-item title">Title</div>
+              <div className="column header-item">Date</div>
+              <div className="column header-item">Size</div>
+              <div className="column header-item">Type</div>
+              <div className="column actions">
                 <i
-                  class="fa fa-plus"
+                  class="fa fa-plus icon-action"
                   aria-hidden="true"
                   onClick={() => setIsAddActive(true)}
                 ></i>
@@ -78,23 +74,21 @@ const ExplorerContent = () => {
               return (
                 <NavLink
                   key={entry.categoryEntryId}
-                  className="item"
+                  className="row item"
                   to={`/entry/${lastUsedId}/${entry.categoryEntryId}`}
                 >
-                  <div className="information">
-                    <div className="icon">
-                      <i class="fas fa-sticky-note"></i>
-                    </div>
-                    <div className="text ellipsis">
-                      {entry.categoryEntryName}
-                    </div>
-                    <div className="date">
-                      {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
-                    </div>
-                    <div className="size">{entry.size} B</div>
-                    <div className="size">md</div>
+                  <div className="space icon">
+                    <i class="fas fa-sticky-note"></i>
                   </div>
-                  <div className="actions">
+                  <div className="column title ellipsis">
+                    {entry.categoryEntryName}
+                  </div>
+                  <div className="column date">
+                    {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
+                  </div>
+                  <div className="column size">{entry.size} B</div>
+                  <div className="column size">md</div>
+                  <div className="column actions">
                     <i
                       class="fas fa-pen-square"
                       onClick={(e) => {

@@ -4,6 +4,8 @@
 
 $menu-item-height: 26px;
 $content-item-height: 40px;
+$content-column-width: 100px;
+$content-column-title-width: 150px;
 
 .border-gradient {
   border-right: 2px solid;
@@ -113,25 +115,19 @@ $content-item-height: 40px;
         overflow-x: hidden;
         padding-right: variables.$s-padding;
 
+        .header {
+          background-color: theme.$SharkDarkSub;
+          margin-bottom: variables.$s-margin;
+
+          & > div {
+            margin: variables.$m-padding variables.$s-margin
+              variables.$m-padding variables.$s-margin;
+          }
+        }
+
         .item {
-          display: flex;
-          flex-direction: row;
           min-height: $content-item-height;
           transition: transitions.$medium;
-          border-radius: 5px;
-          margin-bottom: variables.$s-margin;
-          overflow: hidden;
-          color: white;
-
-          &:first-child {
-            background-color: theme.$SharkDark;
-            cursor: default;
-
-            &:hover {
-              color: white;
-              background-color: theme.$SharkDark;
-            }
-          }
 
           &:nth-child(odd) {
             background-color: theme.$SharkDark;
@@ -142,58 +138,66 @@ $content-item-height: 40px;
             background-color: white;
           }
 
-          & > * {
-            margin: variables.$m-padding;
+          .icon {
+            display: grid;
+            place-items: center;
           }
+        }
 
-          .information {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            flex: 3 1;
-            white-space: nowrap;
+        .space {
+          width: 16px;
+          min-width: 16px;
+          margin: 0 variables.$s-margin 0 variables.$s-margin;
+        }
 
-            * {
-              margin-right: variables.$s-margin;
-              flex: 1 1;
-            }
+        .column {
+          margin: 0 variables.$s-margin 0 variables.$s-margin;
+          min-width: $content-column-width;
+          width: $content-column-width;
+        }
 
-            .icon {
-              flex: 0;
-            }
+        .row {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          overflow: hidden;
+          white-space: nowrap;
+          border-radius: 5px;
+          margin-bottom: variables.$s-margin;
+          color: white;
 
-            .text {
-              flex: 2 1;
-              min-width: 10%;
-            }
+          .title {
+            min-width: $content-column-title-width;
+            width: $content-column-title-width;
           }
 
           .actions {
             display: flex;
-            align-items: center;
-            flex: 1;
+            flex-direction: row;
             justify-content: flex-end;
+            flex: 1 1;
 
-            * {
+            i {
               margin-right: variables.$s-margin;
-            }
 
-            i:hover {
-              color: theme.$Rose;
-              transform: scale(1.1);
+              &:hover {
+                color: theme.$Rose;
+                transform: scale(1.1);
+                cursor: pointer;
+              }
             }
           }
+        }
 
-          @keyframes onload {
-            0% {
-              transform: translate(-20px);
-              opacity: 0;
-            }
+        @keyframes onload {
+          0% {
+            transform: translate(-20px);
+            opacity: 0;
+          }
 
-            100% {
-              transform: translate(0px);
-              opacity: 1;
-            }
+          100% {
+            transform: translate(0px);
+            opacity: 1;
           }
         }
       }
