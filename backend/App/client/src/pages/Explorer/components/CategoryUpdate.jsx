@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
@@ -15,6 +16,7 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
       return;
     }
     if (category.name == categoryName) {
+      setIsActive(false);
       return;
     }
 
@@ -35,6 +37,10 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
 
   const closeModal = () => setIsActive(false);
 
+  // const inputHandler = (e) => {
+  //   if (e.key === "Enter") sendRequest();
+  // };
+
   return (
     <BasicModal
       isOpen={isActive}
@@ -49,7 +55,8 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
               type="text"
               className="basic-input field-input"
               autoComplete="off"
-              value={category.name}
+              defaultValue={category.name}
+              // onKeyUp={inputHandler}
               onInput={(e) => setCategoryName(e.target.value)}
             />
           </div>

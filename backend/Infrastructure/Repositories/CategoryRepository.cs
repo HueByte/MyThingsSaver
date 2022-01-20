@@ -120,7 +120,9 @@ namespace Infrastructure.Repositories
             category.Name = newCategory.Name.Trim();
             category.LastEditedOn = DateTime.UtcNow;
 
-            var doesExist = _context.Categories.Any(x => x.Name == category.Name);
+            var doesExist = _context.Categories.Any(x => x.Name == category.Name
+                                                         && x.ParentCategoryId == category.ParentCategoryId
+                                                         && x.OwnerId == category.OwnerId);
             if (doesExist)
                 throw new Exception("There's already category with that name");
 
