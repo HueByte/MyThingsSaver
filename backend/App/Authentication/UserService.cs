@@ -22,20 +22,17 @@ namespace App.Authentication
         private readonly IJwtAuthentication _jwtAuthentication;
         private readonly AppDbContext _context;
         private readonly GuideService _guide;
-        private readonly CategoryRepository _categoryRepository;
         public UserService(UserManager<ApplicationUser> userManager,
                            SignInManager<ApplicationUser> signInManager,
                            IJwtAuthentication jwtAuthentication,
                            AppDbContext context,
-                           GuideService guide,
-                           CategoryRepository categoryRepository)
+                           GuideService guide)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtAuthentication = jwtAuthentication;
             _context = context;
             _guide = guide;
-            _categoryRepository = categoryRepository;
         }
 
         public async Task<IdentityResult> CreateUser(RegisterDTO registerUser)
