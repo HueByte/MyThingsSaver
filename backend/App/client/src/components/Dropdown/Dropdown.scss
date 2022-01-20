@@ -2,7 +2,7 @@
 @use "../../styles/transitions" as transitions;
 @use "../../styles/theme" as theme;
 
-$drop-width: 128px;
+$drop-width: 160px;
 
 .dropdown-menu {
   position: relative;
@@ -10,7 +10,6 @@ $drop-width: 128px;
   font-size: larger;
   letter-spacing: 0.7px;
   text-align: center;
-  text-transform: uppercase;
   max-width: $drop-width;
 
   &:hover {
@@ -41,7 +40,6 @@ $drop-width: 128px;
     background-color: rgba($color: theme.$Shark, $alpha: 0.6);
     backdrop-filter: blur(1px);
     transition-delay: 1s;
-
     border-radius: 5px;
     border: 1px solid theme.$Grey;
 
@@ -52,7 +50,7 @@ $drop-width: 128px;
 
       &:hover {
         cursor: pointer;
-        background-color: var(--Rose);
+        background-color: var(--SharkDarkSub);
       }
 
       &:first-child {
