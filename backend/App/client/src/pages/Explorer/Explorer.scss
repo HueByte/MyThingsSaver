@@ -118,6 +118,9 @@ $content-column-title-width: 150px;
         .header {
           background-color: theme.$SharkDarkSub;
           margin-bottom: variables.$s-margin;
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0px;
 
           & > div {
             margin: variables.$m-padding variables.$s-margin
@@ -126,7 +129,6 @@ $content-column-title-width: 150px;
         }
 
         .item {
-          min-height: $content-item-height;
           transition: transitions.$medium;
 
           &:nth-child(odd) {
@@ -165,6 +167,7 @@ $content-column-title-width: 150px;
           border-radius: 5px;
           margin-bottom: variables.$s-margin;
           color: white;
+          min-height: $content-item-height;
 
           .title {
             min-width: $content-column-title-width;

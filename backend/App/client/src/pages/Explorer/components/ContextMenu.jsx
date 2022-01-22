@@ -75,7 +75,7 @@ const ContextMenu = ({ category }) => {
       <div id="context-menu">
         {category ? (
           <>
-            <div className="item ellipsis" onClick={Open}>
+            <div className="item title ellipsis" onClick={Open}>
               {category.name}
             </div>
 
