@@ -48,6 +48,7 @@ $entry-max-wdith: 320px;
       padding: 10px;
       font-weight: bold;
       letter-spacing: 0.6px;
+      min-height: 2.5em;
     }
 
     .information {
@@ -77,6 +78,12 @@ $entry-max-wdith: 320px;
 @media screen and (max-width: variables.$medium-resolution) {
   .homepage__container {
     padding: variables.$l-padding;
+
+    .entry {
+      .information {
+        font-size: small;
+      }
+    }
   }
 }
 
