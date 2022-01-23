@@ -15,6 +15,9 @@ const Explorer = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
   let { categoryId } = useParams();
+  const [touchStart, setTouchStart] = useState();
+  const [touchEnd, setTouchEnd] = useState();
+  const [isMenuExpanded, setIsMenuExpanded] = useState(false);
 
   const [lastUsedId, setLastUsedId] = useState("");
   const [lastUsedPath, setLastUsedPath] = useState();
@@ -22,6 +25,15 @@ const Explorer = () => {
   const [contextMenuCategory, setContextMenuCategory] = useState();
 
   useEffect(() => {
+    // if mobile
+    console.log(document.getElementById("explorer-menu"));
+    document
+      .getElementById("explorer-menu")
+      .addEventListener("touchstart", handleGestureStart, false);
+    document
+      .getElementById("explorer-menu")
+      .addEventListener("touchend", handlegestureEnd, false);
+
     if (categoryId) {
       console.log(categoryContext.categories);
       var result = categoryContext.categories.find(
@@ -43,9 +55,17 @@ const Explorer = () => {
     }
 
     setFinishedLoading(true);
+
+    return () => {
+      document
+        .getElementById("explorer-menu")
+        .removeEventListener("touchstart", handleGestureStart, false);
+      document
+        .getElementById("explorer-menu")
+        .removeEventListener("touchend", handlegestureEnd, false);
+    };
   }, []);
 
-  // once entires are fetched update lastPath in localstorage
   useEffect(() => {
     if (lastUsedId) {
       var result = categoryContext.categories.find(
@@ -57,11 +77,29 @@ const Explorer = () => {
     }
   }, [lastUsedId]);
 
+  const handleGestureStart = (e) => {
+    setTouchStart(e.changedTouches[0].screenX);
+    console.log(e.changedTouches[0].screenX);
+  };
+
+  const handlegestureEnd = (e) => {
+    setTouchEnd(e.changedTouches[0].screenX);
+    console.log(e.changedTouches[0].screenX);
+    handleGesture();
+  };
+
+  const handleGesture = () => {
+    //swipe left
+    console.log(touchEnd > touchStart);
+    if (touchEnd > touchStart) setIsMenuExpanded(true);
+    if (touchEnd < touchStart) setIsMenuExpanded(false);
+  };
+
   return (
     <div className="categories__wrapper">
       <div className="container">
         <div
-          className="left-menu"
+          className={`left-menu${isMenuExpanded ? " expand" : ""}`}
           id="explorer-menu"
           onContextMenu={() => setContextMenuCategory(null)}
         >
