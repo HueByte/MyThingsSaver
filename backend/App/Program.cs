@@ -97,5 +97,7 @@ else
     app.Urls.Add($"http://localhost:{httpPort}");
 }
 
+app.MapGet("/api", () => "Hello World");
+
 app.MapFallbackToFile("index.html");
 app.Run();
