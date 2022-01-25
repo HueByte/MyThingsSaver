@@ -7,13 +7,23 @@ using Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+
+if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, @"logs")))
+    Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, @"logs"));
+
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 AppSettingsRoot appsettings = AppSettingsRoot.IsCreated
     ? AppSettingsRoot.Load()
     : AppSettingsRoot.Create();
+
+Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo
+                                              .File(Path.Combine(AppContext.BaseDirectory, @"logs\log.txt"))
+                                              .CreateBootstrapLogger();
+
+builder.Host.UseSerilog();
 
 builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 {
