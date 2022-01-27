@@ -20,7 +20,7 @@ AppSettingsRoot appsettings = AppSettingsRoot.IsCreated
     : AppSettingsRoot.Create();
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo
-                                              .File(Path.Combine(AppContext.BaseDirectory, @"logs\log.txt"))
+                                              .File(Path.Combine(AppContext.BaseDirectory, @"logs\log.txt"), rollingInterval: RollingInterval.Hour)
                                               .CreateBootstrapLogger();
 
 builder.Host.UseSerilog();
