@@ -1,12 +1,6 @@
 using App;
 using App.Configuration;
-using Common.Constants;
 using Core.Entities;
-using Core.Models;
-using Infrastructure;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, @"logs")))

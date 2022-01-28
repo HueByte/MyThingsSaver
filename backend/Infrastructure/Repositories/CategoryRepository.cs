@@ -133,9 +133,10 @@ namespace Infrastructure.Repositories
         // TODO: finish it
         public async Task UpdateMultipleAsync(List<Category> newCategories, string ownderId)
         {
+            throw new NotImplementedException();
             // not finished
-            _context.Categories.UpdateRange(newCategories);
-            await _context.SaveChangesAsync();
+            // _context.Categories.UpdateRange(newCategories);
+            // await _context.SaveChangesAsync();
         }
 
         public async Task RemoveOneAsync(string id, string ownerId)
