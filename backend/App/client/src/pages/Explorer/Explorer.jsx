@@ -26,7 +26,6 @@ const Explorer = () => {
 
   useEffect(() => {
     // if mobile
-    console.log(document.getElementById("explorer-menu"));
     document
       .getElementById("explorer-menu")
       .addEventListener("touchstart", handleGestureStart, false);
@@ -35,7 +34,6 @@ const Explorer = () => {
       .addEventListener("touchend", handlegestureEnd, false);
 
     if (categoryId) {
-      console.log(categoryContext.categories);
       var result = categoryContext.categories.find(
         (x) => x.categoryId == categoryId
       );

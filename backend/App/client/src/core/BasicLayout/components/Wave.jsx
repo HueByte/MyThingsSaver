@@ -22,8 +22,8 @@ const Wave = () => {
       { repeat: 999, duration: 20000, yoyo: true }
     );
 
-    tweek1.start();
-    tweek2.start();
+    // tweek1.start();
+    // tweek2.start();
   }, []);
   return (
     <div className="bottom-wave">

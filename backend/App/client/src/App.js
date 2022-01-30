@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { ClientRouter } from "./routes/Routes";
 import { AuthProvider } from "./auth/AuthContext";
+import Particles from "react-tsparticles";
 
 // notifications
 import ReactNotifications from "react-notifications-component";
@@ -20,6 +21,17 @@ Modal.setAppElement("#root");
 
 function App() {
   const history = createBrowserHistory();
+
+  const particlesInit = (main) => {
+    console.log(main);
+
+    // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
+  };
+
+  const particlesLoaded = (container) => {
+    console.log(container);
+  };
+
   return (
     <BrowserRouter history={history}>
       <AuthProvider>
@@ -30,6 +42,12 @@ function App() {
           </ErrorBoundary>
         </Suspense>
       </AuthProvider>
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        loaded={particlesLoaded}
+        options={ParticlesOptions}
+      />
     </BrowserRouter>
   );
 }
@@ -39,3 +57,57 @@ const ErrorBoundary = ({ children }) => {
 };
 
 export default App;
+
+const ParticlesOptions = {
+  fpsLimit: 45,
+  interactivity: {
+    events: {
+      onHover: {
+        enable: true,
+        mode: "grab",
+      },
+      resize: true,
+    },
+  },
+  particles: {
+    color: {
+      value: "#ffffff",
+    },
+    links: {
+      color: "#ffffff",
+      distance: 150,
+      enable: true,
+      opacity: 0.5,
+      width: 0.7,
+    },
+    collisions: {
+      enable: false,
+    },
+    move: {
+      direction: "none",
+      enable: true,
+      outMode: "out",
+      random: false,
+      speed: 0.5,
+      straight: false,
+    },
+    number: {
+      density: {
+        enable: true,
+        area: 1000,
+      },
+      value: 32,
+    },
+    opacity: {
+      value: 0.5,
+    },
+    shape: {
+      type: "circle",
+    },
+    size: {
+      random: true,
+      value: 5,
+    },
+  },
+  detectRetina: true,
+};
