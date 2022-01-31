@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
@@ -15,9 +15,10 @@ const Explorer = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
   let { categoryId } = useParams();
-  const [touchStart, setTouchStart] = useState();
-  const [touchEnd, setTouchEnd] = useState();
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
+  const [initialPos, setInitialPos] = useState(null);
+  const [initialSize, setInitialSize] = useState(null);
+  const explorer = useRef();
 
   const [lastUsedId, setLastUsedId] = useState("");
   const [lastUsedPath, setLastUsedPath] = useState();
@@ -25,13 +26,7 @@ const Explorer = () => {
   const [contextMenuCategory, setContextMenuCategory] = useState();
 
   useEffect(() => {
-    // if mobile
-    document
-      .getElementById("explorer-menu")
-      .addEventListener("touchstart", handleGestureStart, false);
-    document
-      .getElementById("explorer-menu")
-      .addEventListener("touchend", handlegestureEnd, false);
+    explorer.current = document.getElementById("explorer-menu");
 
     if (categoryId) {
       var result = categoryContext.categories.find(
@@ -54,14 +49,7 @@ const Explorer = () => {
 
     setFinishedLoading(true);
 
-    return () => {
-      document
-        .getElementById("explorer-menu")
-        .removeEventListener("touchstart", handleGestureStart, false);
-      document
-        .getElementById("explorer-menu")
-        .removeEventListener("touchend", handlegestureEnd, false);
-    };
+    return () => {};
   }, []);
 
   useEffect(() => {
@@ -75,22 +63,20 @@ const Explorer = () => {
     }
   }, [lastUsedId]);
 
-  const handleGestureStart = (e) => {
-    setTouchStart(e.changedTouches[0].screenX);
-    console.log(e.changedTouches[0].screenX);
+  const initial = (e) => {
+    let resizable = document.getElementById("explorer-menu");
+
+    setInitialPos(e.clientX);
+    setInitialSize(resizable.offsetWidth);
   };
 
-  const handlegestureEnd = (e) => {
-    setTouchEnd(e.changedTouches[0].screenX);
-    console.log(e.changedTouches[0].screenX);
-    handleGesture();
+  const resize = (e) => {
+    requestAnimationFrame(() => performDrag(e));
   };
 
-  const handleGesture = () => {
-    //swipe left
-    console.log(touchEnd > touchStart);
-    if (touchEnd > touchStart) setIsMenuExpanded(true);
-    if (touchEnd < touchStart) setIsMenuExpanded(false);
+  const performDrag = (e) => {
+    explorer.current.style.width =
+      parseInt(initialSize) + parseInt(e.clientX - initialPos) + "px";
   };
 
   return (
@@ -126,6 +112,12 @@ const Explorer = () => {
           ) : (
             <Loader />
           )}
+          <div
+            className="draggable"
+            draggable="true"
+            onDragStart={initial}
+            onDrag={resize}
+          ></div>
         </div>
         <div className="content__wrapper">
           <Outlet context={[lastUsedId, setLastUsedId]} />
