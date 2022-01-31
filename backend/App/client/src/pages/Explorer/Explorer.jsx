@@ -75,8 +75,7 @@ const Explorer = () => {
   };
 
   const performDrag = (e) => {
-    explorer.current.style.width =
-      parseInt(initialSize) + parseInt(e.clientX - initialPos) + "px";
+    explorer.current.style.width = `${initialSize + e.clientX - initialPos}px`;
   };
 
   return (
