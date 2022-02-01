@@ -25,15 +25,29 @@ $content-column-title-width: 150px;
     .left-menu {
       width: 16%;
       max-width: 90%;
-      overflow: auto;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
       position: relative;
       padding: variables.$s-padding;
       border: 1px solid theme.$Grey;
       border-radius: 15px 0 0 15px;
       background-color: rgba($color: theme.$SharkDark, $alpha: 0.9);
+      z-index: 15;
+      transition: transitions.$fast;
+
+      .expander {
+        display: grid;
+        place-items: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: -2em;
+        width: 4em;
+        height: 4em;
+        background-color: rgba(theme.$SharkDark, 0.7);
+        border-radius: 100%;
+        z-index: 105 !important;
+        cursor: pointer;
+        display: none;
+      }
 
       .draggable {
         width: 20px;
@@ -48,38 +62,47 @@ $content-column-title-width: 150px;
         }
       }
 
-      .item {
-        border-left: 1px solid theme.$Grey;
-        padding: variables.$s-padding;
-        margin-left: variables.$m-padding;
-        transition: transitions.$fast;
-        cursor: pointer;
-        min-height: $menu-item-height;
-        color: white;
-        animation: 300ms ease-out 0s 1 onload;
+      .item-container {
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        overflow-x: hidden;
         width: 100%;
+        height: 100%;
 
-        i {
-          margin-right: variables.$ss-margin;
-        }
-
-        &:hover {
-          color: theme.$Rose;
-        }
-
-        &:first-child {
-          border: none;
-          color: theme.$Teal;
-          cursor: default;
-          margin-left: variables.$s-padding !important;
+        .item {
+          border-left: 1px solid theme.$Grey;
+          padding: variables.$s-padding;
+          margin-left: variables.$m-padding;
+          transition: transitions.$fast;
+          cursor: pointer;
+          min-height: $menu-item-height;
+          color: white;
+          animation: 300ms ease-out 0s 1 onload;
+          width: 100%;
 
           i {
-            align-self: flex-end;
-            font-size: 14px;
-            cursor: pointer;
+            margin-right: variables.$ss-margin;
+          }
 
-            &:hover {
-              color: theme.$Rose;
+          &:hover {
+            color: theme.$Rose;
+          }
+
+          &:first-child {
+            border: none;
+            color: theme.$Teal;
+            cursor: default;
+            margin-left: variables.$s-padding !important;
+
+            i {
+              align-self: flex-end;
+              font-size: 14px;
+              cursor: pointer;
+
+              &:hover {
+                color: theme.$Rose;
+              }
             }
           }
         }
@@ -212,7 +235,7 @@ $content-column-title-width: 150px;
     }
 
     .expand {
-      width: 80vw;
+      width: 80vw !important;
     }
   }
 }
@@ -249,6 +272,15 @@ $content-column-title-width: 150px;
 
       .left-menu {
         border-radius: 0;
+        width: 10%;
+
+        .expander {
+          display: grid;
+        }
+
+        .draggable {
+          display: none;
+        }
       }
 
       .content__wrapper {

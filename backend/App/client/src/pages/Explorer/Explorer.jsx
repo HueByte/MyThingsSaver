@@ -64,10 +64,8 @@ const Explorer = () => {
   }, [lastUsedId]);
 
   const initial = (e) => {
-    let resizable = document.getElementById("explorer-menu");
-
     setInitialPos(e.clientX);
-    setInitialSize(resizable.offsetWidth);
+    setInitialSize(explorer.current.offsetWidth);
   };
 
   const resize = (e) => {
@@ -78,6 +76,10 @@ const Explorer = () => {
     explorer.current.style.width = `${initialSize + e.clientX - initialPos}px`;
   };
 
+  const switchExpandMenu = () => {
+    setIsMenuExpanded(!isMenuExpanded);
+  };
+
   return (
     <div className="categories__wrapper">
       <div className="container">
@@ -86,37 +88,46 @@ const Explorer = () => {
           id="explorer-menu"
           onContextMenu={() => setContextMenuCategory(null)}
         >
-          <div className="item ellipsis">{auth.authState?.username}</div>
-          {finishedLoading ? (
-            <>
-              {categoryContext.categories ? (
-                <>
-                  {categoryContext.categories.map((category) => {
-                    if (category.level == 0) {
-                      return (
-                        <Item
-                          key={category.categoryId}
-                          category={category}
-                          recentPath={lastUsedPath}
-                          setCurrentContextItem={setContextMenuCategory}
-                        />
-                      );
-                    }
-                  })}
-                </>
-              ) : (
-                <></>
-              )}
-            </>
-          ) : (
-            <Loader />
-          )}
+          <div className="expander" onClick={switchExpandMenu}>
+            {isMenuExpanded ? (
+              <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            ) : (
+              <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            )}
+          </div>
           <div
             className="draggable"
             draggable="true"
             onDragStart={initial}
             onDrag={resize}
           ></div>
+          <div className="item-container">
+            <div className="item ellipsis">{auth.authState?.username}</div>
+            {finishedLoading ? (
+              <>
+                {categoryContext.categories ? (
+                  <>
+                    {categoryContext.categories.map((category) => {
+                      if (category.level == 0) {
+                        return (
+                          <Item
+                            key={category.categoryId}
+                            category={category}
+                            recentPath={lastUsedPath}
+                            setCurrentContextItem={setContextMenuCategory}
+                          />
+                        );
+                      }
+                    })}
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <Loader />
+            )}
+          </div>
         </div>
         <div className="content__wrapper">
           <Outlet context={[lastUsedId, setLastUsedId]} />
