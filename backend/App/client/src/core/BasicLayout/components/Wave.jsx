@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 // import KUTE from "kute.js";
-import { useEffect } from "react";
-import { AuthContext } from "../../../auth/AuthContext";
+// import { useEffect } from "react";
+// import { AuthContext } from "../../../auth/AuthContext";
 
 const Wave = () => {
-  const authContext = useContext(AuthContext);
-
   return (
     <div className="bottom-wave">
       <svg
