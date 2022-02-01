@@ -113,6 +113,18 @@
   }
 }
 
+@media screen and (max-width: variables.$medium-resolution) {
+  .nav-top {
+    .logo {
+      width: calc(variables.$top-menu-icon-width / 2);
+    }
+
+    .content {
+      width: Calc(100% - variables.$top-menu-icon-width / 2);
+    }
+  }
+}
+
 @media screen and (max-width: variables.$mobile-resolution) {
   .nav-top {
     display: none;
