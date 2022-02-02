@@ -18,6 +18,7 @@ const customStyles = {
     backgroundColor: "rgb(27,27,27)",
     border: "1px solid #a7a7a7",
     borderRadius: "10px",
+    maxWidth: "90vw",
   },
 };
 

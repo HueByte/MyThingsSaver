@@ -15,6 +15,7 @@ const Explorer = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
   let { categoryId } = useParams();
+
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const [initialPos, setInitialPos] = useState(null);
   const [initialSize, setInitialSize] = useState(null);
