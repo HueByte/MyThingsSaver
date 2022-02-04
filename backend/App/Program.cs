@@ -1,11 +1,12 @@
 using App;
 using App.Configuration;
 using Core.Entities;
+using Core.lib;
 using Serilog;
+using Serilog.Events;
 
 if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, @"logs")))
     Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, @"logs"));
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,11 +14,13 @@ AppSettingsRoot appsettings = AppSettingsRoot.IsCreated
     ? AppSettingsRoot.Load()
     : AppSettingsRoot.Create();
 
-Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo
-                                              .File(Path.Combine(AppContext.BaseDirectory, @"logs\log.txt"), rollingInterval: RollingInterval.Hour)
-                                              .CreateBootstrapLogger();
+LogEventLevel logLevel = SerilogConfigurator.GetLogEventLevel(appsettings);
+RollingInterval logInterval = SerilogConfigurator.GetRollingInterval(appsettings);
 
-builder.Host.UseSerilog();
+builder.Host.UseSerilog((ctx, lc) => lc
+    .MinimumLevel.Override("Microsoft", logLevel)
+    .WriteTo.Async(e => e.Console())
+    .WriteTo.Async(e => e.File(Path.Combine(AppContext.BaseDirectory, "logs/log.txt"), rollingInterval: logInterval)));
 
 builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 {

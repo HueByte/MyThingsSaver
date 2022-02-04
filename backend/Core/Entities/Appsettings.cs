@@ -9,9 +9,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Core.Entities
 {
-    public class LogLevel
+    public class Logger
     {
-        public string Default { get; set; }
+        public string LogLevel { get; set; }
+        public string TimeInterval { get; set; }
     }
 
     public class Logging
@@ -49,7 +50,7 @@ namespace Core.Entities
 
     public class AppSettingsRoot
     {
-        public Logging Logging { get; set; }
+        public Logger Logger { get; set; }
         public string AllowedHosts { get; set; }
         public ConnectionStrings ConnectionStrings { get; set; }
         public List<string> Origins { get; set; }
@@ -68,13 +69,6 @@ namespace Core.Entities
         public static string SavePath
             => Path.Combine(AppContext.BaseDirectory, @"save\save.sqlite");
 
-        // Checks if appsettings.json exist
-        // if doesn't it seeds the data
-        // generates RSA key for JWT
-        // creates folder for save.sqlite which is created automatically
-        // sets default ports :80 for http and :443 for https
-        // it is expected that during debug appsettings.json should be duplicated from project folder 
-        // instead of creating new one in /debug 
         public static AppSettingsRoot Create()
         {
             if (IsCreated)
@@ -86,9 +80,10 @@ namespace Core.Entities
 
             var config = new AppSettingsRoot()
             {
-                Logging = new Logging()
+                Logger = new Logger()
                 {
-                    LogLevel = new LogLevel() { Default = Microsoft.Extensions.Logging.LogLevel.Information.ToString() }
+                    LogLevel = "Information",
+                    TimeInterval = "hour"
                 },
                 AllowedHosts = "*",
                 ConnectionStrings = new ConnectionStrings()
@@ -125,6 +120,9 @@ namespace Core.Entities
 
             File.WriteAllBytes(FILE_NAME, JsonSerializer.SerializeToUtf8Bytes(config, options));
 
+            if (!ValidateSettings(config))
+                throw new Exception("Config is incorrect");
+
             return config;
         }
 
@@ -147,6 +145,13 @@ namespace Core.Entities
             }
 
             return result;
+        }
+
+        private static bool ValidateSettings(AppSettingsRoot settings)
+        {
+
+
+            return true;
         }
     }
 }
