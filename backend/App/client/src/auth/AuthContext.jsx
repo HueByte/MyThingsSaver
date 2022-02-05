@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const signout = async () => {
-    await AuthLogout(authState?.token).then(localStorage.clear());
+    await AuthLogout().then(localStorage.clear());
     setAuthState(null);
     window.location.reload();
   };

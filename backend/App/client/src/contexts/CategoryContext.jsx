@@ -23,11 +23,7 @@ const CategoryProvider = ({ children }) => {
   async function ContextAddCategory(name, parentId) {
     if (name.length === 0) return;
 
-    return await CategoriesRepository.Add(
-      authContext.authState?.token,
-      name.trim(),
-      parentId
-    )
+    return await CategoriesRepository.Add(name.trim(), parentId)
       .then((result) => {
         ContextGetAllCategories().then((result) => setCategories(result));
         return result?.isSuccess;
@@ -36,10 +32,7 @@ const CategoryProvider = ({ children }) => {
   }
 
   async function ContextRemoveCategory(categoryId) {
-    return await CategoriesRepository.Remove(
-      authContext.authState?.token,
-      categoryId
-    )
+    return await CategoriesRepository.Remove(categoryId)
       .then(async (result) => {
         let newCategories = categories;
         newCategories = newCategories.filter((category) => {
@@ -53,7 +46,7 @@ const CategoryProvider = ({ children }) => {
   }
 
   async function ContextRemoveChildCategory(categoryId) {
-    await CategoriesRepository.Remove(authContext.authState?.token, categoryId);
+    await CategoriesRepository.Remove(categoryId);
 
     let newCategogries = await ContextGetAllCategories();
     setCategories(newCategogries);
@@ -63,11 +56,7 @@ const CategoryProvider = ({ children }) => {
   async function ContextEditCategory(categoryId, newName) {
     if (newName.length === 0) return;
 
-    return await CategoriesRepository.Update(
-      authContext.authState?.token,
-      categoryId,
-      newName
-    )
+    return await CategoriesRepository.Update(categoryId, newName)
       .then((result) => {
         // needed for quick refresh of data
         let newCategories = [...categories];
@@ -86,18 +75,14 @@ const CategoryProvider = ({ children }) => {
   async function ContextEditChildCategory(categoryId, newName) {
     if (newName.length === 0) return;
 
-    await CategoriesRepository.Update(
-      authContext.authState?.token,
-      categoryId,
-      newName
-    );
+    await CategoriesRepository.Update(categoryId, newName);
 
     let newCategories = await ContextGetAllCategories();
     setCategories(newCategories);
   }
 
   async function ContextGetAllCategories() {
-    let result = await CategoriesRepository.GetAll(authContext.authState?.token)
+    let result = await CategoriesRepository.GetAll()
       .then((result) => {
         return result?.data;
       })
@@ -107,9 +92,7 @@ const CategoryProvider = ({ children }) => {
   }
 
   async function ContextGetAllRootCategories() {
-    let result = await CategoriesRepository.GetRoot(
-      authContext.authState?.token
-    )
+    let result = await CategoriesRepository.GetRoot()
       .then((result) => {
         return result?.data;
       })
@@ -119,10 +102,7 @@ const CategoryProvider = ({ children }) => {
   }
 
   async function ContextGetAllSubCategories(parentID) {
-    let result = await CategoriesRepository.GetSub(
-      authContext.authState?.token,
-      parentID
-    )
+    let result = await CategoriesRepository.GetSub(parentID)
       .then((result) => {
         return result?.data;
       })

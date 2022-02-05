@@ -32,10 +32,9 @@ const ExplorerContent = () => {
   const fetchEntries = async (categoryId) => {
     setIsLoadingEntries(true);
 
-    let result = await EntriesRepository.GetAll(
-      auth?.authState?.token,
-      categoryId
-    ).catch((error) => console.error(error));
+    let result = await EntriesRepository.GetAll(categoryId).catch((error) =>
+      console.error(error)
+    );
 
     setCurrentEntries(result.data.categoryEntries);
     setLastUsedId(() => categoryId);

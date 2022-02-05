@@ -22,7 +22,6 @@ const EntryUpdate = ({
     }
 
     await EntriesRepository.UpdateWithoutContent(
-      auth?.token,
       entryToEdit.categoryEntryId,
       name,
       entryToEdit.categoryId

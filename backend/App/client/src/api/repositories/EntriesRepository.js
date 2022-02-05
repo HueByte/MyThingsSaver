@@ -10,57 +10,53 @@ import {
 import ApiClient from "../ApiClient";
 
 class EntriesRepository {
-  static async Get(token, entryID) {
+  static async Get(entryID) {
     let params = [{ key: "id", value: entryID }];
-    return await ApiClient.Get(token, EntriesGetEndpoint, params);
+    return await ApiClient.Get(EntriesGetEndpoint, params);
   }
 
-  static async GetAll(token, categoryID, withContent = false) {
+  static async GetAll(categoryID, withContent = false) {
     let params = [
       { key: "CategoryId", value: categoryID },
       { key: "withContent", value: withContent },
     ];
-    return await ApiClient.Get(token, EntriesGetAllEndpoint, params);
+    return await ApiClient.Get(EntriesGetAllEndpoint, params);
   }
 
-  static async GetRecent(token) {
-    return await ApiClient.Get(token, EntriesGetRecentEndpoint);
+  static async GetRecent() {
+    return await ApiClient.Get(EntriesGetRecentEndpoint);
   }
 
-  static async Update(token, entryID, name, content) {
+  static async Update(entryID, name, content) {
     let body = JSON.stringify({
       entryId: entryID,
       entryName: name,
       content: content,
     });
-    return await ApiClient.Post(token, EntriesUpdateEndpoint, body);
+    return await ApiClient.Post(EntriesUpdateEndpoint, body);
   }
 
-  static async UpdateWithoutContent(token, entryID, name, categoryID) {
+  static async UpdateWithoutContent(entryID, name, categoryID) {
     let body = JSON.stringify({
       entryId: entryID,
       entryName: name,
       categoryId: categoryID,
     });
-    return await ApiClient.Post(
-      token,
-      EntriesUpdateWithoutContentEndpoint,
-      body
-    );
+    return await ApiClient.Post(EntriesUpdateWithoutContentEndpoint, body);
   }
 
-  static async Add(token, name, categoryID) {
+  static async Add(name, categoryID) {
     let body = JSON.stringify({
       entryName: name,
       categoryId: categoryID,
       content: "",
     });
-    return await ApiClient.Post(token, EntriesAddEnpoint, body);
+    return await ApiClient.Post(EntriesAddEnpoint, body);
   }
 
-  static async Delete(token, entryID) {
+  static async Delete(entryID) {
     let params = [{ key: "id", value: entryID }];
-    return await ApiClient.Delete(token, EntriesDeleteEndpoint, params);
+    return await ApiClient.Delete(EntriesDeleteEndpoint, params);
   }
 }
 

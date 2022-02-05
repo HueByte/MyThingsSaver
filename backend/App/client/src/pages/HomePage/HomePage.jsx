@@ -11,7 +11,7 @@ const HomePage = () => {
   const [isFetching, setFetching] = useState(true);
 
   useEffect(async () => {
-    await EntriesRepository.GetRecent(authContext.authState?.token)
+    await EntriesRepository.GetRecent()
       .then((result) => {
         if (result.isSuccess) setEntries(result.data);
       })

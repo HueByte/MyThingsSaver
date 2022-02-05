@@ -12,7 +12,7 @@ const EntryDelete = ({
   setEntries,
 }) => {
   const sendRequest = async () => {
-    await EntriesRepository.Delete(auth?.token, entryToDelete.categoryEntryId)
+    await EntriesRepository.Delete(entryToDelete.categoryEntryId)
       .then(async () => {
         let newEntries = entries;
         newEntries = newEntries.filter((entry) => {

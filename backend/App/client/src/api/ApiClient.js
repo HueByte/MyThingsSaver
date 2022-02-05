@@ -1,12 +1,11 @@
 import { AuthFetch } from "./ApiHandler";
 
 class ApiClient {
-  static async Get(token, endpoint, params = null) {
+  static async Get(endpoint, params = null) {
     const requestOptons = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
       },
     };
 
@@ -15,12 +14,11 @@ class ApiClient {
     return await AuthFetch(resultEndpoint, requestOptons);
   }
 
-  static async Post(token, endpoint, body) {
+  static async Post(endpoint, body) {
     const requestOptons = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
       },
       body: body,
     };
@@ -28,12 +26,11 @@ class ApiClient {
     return await AuthFetch(endpoint, requestOptons);
   }
 
-  static async Delete(token, endpoint, params = null) {
+  static async Delete(endpoint, params = null) {
     const requestOptons = {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
       },
     };
 

@@ -24,7 +24,7 @@ const Entry = () => {
   const entryToDelete = useRef();
 
   useEffect(async () => {
-    await EntriesRepository.Get(authContext.authState?.token, entryId)
+    await EntriesRepository.Get(entryId)
       .then((result) => {
         if (!result.isSuccess) {
           setShouldRedirect(true);
@@ -39,12 +39,9 @@ const Entry = () => {
   }, []);
 
   const sendUpdateCallback = async (newName, data) => {
-    await EntriesRepository.Update(
-      authContext.authState?.token,
-      entryId,
-      newName,
-      data
-    ).catch((error) => console.error(error));
+    await EntriesRepository.Update(entryId, newName, data).catch((error) =>
+      console.error(error)
+    );
   };
 
   const performAutosave = AwesomeDebouncePromise(sendUpdateCallback, 2000);
@@ -61,7 +58,7 @@ const Entry = () => {
   };
 
   const removeEntry = async () => {
-    await EntriesRepository.Delete(authContext.authState?.token, entryId)
+    await EntriesRepository.Delete(entryId)
       .then(() => setShouldRedirect(true))
       .catch((error) => console.error(error));
 

@@ -11,37 +11,37 @@ import ApiClient from "../ApiClient";
 import { AuthFetch } from "../ApiHandler";
 
 class CategoriesRepository {
-  static async Add(token, name, parentID = null) {
+  static async Add(name, parentID = null) {
     let body = JSON.stringify({ name: name, categoryParentId: parentID });
-    return await ApiClient.Post(token, CategoryAddEndpoint, body);
+    return await ApiClient.Post(CategoryAddEndpoint, body);
   }
 
-  static async GetAll(token) {
-    return await ApiClient.Get(token, CategoryGetAllEndpoint);
+  static async GetAll() {
+    return await ApiClient.Get(CategoryGetAllEndpoint);
   }
 
-  static async GetRoot(token) {
-    return await ApiClient.Get(token, CategoryGetAllRootEndpoint);
+  static async GetRoot() {
+    return await ApiClient.Get(CategoryGetAllRootEndpoint);
   }
 
-  static async GetSub(token, parentID) {
+  static async GetSub(parentID) {
     let params = [{ key: "parentId", value: parentID }];
-    return await ApiClient.Get(token, CategoryGetAllSubEndpoint, params);
+    return await ApiClient.Get(CategoryGetAllSubEndpoint, params);
   }
 
-  static async GetWithEntries(token, categoryID, withContent = false) {
+  static async GetWithEntries(categoryID, withContent = false) {
     let params = [{ key: "CategoryID", value: categoryID }];
-    return await ApiClient.Get(token, CategoryGetWithEntriesEndpoint, params);
+    return await ApiClient.Get(CategoryGetWithEntriesEndpoint, params);
   }
 
-  static async Remove(token, categoryID) {
+  static async Remove(categoryID) {
     let body = JSON.stringify({ categoryId: categoryID });
-    return await ApiClient.Post(token, CategoryRemoveEndpoint, body);
+    return await ApiClient.Post(CategoryRemoveEndpoint, body);
   }
 
-  static async Update(token, categoryID, name) {
+  static async Update(categoryID, name) {
     let body = JSON.stringify({ categoryId: categoryID, name: name });
-    return await ApiClient.Post(token, CategoryUpdateEndpoint, body);
+    return await ApiClient.Post(CategoryUpdateEndpoint, body);
   }
 }
 

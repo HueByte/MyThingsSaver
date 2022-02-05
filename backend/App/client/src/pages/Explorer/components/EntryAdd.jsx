@@ -14,9 +14,9 @@ const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
       return;
     }
 
-    await EntriesRepository.Add(auth?.token, entryName, categoryId)
+    await EntriesRepository.Add(entryName, categoryId)
       .then(async () => {
-        await EntriesRepository.GetAll(auth?.token, categoryId)
+        await EntriesRepository.GetAll(categoryId)
           .then((result) => setEntries(result?.data?.categoryEntries))
           .catch(() =>
             errorModal("Something went wrong while fetching updated entries")

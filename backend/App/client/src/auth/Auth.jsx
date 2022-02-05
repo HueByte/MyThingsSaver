@@ -30,12 +30,11 @@ export const AuthLogin = async (Username, Password) => {
   return await fetch(LoginEndpoint, requestOptions).then(HandleApiResponse);
 };
 
-export const AuthLogout = async (token) => {
+export const AuthLogout = async () => {
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      // Authorization: `Bearer ${token}`,
     },
   };
 
