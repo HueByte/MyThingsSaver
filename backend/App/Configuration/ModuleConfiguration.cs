@@ -8,6 +8,7 @@ using Core.Models;
 using Core.RepositoriesInterfaces;
 using Infrastructure;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -113,6 +114,15 @@ namespace App.Configuration
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key)),
                     ClockSkew = TimeSpan.Zero
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        context.Token = context.Request.Cookies["X-Access-Token"];
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             return this;
@@ -172,9 +182,9 @@ namespace App.Configuration
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "App", Version = "v1" });
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                c.AddSecurityDefinition("Cookie", new OpenApiSecurityScheme
                 {
-                    In = ParameterLocation.Header,
+                    In = ParameterLocation.Cookie,
                     Description = "Please insert JWT with Bearer into field",
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey

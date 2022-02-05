@@ -10,10 +10,10 @@ namespace App.Authentication
 {
     public class JwtAuthentication : IJwtAuthentication
     {
-        private readonly AppSettingsRoot _configuration;
+        private readonly AppSettingsRoot _settings;
         public JwtAuthentication(AppSettingsRoot configuration)
         {
-            _configuration = configuration;
+            _settings = configuration;
         }
 
         // TODO: consider email/username choice system configurable
@@ -27,11 +27,11 @@ namespace App.Authentication
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JWT.Key));
             var token = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddMinutes(90),
-                issuer: _configuration.JWT.Issuer,
-                audience: _configuration.JWT.Audience,
+                expires: DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
+                issuer: _settings.JWT.Issuer,
+                audience: _settings.JWT.Audience,
                 claims: claims,
                 signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             );
@@ -47,7 +47,7 @@ namespace App.Authentication
             return new RefreshToken
             {
                 Token = Convert.ToBase64String(randomSeed),
-                Expires = DateTime.UtcNow.AddDays(5),
+                Expires = DateTime.UtcNow.AddMinutes(_settings.JWT.RefreshTokenExpireTime),
                 Created = DateTime.UtcNow
             };
         }

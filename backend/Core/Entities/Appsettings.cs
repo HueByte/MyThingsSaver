@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Common.Constants;
 using Microsoft.Extensions.Logging;
 
 namespace Core.Entities
@@ -31,6 +32,8 @@ namespace Core.Entities
         public string Key { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }
+        public int AccessTokenExpireTime { get; set; }
+        public int RefreshTokenExpireTime { get; set; }
     }
 
     public class Database
@@ -96,11 +99,13 @@ namespace Core.Entities
                 {
                     Audience = "MyDomain.com",
                     Issuer = "MyDomain.com",
-                    Key = CreateJwtKey()
+                    Key = CreateJwtKey(),
+                    AccessTokenExpireTime = 30,
+                    RefreshTokenExpireTime = 7200
                 },
                 Database = new Database()
                 {
-                    Type = "SQLite"
+                    Type = DatabaseType.SQLITE
                 },
                 Network = new Network()
                 {
@@ -109,7 +114,7 @@ namespace Core.Entities
                     UseHttps = false,
                     HttpsRedirection = false,
                     UseHSTS = false,
-                    Type = "standalone"
+                    Type = NetworkType.STANDALONE
                 }
             };
 
@@ -130,13 +135,17 @@ namespace Core.Entities
         {
             var readBytes = File.ReadAllBytes(FILE_NAME);
             var config = JsonSerializer.Deserialize<AppSettingsRoot>(readBytes);
+
+            if (!ValidateSettings(config))
+                throw new Exception("Config is incorrect");
+
             return config;
         }
 
         private static string CreateJwtKey()
         {
 
-            Random random = new Random();
+            Random random = new();
             int length = 64;
             var result = "";
             for (var i = 0; i < length; i++)

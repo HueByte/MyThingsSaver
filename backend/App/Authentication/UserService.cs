@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using App.Guide;
 using Common.Constants;
 using Common.Events;
@@ -9,7 +5,6 @@ using Core.DTO;
 using Core.Entities;
 using Core.Models;
 using Infrastructure;
-using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,17 +17,20 @@ namespace App.Authentication
         private readonly IJwtAuthentication _jwtAuthentication;
         private readonly AppDbContext _context;
         private readonly GuideService _guide;
+        private readonly AppSettingsRoot _settings;
         public UserService(UserManager<ApplicationUser> userManager,
                            SignInManager<ApplicationUser> signInManager,
                            IJwtAuthentication jwtAuthentication,
                            AppDbContext context,
-                           GuideService guide)
+                           GuideService guide,
+                           AppSettingsRoot settings)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtAuthentication = jwtAuthentication;
             _context = context;
             _guide = guide;
+            _settings = settings;
         }
 
         public async Task<IdentityResult> CreateUser(RegisterDTO registerUser)
@@ -77,30 +75,17 @@ namespace App.Authentication
                 throw new ExceptionList(result.Errors.Select(errors => errors.Description).ToList());
         }
 
-        public async Task<VerifiedUser> LoginUserWithEmail(LoginEmailDTO userDTO)
+
+        public async Task<VerifiedUser> LoginUser(LoginUserDTO userDto)
         {
-            if (userDTO == null)
+            if (userDto == null)
                 throw new ArgumentException("User model cannot be null");
 
-            // var user = await _userManager.FindByEmailAsync(userDTO.Email);
-            var user = await _userManager.Users.Where(u => u.Email == userDTO.Email)
-                                   .Include(e => e.RefreshTokens)
-                                   .FirstOrDefaultAsync();
-
-            return await HandleLogin(user, userDTO.Password);
-        }
-
-        public async Task<VerifiedUser> LoginUserWithUsername(LoginUserDTO userDTO)
-        {
-            if (userDTO == null)
-                throw new ArgumentException("User model cannot be null");
-
-            // var user = await _userManager.FindByNameAsync(userDTO.Username);
-            var user = await _userManager.Users.Where(u => u.UserName == userDTO.Username)
+            var user = await _userManager.Users.Where(u => u.UserName == userDto.Username)
                                                .Include(e => e.RefreshTokens)
                                                .FirstOrDefaultAsync();
 
-            return await HandleLogin(user, userDTO.Password);
+            return await HandleLogin(user, userDto.Password);
         }
 
         private async Task<VerifiedUser> HandleLogin(ApplicationUser user, string password)
@@ -113,14 +98,11 @@ namespace App.Authentication
             if (!result.Succeeded)
                 throw new Exception("Couldn't log in, check your login or password");
 
-            // Get user roles
-            var roles = await _userManager.GetRolesAsync(user);
-
             // Get or Create refresh token for JWT
             RefreshToken activeRefreshToken;
             if (user.RefreshTokens.Any(a => a.IsActive))
             {
-                activeRefreshToken = user.RefreshTokens.FirstOrDefault(a => a.IsActive == true);
+                activeRefreshToken = user.RefreshTokens?.FirstOrDefault(a => a.IsActive == true);
             }
             else
             {
@@ -130,24 +112,29 @@ namespace App.Authentication
                 await _context.SaveChangesAsync();
             }
 
+            // Get user roles
+            var roles = await _userManager.GetRolesAsync(user);
+
+            // Generate JWT
+            var token = _jwtAuthentication.GenerateJsonWebToken(user, roles);
+
             return new VerifiedUser()
             {
-                Token = _jwtAuthentication.GenerateJsonWebToken(user, roles),
-                ExpireDate = DateTime.Now.AddDays(5),
-                RefreshToken = activeRefreshToken?.Token,
-                RefreshTokenExpiration = activeRefreshToken.Expires,
-                TokenType = "Bearer",
+                Username = user.UserName,
                 Roles = roles.ToArray(),
-                Username = user.UserName
+                RefreshToken = activeRefreshToken?.Token,
+                RefreshTokenExpiration = DateTime.Now.AddMinutes(_settings.JWT.RefreshTokenExpireTime),
+                Token = _jwtAuthentication.GenerateJsonWebToken(user, roles),
+                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime)
             };
         }
 
         public async Task<VerifiedUser> RefreshTokenAsync(string token)
         {
-            var user = _userManager.Users.Include(e => e.RefreshTokens)
-                                         .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+            var user = await _userManager.Users.Include(e => e.RefreshTokens)
+                                               .SingleOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
             if (user == null)
-                throw new Exception("Token did not match any users");
+                throw new Exception("Token did not match any user");
 
             var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
             if (!refreshToken.IsActive)
@@ -159,6 +146,7 @@ namespace App.Authentication
             // generate new refresh token and save to database
             var newRefreshToken = _jwtAuthentication.CreateRefreshToken();
             user.RefreshTokens.Add(newRefreshToken);
+
             _context.Update(user);
             await _context.SaveChangesAsync();
 
@@ -166,13 +154,12 @@ namespace App.Authentication
 
             return new VerifiedUser()
             {
-                Token = _jwtAuthentication.GenerateJsonWebToken(user, roles),
-                ExpireDate = DateTime.Now.AddDays(5),
-                RefreshToken = newRefreshToken.Token,
-                RefreshTokenExpiration = newRefreshToken.Expires,
-                TokenType = "Bearer",
+                Username = user.UserName,
                 Roles = roles.ToArray(),
-                Username = user.UserName
+                RefreshToken = newRefreshToken.Token,
+                RefreshTokenExpiration = DateTime.Now.AddMinutes(_settings.JWT.RefreshTokenExpireTime),
+                Token = _jwtAuthentication.GenerateJsonWebToken(user, roles),
+                AccessTokenExpiration = DateTime.Now.AddMinutes(_settings.JWT.AccessTokenExpireTime)
             };
         }
 

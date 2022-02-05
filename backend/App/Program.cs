@@ -74,6 +74,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+// app.UseCookiePolicy();
 
 app.UseStaticFiles(new StaticFileOptions()
 {
