@@ -23,7 +23,7 @@ namespace App.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterDTO registerUser)
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterDto registerUser)
         {
             var result = await ApiEventHandler.EventHandleAsync(async () =>
                 await _userService.CreateUser(registerUser));
@@ -35,7 +35,7 @@ namespace App.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserDTO userDto)
+        public async Task<IActionResult> Login([FromBody] LoginUserDto userDto)
         {
             var result = await ApiEventHandler<VerifiedUser>.EventHandleAsync(async () =>
                await _userService.LoginUser(userDto));
@@ -50,7 +50,7 @@ namespace App.Controllers
         }
 
         [HttpPost("ChangePassword")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO user)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto user)
         {
             var result = await ApiEventHandler.EventHandleAsync(async () =>
                 await _userService.ChangePasswordAsync(user));

@@ -33,7 +33,7 @@ namespace App.Authentication
             _settings = settings;
         }
 
-        public async Task<IdentityResult> CreateUser(RegisterDTO registerUser)
+        public async Task<IdentityResult> CreateUser(RegisterDto registerUser)
         {
             if (registerUser is null)
                 throw new ArgumentException("RegisterUser model cannot be null");
@@ -57,7 +57,7 @@ namespace App.Authentication
             return result;
         }
 
-        public async Task ChangePasswordAsync(ChangePasswordDTO userDTO)
+        public async Task ChangePasswordAsync(ChangePasswordDto userDTO)
         {
             if (userDTO is null)
                 throw new ArgumentException("User model cannot be null");
@@ -76,7 +76,7 @@ namespace App.Authentication
         }
 
 
-        public async Task<VerifiedUser> LoginUser(LoginUserDTO userDto)
+        public async Task<VerifiedUser> LoginUser(LoginUserDto userDto)
         {
             if (userDto == null)
                 throw new ArgumentException("User model cannot be null");

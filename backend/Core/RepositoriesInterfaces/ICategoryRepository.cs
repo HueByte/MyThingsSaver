@@ -13,9 +13,9 @@ namespace Core.RepositoriesInterfaces
         Task<List<Category>> GetSubcategoriesAsync(string parentId, string ownerId);
         Task<Category> GetOneByIdAsync(string name, string ownerId);
         Task<Category> GetCategoryWithEntriesAsync(string categoryId, string ownerId);
-        Task AddOneAsync(CategoryDTO category, string ownerId);
+        Task AddOneAsync(CategoryDto category, string ownerId);
         Task RemoveOneAsync(string name, string ownerId);
-        Task UpdateOneAsync(CategoryDTO newCategory, string ownerId);
+        Task UpdateOneAsync(CategoryDto newCategory, string ownerId);
         Task UpdateMultipleAsync(List<Category> newCategories, string ownerId);
     }
 }

@@ -80,7 +80,7 @@ namespace App.Controllers
 
         [HttpPost("Add")]
         [Authorize]
-        public async Task<IActionResult> AddCategory([FromBody] CategoryDTO category)
+        public async Task<IActionResult> AddCategory([FromBody] CategoryDto category)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -95,7 +95,7 @@ namespace App.Controllers
 
         [HttpPost("Remove")]
         [Authorize]
-        public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDTO category)
+        public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDto category)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -109,7 +109,7 @@ namespace App.Controllers
 
         [HttpPost("Update")]
         [Authorize]
-        public async Task<IActionResult> Updatecategory([FromBody] CategoryDTO category)
+        public async Task<IActionResult> Updatecategory([FromBody] CategoryDto category)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -145,7 +145,7 @@ namespace App.Controllers
             // root ID - 08992e73-57f8-4472-8a2b-131e93aabf7a
             // var rootID = "2a09cd6e-f9a0-4e2e-a4a5-58c2dea12395";
 
-            var category = new CategoryDTO()
+            var category = new CategoryDto()
             {
                 CategoryParentId = parentid,
                 Name = name

@@ -8,14 +8,14 @@ using Serilog.Events;
 if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, @"logs")))
     Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, @"logs"));
 
-var builder = WebApplication.CreateBuilder(args);
-
 AppSettingsRoot appsettings = AppSettingsRoot.IsCreated
     ? AppSettingsRoot.Load()
     : AppSettingsRoot.Create();
 
 LogEventLevel logLevel = SerilogConfigurator.GetLogEventLevel(appsettings);
 RollingInterval logInterval = SerilogConfigurator.GetRollingInterval(appsettings);
+
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((ctx, lc) => lc
     .MinimumLevel.Override("Microsoft", logLevel)
@@ -74,7 +74,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-// app.UseCookiePolicy();
+app.UseCookiePolicy();
 
 app.UseStaticFiles(new StaticFileOptions()
 {

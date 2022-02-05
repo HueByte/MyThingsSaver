@@ -10,7 +10,7 @@ namespace App
 {
     public class BeforeStart
     {
-        private WebApplication _app;
+        private readonly WebApplication _app;
         public BeforeStart(WebApplication app)
         {
             _app = app;

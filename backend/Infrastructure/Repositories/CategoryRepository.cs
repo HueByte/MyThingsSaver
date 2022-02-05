@@ -63,7 +63,7 @@ namespace Infrastructure.Repositories
             return subCategories;
         }
 
-        public async Task AddOneAsync(CategoryDTO cat, string ownerId)
+        public async Task AddOneAsync(CategoryDto cat, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(cat.Name))
                 throw new ArgumentException("Name cannot be empty");
@@ -108,7 +108,7 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateOneAsync(CategoryDTO newCategory, string ownerId)
+        public async Task UpdateOneAsync(CategoryDto newCategory, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(newCategory.Name))
                 throw new ArgumentException("Name cannot be empty");

@@ -51,7 +51,7 @@ namespace App.Controllers
 
         [HttpPost("Add")]
         [Authorize]
-        public async Task<IActionResult> Add([FromBody] CategoryEntryDTO entry)
+        public async Task<IActionResult> Add([FromBody] CategoryEntryDto entry)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -65,7 +65,7 @@ namespace App.Controllers
 
         [HttpPost("Update")]
         [Authorize]
-        public async Task<IActionResult> Update([FromBody] CategoryEntryDTO entry)
+        public async Task<IActionResult> Update([FromBody] CategoryEntryDto entry)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
@@ -79,7 +79,7 @@ namespace App.Controllers
 
         [HttpPost("UpdateWithoutContent")]
         [Authorize]
-        public async Task<IActionResult> UpdateWithoutContent([FromBody] CategoryEntryDTO entry)
+        public async Task<IActionResult> UpdateWithoutContent([FromBody] CategoryEntryDto entry)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>

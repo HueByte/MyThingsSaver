@@ -13,9 +13,9 @@ namespace Core.RepositoriesInterfaces
         Task<CategoryEntry> GetOneByIdAsync(string id, string ownerId);
         Task<AllCategoryEntries> GetAllAsync(string categoryId, string ownerId, bool withContent = false);
         Task<List<CategoryEntry>> GetRecentAsync(string ownerId);
-        Task AddOneAsync(CategoryEntryDTO entity, string ownerId);
+        Task AddOneAsync(CategoryEntryDto entity, string ownerId);
         Task RemoveOneAsync(string id, string ownerId);
-        Task UpdateOneAsync(CategoryEntryDTO newEntry, string ownerId);
-        Task UpdateOneWithoutContentAsync(CategoryEntryDTO newEntry, string ownerId);
+        Task UpdateOneAsync(CategoryEntryDto newEntry, string ownerId);
+        Task UpdateOneWithoutContentAsync(CategoryEntryDto newEntry, string ownerId);
     }
 }
