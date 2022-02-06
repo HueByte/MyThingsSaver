@@ -4,6 +4,9 @@
    </a>
 </p>
 
+# `Warning`
+This version of README is currently outdated, working on update :)
+
 # `👾 My Things Saver`
 Easy to use with modern design application that allows you to save your things in well designed and comfortable environment.</br>
 With powerful Markdown editor you can save your notes, lists, tasks and even import tables from other software.<br>

@@ -172,4 +172,13 @@ namespace Common.Events
             ExceptionMessages = exceptionMessages;
         }
     }
+
+    public class EndpointException : Exception
+    {
+        public string Message { get; set; }
+        public EndpointException(string ExceptionMessage)
+        {
+            Message = ExceptionMessage;
+        }
+    }
 }
