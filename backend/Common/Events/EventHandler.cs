@@ -109,7 +109,7 @@ namespace Common.Events
                     Data = default,
                     Errors = new System.Collections.Generic.List<string>() { e.Message },
                     IsSuccess = false
-                }; ;
+                };
             }
             else if (e is ExceptionList list)
             {
@@ -118,7 +118,7 @@ namespace Common.Events
                     Data = default,
                     Errors = list.ExceptionMessages,
                     IsSuccess = false
-                }; ;
+                };
             }
             else
             {
@@ -127,7 +127,7 @@ namespace Common.Events
                     Data = default,
                     Errors = new System.Collections.Generic.List<string>() { e.Message },
                     IsSuccess = false
-                }; ;
+                };
             }
         }
     }

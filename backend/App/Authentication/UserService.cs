@@ -45,7 +45,7 @@ namespace App.Authentication
                 Email = registerUser?.Email
             };
 
-            var result = await _userManager.CreateAsync(user, registerUser.Password);
+            var result = await _userManager.CreateAsync(user, registerUser?.Password);
 
             if (!result.Succeeded)
                 throw new ExceptionList(result.Errors.Select(errors => errors.Description).ToList());
@@ -102,7 +102,7 @@ namespace App.Authentication
             RefreshToken activeRefreshToken;
             if (user.RefreshTokens.Any(a => a.IsActive))
             {
-                activeRefreshToken = user.RefreshTokens?.FirstOrDefault(a => a.IsActive == true);
+                activeRefreshToken = user?.RefreshTokens?.FirstOrDefault(a => a.IsActive == true);
             }
             else
             {
