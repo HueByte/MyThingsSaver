@@ -63,7 +63,7 @@ namespace App.Authentication
                 throw new ArgumentException("User model cannot be null");
 
             if (string.IsNullOrEmpty(userDTO.OldPassword) || string.IsNullOrEmpty(userDTO.NewPassword))
-                throw new Exception("New nad old password can't be empty");
+                throw new Exception("New and old password can't be empty");
 
             var user = await _userManager.FindByNameAsync(userDTO.UserName);
             if (user is null)
@@ -91,12 +91,12 @@ namespace App.Authentication
         private async Task<VerifiedUser> HandleLogin(ApplicationUser user, string password)
         {
             if (user == null)
-                throw new Exception("Couldn't log in, check your login or password"); // Couldn't find user
+                throw new EndpointException("Couldn't log in, check your login or password"); // Couldn't find user
 
             // Validate credentials 
             var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
             if (!result.Succeeded)
-                throw new Exception("Couldn't log in, check your login or password");
+                throw new EndpointException("Couldn't log in, check your login or password");
 
             // Get or Create refresh token for JWT
             RefreshToken activeRefreshToken;

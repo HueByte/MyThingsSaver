@@ -25,24 +25,8 @@ namespace Common.Events
                     };
 
                 }
-                catch (ExceptionList e)
-                {
-                    response = new BaseApiResponse<object>()
-                    {
-                        Data = default,
-                        Errors = e.ExceptionMessages,
-                        IsSuccess = false
-                    };
-                }
-                catch (Exception e)
-                {
-                    response = new BaseApiResponse<object>()
-                    {
-                        Data = default,
-                        Errors = new System.Collections.Generic.List<string>() { e.Message },
-                        IsSuccess = false
-                    };
-                }
+                catch (Exception e) { ErrorHandler.Handle(e, out response); };
+
 
                 return response;
             }
@@ -63,24 +47,8 @@ namespace Common.Events
                 };
 
             }
-            catch (ExceptionList e)
-            {
-                response = new BaseApiResponse<object>()
-                {
-                    Data = default,
-                    Errors = e.ExceptionMessages,
-                    IsSuccess = false
-                };
-            }
-            catch (Exception e)
-            {
-                response = new BaseApiResponse<object>()
-                {
-                    Data = default,
-                    Errors = new System.Collections.Generic.List<string>() { e.Message },
-                    IsSuccess = false
-                };
-            }
+            catch (Exception e) { ErrorHandler.Handle(e, out response); };
+
 
             return response;
         }
@@ -104,24 +72,7 @@ namespace Common.Events
                 };
 
             }
-            catch (ExceptionList e)
-            {
-                response = new BaseApiResponse<TResult>()
-                {
-                    Data = default,
-                    Errors = e.ExceptionMessages,
-                    IsSuccess = false
-                };
-            }
-            catch (Exception e)
-            {
-                response = new BaseApiResponse<TResult>()
-                {
-                    Data = default,
-                    Errors = new System.Collections.Generic.List<string>() { e.Message },
-                    IsSuccess = false
-                };
-            }
+            catch (Exception e) { ErrorHandler.Handle(e, out response); };
 
             return response;
         }
@@ -141,26 +92,43 @@ namespace Common.Events
                 };
 
             }
-            catch (ExceptionList e)
+            catch (Exception e) { ErrorHandler.Handle(e, out response); };
+
+            return response;
+        }
+    }
+
+    public static class ErrorHandler
+    {
+        public static void Handle<TResult>(Exception e, out BaseApiResponse<TResult> response)
+        {
+            if (e is EndpointException)
             {
-                response = new BaseApiResponse<TResult>()
-                {
-                    Data = default,
-                    Errors = e.ExceptionMessages,
-                    IsSuccess = false
-                };
-            }
-            catch (Exception e)
-            {
-                response = new BaseApiResponse<TResult>()
+                response = new()
                 {
                     Data = default,
                     Errors = new System.Collections.Generic.List<string>() { e.Message },
                     IsSuccess = false
-                };
+                }; ;
             }
-
-            return response;
+            else if (e is ExceptionList list)
+            {
+                response = new()
+                {
+                    Data = default,
+                    Errors = list.ExceptionMessages,
+                    IsSuccess = false
+                }; ;
+            }
+            else
+            {
+                response = new()
+                {
+                    Data = default,
+                    Errors = new System.Collections.Generic.List<string>() { e.Message },
+                    IsSuccess = false
+                }; ;
+            }
         }
     }
 
@@ -175,10 +143,6 @@ namespace Common.Events
 
     public class EndpointException : Exception
     {
-        public string Message { get; set; }
-        public EndpointException(string ExceptionMessage)
-        {
-            Message = ExceptionMessage;
-        }
+        public EndpointException(string ExceptionMessage) : base(ExceptionMessage) { }
     }
 }

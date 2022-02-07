@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Events;
 using Core.DTO;
 using Core.Entities;
 using Core.Models;
@@ -21,12 +22,12 @@ namespace Infrastructure.Repositories
         public async Task<Category> GetOneByIdAsync(string id, string ownerId)
         {
             if (id is null)
-                throw new Exception("ID cannot be empty");
+                throw new EndpointException("ID cannot be empty");
 
             var category = await _context.Categories.FirstOrDefaultAsync(cat => cat.CategoryId == id && cat.Owner.Id == ownerId);
 
             if (category is null)
-                throw new Exception("Couldn't find this category");
+                throw new EndpointException("Couldn't find this category");
 
             return category;
         }
@@ -44,7 +45,7 @@ namespace Infrastructure.Repositories
         public async Task<List<Category>> GetRootCategoriesAsync(string ownerId)
         {
             if (string.IsNullOrWhiteSpace(ownerId))
-                throw new ArgumentException("Owner ID cannot be empty");
+                throw new EndpointException("Owner ID cannot be empty");
 
             var rootCategories = await _context.Categories.Where(category => category.Level == 0 && category.OwnerId == ownerId)
                                                           .ToListAsync();
@@ -55,7 +56,7 @@ namespace Infrastructure.Repositories
         public async Task<List<Category>> GetSubcategoriesAsync(string parentId, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(parentId) && string.IsNullOrWhiteSpace(ownerId))
-                throw new ArgumentException("Parent ID and Owner ID cannot be empty");
+                throw new EndpointException("Parent ID and Owner ID cannot be empty");
 
             var subCategories = await _context.Categories.Where(category => category.ParentCategoryId == parentId
                                                                       && category.OwnerId == ownerId).ToListAsync();
@@ -66,14 +67,14 @@ namespace Infrastructure.Repositories
         public async Task AddOneAsync(CategoryDto cat, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(cat.Name))
-                throw new ArgumentException("Name cannot be empty");
+                throw new EndpointException("Name cannot be empty");
 
 
             var exists = await _context.Categories.AnyAsync(category => category.Name == cat.Name
                                                                 && category.OwnerId == ownerId
                                                                 && category.ParentCategoryId == cat.CategoryParentId);
             if (exists)
-                throw new Exception("This category already exists");
+                throw new EndpointException("This category already exists");
 
             Category parent;
             string path = ownerId;
@@ -84,7 +85,7 @@ namespace Infrastructure.Repositories
                                                                             && category.CategoryId == cat.CategoryParentId);
 
                 if (parent is null)
-                    throw new NullReferenceException("This parent category doesn't exist");
+                    throw new EndpointException("This parent category doesn't exist");
 
                 path = parent.Path;
                 level = (byte)(parent.Level + 1);
@@ -111,11 +112,11 @@ namespace Infrastructure.Repositories
         public async Task UpdateOneAsync(CategoryDto newCategory, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(newCategory.Name))
-                throw new ArgumentException("Name cannot be empty");
+                throw new EndpointException("Name cannot be empty");
 
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == newCategory.CategoryId && x.Owner.Id == ownerId);
             if (category == null)
-                throw new Exception("Couldn't find that category");
+                throw new EndpointException("Couldn't find that category");
 
             category.Name = newCategory.Name.Trim();
             category.LastEditedOn = DateTime.UtcNow;
@@ -124,7 +125,7 @@ namespace Infrastructure.Repositories
                                                          && x.ParentCategoryId == category.ParentCategoryId
                                                          && x.OwnerId == category.OwnerId);
             if (doesExist)
-                throw new Exception("There's already category with that name");
+                throw new EndpointException("There's already category with that name");
 
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
@@ -142,11 +143,11 @@ namespace Infrastructure.Repositories
         public async Task RemoveOneAsync(string id, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("Name cannot be empty");
+                throw new EndpointException("Name cannot be empty");
 
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id && x.Owner.Id == ownerId);
             if (category == null)
-                throw new Exception("Couldn't find that category");
+                throw new EndpointException("Couldn't find that category");
 
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
@@ -155,7 +156,7 @@ namespace Infrastructure.Repositories
         public async Task<Category> GetCategoryWithEntriesAsync(string categoryId, string ownerId)
         {
             if (string.IsNullOrWhiteSpace(categoryId))
-                throw new ArgumentException("Category ID cannot be empty");
+                throw new EndpointException("Category ID cannot be empty");
 
             var categoryWithEntries = await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<Category>(_context.Categories
                     .Include(entity => entity.CategoryEntries.OrderByDescending(e => e.LastUpdatedOn)),
