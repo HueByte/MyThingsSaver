@@ -106,7 +106,6 @@ namespace Core.Entities
 
         private static string CreateJwtKey()
         {
-
             Random random = new();
             int length = 64;
             var result = "";

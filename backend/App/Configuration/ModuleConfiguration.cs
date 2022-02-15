@@ -128,11 +128,6 @@ namespace App.Configuration
             return this;
         }
 
-        public ModuleConfiguration ConfigureSpa()
-        {
-            return this;
-        }
-
         public ModuleConfiguration ConfigureServices()
         {
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();

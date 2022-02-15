@@ -5,6 +5,8 @@ using Core.lib;
 using Serilog;
 using Serilog.Events;
 
+Logo.PrintLogo();
+
 if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, @"logs")))
     Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, @"logs"));
 
