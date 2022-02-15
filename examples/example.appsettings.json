@@ -1,0 +1,33 @@
+{
+    "Logger": {
+      "LogLevel": "information",
+      "TimeInterval": "hour"
+    },
+    "AllowedHosts": "*",
+    "ConnectionStrings": {
+      "DatabaseConnectionString": "server=127.0.0.1;uid=root;pwd=;database=myshitsaver",
+      "SQLiteConnectionString": "Data Source=/Save.sqlite;foreign keys=True"
+    },
+    "Origins": [
+      "http://*/",
+      "https://*/"
+    ],
+    "JWT": {
+      "Key": "gcylcqareuodcexvsxytfbtuhvaurcpchsoohpaktsibcgikoibiruenoiioywj",
+      "Issuer": "MyDomain.com",
+      "Audience": "MyDomQain.com",
+      "AccessTokenExpireTime": 30,
+      "RefreshTokenExpireTime": 7200
+    },
+    "Database": {
+      "Type": "SQLite"
+    },
+    "Network": {
+      "Type": "nginx",
+      "HttpPort": "6000",
+      "HttpsPort": "6001",
+      "UseHttps": true,
+      "UseHSTS": true,
+      "HttpsRedirection": true
+    }
+  }

@@ -61,13 +61,30 @@ It's still in the early stage of development but it's fully usable now with v1.0
 # `👨‍💻 For Development:` 
 ### Development requirements
 * npm
-* dotnet 5.x SDK
+* dotnet 6.x SDK
 
 ### How to run development?
    1. git clone repository 
    2. go to *MyThingsSaver/backend/App*
    3. run command: `dotnet run`
 </br>
+
+### Configure your development 
+- Remember to have self signed developer certificate for local HTTPS
+- Copy contents of `.env` files from examples folder (remove `example` part of file name) to `backend/App/client`
+- Copy example appsettings.json to `backend/App` or use new generated one from debug folder once you run app once
+- Ports are configured in `.env`, `.env.development`, `App.csproj`, `appsettings.json`
+
+### Configure ports
+`appsettings.json` file should be inside `backend/App` and `.env` file should be inside `backend/App/client`
+
+1. Set API ports inside `appsettings.json` (`HttpPort`, `HttpsPort`)
+2. Set correct Https port to `ASPNETCORE_HTTPS_PORT` variable in `.env`
+3. Set client app port to `PORT` variable in `.env`
+4. Set correct client port to `<SpaProxyServerUrl>` tag in `App.csproj`
+
+> `HttpsPort` must match `ASPNETCORE_HTTPS_PORT` variable<br>
+> `<SpaProxyServerUrl>` must match `PORT` variable
 
 # `⚙️ Configuration `
 If you want to reset your settings just remove `appsettings.json` from app's root directory, it will generate new file with default settings and new JWT key
