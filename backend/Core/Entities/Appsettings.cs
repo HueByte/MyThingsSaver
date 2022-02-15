@@ -32,7 +32,7 @@ namespace Core.Entities
 
         [JsonIgnore]
         public static string SavePath
-            => Path.Combine(AppContext.BaseDirectory, @"save\save.sqlite");
+            => Path.Combine(AppContext.BaseDirectory, @"save/save.sqlite");
 
         public static AppSettingsRoot Create()
         {
