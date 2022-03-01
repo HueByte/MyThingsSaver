@@ -167,11 +167,6 @@ namespace Core.Entities
         public string TimeInterval { get; set; }
     }
 
-    public class Logging
-    {
-        public LogLevel LogLevel { get; set; }
-    }
-
     public class ConnectionStrings
     {
         public string DatabaseConnectionString { get; set; }

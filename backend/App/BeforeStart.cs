@@ -18,9 +18,9 @@ namespace App
 
         public BeforeStart PerformMigrations()
         {
-            using var serviceScope = _app.Services?.GetService<IServiceScopeFactory>().CreateScope();
+            using var serviceScope = _app.Services?.GetService<IServiceScopeFactory>()!.CreateScope();
 
-            var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var context = serviceScope!.ServiceProvider.GetRequiredService<AppDbContext>();
             context.Database.Migrate();
 
             return this;
@@ -28,9 +28,9 @@ namespace App
 
         public BeforeStart SeedIdentity()
         {
-            using var serviceScope = _app.Services?.GetService<IServiceScopeFactory>().CreateScope();
+            using var serviceScope = _app.Services?.GetService<IServiceScopeFactory>()!.CreateScope();
 
-            var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleManager = serviceScope!.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             if (!roleManager.RoleExistsAsync(Role.USER).GetAwaiter().GetResult())
                 roleManager.CreateAsync(new IdentityRole(Role.USER)).GetAwaiter().GetResult();

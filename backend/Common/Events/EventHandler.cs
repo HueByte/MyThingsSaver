@@ -11,25 +11,22 @@ namespace Common.Events
     {
         public static async Task<BaseApiResponse<object>> EventHandleAsync(Func<Task> function)
         {
+            BaseApiResponse<object> response;
+
+            try
             {
-                BaseApiResponse<object> response;
-
-                try
+                await function.Invoke();
+                response = new BaseApiResponse<object>()
                 {
-                    await function.Invoke();
-                    response = new BaseApiResponse<object>()
-                    {
-                        Data = default,
-                        Errors = null,
-                        IsSuccess = true
-                    };
+                    Data = default,
+                    Errors = null,
+                    IsSuccess = true
+                };
 
-                }
-                catch (Exception e) { ErrorHandler.Handle(e, out response); };
-
-
-                return response;
             }
+            catch (Exception e) { ErrorHandler.Handle(e, out response); };
+
+            return response;
         }
 
         public static BaseApiResponse<object> EventHandle(Action function)
