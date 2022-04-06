@@ -27,6 +27,7 @@ export const HandleApiResponse = async (response) => {
       if (!result?.isSuccess) {
         errorModal(result?.errors.join(" "), 6000);
       }
+
       return result;
 
     // something went wrong at the server side (e.g 500)
@@ -50,6 +51,7 @@ export const HandleApiAuthorize = async (response, refOptions, isRetry) => {
 
         return true;
       }
+
       // silent token was expired
       else {
         window.location.replace(
