@@ -9,7 +9,6 @@ import Particles from "react-tsparticles";
 // notifications
 import ReactNotifications from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { store } from "react-notifications-component";
 import "animate.css";
 
 // modals
@@ -36,11 +35,11 @@ function App() {
           </ErrorBoundary>
         </Suspense>
       </AuthProvider>
-      <Particles
+      {/* <Particles
         id="tsparticles"
         loaded={particlesLoaded}
         options={ParticlesOptions}
-      />
+      /> */}
     </BrowserRouter>
   );
 }

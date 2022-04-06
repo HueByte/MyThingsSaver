@@ -182,7 +182,7 @@ Browser security prevents a web page from making requests to a different domain 
 ### Is there any contact to you?
 > You can message me on discord `HueByte#1388` or send email to <MyThingsSaver@gmail.com>
 
-### Is App still developed? 
+### Is App still being developed? 
 > Yes. I'm working on it in my free time :)
 
 ### What are the future plans?
