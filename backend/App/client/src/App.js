@@ -22,12 +22,6 @@ Modal.setAppElement("#root");
 function App() {
   const history = createBrowserHistory();
 
-  const particlesInit = (main) => {
-    console.log(main);
-
-    // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
-  };
-
   const particlesLoaded = (container) => {
     console.log(container);
   };
@@ -44,7 +38,6 @@ function App() {
       </AuthProvider>
       <Particles
         id="tsparticles"
-        init={particlesInit}
         loaded={particlesLoaded}
         options={ParticlesOptions}
       />
