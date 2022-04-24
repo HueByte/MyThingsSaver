@@ -31,13 +31,7 @@ const DesktopMenu = ({ logout, authContext }) => {
     <div className="nav-top">
       <div className="logo">
         <div className="img">
-          <img
-            src={logo}
-            alt="logo"
-            width="60"
-            height="40"
-            alt="CloudByte logo"
-          />
+          <img src={logo} width="60" height="40" alt="CloudByte logo" />
         </div>
       </div>
       <div className="content">

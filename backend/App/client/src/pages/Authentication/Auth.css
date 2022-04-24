@@ -43,6 +43,7 @@
     justify-content: center;
     flex-direction: column;
     background-color: var(--Shark);
+    overflow: hidden;
 }
 
 .auth__container .auth-right > * {
