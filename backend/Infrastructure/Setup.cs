@@ -10,7 +10,6 @@ namespace Infrastructure
     // update database with: dotnet ef database update --startup-project ../App
     public static class Setup
     {
-        // For some reason this shittery must look like that for non-problematic migrations with MySQL
         public static void AddDbContextMysqlProduction(this IServiceCollection services, string connectionString) =>
             services.AddDbContext<AppDbContext>(
                                 options => options.UseMySql(connectionString,
@@ -19,7 +18,6 @@ namespace Infrastructure
 
             );
 
-        // // For some reason this shittery must look like that for non-problematic migrations with MySQL
         public static void AddDbContextMysqlDebug(this IServiceCollection services, string connectionString) =>
             services.AddDbContext<AppDbContext>(
                                 options => options.UseMySql(connectionString,
