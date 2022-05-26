@@ -40,7 +40,7 @@ const DesktopMenu = ({ logout, authContext }) => {
             Home
           </NavLink>
           <NavLink to="/explore" activeClassName="active" className="item">
-            Explore
+            Explorer
           </NavLink>
           {authContext.authState?.roles?.find((role) => role == Role.Admin) ? (
             <NavLink to="/Settings" activeClassName="active" className="item">
@@ -106,7 +106,7 @@ const MobileMenu = ({ logout, authContext }) => {
           activeClassName="active"
           className="item"
         >
-          Explore
+          Explorer
         </NavLink>
         {authContext.authState?.roles?.find((role) => role == Role.Admin) ? (
           <NavLink

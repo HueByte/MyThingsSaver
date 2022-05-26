@@ -64,12 +64,23 @@ const Explorer = () => {
     }
   }, [lastUsedId]);
 
+  // TEMP fix for firefox
   const initial = (e) => {
+    console.log("start");
+    document.getElementById("dragger").style =
+      "width: 400px; transform: translateX(200px);";
+
     setInitialPos(e.clientX);
     setInitialSize(explorer.current.offsetWidth);
   };
 
+  const stopDrag = (e) => {
+    document.getElementById("dragger").style =
+      "width: 20px; transform: translateX(0px);";
+  };
+
   const resize = (e) => {
+    e.preventDefault();
     requestAnimationFrame(() => performDrag(e));
   };
 
@@ -97,10 +108,13 @@ const Explorer = () => {
             )}
           </div>
           <div
+            id="dragger"
             className="draggable"
             draggable="true"
             onDragStart={initial}
-            onDrag={resize}
+            // onDrag={resize}
+            onDragOver={resize}
+            onDragEnd={stopDrag}
           ></div>
           <div className="item-container">
             <div className="item ellipsis">{auth.authState?.username}</div>
