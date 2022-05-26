@@ -13,6 +13,7 @@
     flex-direction: row;
     overflow-y: auto;
     position: relative;
+    border-radius: 10px;
 }
 
 .auth__container .auth-left {
