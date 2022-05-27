@@ -49,8 +49,6 @@ const Explorer = () => {
     }
 
     setFinishedLoading(true);
-
-    return () => {};
   }, []);
 
   useEffect(() => {

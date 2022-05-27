@@ -25,12 +25,19 @@ const ExplorerContent = () => {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
 
   // fetch entries once url parameter is retrieved
-  useEffect(() => fetchEntries(categoryId), [categoryId]);
+  useEffect(() => {
+    // (async () => {
+    //   await fetchEntries(categoryId);
+    // })();
+    fetchEntries(categoryId);
+  }, [categoryId]);
 
-  useEffect(() => setIsLoadingEntries(false), [currentEntries]);
+  useEffect(() => {
+    setIsLoadingEntries(false);
+  }, [currentEntries]);
 
   const fetchEntries = async (categoryId) => {
-    setIsLoadingEntries(true);
+    setIsLoadingEntries(false);
 
     let result = await EntriesRepository.GetAll(categoryId).catch((error) =>
       console.error(error)

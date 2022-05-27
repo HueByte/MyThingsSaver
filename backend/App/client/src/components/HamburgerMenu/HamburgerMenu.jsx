@@ -8,6 +8,7 @@ const HamburgerMenu = ({ shouldClose, size }) => {
   useEffect(() => {
     menu.current = document.getElementById("menu-button");
   }, []);
+
   useEffect(() => {
     firstUpdate.current ? (firstUpdate.current = false) : switchButton();
   }, [shouldClose]);

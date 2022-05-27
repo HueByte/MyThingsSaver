@@ -11,7 +11,7 @@ import AwesomeDebouncePromise from "awesome-debounce-promise";
 import DropdownButton from "../../components/Dropdown/Dropdown";
 
 const Entry = () => {
-  const authContext = useContext(AuthContext);
+  // const authContext = useContext(AuthContext);
   const { categoryId, entryId } = useParams();
 
   const [entry, setEntry] = useState();
@@ -23,19 +23,21 @@ const Entry = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const entryToDelete = useRef();
 
-  useEffect(async () => {
-    await EntriesRepository.Get(entryId)
-      .then((result) => {
-        if (!result.isSuccess) {
-          setShouldRedirect(true);
-          return;
-        }
+  useEffect(() => {
+    (async () => {
+      await EntriesRepository.Get(entryId)
+        .then((result) => {
+          if (!result.isSuccess) {
+            setShouldRedirect(true);
+            return;
+          }
 
-        setEntry(result.data);
-        setName(result.data.categoryEntryName);
-        setEditValue(result.data.content);
-      })
-      .catch((error) => console.error(error));
+          setEntry(result.data);
+          setName(result.data.categoryEntryName);
+          setEditValue(result.data.content);
+        })
+        .catch((error) => console.error(error));
+    })();
   }, []);
 
   const sendUpdateCallback = async (newName, data) => {

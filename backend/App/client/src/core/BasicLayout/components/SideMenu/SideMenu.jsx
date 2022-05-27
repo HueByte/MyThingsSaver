@@ -7,7 +7,7 @@ const SideMenu = ({ isEnabled, setIsEnabled }) => {
   const categoryContext = useContext(CategoryContext);
   const categoryInput = useRef();
 
-  useEffect(async () => {
+  useEffect(() => {
     categoryInput.current = document.getElementById("newCategoryInput");
   }, []);
 

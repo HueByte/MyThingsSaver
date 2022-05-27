@@ -18,8 +18,10 @@ const Login = () => {
     password.current = document.getElementById("password-input");
   }, []);
 
-  useEffect(async () => {
-    if (isWorking) await authenticate();
+  useEffect(() => {
+    (async () => {
+      if (isWorking) await authenticate();
+    })();
   }, [isWorking]);
 
   const authenticate = async () => {

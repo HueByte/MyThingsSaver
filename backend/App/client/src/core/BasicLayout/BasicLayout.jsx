@@ -14,7 +14,7 @@ const BasicLayout = () => {
   const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {
-    if (!authContext.isAuthenticated()) return;
+    // if (!authContext.isAuthenticated()) return;
   }, []);
 
   if (authContext.isAuthenticated())

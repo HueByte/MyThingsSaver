@@ -12,10 +12,12 @@ const CategoryProvider = ({ children }) => {
   // const [subCategories, setSubCategories] = useState([]);
 
   // fetch categories on init
-  useEffect(async () => {
-    if (authContext.isAuthenticated()) {
-      await ContextGetAllCategories().then((result) => setCategories(result));
-    }
+  useEffect(() => {
+    (async () => {
+      if (authContext.isAuthenticated()) {
+        await ContextGetAllCategories().then((result) => setCategories(result));
+      }
+    })();
 
     setIsFetching(false);
   }, []);
