@@ -62,11 +62,10 @@ const Explorer = () => {
     }
   }, [lastUsedId]);
 
-  // TEMP fix for firefox
+  // TEMP workaround for firefox
   const initial = (e) => {
-    console.log("start");
     document.getElementById("dragger").style =
-      "width: 400px; transform: translateX(200px);";
+      "width: 100vw; transform: translateX(50vw);";
 
     setInitialPos(e.clientX);
     setInitialSize(explorer.current.offsetWidth);
