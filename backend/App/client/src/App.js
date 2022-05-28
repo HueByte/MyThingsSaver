@@ -8,7 +8,7 @@ import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 
 // notifications
-import { ReactNotifications, Store } from "react-notifications-component";
+import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
 

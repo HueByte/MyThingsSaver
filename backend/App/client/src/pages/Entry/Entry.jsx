@@ -5,13 +5,12 @@ import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
 import "./Entry.scss";
 import "./Markdown-overrides.scss";
-import { successModal } from "../../core/Modals";
+import { successModal, warningModal } from "../../core/Modals";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import DropdownButton from "../../components/Dropdown/Dropdown";
 
 const Entry = () => {
-  // const authContext = useContext(AuthContext);
   const { categoryId, entryId } = useParams();
 
   const [entry, setEntry] = useState();
@@ -35,6 +34,17 @@ const Entry = () => {
           setEntry(result.data);
           setName(result.data.categoryEntryName);
           setEditValue(result.data.content);
+
+          if (result.data.content.length / 1024 > 100) {
+            console.log("hit");
+            warningModal(
+              `Your entry has size of ${Math.floor(
+                result.data.content.length / 1024
+              )} KB, using preview might affect your performance.`,
+              10000
+            );
+          }
+          console.log(result.data.content.length);
         })
         .catch((error) => console.error(error));
     })();
