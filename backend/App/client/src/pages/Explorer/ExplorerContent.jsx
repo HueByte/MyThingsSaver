@@ -33,7 +33,7 @@ const ExplorerContent = () => {
   }, [currentEntries]);
 
   const fetchEntries = async (categoryId) => {
-    setIsLoadingEntries(false);
+    setIsLoadingEntries(true);
 
     let result = await EntriesRepository.GetAll(categoryId).catch((error) =>
       console.error(error)
