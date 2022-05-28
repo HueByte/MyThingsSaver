@@ -18,6 +18,10 @@
     transition: transitions.$fast;
   }
 
+  &.up {
+    align-items: flex-end;
+  }
+
   a {
     color: white;
   }
