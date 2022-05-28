@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
-import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import "./HomePage.scss";
 
 const HomePage = () => {
-  const authContext = useContext(AuthContext);
   const [entries, setEntries] = useState([]);
   const [isFetching, setFetching] = useState(true);
 
-  useEffect(async () => {
-    await EntriesRepository.GetRecent()
-      .then((result) => {
-        if (result.isSuccess) setEntries(result.data);
-      })
-      .catch((error) => console.error(error));
+  useEffect(() => {
+    (async () => {
+      await EntriesRepository.GetRecent()
+        .then((result) => {
+          if (result.isSuccess) setEntries(result.data);
+        })
+        .catch((error) => console.error(error));
 
-    setFetching(false);
+      setFetching(false);
+    })();
   }, []);
 
   return (

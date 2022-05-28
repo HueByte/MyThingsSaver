@@ -1,7 +1,7 @@
-import { store } from "react-notifications-component";
+import { Store } from "react-notifications-component";
 
 export const errorModal = (err, time = 4000) => {
-  store.addNotification({
+  Store.addNotification({
     title: "Error",
     message: err,
     type: "danger",
@@ -19,7 +19,7 @@ export const errorModal = (err, time = 4000) => {
 };
 
 export const warningModal = (message, time = 4000) => {
-  store.addNotification({
+  Store.addNotification({
     title: "Warning",
     message: message ?? "Something went wrong",
     type: "warning",
@@ -37,7 +37,7 @@ export const warningModal = (message, time = 4000) => {
 };
 
 export const successModal = (message, time = 4000) => {
-  store.addNotification({
+  Store.addNotification({
     title: "Success!",
     message: message ?? "",
     type: "success",
@@ -55,7 +55,7 @@ export const successModal = (message, time = 4000) => {
 };
 
 export const infoModal = (message, time = 4000) => {
-  store.addNotification({
+  Store.addNotification({
     title: "Info",
     message: message ?? "",
     type: "info",

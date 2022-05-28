@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";

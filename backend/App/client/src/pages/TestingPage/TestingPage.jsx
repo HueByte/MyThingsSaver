@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import KUTE from "kute.js";
 
 const TestingPage = () => {
-  useEffect(async () => {
+  useEffect(() => {
     const tween = KUTE.fromTo(
       "#first",
       { path: "#first" },

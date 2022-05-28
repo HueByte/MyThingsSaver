@@ -9,6 +9,7 @@
 .auth__container {
     width: 900px;
     height: 500px;
+    z-index: 10;
     display: flex;
     flex-direction: row;
     overflow-y: auto;

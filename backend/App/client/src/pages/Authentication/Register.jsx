@@ -20,8 +20,10 @@ const Register = () => {
     password.current = document.getElementById("password-input");
   }, []);
 
-  useEffect(async () => {
-    if (isWorking) await register();
+  useEffect(() => {
+    (async () => {
+      if (isWorking) await register();
+    })();
   }, [isWorking]);
 
   const register = async () => {

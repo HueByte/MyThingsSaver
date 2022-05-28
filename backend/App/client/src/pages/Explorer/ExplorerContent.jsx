@@ -1,18 +1,15 @@
 import React from "react";
 import { useEffect } from "react";
-import { useContext } from "react";
 import { useState } from "react";
 import { useOutletContext, useParams } from "react-router";
 import { NavLink } from "react-router-dom";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
-import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import EntryDelete from "./components/EntryDelete";
 import EntryUpdate from "./components/EntryUpdate";
 import EntryAdd from "./components/EntryAdd";
 
 const ExplorerContent = () => {
-  const auth = useContext(AuthContext);
   const [lastUsedId, setLastUsedId] = useOutletContext();
   const [isLoadingEntries, setIsLoadingEntries] = useState(true);
   const [currentEntries, setCurrentEntries] = useState([]);
@@ -25,9 +22,15 @@ const ExplorerContent = () => {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
 
   // fetch entries once url parameter is retrieved
-  useEffect(() => fetchEntries(categoryId), [categoryId]);
+  useEffect(() => {
+    (async () => {
+      await fetchEntries(categoryId);
+    })();
+  }, [categoryId]);
 
-  useEffect(() => setIsLoadingEntries(false), [currentEntries]);
+  useEffect(() => {
+    setIsLoadingEntries(false);
+  }, [currentEntries]);
 
   const fetchEntries = async (categoryId) => {
     setIsLoadingEntries(true);

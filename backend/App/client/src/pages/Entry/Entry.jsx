@@ -1,17 +1,16 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Navigate, useParams } from "react-router";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
-import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
 import "./Entry.scss";
-import { successModal } from "../../core/Modals";
+import "./Markdown-overrides.scss";
+import { successModal, warningModal } from "../../core/Modals";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import DropdownButton from "../../components/Dropdown/Dropdown";
 
 const Entry = () => {
-  const authContext = useContext(AuthContext);
   const { categoryId, entryId } = useParams();
 
   const [entry, setEntry] = useState();
@@ -23,19 +22,32 @@ const Entry = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const entryToDelete = useRef();
 
-  useEffect(async () => {
-    await EntriesRepository.Get(entryId)
-      .then((result) => {
-        if (!result.isSuccess) {
-          setShouldRedirect(true);
-          return;
-        }
+  useEffect(() => {
+    (async () => {
+      await EntriesRepository.Get(entryId)
+        .then((result) => {
+          if (!result.isSuccess) {
+            setShouldRedirect(true);
+            return;
+          }
 
-        setEntry(result.data);
-        setName(result.data.categoryEntryName);
-        setEditValue(result.data.content);
-      })
-      .catch((error) => console.error(error));
+          setEntry(result.data);
+          setName(result.data.categoryEntryName);
+          setEditValue(result.data.content);
+
+          if (result.data.content.length / 1024 > 100) {
+            console.log("hit");
+            warningModal(
+              `Your entry has size of ${Math.floor(
+                result.data.content.length / 1024
+              )} KB, using preview might affect your performance.`,
+              10000
+            );
+          }
+          console.log(result.data.content.length);
+        })
+        .catch((error) => console.error(error));
+    })();
   }, []);
 
   const sendUpdateCallback = async (newName, data) => {

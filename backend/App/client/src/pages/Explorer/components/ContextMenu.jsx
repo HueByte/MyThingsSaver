@@ -23,6 +23,7 @@ const ContextMenu = ({ category }) => {
     contextMenu.current = document.getElementById("context-menu");
     contextScope.current = document.getElementById("explorer-menu");
     bodyScope.current = document.querySelector("body");
+    console.log(contextMenu.current.offsetHeight);
 
     contextScope.current.addEventListener("contextmenu", onContextMenu);
     bodyScope.current.addEventListener("click", onBodyClick);
@@ -34,11 +35,24 @@ const ContextMenu = ({ category }) => {
   }, []);
 
   const onContextMenu = (event) => {
+    if (
+      contextMenu.current.style.top != "unset" ||
+      contextMenu.current.style.bottom != "unset"
+    ) {
+      contextMenu.current.style.top = "unset";
+      contextMenu.current.style.bottom = `unset`;
+    }
+
     event.preventDefault();
 
     const { clientX: mouseX, clientY: mouseY } = event;
+    let isDown =
+      window.innerHeight - (mouseY + contextMenu.current.offsetHeight) > 0;
 
-    contextMenu.current.style.top = `${mouseY}px`;
+    isDown
+      ? (contextMenu.current.style.top = `${mouseY}px`)
+      : (contextMenu.current.style.bottom = `${window.innerHeight - mouseY}px`);
+
     contextMenu.current.style.left = `${mouseX}px`;
 
     contextMenu.current.classList.add("visible");
@@ -50,6 +64,7 @@ const ContextMenu = ({ category }) => {
     }
   };
 
+  // commands
   const Open = () => {
     navigate(`/explore/${category.categoryId}`);
     contextMenu.current.classList.remove("visible");

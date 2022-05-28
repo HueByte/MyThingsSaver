@@ -128,44 +128,6 @@ $read-width: 724px;
   }
 }
 
-.w-md-editor {
-  table {
-    color: white !important;
-  }
-}
-
-.wmde-markdown {
-  font-family: "Ubuntu Mono", monospace;
-
-  table {
-    th {
-      background-color: var(--SharkDarkSub);
-    }
-
-    tr {
-      background-color: var(--SharkDark);
-
-      &:nth-child(even) {
-        background-color: var(--Shark) !important;
-      }
-    }
-
-    td,
-    th {
-      border: 1px solid #332e2e;
-    }
-  }
-
-  blockquote {
-    table {
-      td,
-      th {
-        border: 1px solid #332e2e;
-      }
-    }
-  }
-}
-
 @media screen and (max-width: variables.$medium-resolution) {
   .entry__container {
     padding: variables.$m-margin;
