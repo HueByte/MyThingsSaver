@@ -15,7 +15,7 @@ class ApiClient {
     return await AuthFetch(resultEndpoint, requestOptons);
   }
 
-  static async Post(endpoint, body) {
+  static async Post(endpoint, body = null) {
     const requestOptons = {
       method: "POST",
       headers: {

@@ -168,7 +168,7 @@ namespace App.Authentication
             var user = await _context.Users.SingleOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
 
             // return false if no user found with token
-            if (user == null) return false;
+            if (user is null || user.RefreshTokens is null) return false;
 
             var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
 

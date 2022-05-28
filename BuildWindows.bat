@@ -8,8 +8,6 @@ dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true --output %root%/D
 
 cd %root%/client
 echo Creating front-app build
-start /B /wait "Building Front" cmd /c "npm update" 
-start /B /wait "Fixing audits" cmd /c "npm audit fix"
 start /B /wait "Building Front" cmd /c "npm run build" 
 echo Moving build to %root%/Deploy/MyThingsSaver
 move %cd%/build %root%/Deploy/MyThingsSaver/

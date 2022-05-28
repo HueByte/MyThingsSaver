@@ -1,7 +1,7 @@
 @echo off
 @REM mode con: cols=70 lines=50
 set root=%cd%
-set client=%root%/client
+set client=%root%/backend/App/client
 set app=%root%/backend/App
 
 echo ==== Restore Packages ====
@@ -10,8 +10,8 @@ dotnet restore %app%
 
 echo ==== Building Client ====
 cd %client%
-start /B /wait "Building Front" cmd /c "npm update" 
-start /B /wait "Fixing audits" cmd /c "npm audit fix"
+@REM start /B /wait "Building Front" cmd /c "npm update" 
+@REM start /B /wait "Fixing audits" cmd /c "npm audit fix"
 start /B /wait "Building Front" cmd /c "npm run build" 
 
 echo ==== Building Windows x64 ====
