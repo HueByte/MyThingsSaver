@@ -2,8 +2,7 @@
 @use "../../styles/transitions" as transitions;
 @use "../../styles/theme" as theme;
 
-$entry-min-width: 256px;
-$entry-max-wdith: 320px;
+$entry-wdith: 300px;
 
 .homepage__container {
   display: flex;
@@ -14,8 +13,8 @@ $entry-max-wdith: 320px;
 
   .entry {
     flex: 1 1 auto;
-    min-width: $entry-min-width;
-    max-width: $entry-max-wdith;
+    min-width: $entry-wdith;
+    max-width: $entry-wdith;
     height: 200px;
     margin: 1rem;
     cursor: pointer;

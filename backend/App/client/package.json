@@ -23,6 +23,7 @@
     "rimraf": "^3.0.2",
     "sass": "^1.46.0",
     "source-map-explorer": "^2.5.2",
+    "tsparticles": "^2.0.6",
     "web-vitals": "^2.1.2"
   },
   "scripts": {

@@ -4,7 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { ClientRouter } from "./routes/Routes";
 import { AuthProvider } from "./auth/AuthContext";
-// import Particles from "react-tsparticles";
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
 
 // notifications
 import { ReactNotifications, Store } from "react-notifications-component";
@@ -21,8 +22,8 @@ Modal.setAppElement("#root");
 function App() {
   const history = createBrowserHistory();
 
-  const particlesLoaded = (container) => {
-    console.log(container);
+  const init = async (main) => {
+    await loadFull(main);
   };
 
   return (
@@ -35,11 +36,7 @@ function App() {
           </ErrorBoundary>
         </Suspense>
       </AuthProvider>
-      {/* <Particles
-        id="tsparticles"
-        loaded={particlesLoaded}
-        options={ParticlesOptions}
-      /> */}
+      <Particles id="tsparticles" options={ParticlesOptions} init={init} />
     </BrowserRouter>
   );
 }
@@ -52,36 +49,24 @@ export default App;
 
 const ParticlesOptions = {
   fpsLimit: 45,
-  interactivity: {
-    events: {
-      onHover: {
-        enable: true,
-        mode: "grab",
-      },
-      resize: true,
-    },
-  },
   particles: {
-    color: {
-      value: "#ffffff",
-    },
     links: {
-      color: "#ffffff",
-      distance: 150,
+      distance: 120,
       enable: true,
-      opacity: 0.5,
-      width: 1,
-    },
-    collisions: {
-      enable: false,
+      triangles: {
+        enable: true,
+        opacity: 0.4,
+      },
     },
     move: {
-      direction: "none",
       enable: true,
-      outMode: "out",
-      random: false,
-      speed: 0.5,
-      straight: false,
+      speed: 1,
+    },
+    size: {
+      value: 0.7,
+    },
+    shape: {
+      type: "circle",
     },
     number: {
       density: {
@@ -90,16 +75,5 @@ const ParticlesOptions = {
       },
       value: 32,
     },
-    opacity: {
-      value: 0.5,
-    },
-    shape: {
-      type: "circle",
-    },
-    size: {
-      random: true,
-      value: 5,
-    },
   },
-  detectRetina: true,
 };
