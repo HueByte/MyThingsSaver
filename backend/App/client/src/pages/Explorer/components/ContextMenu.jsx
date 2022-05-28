@@ -23,7 +23,6 @@ const ContextMenu = ({ category }) => {
     contextMenu.current = document.getElementById("context-menu");
     contextScope.current = document.getElementById("explorer-menu");
     bodyScope.current = document.querySelector("body");
-    console.log(contextMenu.current.offsetHeight);
 
     contextScope.current.addEventListener("contextmenu", onContextMenu);
     bodyScope.current.addEventListener("click", onBodyClick);

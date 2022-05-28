@@ -36,7 +36,6 @@ const Entry = () => {
           setEditValue(result.data.content);
 
           if (result.data.content.length / 1024 > 100) {
-            console.log("hit");
             warningModal(
               `Your entry has size of ${Math.floor(
                 result.data.content.length / 1024
@@ -44,7 +43,6 @@ const Entry = () => {
               10000
             );
           }
-          console.log(result.data.content.length);
         })
         .catch((error) => console.error(error));
     })();
