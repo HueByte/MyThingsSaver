@@ -1,4 +1,4 @@
-export const BaseUrl = `${window.location.protocol}//${window.location.host}`;
+export const BaseUrl = `${window.location.protocol}//${window.location.host}`; // {http | https}//{Ip}
 export const ApiEndpoint = `${BaseUrl}/api`;
 
 // api/Authenticate

@@ -12,6 +12,7 @@ import ApiClient from "../ApiClient";
 class EntriesRepository {
   static async Get(entryID) {
     let params = [{ key: "id", value: entryID }];
+
     return await ApiClient.Get(EntriesGetEndpoint, params);
   }
 
@@ -20,6 +21,7 @@ class EntriesRepository {
       { key: "CategoryId", value: categoryID },
       { key: "withContent", value: withContent },
     ];
+
     return await ApiClient.Get(EntriesGetAllEndpoint, params);
   }
 
@@ -33,6 +35,7 @@ class EntriesRepository {
       entryName: name,
       content: content,
     });
+
     return await ApiClient.Post(EntriesUpdateEndpoint, body);
   }
 
@@ -42,6 +45,7 @@ class EntriesRepository {
       entryName: name,
       categoryId: categoryID,
     });
+
     return await ApiClient.Post(EntriesUpdateWithoutContentEndpoint, body);
   }
 
@@ -51,11 +55,13 @@ class EntriesRepository {
       categoryId: categoryID,
       content: "",
     });
+
     return await ApiClient.Post(EntriesAddEnpoint, body);
   }
 
   static async Delete(entryID) {
     let params = [{ key: "id", value: entryID }];
+
     return await ApiClient.Delete(EntriesDeleteEndpoint, params);
   }
 }
