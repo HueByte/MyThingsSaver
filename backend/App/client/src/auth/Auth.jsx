@@ -30,7 +30,14 @@ export const AuthLogin = async (Username, Password) => {
 };
 
 export const AuthLogout = async () => {
-  return await ApiClient.Post(LogoutEndpoint);
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return await fetch(LogoutEndpoint, requestOptions);
 };
 
 export const SilentRefresh = async () => {
