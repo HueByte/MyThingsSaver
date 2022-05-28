@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Navigate, useParams } from "react-router";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
-import { AuthContext } from "../../auth/AuthContext";
 import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
 import "./Entry.scss";
+import "./Markdown-overrides.scss";
 import { successModal } from "../../core/Modals";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
