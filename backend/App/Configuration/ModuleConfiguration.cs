@@ -132,6 +132,7 @@ namespace App.Configuration
         {
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
+            _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
             _services.AddScoped<ICategoryEntryRepository, CategoryEntryRepository>();
 
