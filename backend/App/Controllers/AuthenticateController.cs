@@ -17,9 +17,11 @@ namespace App.Controllers
     public class AuthenticateController : BaseApiController
     {
         private readonly IUserService _userService;
-        public AuthenticateController(IUserService userService)
+        private readonly IRefreshTokenService _refreshTokenService;
+        public AuthenticateController(IUserService userService, IRefreshTokenService refreshTokenService)
         {
             _userService = userService;
+            _refreshTokenService = refreshTokenService;
         }
 
         [HttpPost("register")]
@@ -42,7 +44,7 @@ namespace App.Controllers
 
             if (result.IsSuccess)
             {
-                AttachAuthCookies(result?.Data);
+                AttachAuthCookies(result.Data!);
                 return Ok(result);
             }
 
@@ -66,14 +68,13 @@ namespace App.Controllers
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
             var result = await ApiEventHandler<VerifiedUserDto>.EventHandleAsync(async () =>
-                await _userService.RefreshTokenAsync(refreshToken));
+                await _refreshTokenService.RefreshToken(refreshToken!, GetIpAddress()));
 
-            if (result.IsSuccess && !string.IsNullOrEmpty(result.Data.RefreshToken))
+            if (result.IsSuccess && !string.IsNullOrEmpty(result.Data?.RefreshToken))
             {
                 AttachAuthCookies(result.Data);
                 return Ok(result);
             }
-
 
             return BadRequest(result);
         }
@@ -83,18 +84,8 @@ namespace App.Controllers
         {
             var token = bodyToken ?? Request.Cookies[CookieNames.RefreshTokenCookie];
 
-            var result = await ApiEventHandler<string>.EventHandleAsync(async () =>
-            {
-                if (string.IsNullOrEmpty(token))
-                    throw new Exception("Token is required");
-
-                var response = await _userService.RevokeTokenAsync(token);
-
-                if (!response)
-                    throw new Exception("Token not found");
-
-                return "Token Revoked";
-            });
+            var result = await ApiEventHandler.EventHandleAsync(async () =>
+                await _refreshTokenService.RevokeToken(token!, GetIpAddress()));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -106,7 +97,7 @@ namespace App.Controllers
         public async Task<IActionResult> Logout()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
-            await _userService.RevokeTokenAsync(refreshToken);
+            await _refreshTokenService.RevokeToken(refreshToken!, GetIpAddress());
 
             Response.Cookies.Delete(CookieNames.RefreshTokenCookie);
             Response.Cookies.Delete(CookieNames.AccessToken);

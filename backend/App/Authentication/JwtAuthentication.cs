@@ -38,18 +38,5 @@ namespace App.Authentication
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-        public RefreshToken CreateRefreshToken()
-        {
-            var randomSeed = new byte[32];
-            using var generator = new RNGCryptoServiceProvider();
-            generator.GetBytes(randomSeed);
-            return new RefreshToken
-            {
-                Token = Convert.ToBase64String(randomSeed),
-                Expires = DateTime.UtcNow.AddMinutes(_settings.JWT.RefreshTokenExpireTime),
-                Created = DateTime.UtcNow
-            };
-        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using Core.Models;
 
 namespace Core.DTO
 {
@@ -19,5 +20,17 @@ namespace Core.DTO
 
         [JsonIgnore]
         public DateTime AccessTokenExpiration { get; set; }
+
+        public VerifiedUserDto() { }
+
+        public VerifiedUserDto(ApplicationUser user, string[] roles, string jwtToken, RefreshToken refreshToken, DateTime accessTokenExireDate)
+        {
+            Username = user.UserName;
+            Roles = roles;
+            Token = jwtToken;
+            RefreshToken = refreshToken.Token;
+            RefreshTokenExpiration = refreshToken.Expires;
+            AccessTokenExpiration = accessTokenExireDate;
+        }
     }
 }
