@@ -9,43 +9,36 @@ namespace Common.Events
     {
         public static Task Handle<TResult>(Exception e, out BaseApiResponse<TResult> response)
         {
-            switch (e)
+            response = e switch
             {
-                case EndpointException:
-                    response = new()
-                    {
-                        Data = default,
-                        Errors = new System.Collections.Generic.List<string>() { e.Message },
-                        IsSuccess = false
-                    };
-                    break;
-
-                case ExceptionList list:
-                    response = new()
-                    {
-                        Data = default,
-                        Errors = list.ExceptionMessages,
-                        IsSuccess = false
-                    };
-                    break;
-                default:
-                    response = new()
-                    {
-                        Data = default,
-                        Errors = new System.Collections.Generic.List<string>() { e.Message },
-                        IsSuccess = false
-                    };
-                    break;
-            }
+                EndpointException => new()
+                {
+                    Data = default,
+                    Errors = new System.Collections.Generic.List<string>() { e.Message },
+                    IsSuccess = false
+                },
+                EndpointExceptionList list => new()
+                {
+                    Data = default,
+                    Errors = list.ExceptionMessages,
+                    IsSuccess = false
+                },
+                _ => new()
+                {
+                    Data = default,
+                    Errors = new System.Collections.Generic.List<string>() { e.Message },
+                    IsSuccess = false
+                },
+            };
 
             return Task.CompletedTask;
         }
     }
 
-    public class ExceptionList : Exception
+    public class EndpointExceptionList : Exception
     {
         public List<string> ExceptionMessages { get; set; }
-        public ExceptionList(List<string> exceptionMessages)
+        public EndpointExceptionList(List<string> exceptionMessages)
         {
             ExceptionMessages = exceptionMessages;
         }

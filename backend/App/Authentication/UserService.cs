@@ -48,7 +48,7 @@ namespace App.Authentication
             var result = await _userManager.CreateAsync(user, registerUser?.Password);
 
             if (!result.Succeeded)
-                throw new ExceptionList(result.Errors.Select(errors => errors.Description).ToList());
+                throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
 
             // seed data
             await _userManager.AddToRoleAsync(user, Role.USER);
@@ -72,7 +72,7 @@ namespace App.Authentication
             var result = await _userManager.ChangePasswordAsync(user, userDTO.OldPassword, userDTO.NewPassword);
 
             if (!result.Succeeded)
-                throw new ExceptionList(result.Errors.Select(errors => errors.Description).ToList());
+                throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
         }
 
 
