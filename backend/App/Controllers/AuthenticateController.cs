@@ -38,7 +38,7 @@ namespace App.Controllers
         public async Task<IActionResult> Login([FromBody] LoginUserDto userDto)
         {
             var result = await ApiEventHandler<VerifiedUserDto>.EventHandleAsync(async () =>
-               await _userService.LoginUser(userDto));
+               await _userService.LoginUser(userDto, GetIpAddress()));
 
             if (result.IsSuccess)
             {
@@ -129,6 +129,15 @@ namespace App.Controllers
 
             Response.Cookies.Append(CookieNames.RefreshTokenCookie, user.RefreshToken, refreshTokenOptions);
             Response.Cookies.Append(CookieNames.AccessToken, user.Token, jwtTokenOptions);
+        }
+
+        private string GetIpAddress()
+        {
+            // get source ip address for the current request
+            if (Request.Headers.ContainsKey("X-Forwarded-For"))
+                return Request.Headers["X-Forwarded-For"];
+            else
+                return HttpContext.Connection!.RemoteIpAddress!.MapToIPv4().ToString();
         }
     }
 }

@@ -76,16 +76,16 @@ namespace App.Authentication
         }
 
 
-        public async Task<VerifiedUserDto> LoginUser(LoginUserDto userDto)
+        public async Task<VerifiedUserDto> LoginUser(LoginUserDto userDto, string IpAddress)
         {
-            if (userDto == null)
-                throw new ArgumentException("User model cannot be null");
+            if (userDto is null && string.IsNullOrEmpty(IpAddress))
+                throw new ArgumentException("User model and Ip address cannot be empty");
 
-            var user = await _userManager.Users.Where(u => u.UserName == userDto.Username)
+            var user = await _userManager.Users.Where(u => u.UserName == userDto!.Username)
                                                .Include(e => e.RefreshTokens)
                                                .FirstOrDefaultAsync();
 
-            return await HandleLogin(user!, userDto.Password);
+            return await HandleLogin(user!, userDto!.Password);
         }
 
         private async Task<VerifiedUserDto> HandleLogin(ApplicationUser user, string password)
