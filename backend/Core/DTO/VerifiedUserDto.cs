@@ -1,9 +1,9 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace Core.Entities
+namespace Core.DTO
 {
-    public class VerifiedUser
+    public class VerifiedUserDto
     {
         public string Username { get; set; }
         public string[] Roles { get; set; }
