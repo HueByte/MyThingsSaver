@@ -1,4 +1,3 @@
-// import "./styles/_variables.scss";
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";

@@ -76,7 +76,7 @@ namespace App.Authentication
         }
 
 
-        public async Task<VerifiedUser> LoginUser(LoginUserDto userDto)
+        public async Task<VerifiedUserDto> LoginUser(LoginUserDto userDto)
         {
             if (userDto == null)
                 throw new ArgumentException("User model cannot be null");
@@ -85,12 +85,12 @@ namespace App.Authentication
                                                .Include(e => e.RefreshTokens)
                                                .FirstOrDefaultAsync();
 
-            return await HandleLogin(user, userDto.Password);
+            return await HandleLogin(user!, userDto.Password);
         }
 
-        private async Task<VerifiedUser> HandleLogin(ApplicationUser user, string password)
+        private async Task<VerifiedUserDto> HandleLogin(ApplicationUser user, string password)
         {
-            if (user == null)
+            if (user is null)
                 throw new EndpointException("Couldn't log in, check your login or password"); // Couldn't find user
 
             // Validate credentials 
@@ -113,14 +113,14 @@ namespace App.Authentication
             }
 
             // Get user roles
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userManager.GetRolesAsync(user!);
 
             // Generate JWT
-            var token = _jwtAuthentication.GenerateJsonWebToken(user, roles);
+            var token = _jwtAuthentication.GenerateJsonWebToken(user!, roles);
 
-            return new VerifiedUser()
+            return new VerifiedUserDto()
             {
-                Username = user.UserName,
+                Username = user!.UserName,
                 Roles = roles.ToArray(),
                 RefreshToken = activeRefreshToken?.Token,
                 RefreshTokenExpiration = DateTime.Now.AddMinutes(_settings.JWT.RefreshTokenExpireTime),
@@ -129,7 +129,7 @@ namespace App.Authentication
             };
         }
 
-        public async Task<VerifiedUser> RefreshTokenAsync(string token)
+        public async Task<VerifiedUserDto> RefreshTokenAsync(string token)
         {
             var user = await _userManager.Users.Include(e => e.RefreshTokens)
                                                .SingleOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
@@ -152,7 +152,7 @@ namespace App.Authentication
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            return new VerifiedUser()
+            return new VerifiedUserDto()
             {
                 Username = user.UserName,
                 Roles = roles.ToArray(),

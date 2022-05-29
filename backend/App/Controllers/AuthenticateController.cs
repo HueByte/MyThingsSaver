@@ -37,7 +37,7 @@ namespace App.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto userDto)
         {
-            var result = await ApiEventHandler<VerifiedUser>.EventHandleAsync(async () =>
+            var result = await ApiEventHandler<VerifiedUserDto>.EventHandleAsync(async () =>
                await _userService.LoginUser(userDto));
 
             if (result.IsSuccess)
@@ -65,7 +65,7 @@ namespace App.Controllers
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
-            var result = await ApiEventHandler<VerifiedUser>.EventHandleAsync(async () =>
+            var result = await ApiEventHandler<VerifiedUserDto>.EventHandleAsync(async () =>
                 await _userService.RefreshTokenAsync(refreshToken));
 
             if (result.IsSuccess && !string.IsNullOrEmpty(result.Data.RefreshToken))
@@ -113,7 +113,7 @@ namespace App.Controllers
             return Ok();
         }
 
-        private void AttachAuthCookies(VerifiedUser user)
+        private void AttachAuthCookies(VerifiedUserDto user)
         {
             var refreshTokenOptions = new CookieOptions
             {
