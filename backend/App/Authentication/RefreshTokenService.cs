@@ -68,8 +68,8 @@ namespace App.Authentication
                 Username = user.UserName,
                 Token = jwtToken,
                 AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
-                RefreshToken = refreshToken.Token,
-                RefreshTokenExpiration = refreshToken.Expires,
+                RefreshToken = newRefreshToken.Token,
+                RefreshTokenExpiration = newRefreshToken.Expires,
                 Roles = roles.ToArray()
             };
         }
@@ -139,7 +139,7 @@ namespace App.Authentication
         private async Task<ApplicationUser> GetUserByRefreshToken(string token)
         {
             var user = await _userManager.Users.Include(e => e.RefreshTokens)
-                                            .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));
+                                               .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));
 
             if (user is null)
                 throw new EndpointException("Token is invalid");

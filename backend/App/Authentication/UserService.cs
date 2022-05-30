@@ -102,17 +102,22 @@ namespace App.Authentication
                 throw new EndpointException("Couldn't log in, check your login or password");
 
             var refreshToken = _refreshTokenService.CreateRefreshToken(ipAddress);
+            user.RefreshTokens.Add(refreshToken);
             var roles = await _userManager.GetRolesAsync(user!);
             var token = _jwtAuthentication.GenerateJsonWebToken(user!, roles);
 
             await _refreshTokenService.RemoveOldRefreshTokens(user);
 
+            // save removal of old refresh tokens
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
             return new VerifiedUserDto()
             {
                 Username = user!.UserName,
                 Roles = roles.ToArray(),
-                RefreshToken = refreshToken?.Token,
-                RefreshTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.RefreshTokenExpireTime),
+                RefreshToken = refreshToken!.Token,
+                RefreshTokenExpiration = refreshToken!.Expires,
                 Token = token,
                 AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime)
             };

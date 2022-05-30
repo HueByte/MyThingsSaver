@@ -72,7 +72,7 @@ namespace App.Controllers
 
             if (result.IsSuccess && !string.IsNullOrEmpty(result.Data?.RefreshToken))
             {
-                AttachAuthCookies(result.Data);
+                AttachAuthCookies(result.Data!);
                 return Ok(result);
             }
 
