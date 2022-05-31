@@ -46,7 +46,6 @@ namespace Common.Events
             }
             catch (Exception e) { EventErrorHandler.Handle(e, out response); };
 
-
             return response;
         }
     }

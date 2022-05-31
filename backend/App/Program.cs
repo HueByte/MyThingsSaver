@@ -5,6 +5,7 @@ using Core.lib;
 using Serilog;
 using Serilog.Events;
 
+Console.Title = "Huppy";
 Logo.PrintLogo();
 
 if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, @"logs")))
