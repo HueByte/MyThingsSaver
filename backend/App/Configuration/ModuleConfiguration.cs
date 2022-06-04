@@ -121,7 +121,11 @@ namespace App.Configuration
                     {
                         context.Token = context.Request.Cookies["X-Access-Token"];
                         return Task.CompletedTask;
-                    }
+                    },
+                    // TODO: handle 401 response re-authorize on API side
+                    // OnForbidden = context => {
+                    //     return Task.CompletedTask;
+                    // }
                 };
             });
 
