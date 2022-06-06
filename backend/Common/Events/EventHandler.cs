@@ -24,7 +24,7 @@ namespace Common.Events
                 };
 
             }
-            catch (Exception e) { ErrorHandler.Handle(e, out response); };
+            catch (Exception e) { await EventErrorHandler.Handle(e, out response); };
 
             return response;
         }
@@ -44,8 +44,7 @@ namespace Common.Events
                 };
 
             }
-            catch (Exception e) { ErrorHandler.Handle(e, out response); };
-
+            catch (Exception e) { EventErrorHandler.Handle(e, out response); };
 
             return response;
         }
@@ -69,7 +68,7 @@ namespace Common.Events
                 };
 
             }
-            catch (Exception e) { ErrorHandler.Handle(e, out response); };
+            catch (Exception e) { await EventErrorHandler.Handle(e, out response); };
 
             return response;
         }
@@ -89,57 +88,9 @@ namespace Common.Events
                 };
 
             }
-            catch (Exception e) { ErrorHandler.Handle(e, out response); };
+            catch (Exception e) { EventErrorHandler.Handle(e, out response); };
 
             return response;
         }
-    }
-
-    public static class ErrorHandler
-    {
-        public static void Handle<TResult>(Exception e, out BaseApiResponse<TResult> response)
-        {
-            if (e is EndpointException)
-            {
-                response = new()
-                {
-                    Data = default,
-                    Errors = new System.Collections.Generic.List<string>() { e.Message },
-                    IsSuccess = false
-                };
-            }
-            else if (e is ExceptionList list)
-            {
-                response = new()
-                {
-                    Data = default,
-                    Errors = list.ExceptionMessages,
-                    IsSuccess = false
-                };
-            }
-            else
-            {
-                response = new()
-                {
-                    Data = default,
-                    Errors = new System.Collections.Generic.List<string>() { e.Message },
-                    IsSuccess = false
-                };
-            }
-        }
-    }
-
-    public class ExceptionList : Exception
-    {
-        public List<string> ExceptionMessages { get; set; }
-        public ExceptionList(List<string> exceptionMessages)
-        {
-            ExceptionMessages = exceptionMessages;
-        }
-    }
-
-    public class EndpointException : Exception
-    {
-        public EndpointException(string ExceptionMessage) : base(ExceptionMessage) { }
     }
 }

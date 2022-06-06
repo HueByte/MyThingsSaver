@@ -1,4 +1,3 @@
-// import "./styles/_variables.scss";
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
@@ -6,6 +5,7 @@ import { ClientRouter } from "./routes/Routes";
 import { AuthProvider } from "./auth/AuthContext";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import { HttpProvider } from "./api/HttpContext.tsx";
 
 // notifications
 import { ReactNotifications } from "react-notifications-component";
@@ -28,14 +28,16 @@ function App() {
 
   return (
     <BrowserRouter history={history}>
-      <AuthProvider>
-        <Suspense fallback={<Loader />}>
-          <ErrorBoundary>
-            <ReactNotifications isMobile={true} />
-            <ClientRouter />
-          </ErrorBoundary>
-        </Suspense>
-      </AuthProvider>
+      <HttpProvider>
+        <AuthProvider>
+          <Suspense fallback={<Loader />}>
+            <ErrorBoundary>
+              <ReactNotifications isMobile={true} />
+              <ClientRouter />
+            </ErrorBoundary>
+          </Suspense>
+        </AuthProvider>
+      </HttpProvider>
       <Particles id="tsparticles" options={ParticlesOptions} init={init} />
     </BrowserRouter>
   );

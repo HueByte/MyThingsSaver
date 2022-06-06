@@ -121,7 +121,11 @@ namespace App.Configuration
                     {
                         context.Token = context.Request.Cookies["X-Access-Token"];
                         return Task.CompletedTask;
-                    }
+                    },
+                    // TODO: handle 401 response re-authorize on API side
+                    // OnForbidden = context => {
+                    //     return Task.CompletedTask;
+                    // }
                 };
             });
 
@@ -132,6 +136,7 @@ namespace App.Configuration
         {
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
+            _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
             _services.AddScoped<ICategoryEntryRepository, CategoryEntryRepository>();
 

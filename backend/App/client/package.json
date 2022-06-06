@@ -6,6 +6,7 @@
     "@uiw/react-md-editor": "^3.14.1",
     "animate.css": "^4.1.1",
     "awesome-debounce-promise": "^2.1.0",
+    "axios": "^0.27.2",
     "eslint": "^8.5.0",
     "http-proxy-middleware": "^2.0.1",
     "kute.js": "^2.2.0",

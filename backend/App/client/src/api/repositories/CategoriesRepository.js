@@ -12,7 +12,7 @@ import { AuthFetch } from "../ApiHandler";
 
 class CategoriesRepository {
   static async Add(name, parentID = null) {
-    let body = JSON.stringify({ name: name, categoryParentId: parentID });
+    let body = { name: name, categoryParentId: parentID };
 
     return await ApiClient.Post(CategoryAddEndpoint, body);
   }
@@ -38,13 +38,13 @@ class CategoriesRepository {
   }
 
   static async Remove(categoryID) {
-    let body = JSON.stringify({ categoryId: categoryID });
+    let body = { categoryId: categoryID };
 
     return await ApiClient.Post(CategoryRemoveEndpoint, body);
   }
 
-  static async Update(categoryID, name) {
-    let body = JSON.stringify({ categoryId: categoryID, name: name });
+  static async Update(categoryId, name) {
+    let body = { categoryId: categoryId, name: name };
 
     return await ApiClient.Post(CategoryUpdateEndpoint, body);
   }

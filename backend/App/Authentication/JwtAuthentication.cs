@@ -29,7 +29,7 @@ namespace App.Authentication
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JWT.Key));
             var token = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
+                expires: DateTime.UtcNow.AddSeconds(_settings.JWT.AccessTokenExpireTime),
                 issuer: _settings.JWT.Issuer,
                 audience: _settings.JWT.Audience,
                 claims: claims,
@@ -37,19 +37,6 @@ namespace App.Authentication
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        public RefreshToken CreateRefreshToken()
-        {
-            var randomSeed = new byte[32];
-            using var generator = new RNGCryptoServiceProvider();
-            generator.GetBytes(randomSeed);
-            return new RefreshToken
-            {
-                Token = Convert.ToBase64String(randomSeed),
-                Expires = DateTime.UtcNow.AddMinutes(_settings.JWT.RefreshTokenExpireTime),
-                Created = DateTime.UtcNow
-            };
         }
     }
 }

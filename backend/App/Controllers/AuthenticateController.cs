@@ -17,9 +17,11 @@ namespace App.Controllers
     public class AuthenticateController : BaseApiController
     {
         private readonly IUserService _userService;
-        public AuthenticateController(IUserService userService)
+        private readonly IRefreshTokenService _refreshTokenService;
+        public AuthenticateController(IUserService userService, IRefreshTokenService refreshTokenService)
         {
             _userService = userService;
+            _refreshTokenService = refreshTokenService;
         }
 
         [HttpPost("register")]
@@ -37,12 +39,12 @@ namespace App.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto userDto)
         {
-            var result = await ApiEventHandler<VerifiedUser>.EventHandleAsync(async () =>
-               await _userService.LoginUser(userDto));
+            var result = await ApiEventHandler<VerifiedUserDto>.EventHandleAsync(async () =>
+               await _userService.LoginUser(userDto, GetIpAddress()));
 
             if (result.IsSuccess)
             {
-                AttachAuthCookies(result?.Data);
+                AttachAuthCookies(result.Data!);
                 return Ok(result);
             }
 
@@ -65,15 +67,14 @@ namespace App.Controllers
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
-            var result = await ApiEventHandler<VerifiedUser>.EventHandleAsync(async () =>
-                await _userService.RefreshTokenAsync(refreshToken));
+            var result = await ApiEventHandler<VerifiedUserDto>.EventHandleAsync(async () =>
+                await _refreshTokenService.RefreshToken(refreshToken!, GetIpAddress()));
 
-            if (result.IsSuccess && !string.IsNullOrEmpty(result.Data.RefreshToken))
+            if (result.IsSuccess && !string.IsNullOrEmpty(result.Data?.RefreshToken))
             {
-                AttachAuthCookies(result.Data);
+                AttachAuthCookies(result.Data!);
                 return Ok(result);
             }
-
 
             return BadRequest(result);
         }
@@ -83,18 +84,8 @@ namespace App.Controllers
         {
             var token = bodyToken ?? Request.Cookies[CookieNames.RefreshTokenCookie];
 
-            var result = await ApiEventHandler<string>.EventHandleAsync(async () =>
-            {
-                if (string.IsNullOrEmpty(token))
-                    throw new Exception("Token is required");
-
-                var response = await _userService.RevokeTokenAsync(token);
-
-                if (!response)
-                    throw new Exception("Token not found");
-
-                return "Token Revoked";
-            });
+            var result = await ApiEventHandler.EventHandleAsync(async () =>
+                await _refreshTokenService.RevokeToken(token!, GetIpAddress()));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -106,14 +97,14 @@ namespace App.Controllers
         public async Task<IActionResult> Logout()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
-            await _userService.RevokeTokenAsync(refreshToken);
+            await _refreshTokenService.RevokeToken(refreshToken!, GetIpAddress());
 
             Response.Cookies.Delete(CookieNames.RefreshTokenCookie);
             Response.Cookies.Delete(CookieNames.AccessToken);
             return Ok();
         }
 
-        private void AttachAuthCookies(VerifiedUser user)
+        private void AttachAuthCookies(VerifiedUserDto user)
         {
             var refreshTokenOptions = new CookieOptions
             {
@@ -129,6 +120,15 @@ namespace App.Controllers
 
             Response.Cookies.Append(CookieNames.RefreshTokenCookie, user.RefreshToken, refreshTokenOptions);
             Response.Cookies.Append(CookieNames.AccessToken, user.Token, jwtTokenOptions);
+        }
+
+        private string GetIpAddress()
+        {
+            // get source ip address for the current request
+            if (Request.Headers.ContainsKey("X-Forwarded-For"))
+                return Request.Headers["X-Forwarded-For"];
+            else
+                return HttpContext.Connection!.RemoteIpAddress!.MapToIPv4().ToString();
         }
     }
 }
