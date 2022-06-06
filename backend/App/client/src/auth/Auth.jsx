@@ -13,9 +13,17 @@ export const AuthRegister = async (Email, Username, Password) => {
     password: Password,
   };
 
-  let body = JSON.stringify(user);
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  };
 
-  return await ApiClient.Post(RegisterEndpoint, body);
+  return await fetch(RegisterEndpoint, requestOptions).then((result) =>
+    result.json()
+  );
 };
 
 export const AuthLogin = async (Username, Password) => {
@@ -24,9 +32,17 @@ export const AuthLogin = async (Username, Password) => {
     password: Password,
   };
 
-  let body = JSON.stringify(user);
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  };
 
-  return await ApiClient.Post(LoginEndpoint, body);
+  return await fetch(LoginEndpoint, requestOptions).then((result) =>
+    result.json()
+  );
 };
 
 export const AuthLogout = async () => {
@@ -41,5 +57,12 @@ export const AuthLogout = async () => {
 };
 
 export const SilentRefresh = async () => {
-  return await ApiClient.Post(SilentLoginEndpoint);
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return await fetch(SilentLoginEndpoint, requestOptions);
 };

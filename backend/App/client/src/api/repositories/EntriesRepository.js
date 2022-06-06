@@ -26,35 +26,36 @@ class EntriesRepository {
   }
 
   static async GetRecent() {
+    console.log(ApiClient);
     return await ApiClient.Get(EntriesGetRecentEndpoint);
   }
 
   static async Update(entryID, name, content) {
-    let body = JSON.stringify({
+    let body = {
       entryId: entryID,
       entryName: name,
       content: content,
-    });
+    };
 
     return await ApiClient.Post(EntriesUpdateEndpoint, body);
   }
 
   static async UpdateWithoutContent(entryID, name, categoryID) {
-    let body = JSON.stringify({
+    let body = {
       entryId: entryID,
       entryName: name,
       categoryId: categoryID,
-    });
+    };
 
     return await ApiClient.Post(EntriesUpdateWithoutContentEndpoint, body);
   }
 
   static async Add(name, categoryID) {
-    let body = JSON.stringify({
+    let body = {
       entryName: name,
       categoryId: categoryID,
       content: "",
-    });
+    };
 
     return await ApiClient.Post(EntriesAddEnpoint, body);
   }
