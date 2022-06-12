@@ -5,6 +5,7 @@ import { ClientRouter } from "./routes/Routes";
 import { AuthProvider } from "./auth/AuthContext";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import Loader from "./components/Loaders/Loader";
 
 // notifications
 import { ReactNotifications } from "react-notifications-component";
@@ -14,7 +15,6 @@ import "animate.css";
 // modals
 import Modal from "react-modal";
 import { Suspense } from "react";
-import Loader from "./components/Loaders/Loader";
 
 Modal.setAppElement("#root");
 
