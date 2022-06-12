@@ -9,12 +9,11 @@
   bottom: 0;
   left: 0;
   right: 0;
-  // background-color: #474747;
 
   .main__wrapper {
-    width: Calc(100% - variables.$side-menu-width);
+    width: 100%;
+    left: 0;
     position: absolute;
-    left: variables.$side-menu-width;
     top: variables.$top-menu-height;
     height: Calc(100% - variables.$top-menu-height);
     overflow: hidden;
@@ -22,11 +21,6 @@
     transition: 1s ease-in-out;
     z-index: 10;
     transition: 300ms;
-
-    &.expanded {
-      width: 100%;
-      left: 0;
-    }
   }
 
   .bottom-wave {

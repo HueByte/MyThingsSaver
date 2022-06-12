@@ -1,8 +1,11 @@
 @use "../../../../styles/variables" as variables;
 @use "../../../../styles/transitions" as transitions;
+@use "../../../../styles/theme" as theme;
+
+$logo-width: 240px;
 
 .nav-top {
-  background-color: var(--Shark);
+  background-color: theme.$Background;
   height: 64px;
   width: 100%;
   position: relative;
@@ -14,11 +17,11 @@
   * {
     font-weight: bold;
     letter-spacing: 0.6px;
-    color: var(--Grey) !important;
+    color: theme.$Passive !important;
   }
 
   .logo {
-    width: variables.$top-menu-icon-width;
+    width: $logo-width;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -32,14 +35,14 @@
   }
 
   .active {
-    color: white !important;
-    background-color: var(--SharkDark) !important;
-    border-bottom: 2px solid var(--Rose) !important;
+    color: theme.$TextAccent !important;
+    background-color: theme.$DarkerBackground !important;
+    border-bottom: 2px solid theme.$Rose !important;
   }
 
   .content {
     height: 100%;
-    width: Calc(100% - variables.$top-menu-icon-width);
+    width: Calc(100% - $logo-width);
     display: flex;
     flex-direction: row;
     position: relative;
@@ -48,7 +51,7 @@
       display: flex;
       flex-direction: row;
       position: relative;
-      width: 60%;
+      flex: 3;
       height: 100%;
 
       .item {
@@ -79,14 +82,14 @@
       align-items: center;
       justify-content: flex-end;
       position: relative;
-      width: 40%;
+      flex: 2;
       height: 100%;
 
       .item {
         padding: 10px;
         display: grid;
         place-items: center;
-        font-size: small;
+        font-size: medium;
         transition: transitions.$default;
         margin-right: 5px;
         height: fit-content;
@@ -116,11 +119,11 @@
 @media screen and (max-width: variables.$medium-resolution) {
   .nav-top {
     .logo {
-      width: calc(variables.$top-menu-icon-width / 2);
+      width: calc($logo-width / 2);
     }
 
     .content {
-      width: Calc(100% - variables.$top-menu-icon-width / 2);
+      width: calc(100% - $logo-width / 2);
     }
   }
 }
