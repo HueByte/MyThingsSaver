@@ -2,7 +2,7 @@
 @use "../../styles/transitions" as transitions;
 @use "../../styles/theme" as theme;
 
-$entry-wdith: 300px;
+$entry-width: 300px;
 $entry-height: 200px;
 
 .homepage__container {
@@ -14,9 +14,9 @@ $entry-height: 200px;
 
   .entry {
     flex: 1 1 auto;
-    min-width: $entry-wdith;
-    max-width: $entry-wdith;
-    height: 200px;
+    min-width: $entry-width;
+    max-width: $entry-width;
+    height: $entry-height;
     margin: 1rem;
     cursor: pointer;
     background-color: theme.$Background;
@@ -33,6 +33,11 @@ $entry-height: 200px;
     &:hover {
       transform: scale(1.05);
       box-shadow: 0 0 10px theme.$HoverAccent;
+
+      .name,
+      .information .line:first-child {
+        color: theme.$HoverAccent;
+      }
     }
 
     .image {
@@ -49,6 +54,7 @@ $entry-height: 200px;
       font-weight: bold;
       letter-spacing: 0.6px;
       min-height: 2.5em;
+      transition: 200ms ease-in-out;
     }
 
     .information {
@@ -62,9 +68,14 @@ $entry-height: 200px;
         display: flex;
         flex-direction: row;
         justify-content: center;
+        transition: 200ms ease-in-out;
 
         .item {
           width: 40%;
+        }
+
+        &:first-child {
+          color: theme.$AlternativeSpecialText;
         }
       }
 
@@ -87,8 +98,6 @@ $entry-height: 200px;
   }
 }
 
-@media screen and (max-width: variables.$small-resolution) {
-}
+@media screen and (max-width: variables.$small-resolution) {}
 
-@media screen and (max-width: variables.$mobile-resolution) {
-}
+@media screen and (max-width: variables.$mobile-resolution) {}

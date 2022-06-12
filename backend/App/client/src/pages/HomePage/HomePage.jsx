@@ -38,7 +38,7 @@ const HomePage = () => {
                 </div>
                 <div className="name ellipsis">{entry.categoryEntryName}</div>
                 <div className="information">
-                  <div className="line teal">
+                  <div className="line">
                     <div className="item">Category:</div>
                     <div className="item ellipsis">{entry.category.name}</div>
                   </div>
