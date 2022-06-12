@@ -26,12 +26,9 @@ $content-column-title-width: 150px;
       max-width: 90%;
       position: relative;
       padding: variables.$s-padding;
-      // border: 1px solid theme.$Grey;
       border-right: 3px solid theme.$MainBackground;
       border-radius: 15px 0 0 15px;
-      // background-color: rgba($color: theme.$SharkDark, $alpha: 0.9);
       background-color: theme.$Background;
-      // background-color: theme.$DarkerBackground;
       z-index: 15;
       transition: transitions.$fast;
 
@@ -282,6 +279,10 @@ $content-column-title-width: 150px;
         .draggable {
           display: none;
         }
+
+        .item {
+          font-size: larger;
+        }
       }
 
       .content__wrapper {
@@ -304,6 +305,5 @@ $content-column-title-width: 150px;
   .categories__wrapper {
     height: 100vh;
     padding-top: variables.$top-menu-height-mobile;
-    // height: 100vh;
   }
 }
