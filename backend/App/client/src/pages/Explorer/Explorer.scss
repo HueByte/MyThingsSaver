@@ -27,6 +27,7 @@ $content-column-title-width: 150px;
       position: relative;
       padding: variables.$s-padding;
       // border: 1px solid theme.$Grey;
+      border-right: 3px solid theme.$MainBackground;
       border-radius: 15px 0 0 15px;
       // background-color: rgba($color: theme.$SharkDark, $alpha: 0.9);
       background-color: theme.$Background;
@@ -128,8 +129,6 @@ $content-column-title-width: 150px;
 
     .content__wrapper {
       padding: variables.$m-padding;
-      // border: 1px solid theme.$Grey;
-      // background-color: rgba($color: theme.$Background, $alpha: 0.9);
       background-color: theme.$LighterBackground;
       border-radius: 0 15px 15px 0;
       min-width: 50px;
