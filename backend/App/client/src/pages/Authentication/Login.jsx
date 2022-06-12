@@ -5,7 +5,7 @@ import { AuthContext } from "../../auth/AuthContext";
 import "./Auth.css";
 import "../../core/BasicLayout/BasicLayoutStyles.scss";
 import AuthTemplate from "./AuthTemplate";
-import { warningModal } from "../../core/Modals";
+import { errorModal, warningModal } from "../../core/Modals";
 
 const Login = () => {
   const authContext = useContext(AuthContext);
@@ -37,6 +37,7 @@ const Login = () => {
     await AuthLogin(username.current.value, password.current.value)
       .then((result) => {
         if (result.isSuccess) authContext.setAuthState(result.data);
+        else errorModal(result?.errors.join("\n"), 10000);
       })
       .catch((errors) => {
         console.log(errors);

@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { SilentRefresh } from "../auth/Auth";
+import { errorModal } from "../core/Modals";
 import { ApiEndpoint } from "./ApiEndpoints";
 import { IApiResponse } from "./models/IApiResponse";
 
@@ -20,7 +21,7 @@ class HttpClient {
 
         this.client.interceptors.response.use(
             (Response: AxiosResponse) => this.responseHandler(Response),
-            (error: Response) => this.errorHandler(error)
+            (Error: Response) => this.errorHandler(Error)
         );
     }
 
@@ -33,6 +34,7 @@ class HttpClient {
     }
 
     private async errorHandler(error): Promise<IApiResponse<any>> {
+        console.log('hti')
         if (axios.isAxiosError(error)) {
             const { status } = error.response;
 
@@ -49,7 +51,9 @@ class HttpClient {
                     `${window.location.protocol}//${window.location.host}/logout`
                 );
             } else if (status == 400) {
-                console.log(error.response); // TODO change
+                console.log('q');
+                let result: any = error.response.data;
+                errorModal(result.errors.join("\n"), 10000);
             }
         }
 
