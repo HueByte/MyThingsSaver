@@ -7,46 +7,50 @@ import {
   CategoryGetAllRootEndpoint,
   CategoryGetAllSubEndpoint,
 } from "../ApiEndpoints";
-import ApiClient from "../ApiClient";
-import { AuthFetch } from "../ApiHandler";
+import HttpClient from "../HttpClient.ts";
 
 class CategoriesRepository {
   static async Add(name, parentID = null) {
     let body = { name: name, categoryParentId: parentID };
 
-    return await ApiClient.Post(CategoryAddEndpoint, body);
+    return await HttpClient.client.post(CategoryAddEndpoint, body);
   }
 
   static async GetAll() {
-    return await ApiClient.Get(CategoryGetAllEndpoint);
+    return await HttpClient.client.get(CategoryGetAllEndpoint);
   }
 
   static async GetRoot() {
-    return await ApiClient.Get(CategoryGetAllRootEndpoint);
+    return await HttpClient.client.get(CategoryGetAllRootEndpoint);
   }
 
   static async GetSub(parentID) {
-    let params = [{ key: "parentId", value: parentID }];
-
-    return await ApiClient.Get(CategoryGetAllSubEndpoint, params);
+    return await HttpClient.client.get(CategoryGetAllSubEndpoint, {
+      params: {
+        parentId: parentID,
+      },
+    });
   }
 
   static async GetWithEntries(categoryID, withContent = false) {
-    let params = [{ key: "CategoryID", value: categoryID }];
-
-    return await ApiClient.Get(CategoryGetWithEntriesEndpoint, params);
+    return await HttpClient.client.get(CategoryGetWithEntriesEndpoint, {
+      params: {
+        CategoryID: categoryID,
+        WithContent: withContent,
+      },
+    });
   }
 
   static async Remove(categoryID) {
     let body = { categoryId: categoryID };
 
-    return await ApiClient.Post(CategoryRemoveEndpoint, body);
+    return await HttpClient.client.post(CategoryRemoveEndpoint, body);
   }
 
   static async Update(categoryId, name) {
     let body = { categoryId: categoryId, name: name };
 
-    return await ApiClient.Post(CategoryUpdateEndpoint, body);
+    return await HttpClient.client.post(CategoryUpdateEndpoint, body);
   }
 }
 

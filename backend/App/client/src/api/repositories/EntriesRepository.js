@@ -8,26 +8,28 @@ import {
   EntriesUpdateWithoutContentEndpoint,
 } from "../ApiEndpoints";
 import ApiClient from "../ApiClient";
+import HttpClient from "../HttpClient.ts";
 
 class EntriesRepository {
   static async Get(entryID) {
-    let params = [{ key: "id", value: entryID }];
-
-    return await ApiClient.Get(EntriesGetEndpoint, params);
+    return await HttpClient.client.get(EntriesGetEndpoint, {
+      params: {
+        id: entryID,
+      },
+    });
   }
 
   static async GetAll(categoryID, withContent = false) {
-    let params = [
-      { key: "CategoryId", value: categoryID },
-      { key: "withContent", value: withContent },
-    ];
-
-    return await ApiClient.Get(EntriesGetAllEndpoint, params);
+    return await HttpClient.client.get(EntriesGetAllEndpoint, {
+      params: {
+        CategoryId: categoryID,
+        withContent: withContent,
+      },
+    });
   }
 
   static async GetRecent() {
-    console.log(ApiClient);
-    return await ApiClient.Get(EntriesGetRecentEndpoint);
+    return await HttpClient.client.get(EntriesGetRecentEndpoint);
   }
 
   static async Update(entryID, name, content) {
@@ -37,7 +39,7 @@ class EntriesRepository {
       content: content,
     };
 
-    return await ApiClient.Post(EntriesUpdateEndpoint, body);
+    return await HttpClient.client.post(EntriesUpdateEndpoint, body);
   }
 
   static async UpdateWithoutContent(entryID, name, categoryID) {
@@ -47,7 +49,10 @@ class EntriesRepository {
       categoryId: categoryID,
     };
 
-    return await ApiClient.Post(EntriesUpdateWithoutContentEndpoint, body);
+    return await HttpClient.client.post(
+      EntriesUpdateWithoutContentEndpoint,
+      body
+    );
   }
 
   static async Add(name, categoryID) {
@@ -57,13 +62,15 @@ class EntriesRepository {
       content: "",
     };
 
-    return await ApiClient.Post(EntriesAddEnpoint, body);
+    return await HttpClient.client.post(EntriesAddEnpoint, body);
   }
 
   static async Delete(entryID) {
-    let params = [{ key: "id", value: entryID }];
-
-    return await ApiClient.Delete(EntriesDeleteEndpoint, params);
+    return await HttpClient.client.delete(EntriesDeleteEndpoint, {
+      params: {
+        id: entryID,
+      },
+    });
   }
 }
 
