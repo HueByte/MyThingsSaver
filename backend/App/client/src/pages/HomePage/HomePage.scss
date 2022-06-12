@@ -3,6 +3,7 @@
 @use "../../styles/theme" as theme;
 
 $entry-wdith: 300px;
+$entry-height: 200px;
 
 .homepage__container {
   display: flex;
@@ -18,8 +19,7 @@ $entry-wdith: 300px;
     height: 200px;
     margin: 1rem;
     cursor: pointer;
-    border: 1px solid var(--DarkGrey);
-    background-color: rgba($color: theme.$Shark, $alpha: 0.8);
+    background-color: theme.$Background;
     backdrop-filter: blur(0.8px);
     border-radius: 10px;
     transition: 200ms ease-in-out;
@@ -28,23 +28,23 @@ $entry-wdith: 300px;
     justify-content: center;
     flex-direction: column;
     padding: variables.$m-padding;
-    color: white;
+    color: theme.$TextAccent;
 
     &:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 5px theme.$Rose;
+      box-shadow: 0 0 10px theme.$HoverAccent;
     }
 
     .image {
       font-size: xx-large;
-      color: var(--Rose);
+      color: theme.$IconAccent;
     }
 
     .name {
       font-size: large;
       width: 100%;
       text-align: center;
-      color: var(--Gold);
+      color: theme.$AlternativeSpecialText;
       padding: 10px;
       font-weight: bold;
       letter-spacing: 0.6px;
