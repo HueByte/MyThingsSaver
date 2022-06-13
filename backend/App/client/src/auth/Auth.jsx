@@ -4,7 +4,6 @@ import {
   RegisterEndpoint,
   SilentLoginEndpoint,
 } from "../api/ApiEndpoints";
-import ApiClient from "../api/ApiClient";
 
 export const AuthRegister = async (Email, Username, Password) => {
   let user = {

@@ -1,6 +1,6 @@
 import { AuthFetch } from "./ApiHandler";
 
-// TODO: switch on axios
+// TODO: Remove
 class ApiClient {
   static async Get(endpoint, params = null) {
     const requestOptons = {
