@@ -6,7 +6,7 @@
   position: fixed;
   z-index: 10000;
   width: 150px;
-  border: 1px solid theme.$Grey;
+  // border: 1px solid theme.$Grey;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@
   .item {
     padding: variables.$m-padding;
     transition: transitions.$fast;
-    background-color: theme.$SharkDark;
+    background-color: theme.$DarkerBackground;
     cursor: pointer;
 
     &:first-child {

@@ -2,24 +2,26 @@
 @use "../../styles/transitions" as transitions;
 @use "../../styles/theme" as theme;
 
-$entry-wdith: 300px;
+$entry-width: 300px;
+$entry-height: 200px;
 
 .homepage__container {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+  max-width: 1920px;
+  margin: auto;
   padding: variables.$l-padding variables.$h-padding;
 
   .entry {
     flex: 1 1 auto;
-    min-width: $entry-wdith;
-    max-width: $entry-wdith;
-    height: 200px;
+    min-width: $entry-width;
+    max-width: $entry-width;
+    height: $entry-height;
     margin: 1rem;
     cursor: pointer;
-    border: 1px solid var(--DarkGrey);
-    background-color: rgba($color: theme.$Shark, $alpha: 0.8);
+    background-color: theme.$Background;
     backdrop-filter: blur(0.8px);
     border-radius: 10px;
     transition: 200ms ease-in-out;
@@ -28,27 +30,33 @@ $entry-wdith: 300px;
     justify-content: center;
     flex-direction: column;
     padding: variables.$m-padding;
-    color: white;
+    color: theme.$TextAccent;
 
     &:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 5px theme.$Rose;
+      box-shadow: 0 0 10px theme.$HoverAccent;
+
+      .name,
+      .information .line:first-child {
+        color: theme.$HoverAccent;
+      }
     }
 
     .image {
       font-size: xx-large;
-      color: var(--Rose);
+      color: theme.$IconAccent;
     }
 
     .name {
       font-size: large;
       width: 100%;
       text-align: center;
-      color: var(--Gold);
+      color: theme.$AlternativeSpecialText;
       padding: 10px;
       font-weight: bold;
       letter-spacing: 0.6px;
       min-height: 2.5em;
+      transition: 200ms ease-in-out;
     }
 
     .information {
@@ -62,9 +70,14 @@ $entry-wdith: 300px;
         display: flex;
         flex-direction: row;
         justify-content: center;
+        transition: 200ms ease-in-out;
 
         .item {
           width: 40%;
+        }
+
+        &:first-child {
+          color: theme.$AlternativeSpecialText;
         }
       }
 
@@ -87,8 +100,6 @@ $entry-wdith: 300px;
   }
 }
 
-@media screen and (max-width: variables.$small-resolution) {
-}
+@media screen and (max-width: variables.$small-resolution) {}
 
-@media screen and (max-width: variables.$mobile-resolution) {
-}
+@media screen and (max-width: variables.$mobile-resolution) {}

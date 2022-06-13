@@ -1,32 +1,24 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Menu from "./components/Menu/Menu";
 import "./BasicLayout.scss";
 import "./BasicLayoutStyles.scss";
-import "../OverrideDefaultMD.css";
 import { AuthContext } from "../../auth/AuthContext";
 import { Navigate, Outlet } from "react-router";
 import Wave from "./components/Wave";
-import { useState } from "react";
 import { CategoryProvider } from "../../contexts/CategoryContext";
 
 const BasicLayout = () => {
   const authContext = useContext(AuthContext);
-  const [isEnabled, setIsEnabled] = useState(false);
-
-  useEffect(() => {
-    // if (!authContext.isAuthenticated()) return;
-  }, []);
 
   if (authContext.isAuthenticated())
     return (
       <CategoryProvider>
         <div className="interface__wrapper">
           <Menu />
-          {/* <SideMenu isEnabled={isEnabled} setIsEnabled={setIsEnabled} /> */}
-          <main className={`main__wrapper ${isEnabled ? "" : "expanded"}`}>
+          <main className={"main__wrapper"}>
             <Outlet />
           </main>
-          <Wave />
+          {/* <Wave /> */}
         </div>
       </CategoryProvider>
     );

@@ -1,6 +1,7 @@
 import { errorModal } from "../core/Modals";
 import { SilentRefresh } from "../auth/Auth";
 
+// TODO remove
 // 200 - Request success
 // 400 - Api handled error
 // 401 - Api handled unauthorized, token might be expired or token might be empty/invalid

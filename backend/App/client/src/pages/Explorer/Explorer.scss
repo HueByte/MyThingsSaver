@@ -26,9 +26,9 @@ $content-column-title-width: 150px;
       max-width: 90%;
       position: relative;
       padding: variables.$s-padding;
-      border: 1px solid theme.$Grey;
+      border-right: 3px solid theme.$MainBackground;
       border-radius: 15px 0 0 15px;
-      background-color: rgba($color: theme.$SharkDark, $alpha: 0.9);
+      background-color: theme.$Background;
       z-index: 15;
       transition: transitions.$fast;
 
@@ -126,8 +126,7 @@ $content-column-title-width: 150px;
 
     .content__wrapper {
       padding: variables.$m-padding;
-      border: 1px solid theme.$Grey;
-      background-color: rgba($color: theme.$Shark, $alpha: 0.9);
+      background-color: theme.$LighterBackground;
       border-radius: 0 15px 15px 0;
       min-width: 50px;
       flex: 9;
@@ -141,7 +140,7 @@ $content-column-title-width: 150px;
         padding-right: variables.$s-padding;
 
         .header {
-          background-color: theme.$SharkDarkSub;
+          background-color: theme.$Background;
           margin-bottom: variables.$s-margin;
           position: -webkit-sticky;
           position: sticky;
@@ -157,12 +156,12 @@ $content-column-title-width: 150px;
           transition: transitions.$medium;
 
           &:nth-child(odd) {
-            background-color: theme.$SharkDark;
+            background-color: theme.$Background;
           }
 
           &:hover {
-            color: black;
-            background-color: white;
+            color: theme.$ReverseTextAccent;
+            background-color: theme.$BrightHoverAccent;
           }
 
           .icon {
@@ -280,6 +279,10 @@ $content-column-title-width: 150px;
         .draggable {
           display: none;
         }
+
+        .item {
+          font-size: larger;
+        }
       }
 
       .content__wrapper {
@@ -302,6 +305,5 @@ $content-column-title-width: 150px;
   .categories__wrapper {
     height: 100vh;
     padding-top: variables.$top-menu-height-mobile;
-    // height: 100vh;
   }
 }

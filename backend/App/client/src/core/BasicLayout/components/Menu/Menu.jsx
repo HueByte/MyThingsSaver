@@ -14,14 +14,8 @@ const Menu = () => {
 
   return (
     <>
-      {authContext.isAuthenticated() ? (
-        <>
-          <DesktopMenu logout={logout} authContext={authContext} />
-          <MobileMenu logout={logout} authContext={authContext} />
-        </>
-      ) : (
-        <Navigate to="/auth/login" />
-      )}
+      <DesktopMenu logout={logout} authContext={authContext} />
+      <MobileMenu logout={logout} authContext={authContext} />
     </>
   );
 };
@@ -51,23 +45,10 @@ const DesktopMenu = ({ logout, authContext }) => {
           )}
         </div>
         <div className="right">
-          {!authContext.isAuthenticated() ? (
-            <>
-              <NavLink to="/auth/login" className="item">
-                Login
-              </NavLink>
-              <NavLink to="/auth/register" className="item">
-                Register
-              </NavLink>
-            </>
-          ) : (
-            <>
-              <div className="item user">{authContext.authState?.username}</div>
-              <div className="item" onClick={logout}>
-                Log out
-              </div>
-            </>
-          )}
+          <div className="item user">{authContext.authState?.username}</div>
+          <div className="item" onClick={logout}>
+            Log out
+          </div>
         </div>
       </div>
     </div>

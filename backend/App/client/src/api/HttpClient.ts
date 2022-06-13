@@ -34,9 +34,8 @@ class HttpClient {
     }
 
     private async errorHandler(error): Promise<IApiResponse<any>> {
-        console.log('hti')
         if (axios.isAxiosError(error)) {
-            const { status } = error.response;
+            const status = error.response?.status;
 
             if (status == 401) {
                 let silentResponse = await SilentRefresh();
@@ -51,8 +50,7 @@ class HttpClient {
                     `${window.location.protocol}//${window.location.host}/logout`
                 );
             } else if (status == 400) {
-                console.log('q');
-                let result: any = error.response.data;
+                let result: any = error.response?.data;
                 errorModal(result.errors.join("\n"), 10000);
             }
         }
