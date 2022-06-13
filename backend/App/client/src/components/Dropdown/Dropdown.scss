@@ -7,7 +7,7 @@ $drop-width: 160px;
 .dropdown-menu {
   position: relative;
   font-weight: bold;
-  font-size: larger;
+  font-size: medium;
   letter-spacing: 0.7px;
   text-align: center;
   max-width: $drop-width;
@@ -31,17 +31,16 @@ $drop-width: 160px;
     display: flex;
     flex-direction: column;
     right: 0;
-    top: 50px;
+    top: 40px;
     visibility: hidden;
     opacity: 0;
     transform: translate(-2em);
     width: $drop-width;
     transition: transitions.$medium;
-    background-color: rgba($color: theme.$Shark, $alpha: 0.6);
-    backdrop-filter: blur(1px);
+    background-color: theme.$MainBackground;
     transition-delay: 1s;
-    border-radius: 5px;
-    border: 1px solid theme.$Grey;
+    border-radius: 2px;
+    border: 1px solid theme.$LighterBackground;
 
     .option {
       width: 100%;
@@ -50,15 +49,15 @@ $drop-width: 160px;
 
       &:hover {
         cursor: pointer;
-        background-color: var(--SharkDarkSub);
+        background-color: theme.$LighterBackground;
       }
 
       &:first-child {
-        border-radius: 5px 5px 0 0;
+        border-radius: 2px 2px 0 0;
       }
 
       &:last-child {
-        border-radius: 0 0 5px 5px;
+        border-radius: 0 0 2px 2px;
       }
     }
   }
