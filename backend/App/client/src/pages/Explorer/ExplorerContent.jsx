@@ -83,7 +83,9 @@ const ExplorerContent = () => {
                     <i class="fas fa-sticky-note"></i>
                   </div>
                   <div className="column title ellipsis">
-                    {entry.categoryEntryName}
+                    <abbr title={entry.categoryEntryName} className="ellipsis">
+                      {entry.categoryEntryName}
+                    </abbr>
                   </div>
                   <div className="column date">
                     {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
