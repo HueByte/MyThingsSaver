@@ -9,7 +9,9 @@ $entry-height: 200px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
+  max-width: 1920px;
+  margin: auto;
   padding: variables.$l-padding variables.$h-padding;
 
   .entry {
