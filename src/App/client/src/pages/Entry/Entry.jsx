@@ -10,6 +10,15 @@ import { BasicModal } from "../../components/BasicModal/BasicModal";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import DropdownButton from "../../components/Dropdown/Dropdown";
 
+const sendUpdateCallback = async (entryId, newName, data) => {
+  console.log("yeet save");
+  await EntriesRepository.Update(entryId, newName, data).catch((error) =>
+    console.error(error)
+  );
+};
+
+const performAutosave = AwesomeDebouncePromise(sendUpdateCallback, 2000);
+
 const Entry = () => {
   const { categoryId, entryId } = useParams();
 
@@ -35,30 +44,31 @@ const Entry = () => {
           setName(result.data.categoryEntryName);
           setEditValue(result.data.content);
 
-          if (result.data.content.length / 1024 > 100) {
-            warningModal(
-              `Your entry has size of ${Math.floor(
-                result.data.content.length / 1024
-              )} KB, using preview might affect your performance.`,
-              10000
-            );
-          }
+          checkEntrySize(result.data.content.length);
         })
         .catch((error) => console.error(error));
     })();
   }, []);
 
-  const sendUpdateCallback = async (newName, data) => {
-    await EntriesRepository.Update(entryId, newName, data).catch((error) =>
-      console.error(error)
-    );
+  const checkEntrySize = (length) => {
+    if (length / 1024 > 100) {
+      warningModal(
+        `Your entry has size of ${Math.floor(
+          length / 1024
+        )} KB, using preview might affect your performance.`,
+        10000
+      );
+    }
   };
 
-  const performAutosave = AwesomeDebouncePromise(sendUpdateCallback, 2000);
+  const handleChange = async (event) => {
+    setName(event.target.value);
+    await performAutosave(event.target.value, editValue);
+  };
 
   const autoSave = async (value) => {
     setEditValue(value);
-    await performAutosave(name, value);
+    await performAutosave(entryId, name, value);
   };
 
   // Remove entry
@@ -73,11 +83,6 @@ const Entry = () => {
       .catch((error) => console.error(error));
 
     successModal("Sucessfully removed entry");
-  };
-
-  const handleChange = async (event) => {
-    setName(event.target.value);
-    await performAutosave(event.target.value, editValue);
   };
 
   const switchEdit = () => {
