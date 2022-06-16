@@ -7,7 +7,6 @@ import {
   EntriesUpdateEndpoint,
   EntriesUpdateWithoutContentEndpoint,
 } from "../ApiEndpoints";
-import ApiClient from "../ApiClient";
 import HttpClient from "../HttpClient.ts";
 
 class EntriesRepository {
