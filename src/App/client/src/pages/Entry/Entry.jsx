@@ -11,7 +11,6 @@ import AwesomeDebouncePromise from "awesome-debounce-promise";
 import DropdownButton from "../../components/Dropdown/Dropdown";
 
 const sendUpdateCallback = async (entryId, newName, data) => {
-  console.log("yeet save");
   await EntriesRepository.Update(entryId, newName, data).catch((error) =>
     console.error(error)
   );
