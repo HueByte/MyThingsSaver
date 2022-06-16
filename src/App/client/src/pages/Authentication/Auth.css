@@ -98,7 +98,7 @@
     margin-right: 1em;
     flex: 1;
     color: white;
-    background-image: linear-gradient(to bottom, var(--SharkDark) 50%, var(--Rose) 50%);
+    font-size: small;
 }
 
 .auth__container .auth-bottom-wave {

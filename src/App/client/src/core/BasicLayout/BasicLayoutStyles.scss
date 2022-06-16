@@ -22,13 +22,20 @@
   }
 }
 
-input {
-  *:-webkit-autofill,
-  &:-webkit-autofill:hover,
-  &:-webkit-autofill:focus {
-    -webkit-text-fill-color: white;
-    -webkit-box-shadow: 0 0 0px 1000px var(--SharkDark) inset;
-    border: 1px solid var(--SharkDark);
+input,
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px var(--SharkDark) inset;
+  border: 1px solid var(--SharkDark);
+
+  &:hover {
+    border: 1px solid var(--Grey);
+  }
+
+  &:focus {
+    border: 1px solid var(--Rose);
   }
 }
 
@@ -54,7 +61,7 @@ input {
   }
 }
 
-.notifications-component > .notification-container--top-right {
+.notifications-component>.notification-container--top-right {
   top: 80px !important;
 }
 
@@ -78,6 +85,7 @@ input {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
