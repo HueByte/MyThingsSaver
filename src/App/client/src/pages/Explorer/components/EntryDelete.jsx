@@ -38,12 +38,16 @@ const EntryDelete = ({
       {isActive ? (
         <>
           <div className="content">
-            Are you sure you want to delete{" "}
-            <span className="title">
-              {entryToDelete ? entryToDelete.categoryEntryName : ""}
-            </span>
+            <div className="block">
+              <p style={{ textAlign: "center", width: "100%" }}>
+                Are you sure you want to delete{" "}
+                <span className="title">
+                  {entryToDelete ? entryToDelete.categoryEntryName : ""}
+                </span>
+              </p>
+            </div>
           </div>
-          <div className="menu horizontal">
+          <div className="menu horizontal center">
             <div className="basic-button item" onClick={sendRequest}>
               Yes
             </div>

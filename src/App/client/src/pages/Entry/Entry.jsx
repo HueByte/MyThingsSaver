@@ -8,7 +8,7 @@ import "./Markdown-overrides.scss";
 import { successModal, warningModal } from "../../core/Modals";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
-import DropdownButton from "../../components/Dropdown/Dropdown";
+import { DropdownItem, DropdownButton } from "../../components/Dropdown";
 
 const sendUpdateCallback = async (entryId, newName, data) => {
   await EntriesRepository.Update(entryId, newName, data).catch((error) =>
@@ -112,15 +112,12 @@ const Entry = () => {
             </div>
             <div className="right">
               <DropdownButton>
-                <div className="option" onClick={switchEdit}>
+                <DropdownItem onClick={switchEdit}>
                   {isEditing ? "Close" : "Edit"}
-                </div>
-                <div
-                  className="option"
-                  onClick={() => invokeDeleteModal(entry)}
-                >
+                </DropdownItem>
+                <DropdownItem onClick={() => invokeDeleteModal(entry)}>
                   Delete
-                </div>
+                </DropdownItem>
               </DropdownButton>
             </div>
           </div>
@@ -174,10 +171,14 @@ const DeleteModal = ({ entry, onDelete, closeDeleteModal }) => {
   return (
     <>
       <div className="content">
-        Are you sure you want to delete{" "}
-        <span class="title">{entry.categoryEntryName} ?</span>
+        <div className="block">
+          <p style={{ textAlign: "center", width: "100%" }}>
+            Are you sure you want to delete{" "}
+            <span class="title">{entry.categoryEntryName} ?</span>
+          </p>
+        </div>
       </div>
-      <div className="menu horizontal">
+      <div className="menu horizontal center">
         <div
           className="basic-button item"
           onClick={() => onDelete(entry.categoryEntryId)}

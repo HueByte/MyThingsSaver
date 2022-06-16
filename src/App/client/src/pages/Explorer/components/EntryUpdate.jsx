@@ -51,15 +51,17 @@ const EntryUpdate = ({
       {isActive ? (
         <>
           <div className="content">
-            <div className="field-name">New entry name</div>
-            <input
-              id="entry-name-input"
-              type="text"
-              className="basic-input field-input"
-              placeholder={entryToEdit ? entryToEdit.categoryEntryName : ""}
-              autoComplete="off"
-              onInput={(e) => setName(e.target.value)}
-            />
+            <div className="block vertical">
+              <div className="field-name">New entry name</div>
+              <input
+                id="entry-name-input"
+                type="text"
+                className="basic-input field-input"
+                placeholder={entryToEdit ? entryToEdit.categoryEntryName : ""}
+                autoComplete="off"
+                onInput={(e) => setName(e.target.value)}
+              />
+            </div>
           </div>
           <div className="menu horizontal">
             <div className="basic-button item" onClick={sendRequest}>

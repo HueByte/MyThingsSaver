@@ -41,6 +41,7 @@ $drop-width: 160px;
     transition-delay: 1s;
     border-radius: 2px;
     border: 1px solid theme.$LighterBackground;
+    z-index: 150;
 
     .option {
       width: 100%;

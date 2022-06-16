@@ -10,6 +10,10 @@ $Gold: #ffc870;
 $Teal: #50c5b7;
 $DarkGrey: #474747;
 
+$Primary : #FFF;
+$Secondary: #FFF;
+$ButtonPrimary: #131316;
+$ButtonAccent: #fd0069;
 
 $TextAccent: white;
 $ReverseTextAccent: black;
@@ -25,3 +29,11 @@ $LighterBackground: #212126;
 $Background: #1b1b1f;
 $DarkerBackground: #131313;
 $MainBackground: #131316;
+
+:export {
+    background: $Background;
+    darkerBackground: $DarkerBackground;
+    mainBackground: $MainBackground;
+    passiveAccent: $PassiveAccent;
+    lighterBackground: $LighterBackground;
+}

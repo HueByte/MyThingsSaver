@@ -3,18 +3,10 @@
 
 .basic-modal {
   .menu {
+    width: 100%;
     display: flex;
     align-items: center;
     margin-top: variables.$s-margin;
-
-    &.vertical {
-      flex-direction: column;
-    }
-
-    &.horizontal {
-      flex-direction: row;
-      justify-content: space-evenly;
-    }
 
     .item {
       margin: variables.$s-margin;
@@ -24,16 +16,36 @@
   }
 
   .content {
+    width: 100%;
+
+    .block {
+      max-width: 100%;
+      padding: 10px;
+      margin: variables.$s-margin;
+      background-color: theme.$MainBackground;
+      border-radius: 5px;
+      display: flex;
+    }
+
     .field-name {
       margin: variables.$s-margin;
       padding: variables.$s-padding;
     }
 
-    .field-input {
-    }
-
     .title {
-      color: theme.$Rose;
+      color: theme.$SpecialText;
     }
+  }
+
+  .vertical {
+    flex-direction: column;
+  }
+
+  .horizontal {
+    flex-direction: row;
+  }
+
+  .center {
+    justify-content: center;
   }
 }

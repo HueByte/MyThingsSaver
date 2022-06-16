@@ -15,7 +15,9 @@ const DropdownButton = ({ title, children }) => {
       {title ? (
         <div className="button">{title}</div>
       ) : (
-        <div className="hamburger">{title ?? <HamburgerMenu size={40} />}</div>
+        <div className="hamburger">
+          <HamburgerMenu size={40} />
+        </div>
       )}
       <div className="content">{children}</div>
     </div>

@@ -36,10 +36,6 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
 
   const closeModal = () => setIsActive(false);
 
-  // const inputHandler = (e) => {
-  //   if (e.key === "Enter") sendRequest();
-  // };
-
   return (
     <BasicModal
       isOpen={isActive}
@@ -49,15 +45,16 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
       {isActive ? (
         <>
           <div className="content">
-            <div className="field-name">Category new name</div>
-            <input
-              type="text"
-              className="basic-input field-input"
-              autoComplete="off"
-              defaultValue={category.name}
-              // onKeyUp={inputHandler}
-              onInput={(e) => setCategoryName(e.target.value)}
-            />
+            <div className="block vertical">
+              <div className="field-name">Category new name</div>
+              <input
+                type="text"
+                className="basic-input field-input"
+                autoComplete="off"
+                defaultValue={category.name}
+                onInput={(e) => setCategoryName(e.target.value)}
+              />
+            </div>
           </div>
           <div className="menu horizontal">
             <div className="basic-button item" onClick={sendRequest}>

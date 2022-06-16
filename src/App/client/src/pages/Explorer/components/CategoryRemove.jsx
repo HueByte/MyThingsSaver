@@ -28,10 +28,14 @@ const CategoryRemove = ({ isActive, setIsActive, category }) => {
       {isActive ? (
         <>
           <div className="content">
-            Are you sure you want to delete{" "}
-            <span className="title">{category ? category.name : ""}</span>
+            <div className="block">
+              <p style={{ textAlign: "center", width: "100%" }}>
+                Are you sure you want to delete{" "}
+                <span className="title">{category ? category.name : ""}</span>
+              </p>
+            </div>
           </div>
-          <div className="menu horizontal">
+          <div className="menu horizontal center">
             <div className="basic-button item" onClick={sendRequest}>
               Yes
             </div>

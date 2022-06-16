@@ -1,8 +1,10 @@
+@use "./theme" as theme;
+
 // animated
 $linear-gradient-bottom-top: linear-gradient(
   to bottom,
-  var(--SharkDark) 50%,
-  var(--Rose) 50%
+  theme.$ButtonPrimary 50%,
+  theme.$ButtonAccent 50%
 ) !important;
 
 // basic transition

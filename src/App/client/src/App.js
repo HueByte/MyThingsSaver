@@ -6,6 +6,7 @@ import { AuthProvider } from "./auth/AuthContext";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import Loader from "./components/Loaders/Loader";
+import { Suspense } from "react";
 
 // notifications
 import { ReactNotifications } from "react-notifications-component";
@@ -14,7 +15,6 @@ import "animate.css";
 
 // modals
 import Modal from "react-modal";
-import { Suspense } from "react";
 
 Modal.setAppElement("#root");
 

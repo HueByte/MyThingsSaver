@@ -1,5 +1,6 @@
 @use "../../styles/variables" as variables;
 @use "../../styles/transitions" as transitions;
+@use "../../styles/theme" as theme;
 
 .basic-input {
   background-color: var(--Shark);
@@ -37,7 +38,7 @@ input {
   letter-spacing: 1px;
   border-radius: 5px;
   font-weight: bold;
-  font-size: small;
+  font-size: medium;
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -62,7 +63,6 @@ input {
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 100%;
-  // text-align: center;
 }
 
 .enter-animation {

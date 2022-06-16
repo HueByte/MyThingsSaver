@@ -19,8 +19,14 @@
 
   <title>My Things Saver</title>
   <style>
-    * {
+    html {
       box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
     }
 
     html,
@@ -39,8 +45,8 @@
     }
 
     html {
-     background-color: #131316;
-  }
+      background-color: #131316;
+    }
 
     /* This seems like better solution after all for phones */
     @media screen and (max-width: 768px) {

@@ -83,7 +83,11 @@ const ExplorerContent = () => {
                     <i class="fas fa-sticky-note"></i>
                   </div>
                   <div className="column title ellipsis">
-                    <abbr title={entry.categoryEntryName} className="ellipsis">
+                    <abbr
+                      title={entry.categoryEntryName}
+                      className="ellipsis"
+                      style={{ cursor: "pointer" }}
+                    >
                       {entry.categoryEntryName}
                     </abbr>
                   </div>

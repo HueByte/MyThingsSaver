@@ -31,15 +31,15 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 
 builder.Host.ConfigureServices(services =>
 {
-    services = new ModuleConfiguration(services, appsettings).AddAppSettings()
-                                                             .ConfigureServices()
-                                                             .ConfigureControllersWithViews()
-                                                             .ConfigureDatabase(builder.Environment.IsProduction())
-                                                             .ConfigureSecurity()
-                                                             .ConfigureCors()
-                                                             .ConfigureSwagger()
-                                                             .ConfigureForwardedHeaders()
-                                                             .Build();
+    _ = new ModuleConfiguration(services, appsettings).AddAppSettings()
+                                                      .ConfigureServices()
+                                                      .ConfigureControllersWithViews()
+                                                      .ConfigureDatabase(builder.Environment.IsProduction())
+                                                      .ConfigureSecurity()
+                                                      .ConfigureCors()
+                                                      .ConfigureSwagger()
+                                                      .ConfigureForwardedHeaders()
+                                                      .Build();
 });
 
 var app = builder.Build();

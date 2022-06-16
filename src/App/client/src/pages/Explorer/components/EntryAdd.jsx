@@ -38,13 +38,15 @@ const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
       {isActive ? (
         <>
           <div className="content">
-            <div className="field-name">Entry name</div>
-            <input
-              type="text"
-              className="basic-input field-input"
-              autoComplete="off"
-              onInput={(e) => setEntryName(e.target.value)}
-            />
+            <div className="block vertical">
+              <div className="field-name">Entry name</div>
+              <input
+                type="text"
+                className="basic-input field-input"
+                autoComplete="off"
+                onInput={(e) => setEntryName(e.target.value)}
+              />
+            </div>
           </div>
           <div className="menu horizontal">
             <div className="basic-button item" onClick={sendRequest}>

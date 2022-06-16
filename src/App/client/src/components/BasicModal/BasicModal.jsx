@@ -1,6 +1,7 @@
 import React from "react";
 import ReactModal from "react-modal";
 import "./BasicModal.scss";
+import theme from "../../styles/_theme.scss";
 
 const customStyles = {
   overlay: {
@@ -13,12 +14,13 @@ const customStyles = {
     left: "50%",
     right: "auto",
     bottom: "auto",
-    marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "rgb(27,27,27)",
-    border: "1px solid #a7a7a7",
+    backgroundColor: theme.background,
+    border: `1px solid ${theme.darkerBackground}`,
     borderRadius: "10px",
-    maxWidth: "90vw",
+    width: "90vw",
+    maxWidth: "600px",
+    minHeight: "20vh",
   },
 };
 
