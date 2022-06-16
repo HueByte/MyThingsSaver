@@ -7,7 +7,6 @@ import { errorModal, warningModal } from "../../../core/Modals";
 const EntryUpdate = ({
   isActive,
   setIsActive,
-  auth,
   entryToEdit,
   entries,
   setEntries,

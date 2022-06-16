@@ -6,7 +6,6 @@ import { errorModal, successModal } from "../../../core/Modals";
 const EntryDelete = ({
   isActive,
   setIsActive,
-  auth,
   entryToDelete,
   entries,
   setEntries,

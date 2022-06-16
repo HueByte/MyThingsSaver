@@ -4,7 +4,7 @@ import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { errorModal, warningModal } from "../../../core/Modals";
 
-const EntryAdd = ({ isActive, setIsActive, auth, categoryId, setEntries }) => {
+const EntryAdd = ({ isActive, setIsActive, categoryId, setEntries }) => {
   const [entryName, setEntryName] = useState();
 
   const sendRequest = async () => {

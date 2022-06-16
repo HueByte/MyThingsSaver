@@ -9,6 +9,7 @@ import CategoryRemove from "./CategoryRemove";
 import CategoryUpdate from "./CategoryUpdate";
 import "./ContextMenu.scss";
 
+// TODO: Maybe make reusable
 const ContextMenu = ({ category }) => {
   const [isAddActive, setIsAddActive] = useState(false);
   const [isRemoveActive, setIsRemoveActive] = useState(false);
