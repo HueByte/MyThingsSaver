@@ -122,6 +122,12 @@ input:focus {
   outline: 0;
 }
 
+/* input::placeholder,
+input::-moz-placeholder,
+input::-webkit-input-placeholder {
+  color: var(--DarkGrey)
+} */
+
 /* Box Sizing Reset
 -----------------------------------------------*/
 

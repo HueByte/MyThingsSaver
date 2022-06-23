@@ -62,7 +62,7 @@ const Entry = () => {
 
   const handleChange = async (event) => {
     setName(event.target.value);
-    await performAutosave(event.target.value, editValue);
+    await performAutosave(entryId, event.target.value, editValue);
   };
 
   const autoSave = async (value) => {
