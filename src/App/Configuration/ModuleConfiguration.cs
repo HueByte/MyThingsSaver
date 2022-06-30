@@ -6,6 +6,7 @@ using Common.Constants;
 using Core.Entities;
 using Core.Models;
 using Core.RepositoriesInterfaces;
+using Core.Services.CurrentUser;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -65,7 +66,9 @@ namespace App.Configuration
         public ModuleConfiguration ConfigureControllersWithViews()
         {
             _services.AddControllersWithViews()
-                     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ;
+                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+            _services.AddHttpContextAccessor();
 
             return this;
         }
@@ -139,6 +142,7 @@ namespace App.Configuration
             _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
             _services.AddScoped<ICategoryEntryRepository, CategoryEntryRepository>();
+            _services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             // guide 
             GuideService _guide = new();

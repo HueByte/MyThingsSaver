@@ -1,5 +1,6 @@
 using App;
 using App.Configuration;
+using App.Middlewares;
 using Core.Entities;
 using Core.lib;
 using Serilog;
@@ -49,9 +50,10 @@ app = new BeforeStart(app).PerformMigrations()
                           .Initialize();
 
 // configue app
+app.UseErrorHandler();
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    // app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "App v1"));
 }
@@ -92,6 +94,7 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 
 app.MapControllers();
+app.UseCurrentUser();
 
 var useHttps = appsettings.Network.UseHttps;
 var httpPort = appsettings.Network.HttpPort;
