@@ -26,9 +26,8 @@ namespace App.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetAll()
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () =>
-                await _categoryRepository.GetAllAsync(userId));
+                await _categoryRepository.GetAllAsync());
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -40,9 +39,8 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetCategory(string id)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
-                await _categoryRepository.GetOneByIdAsync(id, userId));
+                await _categoryRepository.GetOneByIdAsync(id));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -54,9 +52,8 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllRoot()
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () =>
-                await _categoryRepository.GetRootCategoriesAsync(userId));
+                await _categoryRepository.GetRootCategoriesAsync());
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -68,9 +65,8 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllSub([FromQuery] string parentId)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<List<Category>>.EventHandleAsync(async () =>
-                await _categoryRepository.GetSubcategoriesAsync(parentId, userId));
+                await _categoryRepository.GetSubcategoriesAsync(parentId));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -82,9 +78,8 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> AddCategory([FromBody] CategoryDto category)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
-                await _categoryRepository.AddOneAsync(category, userId));
+                await _categoryRepository.AddOneAsync(category));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -97,9 +92,8 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDto category)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
-                await _categoryRepository.RemoveOneAsync(category.CategoryId, userId));
+                await _categoryRepository.RemoveOneAsync(category.CategoryId));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -111,10 +105,9 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> Updatecategory([FromBody] CategoryDto category)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler.EventHandleAsync(async () =>
             {
-                await _categoryRepository.UpdateOneAsync(category, userId);
+                await _categoryRepository.UpdateOneAsync(category);
             });
 
             if (result.IsSuccess)
@@ -127,9 +120,8 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetCategoryWithEntries([FromQuery] string categoryId)
         {
-            var userid = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var result = await ApiEventHandler<Category>.EventHandleAsync(async () =>
-                await _categoryRepository.GetCategoryWithEntriesAsync(categoryId, userid));
+                await _categoryRepository.GetCategoryWithEntriesAsync(categoryId));
 
             if (result.IsSuccess)
                 return Ok(result);
@@ -151,20 +143,19 @@ namespace App.Controllers
                 Name = name
             };
 
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var username = this.User.FindFirst(ClaimTypes.Name).Value;
 
-            await _categoryRepository.AddOneAsync(category, userId);
+            // await _categoryRepository.AddOneAsync(category, );
 
             // update paths
-            // var allCategories = await _categoryRepository.GetAllAsync(userId);
+            // var allCategories = await _categoryRepository.GetAllAsync();
 
             // var roots = allCategories.Where(x => x.ParentCategoryId == null).ToList();
 
             // // update roots 
             // roots.ForEach(cat =>
             // {
-            //     cat.Path = $"{userId}/{cat.CategoryId}";
+            //     cat.Path = $"{}/{cat.CategoryId}";
             //     cat.Level = 0;
             // });
 
@@ -173,12 +164,12 @@ namespace App.Controllers
             // // update subs
             // subs.ForEach(cat =>
             // {
-            //     cat.Path = $"{userId}/{cat.ParentCategoryId}/{cat.CategoryId}";
+            //     cat.Path = $"{}/{cat.ParentCategoryId}/{cat.CategoryId}";
             //     cat.Level = 1;
             // });
 
-            // await _categoryRepository.UpdateMultipleAsync(roots, userId);
-            // await _categoryRepository.UpdateMultipleAsync(subs, userId);
+            // await _categoryRepository.UpdateMultipleAsync(roots, );
+            // await _categoryRepository.UpdateMultipleAsync(subs, );
 
             return Ok();
         }
