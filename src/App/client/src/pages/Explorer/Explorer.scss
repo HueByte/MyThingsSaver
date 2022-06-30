@@ -80,7 +80,7 @@ $content-column-title-width: 150px;
           animation: 300ms ease-out 0s 1 onload;
           width: 100%;
 
-          i {
+          svg {
             margin-right: variables.$ss-margin;
           }
 
@@ -214,7 +214,7 @@ $content-column-title-width: 150px;
             justify-content: flex-end;
             flex: 1 1;
 
-            i {
+            svg {
               margin-right: variables.$s-margin;
 
               &:hover {

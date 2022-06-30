@@ -9,6 +9,7 @@ import { successModal, warningModal } from "../../core/Modals";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import { DropdownItem, DropdownButton } from "../../components/Dropdown";
+import { FaRegStickyNote } from "react-icons/fa";
 
 const sendUpdateCallback = async (entryId, newName, data) => {
   await EntriesRepository.Update(entryId, newName, data).catch((error) =>
@@ -99,7 +100,7 @@ const Entry = () => {
           <div className="top-info">
             <div className="left">
               <div className="icon">
-                <i class="fas fa-sticky-note"></i>
+                <FaRegStickyNote />
               </div>
               <div className="title">
                 <abbr title={name} className="ellipsis">

@@ -8,7 +8,13 @@ import Loader from "../../components/Loaders/Loader";
 import EntryDelete from "./components/EntryDelete";
 import EntryUpdate from "./components/EntryUpdate";
 import EntryAdd from "./components/EntryAdd";
-import { FaGhost } from "react-icons/fa";
+import {
+  FaGhost,
+  FaPenSquare,
+  FaPlus,
+  FaStickyNote,
+  FaTimes,
+} from "react-icons/fa";
 
 const ExplorerContent = () => {
   const [lastUsedId, setLastUsedId] = useOutletContext();
@@ -66,11 +72,10 @@ const ExplorerContent = () => {
               <div className="column header-item">Size</div>
               <div className="column header-item">Type</div>
               <div className="column actions">
-                <i
-                  class="fa fa-plus icon-action"
-                  aria-hidden="true"
+                <FaPlus
+                  class="icon-action"
                   onClick={() => setIsAddActive(true)}
-                ></i>
+                />
               </div>
             </div>
             {currentEntries.length > 0 ? (
@@ -82,7 +87,7 @@ const ExplorerContent = () => {
                     to={`/entry/${lastUsedId}/${entry.categoryEntryId}`}
                   >
                     <div className="space icon">
-                      <i class="fas fa-sticky-note"></i>
+                      <FaStickyNote />
                     </div>
                     <div className="column title ellipsis">
                       <abbr
@@ -99,21 +104,19 @@ const ExplorerContent = () => {
                     <div className="column size">{entry.size} B</div>
                     <div className="column size">md</div>
                     <div className="column actions">
-                      <i
-                        class="fas fa-pen-square"
+                      <FaPenSquare
                         onClick={(e) => {
                           e.preventDefault();
                           invokeEdit(entry);
                         }}
-                      ></i>
-                      <i
-                        class="fa fa-times"
-                        aria-hidden="true"
+                      />
+
+                      <FaTimes
                         onClick={(e) => {
                           e.preventDefault();
                           invokeDelete(entry);
                         }}
-                      ></i>
+                      />
                     </div>
                   </NavLink>
                 );

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const Item = ({ category, recentPath, setCurrentContextItem }) => {
@@ -24,21 +25,19 @@ const Item = ({ category, recentPath, setCurrentContextItem }) => {
       >
         {category.childCategories ? (
           showChilds ? (
-            <i
+            <FaAngleDown
               onClick={(e) => {
                 e.preventDefault();
                 setShowChilds(!showChilds);
               }}
-              class="fa fa-angle-down"
-            ></i>
+            />
           ) : (
-            <i
+            <FaAngleRight
               onClick={(e) => {
                 e.preventDefault();
                 setShowChilds(!showChilds);
               }}
-              class="fa fa-angle-right"
-            ></i>
+            />
           )
         ) : (
           <i style={{ marginLeft: "10px" }}></i>

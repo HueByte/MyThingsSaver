@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { FaFolderOpen, FaStickyNote } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import EntriesRepository from "../../api/repositories/EntriesRepository";
 import Loader from "../../components/Loaders/Loader";
@@ -34,7 +35,7 @@ const HomePage = () => {
                 key={index}
               >
                 <div className="image">
-                  <i class="fas fa-sticky-note"></i>
+                  <FaStickyNote />
                 </div>
                 <div className="name ellipsis">{entry.categoryEntryName}</div>
                 <div className="information">
@@ -73,7 +74,7 @@ const HomePage = () => {
                 fontSize: "xxx-large",
               }}
             >
-              <i class="fas fa-folder-open"></i>
+              <FaFolderOpen />
               <span
                 style={{
                   color: "var(--Rose)",

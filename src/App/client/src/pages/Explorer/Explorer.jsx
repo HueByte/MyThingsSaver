@@ -9,6 +9,7 @@ import { CategoryContext } from "../../contexts/CategoryContext";
 import "./Explorer.scss";
 import ContextMenu from "./components/ContextMenu";
 import Item from "./ExplorerItem";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const Explorer = () => {
   const categoryContext = useContext(CategoryContext);
@@ -98,11 +99,7 @@ const Explorer = () => {
           onContextMenu={() => setContextMenuCategory(null)}
         >
           <div className="expander" onClick={switchExpandMenu}>
-            {isMenuExpanded ? (
-              <i class="fa fa-arrow-left" aria-hidden="true"></i>
-            ) : (
-              <i class="fa fa-arrow-right" aria-hidden="true"></i>
-            )}
+            {isMenuExpanded ? <FaArrowLeft /> : <FaArrowRight />}
           </div>
           <div
             id="dragger"
