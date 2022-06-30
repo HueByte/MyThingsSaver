@@ -2,10 +2,12 @@ using System;
 using System.Threading.Tasks;
 using App.Authentication;
 using App.Extensions;
+using Common.ApiResonse;
 using Common.Constants;
 using Common.Events;
 using Core.DTO;
 using Core.Entities;
+using Core.lib;
 using Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -27,56 +29,47 @@ namespace App.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterDto registerUser)
         {
-            var result = await ApiEventHandler.EventHandleAsync(async () =>
-                await _userService.CreateUser(registerUser));
+            var data = await _userService.CreateUser(registerUser);
 
-            if (result.IsSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse.FromData(data);
         }
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto userDto)
         {
-            var result = await ApiEventHandler<VerifiedUserDto>.EventHandleAsync(async () =>
-               await _userService.LoginUser(userDto, GetIpAddress()));
+            var data = await _userService.LoginUser(userDto, GetIpAddress());
+            var result = new BaseApiResponse<VerifiedUserDto>(data);
 
             if (result.IsSuccess)
             {
                 AttachAuthCookies(result.Data!);
-                return Ok(result);
             }
 
-            return BadRequest(result);
+            return CreateResponse.FromBaseApiResponse(result);
         }
 
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto user)
         {
-            var result = await ApiEventHandler.EventHandleAsync(async () =>
-                await _userService.ChangePasswordAsync(user));
+            await _userService.ChangePasswordAsync(user);
 
-            if (result.IsSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse.Empty();
         }
 
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
-            var result = await ApiEventHandler<VerifiedUserDto>.EventHandleAsync(async () =>
-                await _refreshTokenService.RefreshToken(refreshToken!, GetIpAddress()));
+            var data = await _refreshTokenService.RefreshToken(refreshToken!, GetIpAddress());
+
+            var result = new BaseApiResponse<VerifiedUserDto>(data);
 
             if (result.IsSuccess && !string.IsNullOrEmpty(result.Data?.RefreshToken))
             {
                 AttachAuthCookies(result.Data!);
-                return Ok(result);
             }
 
-            return BadRequest(result);
+            return CreateResponse.FromBaseApiResponse(result);
         }
 
         [HttpPost("revoke-token")]
@@ -84,13 +77,9 @@ namespace App.Controllers
         {
             var token = bodyToken ?? Request.Cookies[CookieNames.RefreshTokenCookie];
 
-            var result = await ApiEventHandler.EventHandleAsync(async () =>
-                await _refreshTokenService.RevokeToken(token!, GetIpAddress()));
+            await _refreshTokenService.RevokeToken(token!, GetIpAddress());
 
-            if (result.IsSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            return CreateResponse.Empty();
         }
 
         [HttpPost("logout")]
@@ -101,7 +90,7 @@ namespace App.Controllers
 
             Response.Cookies.Delete(CookieNames.RefreshTokenCookie);
             Response.Cookies.Delete(CookieNames.AccessToken);
-            return Ok();
+            return CreateResponse.Empty();
         }
 
         private void AttachAuthCookies(VerifiedUserDto user)
