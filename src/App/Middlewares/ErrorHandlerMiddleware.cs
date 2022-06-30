@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Net;
 using Common.ApiResonse;
-using Common.Events;
+using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 

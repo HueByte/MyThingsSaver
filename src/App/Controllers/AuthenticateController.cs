@@ -4,7 +4,6 @@ using App.Authentication;
 using App.Extensions;
 using Common.ApiResonse;
 using Common.Constants;
-using Common.Events;
 using Core.DTO;
 using Core.Entities;
 using Core.lib;
