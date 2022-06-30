@@ -42,11 +42,6 @@
   --DarkGrey: #474747;
 }
 
-:root {
-  --BiggerScreens: 1100px;
-  --MediumScreens: 410px;
-}
-
 .rose {
   color: var(--Rose);
 }
@@ -241,9 +236,6 @@ textarea {
 
 /* Selects
 -----------------------------------------------*/
-
-select {
-}
 
 select[multiple] {
   /* Move the label to the top */

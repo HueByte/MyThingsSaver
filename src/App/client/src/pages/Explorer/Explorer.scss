@@ -139,6 +139,14 @@ $content-column-title-width: 150px;
         overflow-x: hidden;
         padding-right: variables.$s-padding;
 
+        .empty {
+          font-size: 64px;
+          display: grid;
+          place-items: center;
+          height: 100%;
+          color: theme.$Passive;
+        }
+
         .header {
           background-color: theme.$Background;
           margin-bottom: variables.$s-margin;

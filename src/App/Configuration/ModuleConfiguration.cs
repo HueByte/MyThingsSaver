@@ -37,7 +37,6 @@ namespace App.Configuration
 
         public ModuleConfiguration ConfigureDatabase(bool isProduction)
         {
-            // var databaseType = _configuration.GetValue<string>("Database:Type").ToLower();
             var databaseType = _configuration.Database.Type.ToLower();
 
             if (string.IsNullOrEmpty(databaseType))
@@ -125,8 +124,9 @@ namespace App.Configuration
                         context.Token = context.Request.Cookies["X-Access-Token"];
                         return Task.CompletedTask;
                     },
-                    // TODO: handle 401 response re-authorize on API side
-                    // OnForbidden = context => {
+                    // OnAuthenticationFailed = context =>
+                    // {
+                    //     Console.WriteLine(context.Exception.GetType() == typeof(SecurityTokenExpiredException));
                     //     return Task.CompletedTask;
                     // }
                 };

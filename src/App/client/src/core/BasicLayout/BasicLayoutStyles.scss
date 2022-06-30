@@ -28,6 +28,8 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px var(--SharkDark) inset;
   border: 1px solid var(--SharkDark);
+  -webkit-text-fill-color: #fff !important;
+  text
 
   &:hover {
     border: 1px solid var(--Grey);

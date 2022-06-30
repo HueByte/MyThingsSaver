@@ -8,6 +8,7 @@ import Loader from "../../components/Loaders/Loader";
 import EntryDelete from "./components/EntryDelete";
 import EntryUpdate from "./components/EntryUpdate";
 import EntryAdd from "./components/EntryAdd";
+import { FaGhost } from "react-icons/fa";
 
 const ExplorerContent = () => {
   const [lastUsedId, setLastUsedId] = useOutletContext();
@@ -72,50 +73,56 @@ const ExplorerContent = () => {
                 ></i>
               </div>
             </div>
-            {currentEntries.map((entry) => {
-              return (
-                <NavLink
-                  key={entry.categoryEntryId}
-                  className="row item"
-                  to={`/entry/${lastUsedId}/${entry.categoryEntryId}`}
-                >
-                  <div className="space icon">
-                    <i class="fas fa-sticky-note"></i>
-                  </div>
-                  <div className="column title ellipsis">
-                    <abbr
-                      title={entry.categoryEntryName}
-                      className="ellipsis"
-                      style={{ cursor: "pointer" }}
-                    >
-                      {entry.categoryEntryName}
-                    </abbr>
-                  </div>
-                  <div className="column date">
-                    {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
-                  </div>
-                  <div className="column size">{entry.size} B</div>
-                  <div className="column size">md</div>
-                  <div className="column actions">
-                    <i
-                      class="fas fa-pen-square"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        invokeEdit(entry);
-                      }}
-                    ></i>
-                    <i
-                      class="fa fa-times"
-                      aria-hidden="true"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        invokeDelete(entry);
-                      }}
-                    ></i>
-                  </div>
-                </NavLink>
-              );
-            })}
+            {currentEntries.length > 0 ? (
+              currentEntries.map((entry) => {
+                return (
+                  <NavLink
+                    key={entry.categoryEntryId}
+                    className="row item"
+                    to={`/entry/${lastUsedId}/${entry.categoryEntryId}`}
+                  >
+                    <div className="space icon">
+                      <i class="fas fa-sticky-note"></i>
+                    </div>
+                    <div className="column title ellipsis">
+                      <abbr
+                        title={entry.categoryEntryName}
+                        className="ellipsis"
+                        style={{ cursor: "pointer" }}
+                      >
+                        {entry.categoryEntryName}
+                      </abbr>
+                    </div>
+                    <div className="column date">
+                      {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
+                    </div>
+                    <div className="column size">{entry.size} B</div>
+                    <div className="column size">md</div>
+                    <div className="column actions">
+                      <i
+                        class="fas fa-pen-square"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          invokeEdit(entry);
+                        }}
+                      ></i>
+                      <i
+                        class="fa fa-times"
+                        aria-hidden="true"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          invokeDelete(entry);
+                        }}
+                      ></i>
+                    </div>
+                  </NavLink>
+                );
+              })
+            ) : (
+              <div className="empty">
+                <FaGhost />
+              </div>
+            )}
 
             <EntryAdd
               isActive={isAddActive}
@@ -141,7 +148,10 @@ const ExplorerContent = () => {
             />
           </div>
         ) : (
-          <></>
+          <>
+            a
+            <FaGhost />
+          </>
         )
       ) : (
         <Loader />
