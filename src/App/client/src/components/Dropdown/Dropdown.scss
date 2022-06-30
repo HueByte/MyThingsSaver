@@ -26,6 +26,17 @@ $drop-width: 160px;
     padding: 10px;
   }
 
+  .drop-icon {
+    font-size: 24px;
+    display: grid;
+    place-items: center;
+    width: 32px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   .content {
     position: absolute;
     display: flex;
