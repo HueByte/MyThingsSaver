@@ -152,8 +152,9 @@ const ExplorerContent = () => {
           </div>
         ) : (
           <>
-            a
-            <FaGhost />
+            <div className="empty">
+              <FaGhost />
+            </div>
           </>
         )
       ) : (
