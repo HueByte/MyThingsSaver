@@ -42,7 +42,7 @@ namespace App.Controllers
 
         [HttpPost("Add")]
         [Authorize]
-        public async Task<IActionResult> Add([FromBody] CategoryEntryDto entry)
+        public async Task<IActionResult> Add([FromBody] EntryDTO entry)
         {
             await _categoryEntryRepository.AddOneAsync(entry);
 
@@ -51,7 +51,7 @@ namespace App.Controllers
 
         [HttpPost("Update")]
         [Authorize]
-        public async Task<IActionResult> Update([FromBody] CategoryEntryDto entry)
+        public async Task<IActionResult> Update([FromBody] EntryDTO entry)
         {
             await _categoryEntryRepository.UpdateOneAsync(entry);
 
@@ -60,7 +60,7 @@ namespace App.Controllers
 
         [HttpPost("UpdateWithoutContent")]
         [Authorize]
-        public async Task<IActionResult> UpdateWithoutContent([FromBody] CategoryEntryDto entry)
+        public async Task<IActionResult> UpdateWithoutContent([FromBody] EntryDTO entry)
         {
             await _categoryEntryRepository.UpdateOneWithoutContentAsync(entry);
 

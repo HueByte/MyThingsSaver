@@ -88,7 +88,7 @@ namespace Infrastructure.Repositories
             return entries;
         }
 
-        public async Task AddOneAsync(CategoryEntryDto entryDTO)
+        public async Task AddOneAsync(EntryDTO entryDTO)
         {
             if (string.IsNullOrWhiteSpace(entryDTO.EntryName))
                 throw new EndpointException("Entry name cannot be empty");
@@ -139,7 +139,7 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateOneAsync(CategoryEntryDto newEntry)
+        public async Task UpdateOneAsync(EntryDTO newEntry)
         {
             if (string.IsNullOrWhiteSpace(newEntry.EntryId))
                 throw new EndpointException("ID cannot be empty");
@@ -158,7 +158,7 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateOneWithoutContentAsync(CategoryEntryDto newEntry)
+        public async Task UpdateOneWithoutContentAsync(EntryDTO newEntry)
         {
             if (string.IsNullOrWhiteSpace(newEntry.EntryId))
                 throw new EndpointException("ID cannot be empty");

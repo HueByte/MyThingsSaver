@@ -1,6 +1,6 @@
 namespace Core.DTO
 {
-    public class CategoryEntryDto
+    public class EntryDTO
     {
         public string CategoryId { get; set; }
         public string EntryId { get; set; }

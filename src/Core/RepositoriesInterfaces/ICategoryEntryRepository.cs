@@ -14,9 +14,9 @@ namespace Core.RepositoriesInterfaces
         Task<EntryModel> GetOneByIdAsync(string id);
         Task<AllCategoryEntries> GetAllAsync(string categoryId, bool withContent = false);
         Task<List<EntryModel>> GetRecentAsync();
-        Task AddOneAsync(CategoryEntryDto entity);
+        Task AddOneAsync(EntryDTO entity);
         Task RemoveOneAsync(string id);
-        Task UpdateOneAsync(CategoryEntryDto newEntry);
-        Task UpdateOneWithoutContentAsync(CategoryEntryDto newEntry);
+        Task UpdateOneAsync(EntryDTO newEntry);
+        Task UpdateOneWithoutContentAsync(EntryDTO newEntry);
     }
 }

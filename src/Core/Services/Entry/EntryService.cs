@@ -14,7 +14,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.Services.Entry;
 
-public class EntryService
+
+
+public class EntryService : IEntryService
 {
     private readonly ICategoryService _categoryService;
     private readonly IEntryRepository _repository;
@@ -70,7 +72,7 @@ public class EntryService
         return entries;
     }
 
-    public async Task AddEntryAsync(CategoryEntryDto entryInput)
+    public async Task AddEntryAsync(EntryDTO entryInput)
     {
         if (string.IsNullOrWhiteSpace(entryInput.EntryName))
             throw new EndpointException("Entry name cannot be empty");
@@ -119,7 +121,7 @@ public class EntryService
         await _repository.SaveChangesAsync();
     }
 
-    public async Task UpdateEntryAsync(CategoryEntryDto entryInput)
+    public async Task UpdateEntryAsync(EntryDTO entryInput)
     {
         if (string.IsNullOrWhiteSpace(entryInput.EntryId))
             throw new EndpointException("ID cannot be empty");
@@ -137,7 +139,7 @@ public class EntryService
         await _repository.SaveChangesAsync();
     }
 
-    public async Task UpdateEntryWithoutContentAsync(CategoryEntryDto entryInput)
+    public async Task UpdateEntryWithoutContentAsync(EntryDTO entryInput)
     {
         if (string.IsNullOrWhiteSpace(entryInput.EntryId))
             throw new EndpointException("ID cannot be empty");
