@@ -5,6 +5,7 @@
 - Fix architecture
 - Implement more design patterns
 - Add module support
+- Migrate to .net 7 once nugets update
 
 ### Frontend
 - Add new functionalities
