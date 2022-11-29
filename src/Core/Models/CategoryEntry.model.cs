@@ -1,14 +1,15 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Abstraction;
 
 namespace Core.Models
 {
-    public class CategoryEntry
+    public class CategoryEntry : DbModel<string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string CategoryEntryId { get; set; }
+        public override string Id { get; set; }
         public string CategoryEntryName { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime LastUpdatedOn { get; set; }
@@ -16,11 +17,11 @@ namespace Core.Models
         public byte[] Image { get; set; }
         public int Size { get; set; }
 
-        [ForeignKey("CategoryId")]
+        [ForeignKey("Id")]
         public string CategoryId { get; set; }
         public Category Category { get; set; }
 
-        [ForeignKey("OwnerId")]
+        [ForeignKey("Id")]
         public string OwnerId { get; set; }
         public virtual ApplicationUser Owner { get; set; }
     }

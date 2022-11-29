@@ -11,11 +11,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    [Obsolete]
+    public class CategoryRepository2 : ICategoryRepository
     {
         private readonly AppDbContext _context;
         private readonly ICurrentUserService _currentUserService;
-        public CategoryRepository(AppDbContext context, ICurrentUserService currentUserService)
+        public CategoryRepository2(AppDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
             _currentUserService = currentUserService;
@@ -26,7 +27,7 @@ namespace Infrastructure.Repositories
             if (id is null)
                 throw new EndpointException("ID cannot be empty");
 
-            var category = await _context.Categories.FirstOrDefaultAsync(cat => cat.CategoryId == id && cat.Owner.Id == _currentUserService.UserId);
+            var category = await _context.Categories.FirstOrDefaultAsync(cat => cat.Id == id && cat.Owner.Id == _currentUserService.UserId);
 
             if (category is null)
                 throw new EndpointException("Couldn't find this category");
@@ -84,7 +85,7 @@ namespace Infrastructure.Repositories
             if (!string.IsNullOrWhiteSpace(cat.CategoryParentId))
             {
                 parent = await _context.Categories.FirstOrDefaultAsync(category => category.OwnerId == _currentUserService.UserId
-                                                                            && category.CategoryId == cat.CategoryParentId);
+                                                                            && category.Id == cat.CategoryParentId);
 
                 if (parent is null)
                     throw new EndpointException("This parent category doesn't exist");
@@ -97,7 +98,7 @@ namespace Infrastructure.Repositories
             Category newCategory = new()
             {
                 CategoryEntries = null,
-                CategoryId = newCategoryId,
+                Id = newCategoryId,
                 DateCreated = DateTime.UtcNow,
                 Name = cat.Name.Trim(),
                 LastEditedOn = DateTime.UtcNow,
@@ -116,7 +117,7 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(newCategory.Name))
                 throw new EndpointException("Name cannot be empty");
 
-            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == newCategory.CategoryId && x.Owner.Id == _currentUserService.UserId);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == newCategory.CategoryId && x.Owner.Id == _currentUserService.UserId);
             if (category == null)
                 throw new EndpointException("Couldn't find that category");
 
@@ -137,7 +138,7 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(id))
                 throw new EndpointException("Name cannot be empty");
 
-            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id && x.Owner.Id == _currentUserService.UserId);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == id && x.Owner.Id == _currentUserService.UserId);
             if (category == null)
                 throw new EndpointException("Couldn't find that category");
 
@@ -152,7 +153,7 @@ namespace Infrastructure.Repositories
 
             var categoryWithEntries = await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<Category>(_context.Categories
                     .Include(entity => entity.CategoryEntries.OrderByDescending(e => e.LastUpdatedOn)),
-                param => param.CategoryId == categoryId && param.OwnerId == _currentUserService.UserId);
+                param => param.Id == categoryId && param.OwnerId == _currentUserService.UserId);
 
             return categoryWithEntries;
         }

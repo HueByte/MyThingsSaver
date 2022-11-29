@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Abstraction;
 
 namespace Core.Models
 {
-    public class Category
+    public class Category : DbModel<string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string CategoryId { get; set; }
+        public override string Id { get; set; }
         public string Name { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime LastEditedOn { get; set; }

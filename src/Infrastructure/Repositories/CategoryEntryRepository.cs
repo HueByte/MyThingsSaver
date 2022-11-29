@@ -12,11 +12,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class CategoryEntryRepository : ICategoryEntryRepository
+    [Obsolete]
+    public class CategoryEntryRepository2 : ICategoryEntryRepository
     {
         private readonly AppDbContext _context;
         private readonly ICurrentUserService _currentUserService;
-        public CategoryEntryRepository(AppDbContext context, ICurrentUserService currentUserService)
+        public CategoryEntryRepository2(AppDbContext context, ICurrentUserService currentUserService)
         {
             _currentUserService = currentUserService;
             _context = context;
@@ -33,7 +34,7 @@ namespace Infrastructure.Repositories
                 throw new EndpointException("Entry ID cannot be empty");
 
             var entry = await _context.CategoriesEntries
-                .FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.Owner.Id == _currentUserService.UserId);
+                .FirstOrDefaultAsync(entry => entry.Id == id && entry.Owner.Id == _currentUserService.UserId);
 
             if (entry == null)
                 throw new EndpointException("Couldn't find that entry");
@@ -72,7 +73,7 @@ namespace Infrastructure.Repositories
                     .Select(e => new CategoryEntry
                     {
                         CreatedOn = e.CreatedOn,
-                        CategoryEntryId = e.CategoryEntryId,
+                        Id = e.Id,
                         CategoryEntryName = e.CategoryEntryName,
                         Image = e.Image,
                         OwnerId = e.OwnerId,
@@ -92,7 +93,7 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(entryDTO.EntryName))
                 throw new EndpointException("Entry name cannot be empty");
 
-            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == entryDTO.CategoryId);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == entryDTO.CategoryId);
             if (category is null)
                 throw new EndpointException("Couldn't find that category");
 
@@ -108,7 +109,7 @@ namespace Infrastructure.Repositories
                 LastUpdatedOn = DateTime.UtcNow,
                 Image = entryDTO.Image,
                 OwnerId = _currentUserService.UserId,
-                CategoryEntryId = Guid.NewGuid().ToString()
+                Id = Guid.NewGuid().ToString()
             };
 
             await _context.CategoriesEntries.AddAsync(entry);
@@ -122,12 +123,12 @@ namespace Infrastructure.Repositories
                 throw new EndpointException("ID cannot be empty");
 
             // make sure that user owns that entry
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == id && entry.OwnerId == _currentUserService.UserId);
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.Id == id && entry.OwnerId == _currentUserService.UserId);
             if (entry == null)
                 throw new EndpointException("couldn't find that entry");
 
 
-            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == entry.CategoryId);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == entry.CategoryId);
             if (category is null)
                 throw new EndpointException("Couldn't find that category");
 
@@ -143,7 +144,7 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(newEntry.EntryId))
                 throw new EndpointException("ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == newEntry.EntryId
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.Id == newEntry.EntryId
                                                                                       && entry.OwnerId == _currentUserService.UserId);
             if (entry == null)
                 throw new EndpointException("Couldn't find that entry");
@@ -162,7 +163,7 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(newEntry.EntryId))
                 throw new EndpointException("ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.CategoryEntryId == newEntry.EntryId
+            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.Id == newEntry.EntryId
                                                                                       && entry.OwnerId == _currentUserService.UserId);
 
             if (entry == null)
@@ -184,7 +185,7 @@ namespace Infrastructure.Repositories
                 .Select(x => new CategoryEntry
                 {
                     CategoryEntryName = x.CategoryEntryName,
-                    CategoryEntryId = x.CategoryEntryId,
+                    Id = x.Id,
                     Size = x.Size,
                     CreatedOn = x.CreatedOn,
                     LastUpdatedOn = x.LastUpdatedOn,

@@ -128,7 +128,7 @@ namespace App.Authentication
             Category guideCategory = new()
             {
                 CategoryEntries = null,
-                CategoryId = categoryId,
+                Id = categoryId,
                 DateCreated = DateTime.UtcNow,
                 Name = "Guide",
                 OwnerId = user.Id,
@@ -146,7 +146,7 @@ namespace App.Authentication
                 LastUpdatedOn = DateTime.UtcNow,
                 Image = null,
                 OwnerId = user.Id,
-                CategoryEntryId = Guid.NewGuid().ToString()
+                Id = Guid.NewGuid().ToString()
             };
 
             CategoryEntry guide = new()
@@ -159,7 +159,7 @@ namespace App.Authentication
                 LastUpdatedOn = DateTime.UtcNow,
                 Image = null,
                 OwnerId = user.Id,
-                CategoryEntryId = Guid.NewGuid().ToString()
+                Id = Guid.NewGuid().ToString()
             };
 
             await _context.Categories.AddAsync(guideCategory);

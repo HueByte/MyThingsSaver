@@ -1,14 +1,15 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Core.Abstraction;
 
 namespace Core.Models
 {
-    public class RefreshToken
+    public class RefreshToken : DbModel<int>
     {
         [Key]
         [JsonIgnore]
-        public int RefreshTokenId { get; set; }
+        public override int Id { get; set; }
         public string Token { get; set; }
         public DateTime Expires { get; set; }
         public DateTime Created { get; set; }

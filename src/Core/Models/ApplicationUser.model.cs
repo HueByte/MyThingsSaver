@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core.Abstraction;
 using Microsoft.AspNetCore.Identity;
 
 namespace Core.Models
