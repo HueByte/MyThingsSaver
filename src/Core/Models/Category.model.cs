@@ -13,11 +13,11 @@ namespace Core.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override string Id { get; set; }
         public string Name { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime LastEditedOn { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastEditedOnDate { get; set; }
         public string Path { get; set; }
         public byte Level { get; set; }
-        public virtual ICollection<EntryModel> CategoryEntries { get; set; }
+        public virtual ICollection<EntryModel> Entries { get; set; }
 
         [ForeignKey("UserId")]
         public override string UserId { get; set; }

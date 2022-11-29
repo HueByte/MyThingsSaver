@@ -97,11 +97,11 @@ namespace Infrastructure.Repositories
             string newCategoryId = Guid.NewGuid().ToString();
             CategoryModel newCategory = new()
             {
-                CategoryEntries = null,
+                Entries = null,
                 Id = newCategoryId,
-                DateCreated = DateTime.UtcNow,
+                CreatedDate = DateTime.UtcNow,
                 Name = cat.Name.Trim(),
-                LastEditedOn = DateTime.UtcNow,
+                LastEditedOnDate = DateTime.UtcNow,
                 UserId = _currentUserService.UserId,
                 ParentCategoryId = cat.CategoryParentId,
                 Path = $"{path}/{newCategoryId}",
@@ -152,7 +152,7 @@ namespace Infrastructure.Repositories
                 throw new EndpointException("Category ID cannot be empty");
 
             var categoryWithEntries = await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<CategoryModel>(_context.Categories
-                    .Include(entity => entity.CategoryEntries.OrderByDescending(e => e.LastUpdatedOn)),
+                    .Include(entity => entity.Entries.OrderByDescending(e => e.LastUpdatedOn)),
                 param => param.Id == categoryId && param.UserId == _currentUserService.UserId);
 
             return categoryWithEntries;

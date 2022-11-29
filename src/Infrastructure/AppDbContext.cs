@@ -29,7 +29,7 @@ namespace Infrastructure
 
             builder.Entity<EntryModel>()
                 .HasOne(c => c.Category)
-                .WithMany(c => c.CategoryEntries)
+                .WithMany(c => c.Entries)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 

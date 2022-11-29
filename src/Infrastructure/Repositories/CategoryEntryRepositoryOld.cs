@@ -53,10 +53,10 @@ namespace Infrastructure.Repositories
             {
                 entries.SubCategories = await _context.Categories
                     .Where(cat => cat.ParentCategoryId == categoryId)
-                    .OrderByDescending(e => e.LastEditedOn)
+                    .OrderByDescending(e => e.LastEditedOnDate)
                     .ToListAsync();
 
-                entries.CategoryEntries = await _context.Entries
+                entries.Entries = await _context.Entries
                     .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == _currentUserService.UserId)
                     .OrderByDescending(e => e.LastUpdatedOn)
                     .ToListAsync();
@@ -65,16 +65,16 @@ namespace Infrastructure.Repositories
             {
                 entries.SubCategories = await _context.Categories
                     .Where(cat => cat.ParentCategoryId == categoryId)
-                    .OrderByDescending(e => e.LastEditedOn)
+                    .OrderByDescending(e => e.LastEditedOnDate)
                     .ToListAsync();
 
-                entries.CategoryEntries = await _context.Entries
+                entries.Entries = await _context.Entries
                     .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == _currentUserService.UserId)
                     .Select(e => new EntryModel
                     {
                         CreatedOn = e.CreatedOn,
                         Id = e.Id,
-                        CategoryEntryName = e.CategoryEntryName,
+                        Name = e.CategoryEntryName,
                         Image = e.Image,
                         UserId = e.UserId,
                         Size = e.Size,
@@ -97,11 +97,11 @@ namespace Infrastructure.Repositories
             if (category is null)
                 throw new EndpointException("Couldn't find that category");
 
-            category.LastEditedOn = DateTime.UtcNow;
+            category.LastEditedOnDate = DateTime.UtcNow;
 
             var entry = new EntryModel()
             {
-                CategoryEntryName = entryDTO.EntryName,
+                Name = entryDTO.EntryName,
                 CategoryId = entryDTO.CategoryId,
                 Content = "",
                 Size = ASCIIEncoding.Unicode.GetByteCount(entryDTO.Content),
@@ -132,7 +132,7 @@ namespace Infrastructure.Repositories
             if (category is null)
                 throw new EndpointException("Couldn't find that category");
 
-            category.LastEditedOn = DateTime.UtcNow;
+            category.LastEditedOnDate = DateTime.UtcNow;
 
             _context.Entries.Remove(entry);
             _context.Categories.Update(category);
@@ -149,7 +149,7 @@ namespace Infrastructure.Repositories
             if (entry == null)
                 throw new EndpointException("Couldn't find that entry");
 
-            entry.CategoryEntryName = newEntry.EntryName.Trim();
+            entry.Name = newEntry.EntryName.Trim();
             entry.Content = newEntry.Content;
             entry.Size = ASCIIEncoding.Unicode.GetByteCount(newEntry.Content);
             entry.LastUpdatedOn = DateTime.UtcNow;
@@ -169,7 +169,7 @@ namespace Infrastructure.Repositories
             if (entry == null)
                 throw new EndpointException("Couldn't find that entry");
 
-            entry.CategoryEntryName = newEntry.EntryName.Trim();
+            entry.Name = newEntry.EntryName.Trim();
             entry.CategoryId = newEntry.CategoryId;
             entry.LastUpdatedOn = DateTime.UtcNow;
 
@@ -184,7 +184,7 @@ namespace Infrastructure.Repositories
                 .Include(x => x.Category)
                 .Select(x => new EntryModel
                 {
-                    CategoryEntryName = x.CategoryEntryName,
+                    Name = x.Name,
                     Id = x.Id,
                     Size = x.Size,
                     CreatedOn = x.CreatedOn,

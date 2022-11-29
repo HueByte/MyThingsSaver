@@ -36,7 +36,7 @@ namespace Core.Services.Category
         {
             var categoriesQuery = await _repository.GetAllAsync();
             return await categoriesQuery
-                .OrderByDescending(cat => cat.LastEditedOn)
+                .OrderByDescending(cat => cat.LastEditedOnDate)
                 .ToListAsync();
         }
 
@@ -59,6 +59,7 @@ namespace Core.Services.Category
             var categoriesQuery = await _repository.GetAllAsync();
             return await categoriesQuery
                 .Where(category => category.ParentCategoryId == parentId)
+                .OrderByDescending(cat => cat.LastEditedOnDate)
                 .ToListAsync();
         }
 
@@ -94,8 +95,8 @@ namespace Core.Services.Category
             CategoryModel newCategory = new()
             {
                 Id = newCategoryId,
-                DateCreated = DateTime.UtcNow,
-                LastEditedOn = DateTime.UtcNow,
+                CreatedDate = DateTime.UtcNow,
+                LastEditedOnDate = DateTime.UtcNow,
                 Name = categoryInput.Name.Trim(),
                 ParentCategoryId = categoryInput.CategoryParentId,
                 Level = (byte)level,
@@ -122,7 +123,7 @@ namespace Core.Services.Category
                 throw new EndpointException("Couldn't update that category");
 
             category.Name = categoryInput.Name;
-            category.LastEditedOn = DateTime.UtcNow;
+            category.LastEditedOnDate = DateTime.UtcNow;
 
             await _repository.UpdateAsync(category);
             await _repository.SaveChangesAsync();
@@ -141,14 +142,14 @@ namespace Core.Services.Category
             await _repository.SaveChangesAsync();
         }
 
-        public async Task<CategoryModel> GetCategoryWithEntries(string id)
+        public async Task<CategoryModel> GetCategoryWithEntriesAsync(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new EndpointException("Category ID cannot be empty");
 
             var categoryWithEntriesQuery = await _repository.GetAllAsync();
             var categoryWithEntries = await categoryWithEntriesQuery
-                .Include(cat => cat.CategoryEntries.OrderByDescending(e => e.LastUpdatedOn))
+                .Include(cat => cat.Entries.OrderByDescending(e => e.LastUpdatedOn))
                 .FirstOrDefaultAsync(cat => cat.Id == id);
 
             return categoryWithEntries;

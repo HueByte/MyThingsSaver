@@ -127,9 +127,9 @@ namespace App.Authentication
             var categoryId = Guid.NewGuid().ToString();
             CategoryModel guideCategory = new()
             {
-                CategoryEntries = null,
+                Entries = null,
                 Id = categoryId,
-                DateCreated = DateTime.UtcNow,
+                CreatedDate = DateTime.UtcNow,
                 Name = "Guide",
                 UserId = user.Id,
                 Path = $"{user.Id}/{categoryId}",
@@ -138,7 +138,7 @@ namespace App.Authentication
 
             EntryModel welcome = new()
             {
-                CategoryEntryName = "Welcome",
+                Name = "Welcome",
                 CategoryId = categoryId,
                 Content = _guide.WELCOME,
                 Size = _guide.WELCOME_SIZE,
@@ -151,7 +151,7 @@ namespace App.Authentication
 
             EntryModel guide = new()
             {
-                CategoryEntryName = "Guide",
+                Name = "Guide",
                 CategoryId = categoryId,
                 Content = _guide.GUIDE,
                 Size = _guide.GUIDE_SIZE,
