@@ -17,13 +17,13 @@ namespace Infrastructure
 
             builder.Entity<ApplicationUserModel>()
                 .HasMany(c => c.Categories)
-                .WithOne(c => c.Owner)
+                .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ApplicationUserModel>()
                 .HasMany(c => c.Entries)
-                .WithOne(c => c.Owner)
+                .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 

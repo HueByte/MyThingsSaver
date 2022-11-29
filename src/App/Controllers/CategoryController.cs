@@ -1,14 +1,7 @@
-using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using App.Extensions;
-using Common.ApiResonse;
 using Core.DTO;
-using Core.Entities;
+using Core.Interfaces.Services;
 using Core.lib;
-using Core.Models;
-using Core.RepositoriesInterfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,17 +11,17 @@ namespace App.Controllers
 {
     public class CategoryController : BaseApiController
     {
-        private readonly ICategoryRepository2 _categoryRepository;
-        public CategoryController(ICategoryRepository2 categoryRepository)
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
-            _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
         }
 
         [HttpGet("GetAll")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetAll()
         {
-            var data = await _categoryRepository.GetAllAsync();
+            var data = await _categoryService.GetAllCategoriesAsync();
 
             return CreateResponse.FromData(data);
         }
@@ -37,7 +30,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetCategory(string id)
         {
-            var data = await _categoryRepository.GetOneByIdAsync(id);
+            var data = await _categoryService.GetCategoryAsync(id);
 
             return CreateResponse.FromData(data);
         }
@@ -46,7 +39,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllRoot()
         {
-            var data = await _categoryRepository.GetRootCategoriesAsync();
+            var data = await _categoryService.GetRootCategoriesAsync();
 
             return CreateResponse.FromData(data);
         }
@@ -55,7 +48,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllSub([FromQuery] string parentId)
         {
-            var data = await _categoryRepository.GetSubcategoriesAsync(parentId);
+            var data = await _categoryService.GetSubCategoriesAsync(parentId);
 
             return CreateResponse.FromData(data);
         }
@@ -64,7 +57,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> AddCategory([FromBody] CategoryDto category)
         {
-            await _categoryRepository.AddOneAsync(category);
+            await _categoryService.AddCategoryAsync(category);
 
             return CreateResponse.Empty();
         }
@@ -73,7 +66,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDto category)
         {
-            await _categoryRepository.RemoveOneAsync(category.CategoryId);
+            await _categoryService.RemoveCategoryAsync(category.CategoryId);
 
             return CreateResponse.Empty();
         }
@@ -82,7 +75,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> Updatecategory([FromBody] CategoryDto category)
         {
-            await _categoryRepository.UpdateOneAsync(category);
+            await _categoryService.UpdateCategoryAsync(category);
 
             return CreateResponse.Empty();
         }
@@ -91,7 +84,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetCategoryWithEntries([FromQuery] string categoryId)
         {
-            var data = await _categoryRepository.GetCategoryWithEntriesAsync(categoryId);
+            var data = await _categoryService.GetCategoryWithEntriesAsync(categoryId);
 
             return CreateResponse.FromData(data);
         }

@@ -1,13 +1,7 @@
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using App.Extensions;
-using Common.ApiResonse;
 using Core.DTO;
-using Core.Entities;
+using Core.Interfaces.Services;
 using Core.lib;
-using Core.Models;
-using Core.RepositoriesInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 // using Newtonsoft.Json.Serialization;
@@ -16,17 +10,17 @@ namespace App.Controllers
 {
     public class CategoryEntryController : BaseApiController
     {
-        private readonly ICategoryEntryRepository2 _categoryEntryRepository;
-        public CategoryEntryController(ICategoryEntryRepository2 categoryEntryRepository)
+        private readonly IEntryService _entryService;
+        public CategoryEntryController(IEntryService entryService)
         {
-            _categoryEntryRepository = categoryEntryRepository;
+            _entryService = entryService;
         }
 
         [HttpGet("Get")]
         [Authorize]
         public async Task<IActionResult> GetById(string id)
         {
-            var data = await _categoryEntryRepository.GetOneByIdAsync(id);
+            var data = await _entryService.GetEntryAsync(id);
 
             return CreateResponse.FromData(data);
         }
@@ -35,7 +29,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] string categoryId, bool withContent)
         {
-            var data = await _categoryEntryRepository.GetAllAsync(categoryId, withContent);
+            var data = await _entryService.GetAllEntriesAsync(categoryId, withContent);
 
             return CreateResponse.FromData(data);
         }
@@ -44,7 +38,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> Add([FromBody] EntryDTO entry)
         {
-            await _categoryEntryRepository.AddOneAsync(entry);
+            await _entryService.AddEntryAsync(entry);
 
             return CreateResponse.Empty();
         }
@@ -53,7 +47,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> Update([FromBody] EntryDTO entry)
         {
-            await _categoryEntryRepository.UpdateOneAsync(entry);
+            await _entryService.UpdateEntryAsync(entry);
 
             return CreateResponse.Empty();
         }
@@ -62,7 +56,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateWithoutContent([FromBody] EntryDTO entry)
         {
-            await _categoryEntryRepository.UpdateOneWithoutContentAsync(entry);
+            await _entryService.UpdateEntryWithoutContentAsync(entry);
 
             return CreateResponse.Empty();
         }
@@ -71,7 +65,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> Delete([FromQuery] string id)
         {
-            await _categoryEntryRepository.RemoveOneAsync(id);
+            await _entryService.RemoveEntryAsync(id);
 
             return CreateResponse.Empty();
         }
@@ -80,7 +74,7 @@ namespace App.Controllers
         [Authorize]
         public async Task<IActionResult> GetRecent()
         {
-            var data = await _categoryEntryRepository.GetRecentAsync();
+            var data = await _entryService.GetRecentAsync();
 
             return CreateResponse.FromData(data);
         }

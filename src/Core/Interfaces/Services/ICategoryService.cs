@@ -10,7 +10,7 @@ namespace Core.Interfaces.Services
         Task AddCategoryAsync(CategoryDto categoryInput);
         Task<List<CategoryModel>> GetAllCategoriesAsync();
         Task<CategoryModel> GetCategoryAsync(string id);
-        Task<CategoryModel> GetCategoryWithEntriesAsync(string id)
+        Task<CategoryModel> GetCategoryWithEntriesAsync(string id);
         Task<List<CategoryModel>> GetRootCategoriesAsync();
         Task<List<CategoryModel>> GetSubCategoriesAsync(string parentId);
         Task RemoveCategoryAsync(string id);
