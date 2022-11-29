@@ -18,8 +18,8 @@ namespace App.Controllers
 {
     public class CategoryController : BaseApiController
     {
-        private readonly ICategoryRepository _categoryRepository;
-        public CategoryController(ICategoryRepository categoryRepository)
+        private readonly ICategoryRepository2 _categoryRepository;
+        public CategoryController(ICategoryRepository2 categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

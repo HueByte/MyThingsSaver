@@ -7,6 +7,7 @@ namespace Infrastructure
 {
     public partial class AppDbContext : IdentityDbContext<ApplicationUserModel>
     {
+        public AppDbContext() { }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
@@ -17,13 +18,13 @@ namespace Infrastructure
             builder.Entity<ApplicationUserModel>()
                 .HasMany(c => c.Categories)
                 .WithOne(c => c.Owner)
-                .HasForeignKey(c => c.OwnerId)
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ApplicationUserModel>()
                 .HasMany(c => c.Entries)
                 .WithOne(c => c.Owner)
-                .HasForeignKey(c => c.OwnerId)
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<EntryModel>()
@@ -40,6 +41,6 @@ namespace Infrastructure
         }
 
         public DbSet<CategoryModel> Categories { get; set; }
-        public DbSet<EntryModel> CategoriesEntries { get; set; }
+        public DbSet<EntryModel> Entries { get; set; }
     }
 }

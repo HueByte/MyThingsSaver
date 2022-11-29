@@ -131,7 +131,7 @@ namespace App.Authentication
                 Id = categoryId,
                 DateCreated = DateTime.UtcNow,
                 Name = "Guide",
-                OwnerId = user.Id,
+                UserId = user.Id,
                 Path = $"{user.Id}/{categoryId}",
                 Level = 0
             };
@@ -145,7 +145,7 @@ namespace App.Authentication
                 CreatedOn = DateTime.UtcNow,
                 LastUpdatedOn = DateTime.UtcNow,
                 Image = null,
-                OwnerId = user.Id,
+                UserId = user.Id,
                 Id = Guid.NewGuid().ToString()
             };
 
@@ -158,12 +158,12 @@ namespace App.Authentication
                 CreatedOn = DateTime.UtcNow,
                 LastUpdatedOn = DateTime.UtcNow,
                 Image = null,
-                OwnerId = user.Id,
+                UserId = user.Id,
                 Id = Guid.NewGuid().ToString()
             };
 
             await _context.Categories.AddAsync(guideCategory);
-            await _context.CategoriesEntries.AddRangeAsync(new EntryModel[] { welcome, guide });
+            await _context.Entries.AddRangeAsync(new EntryModel[] { welcome, guide });
             await _context.SaveChangesAsync();
         }
     }

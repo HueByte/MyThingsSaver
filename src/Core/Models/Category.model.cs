@@ -7,7 +7,7 @@ using Core.Abstraction;
 
 namespace Core.Models
 {
-    public class CategoryModel : DbModel<string>
+    public class CategoryModel : IdentityDbModel<string, string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,9 +19,9 @@ namespace Core.Models
         public byte Level { get; set; }
         public virtual ICollection<EntryModel> CategoryEntries { get; set; }
 
-        [ForeignKey("OwnerId")]
-        public string OwnerId { get; set; }
-        public virtual ApplicationUserModel Owner { get; set; }
+        [ForeignKey("UserId")]
+        public override string UserId { get; set; }
+        public virtual ApplicationUserModel User { get; set; }
 
         [ForeignKey("ParentCategoryId")]
         public string ParentCategoryId { get; set; }

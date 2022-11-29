@@ -7,7 +7,8 @@ using Core.Models;
 
 namespace Core.RepositoriesInterfaces
 {
-    public interface ICategoryEntryRepository
+    [Obsolete]
+    public interface ICategoryEntryRepository2
     {
         Task<EntryModel> GetOneByIdAsync(Guid id);
         Task<EntryModel> GetOneByIdAsync(string id);

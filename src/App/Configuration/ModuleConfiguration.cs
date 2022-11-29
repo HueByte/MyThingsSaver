@@ -4,8 +4,11 @@ using App.Authentication;
 using App.Guide;
 using Common.Constants;
 using Core.Entities;
+using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
 using Core.Models;
 using Core.RepositoriesInterfaces;
+using Core.Services.Category;
 using Core.Services.CurrentUser;
 using Infrastructure;
 using Infrastructure.Repositories;
@@ -137,12 +140,19 @@ namespace App.Configuration
 
         public ModuleConfiguration ConfigureServices()
         {
+            // services
+            _services.AddScoped<ICategoryService, CategoryService>();
+            _services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            // repositories
+            _services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
             _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
-            _services.AddScoped<ICategoryRepository, CategoryRepository2>();
-            _services.AddScoped<ICategoryEntryRepository, CategoryEntryRepository2>();
-            _services.AddScoped<ICurrentUserService, CurrentUserService>();
+            _services.AddScoped<ICategoryRepository2, CategoryRepository2>();
+            _services.AddScoped<ICategoryEntryRepository2, CategoryEntryRepository2>();
 
             // guide 
             GuideService _guide = new();

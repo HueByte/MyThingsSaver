@@ -159,14 +159,14 @@ namespace Infrastructure.Migrations
                     CategoryId = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    OwnerId = table.Column<string>(type: "TEXT", nullable: true)
+                    UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryId);
                     table.ForeignKey(
-                        name: "FK_Categories_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
+                        name: "FK_Categories_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -184,14 +184,14 @@ namespace Infrastructure.Migrations
                     Image = table.Column<byte[]>(type: "BLOB", nullable: true),
                     Size = table.Column<int>(type: "INTEGER", nullable: false),
                     CategoryId = table.Column<string>(type: "TEXT", nullable: true),
-                    OwnerId = table.Column<string>(type: "TEXT", nullable: true)
+                    UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CategoriesEntries", x => x.CategoryEntryId);
                     table.ForeignKey(
-                        name: "FK_CategoriesEntries_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
+                        name: "FK_CategoriesEntries_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -241,9 +241,9 @@ namespace Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_OwnerId",
+                name: "IX_Categories_UserId",
                 table: "Categories",
-                column: "OwnerId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoriesEntries_CategoryId",
@@ -251,9 +251,9 @@ namespace Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoriesEntries_OwnerId",
+                name: "IX_CategoriesEntries_UserId",
                 table: "CategoriesEntries",
-                column: "OwnerId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

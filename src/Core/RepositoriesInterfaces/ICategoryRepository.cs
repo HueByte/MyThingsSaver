@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.DTO;
@@ -6,7 +7,8 @@ using Core.Models;
 
 namespace Core.RepositoriesInterfaces
 {
-    public interface ICategoryRepository
+    [Obsolete]
+    public interface ICategoryRepository2
     {
         Task<List<CategoryModel>> GetAllAsync();
         Task<List<CategoryModel>> GetRootCategoriesAsync();

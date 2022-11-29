@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Repositories
 {
     [Obsolete]
-    public class CategoryEntryRepository2 : ICategoryEntryRepository
+    public class CategoryEntryRepository2 : ICategoryEntryRepository2
     {
         private readonly AppDbContext _context;
         private readonly ICurrentUserService _currentUserService;
@@ -33,7 +33,7 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(id))
                 throw new EndpointException("Entry ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries
+            var entry = await _context.Entries
                 .FirstOrDefaultAsync(entry => entry.Id == id && entry.Owner.Id == _currentUserService.UserId);
 
             if (entry == null)
@@ -56,7 +56,7 @@ namespace Infrastructure.Repositories
                     .OrderByDescending(e => e.LastEditedOn)
                     .ToListAsync();
 
-                entries.CategoryEntries = await _context.CategoriesEntries
+                entries.CategoryEntries = await _context.Entries
                     .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == _currentUserService.UserId)
                     .OrderByDescending(e => e.LastUpdatedOn)
                     .ToListAsync();
@@ -68,7 +68,7 @@ namespace Infrastructure.Repositories
                     .OrderByDescending(e => e.LastEditedOn)
                     .ToListAsync();
 
-                entries.CategoryEntries = await _context.CategoriesEntries
+                entries.CategoryEntries = await _context.Entries
                     .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == _currentUserService.UserId)
                     .Select(e => new EntryModel
                     {
@@ -76,7 +76,7 @@ namespace Infrastructure.Repositories
                         Id = e.Id,
                         CategoryEntryName = e.CategoryEntryName,
                         Image = e.Image,
-                        OwnerId = e.OwnerId,
+                        UserId = e.UserId,
                         Size = e.Size,
                         LastUpdatedOn = e.LastUpdatedOn,
                         CategoryId = e.CategoryId
@@ -108,11 +108,11 @@ namespace Infrastructure.Repositories
                 CreatedOn = DateTime.UtcNow,
                 LastUpdatedOn = DateTime.UtcNow,
                 Image = entryDTO.Image,
-                OwnerId = _currentUserService.UserId,
+                UserId = _currentUserService.UserId,
                 Id = Guid.NewGuid().ToString()
             };
 
-            await _context.CategoriesEntries.AddAsync(entry);
+            await _context.Entries.AddAsync(entry);
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
         }
@@ -123,7 +123,7 @@ namespace Infrastructure.Repositories
                 throw new EndpointException("ID cannot be empty");
 
             // make sure that user owns that entry
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.Id == id && entry.OwnerId == _currentUserService.UserId);
+            var entry = await _context.Entries.FirstOrDefaultAsync(entry => entry.Id == id && entry.UserId == _currentUserService.UserId);
             if (entry == null)
                 throw new EndpointException("couldn't find that entry");
 
@@ -134,7 +134,7 @@ namespace Infrastructure.Repositories
 
             category.LastEditedOn = DateTime.UtcNow;
 
-            _context.CategoriesEntries.Remove(entry);
+            _context.Entries.Remove(entry);
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
         }
@@ -144,8 +144,8 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(newEntry.EntryId))
                 throw new EndpointException("ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.Id == newEntry.EntryId
-                                                                                      && entry.OwnerId == _currentUserService.UserId);
+            var entry = await _context.Entries.FirstOrDefaultAsync(entry => entry.Id == newEntry.EntryId
+                                                                                      && entry.UserId == _currentUserService.UserId);
             if (entry == null)
                 throw new EndpointException("Couldn't find that entry");
 
@@ -154,7 +154,7 @@ namespace Infrastructure.Repositories
             entry.Size = ASCIIEncoding.Unicode.GetByteCount(newEntry.Content);
             entry.LastUpdatedOn = DateTime.UtcNow;
 
-            _context.CategoriesEntries.Update(entry);
+            _context.Entries.Update(entry);
             await _context.SaveChangesAsync();
         }
 
@@ -163,8 +163,8 @@ namespace Infrastructure.Repositories
             if (string.IsNullOrWhiteSpace(newEntry.EntryId))
                 throw new EndpointException("ID cannot be empty");
 
-            var entry = await _context.CategoriesEntries.FirstOrDefaultAsync(entry => entry.Id == newEntry.EntryId
-                                                                                      && entry.OwnerId == _currentUserService.UserId);
+            var entry = await _context.Entries.FirstOrDefaultAsync(entry => entry.Id == newEntry.EntryId
+                                                                                      && entry.UserId == _currentUserService.UserId);
 
             if (entry == null)
                 throw new EndpointException("Couldn't find that entry");
@@ -173,14 +173,14 @@ namespace Infrastructure.Repositories
             entry.CategoryId = newEntry.CategoryId;
             entry.LastUpdatedOn = DateTime.UtcNow;
 
-            _context.CategoriesEntries.Update(entry);
+            _context.Entries.Update(entry);
             await _context.SaveChangesAsync();
         }
 
         public async Task<List<EntryModel>> GetRecentAsync()
         {
-            var entries = await _context.CategoriesEntries
-                .Where(entry => entry.OwnerId == _currentUserService.UserId)
+            var entries = await _context.Entries
+                .Where(entry => entry.UserId == _currentUserService.UserId)
                 .Include(x => x.Category)
                 .Select(x => new EntryModel
                 {

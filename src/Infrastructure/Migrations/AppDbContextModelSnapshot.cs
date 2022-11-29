@@ -99,7 +99,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("OwnerId")
+                    b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ParentCategoryId")
@@ -110,7 +110,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("ParentCategoryId");
 
@@ -141,7 +141,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("LastUpdatedOn")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("OwnerId")
+                    b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Size")
@@ -151,7 +151,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("CategoriesEntries");
                 });
@@ -325,7 +325,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Core.Models.ApplicationUser", "Owner")
                         .WithMany("Categories")
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Core.Models.Category", "ParentCategory")
@@ -347,7 +347,7 @@ namespace Infrastructure.Migrations
 
                     b.HasOne("Core.Models.ApplicationUser", "Owner")
                         .WithMany("Entries")
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Category");

@@ -16,8 +16,8 @@ namespace App.Controllers
 {
     public class CategoryEntryController : BaseApiController
     {
-        private readonly ICategoryEntryRepository _categoryEntryRepository;
-        public CategoryEntryController(ICategoryEntryRepository categoryEntryRepository)
+        private readonly ICategoryEntryRepository2 _categoryEntryRepository;
+        public CategoryEntryController(ICategoryEntryRepository2 categoryEntryRepository)
         {
             _categoryEntryRepository = categoryEntryRepository;
         }
