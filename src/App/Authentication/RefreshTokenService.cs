@@ -13,9 +13,9 @@ namespace App.Authentication
     {
         private AppSettingsRoot _settings;
         private AppDbContext _context;
-        private UserManager<ApplicationUser> _userManager;
+        private UserManager<ApplicationUserModel> _userManager;
         private IJwtAuthentication _jwtAuth;
-        public RefreshTokenService(AppDbContext context, AppSettingsRoot settings, UserManager<ApplicationUser> userManager, IJwtAuthentication jwtAuthentication)
+        public RefreshTokenService(AppDbContext context, AppSettingsRoot settings, UserManager<ApplicationUserModel> userManager, IJwtAuthentication jwtAuthentication)
         {
             _context = context;
             _settings = settings;
@@ -23,14 +23,14 @@ namespace App.Authentication
             _jwtAuth = jwtAuthentication;
         }
 
-        public RefreshToken CreateRefreshToken(string ipAddress)
+        public RefreshTokenModel CreateRefreshToken(string ipAddress)
         {
 
             var randomSeed = new byte[64];
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomSeed);
 
-            return new RefreshToken
+            return new RefreshTokenModel
             {
                 Token = Convert.ToBase64String(randomSeed),
                 Expires = DateTime.UtcNow.AddMinutes(_settings.JWT.RefreshTokenExpireTime),
@@ -95,7 +95,7 @@ namespace App.Authentication
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public Task RemoveOldRefreshTokens(ApplicationUser user)
+        public Task RemoveOldRefreshTokens(ApplicationUserModel user)
         {
             user.RefreshTokens.RemoveAll(token => !token.IsActive
                                       && token.Created.AddDays(_settings.JWT.RefreshTokenExpireTime) <= DateTime.UtcNow);
@@ -109,7 +109,7 @@ namespace App.Authentication
         /// <param name="token"></param>
         /// <param name="ipAddress"></param>
         /// <param name="reason"></param>
-        private static void RevokeRefreshToken(RefreshToken token, string ipAddress, string? reason = null)
+        private static void RevokeRefreshToken(RefreshTokenModel token, string ipAddress, string? reason = null)
         {
             token.Revoked = DateTime.UtcNow;
             token.RevokedByIp = ipAddress;
@@ -122,7 +122,7 @@ namespace App.Authentication
         /// <param name="token"></param>
         /// <param name="ipAddress"></param>
         /// <returns></returns>
-        private RefreshToken RotateToken(RefreshToken token, string ipAddress)
+        private RefreshTokenModel RotateToken(RefreshTokenModel token, string ipAddress)
         {
             var newRefreshToken = CreateRefreshToken(ipAddress);
             RevokeRefreshToken(token, ipAddress, "Rotated Token");
@@ -135,7 +135,7 @@ namespace App.Authentication
         /// <param name="token"></param>
         /// <returns></returns>
         /// <exception cref="EndpointException"></exception>
-        private async Task<ApplicationUser> GetUserByRefreshToken(string token)
+        private async Task<ApplicationUserModel> GetUserByRefreshToken(string token)
         {
             var user = await _userManager.Users.Include(e => e.RefreshTokens)
                                                .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));

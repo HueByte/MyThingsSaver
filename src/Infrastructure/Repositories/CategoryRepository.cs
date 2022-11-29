@@ -22,7 +22,7 @@ namespace Infrastructure.Repositories
             _currentUserService = currentUserService;
         }
 
-        public async Task<Category> GetOneByIdAsync(string id)
+        public async Task<CategoryModel> GetOneByIdAsync(string id)
         {
             if (id is null)
                 throw new EndpointException("ID cannot be empty");
@@ -35,7 +35,7 @@ namespace Infrastructure.Repositories
             return category;
         }
 
-        public async Task<List<Category>> GetAllAsync()
+        public async Task<List<CategoryModel>> GetAllAsync()
         {
             var categories = await _context.Categories
                 .Where(cat => cat.Owner.Id == _currentUserService.UserId)
@@ -45,7 +45,7 @@ namespace Infrastructure.Repositories
             return categories;
         }
 
-        public async Task<List<Category>> GetRootCategoriesAsync()
+        public async Task<List<CategoryModel>> GetRootCategoriesAsync()
         {
             if (string.IsNullOrWhiteSpace(_currentUserService.UserId))
                 throw new EndpointException("Owner ID cannot be empty");
@@ -56,7 +56,7 @@ namespace Infrastructure.Repositories
             return rootCategories;
         }
 
-        public async Task<List<Category>> GetSubcategoriesAsync(string parentId)
+        public async Task<List<CategoryModel>> GetSubcategoriesAsync(string parentId)
         {
             if (string.IsNullOrWhiteSpace(parentId) && string.IsNullOrWhiteSpace(_currentUserService.UserId))
                 throw new EndpointException("Parent ID and Owner ID cannot be empty");
@@ -79,7 +79,7 @@ namespace Infrastructure.Repositories
             if (exists)
                 throw new EndpointException("This category already exists");
 
-            Category parent;
+            CategoryModel parent;
             string path = _currentUserService.UserId;
             byte level = 0;
             if (!string.IsNullOrWhiteSpace(cat.CategoryParentId))
@@ -95,7 +95,7 @@ namespace Infrastructure.Repositories
             }
 
             string newCategoryId = Guid.NewGuid().ToString();
-            Category newCategory = new()
+            CategoryModel newCategory = new()
             {
                 CategoryEntries = null,
                 Id = newCategoryId,
@@ -146,12 +146,12 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Category> GetCategoryWithEntriesAsync(string categoryId)
+        public async Task<CategoryModel> GetCategoryWithEntriesAsync(string categoryId)
         {
             if (string.IsNullOrWhiteSpace(categoryId))
                 throw new EndpointException("Category ID cannot be empty");
 
-            var categoryWithEntries = await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<Category>(_context.Categories
+            var categoryWithEntries = await EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<CategoryModel>(_context.Categories
                     .Include(entity => entity.CategoryEntries.OrderByDescending(e => e.LastUpdatedOn)),
                 param => param.Id == categoryId && param.OwnerId == _currentUserService.UserId);
 

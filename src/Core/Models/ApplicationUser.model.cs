@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Core.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUserModel : IdentityUser
     {
-        public ICollection<Category> Categories { get; set; }
-        public ICollection<CategoryEntry> Entries { get; set; }
-        public virtual List<RefreshToken> RefreshTokens { get; set; }
+        public ICollection<CategoryModel> Categories { get; set; }
+        public ICollection<EntryModel> Entries { get; set; }
+        public virtual List<RefreshTokenModel> RefreshTokens { get; set; }
     }
 }

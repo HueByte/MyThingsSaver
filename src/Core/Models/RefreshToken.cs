@@ -5,7 +5,7 @@ using Core.Abstraction;
 
 namespace Core.Models
 {
-    public class RefreshToken : DbModel<int>
+    public class RefreshTokenModel : DbModel<int>
     {
         [Key]
         [JsonIgnore]

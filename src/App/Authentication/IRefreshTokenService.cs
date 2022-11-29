@@ -5,9 +5,9 @@ namespace App.Authentication
 {
     public interface IRefreshTokenService
     {
-        RefreshToken CreateRefreshToken(string ipAddress);
+        RefreshTokenModel CreateRefreshToken(string ipAddress);
         Task<VerifiedUserDto> RefreshToken(string token, string ipAddress);
         Task RevokeToken(string token, string ipAddress);
-        Task RemoveOldRefreshTokens(ApplicationUser user);
+        Task RemoveOldRefreshTokens(ApplicationUserModel user);
     }
 }

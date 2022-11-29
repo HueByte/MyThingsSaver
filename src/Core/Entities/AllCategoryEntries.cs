@@ -7,11 +7,11 @@ namespace Core.Entities
     {
         public AllCategoryEntries()
         {
-            CategoryEntries = new List<CategoryEntry>();
-            SubCategories = new List<Category>();
+            CategoryEntries = new List<EntryModel>();
+            SubCategories = new List<CategoryModel>();
         }
 
-        public List<CategoryEntry> CategoryEntries { get; set; }
-        public List<Category> SubCategories { get; set; }
+        public List<EntryModel> CategoryEntries { get; set; }
+        public List<CategoryModel> SubCategories { get; set; }
     }
 }

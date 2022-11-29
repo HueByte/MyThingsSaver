@@ -4,6 +4,6 @@ namespace App.Authentication
 {
     public interface IJwtAuthentication
     {
-        string GenerateJsonWebToken(ApplicationUser user, IList<string> roles);
+        string GenerateJsonWebToken(ApplicationUserModel user, IList<string> roles);
     }
 }

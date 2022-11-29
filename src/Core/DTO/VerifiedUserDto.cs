@@ -23,7 +23,7 @@ namespace Core.DTO
 
         public VerifiedUserDto() { }
 
-        public VerifiedUserDto(ApplicationUser user, string[] roles, string jwtToken, RefreshToken refreshToken, DateTime accessTokenExireDate)
+        public VerifiedUserDto(ApplicationUserModel user, string[] roles, string jwtToken, RefreshTokenModel refreshToken, DateTime accessTokenExireDate)
         {
             Username = user.UserName;
             Roles = roles;

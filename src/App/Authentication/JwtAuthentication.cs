@@ -17,7 +17,7 @@ namespace App.Authentication
         }
 
         // TODO: consider email/username choice system configurable
-        public string GenerateJsonWebToken(ApplicationUser user, IList<string> roles)
+        public string GenerateJsonWebToken(ApplicationUserModel user, IList<string> roles)
         {
             var claims = new List<Claim>()
             {

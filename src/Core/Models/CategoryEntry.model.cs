@@ -5,7 +5,7 @@ using Core.Abstraction;
 
 namespace Core.Models
 {
-    public class CategoryEntry : DbModel<string>
+    public class EntryModel : DbModel<string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,10 +19,10 @@ namespace Core.Models
 
         [ForeignKey("Id")]
         public string CategoryId { get; set; }
-        public Category Category { get; set; }
+        public CategoryModel Category { get; set; }
 
         [ForeignKey("Id")]
         public string OwnerId { get; set; }
-        public virtual ApplicationUser Owner { get; set; }
+        public virtual ApplicationUserModel Owner { get; set; }
     }
 }

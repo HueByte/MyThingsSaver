@@ -9,10 +9,10 @@ namespace Core.RepositoriesInterfaces
 {
     public interface ICategoryEntryRepository
     {
-        Task<CategoryEntry> GetOneByIdAsync(Guid id);
-        Task<CategoryEntry> GetOneByIdAsync(string id);
+        Task<EntryModel> GetOneByIdAsync(Guid id);
+        Task<EntryModel> GetOneByIdAsync(string id);
         Task<AllCategoryEntries> GetAllAsync(string categoryId, bool withContent = false);
-        Task<List<CategoryEntry>> GetRecentAsync();
+        Task<List<EntryModel>> GetRecentAsync();
         Task AddOneAsync(CategoryEntryDto entity);
         Task RemoveOneAsync(string id);
         Task UpdateOneAsync(CategoryEntryDto newEntry);

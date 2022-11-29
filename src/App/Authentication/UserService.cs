@@ -11,15 +11,15 @@ namespace App.Authentication
 {
     public class UserService : IUserService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUserModel> _userManager;
+        private readonly SignInManager<ApplicationUserModel> _signInManager;
         private readonly IJwtAuthentication _jwtAuthentication;
         private readonly AppDbContext _context;
         private readonly GuideService _guide;
         private readonly AppSettingsRoot _settings;
         private readonly IRefreshTokenService _refreshTokenService;
-        public UserService(UserManager<ApplicationUser> userManager,
-                           SignInManager<ApplicationUser> signInManager,
+        public UserService(UserManager<ApplicationUserModel> userManager,
+                           SignInManager<ApplicationUserModel> signInManager,
                            IJwtAuthentication jwtAuthentication,
                            AppDbContext context,
                            GuideService guide,
@@ -40,7 +40,7 @@ namespace App.Authentication
             if (registerUser is null)
                 throw new ArgumentException("RegisterUser model cannot be null");
 
-            var user = new ApplicationUser()
+            var user = new ApplicationUserModel()
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = registerUser.UserName,
@@ -90,7 +90,7 @@ namespace App.Authentication
             return await HandleLogin(user!, userDto!.Password, IpAddress);
         }
 
-        private async Task<VerifiedUserDto> HandleLogin(ApplicationUser user, string password, string ipAddress)
+        private async Task<VerifiedUserDto> HandleLogin(ApplicationUserModel user, string password, string ipAddress)
         {
             if (user is null)
                 throw new EndpointException("Couldn't log in, check your login or password"); // Couldn't find user
@@ -122,10 +122,10 @@ namespace App.Authentication
             };
         }
 
-        private async Task SeedGuide(ApplicationUser user)
+        private async Task SeedGuide(ApplicationUserModel user)
         {
             var categoryId = Guid.NewGuid().ToString();
-            Category guideCategory = new()
+            CategoryModel guideCategory = new()
             {
                 CategoryEntries = null,
                 Id = categoryId,
@@ -136,7 +136,7 @@ namespace App.Authentication
                 Level = 0
             };
 
-            CategoryEntry welcome = new()
+            EntryModel welcome = new()
             {
                 CategoryEntryName = "Welcome",
                 CategoryId = categoryId,
@@ -149,7 +149,7 @@ namespace App.Authentication
                 Id = Guid.NewGuid().ToString()
             };
 
-            CategoryEntry guide = new()
+            EntryModel guide = new()
             {
                 CategoryEntryName = "Guide",
                 CategoryId = categoryId,
@@ -163,7 +163,7 @@ namespace App.Authentication
             };
 
             await _context.Categories.AddAsync(guideCategory);
-            await _context.CategoriesEntries.AddRangeAsync(new CategoryEntry[] { welcome, guide });
+            await _context.CategoriesEntries.AddRangeAsync(new EntryModel[] { welcome, guide });
             await _context.SaveChangesAsync();
         }
     }

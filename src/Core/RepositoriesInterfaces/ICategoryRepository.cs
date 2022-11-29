@@ -8,11 +8,11 @@ namespace Core.RepositoriesInterfaces
 {
     public interface ICategoryRepository
     {
-        Task<List<Category>> GetAllAsync();
-        Task<List<Category>> GetRootCategoriesAsync();
-        Task<List<Category>> GetSubcategoriesAsync(string parentId);
-        Task<Category> GetOneByIdAsync(string name);
-        Task<Category> GetCategoryWithEntriesAsync(string categoryId);
+        Task<List<CategoryModel>> GetAllAsync();
+        Task<List<CategoryModel>> GetRootCategoriesAsync();
+        Task<List<CategoryModel>> GetSubcategoriesAsync(string parentId);
+        Task<CategoryModel> GetOneByIdAsync(string name);
+        Task<CategoryModel> GetCategoryWithEntriesAsync(string categoryId);
         Task AddOneAsync(CategoryDto category);
         Task RemoveOneAsync(string name);
         Task UpdateOneAsync(CategoryDto newCategory);

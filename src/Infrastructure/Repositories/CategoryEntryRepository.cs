@@ -23,12 +23,12 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<CategoryEntry> GetOneByIdAsync(Guid id)
+        public async Task<EntryModel> GetOneByIdAsync(Guid id)
         {
             return await GetOneByIdAsync(id.ToString());
         }
 
-        public async Task<CategoryEntry> GetOneByIdAsync(string id)
+        public async Task<EntryModel> GetOneByIdAsync(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new EndpointException("Entry ID cannot be empty");
@@ -70,7 +70,7 @@ namespace Infrastructure.Repositories
 
                 entries.CategoryEntries = await _context.CategoriesEntries
                     .Where(entry => entry.CategoryId == categoryId && entry.Owner.Id == _currentUserService.UserId)
-                    .Select(e => new CategoryEntry
+                    .Select(e => new EntryModel
                     {
                         CreatedOn = e.CreatedOn,
                         Id = e.Id,
@@ -99,7 +99,7 @@ namespace Infrastructure.Repositories
 
             category.LastEditedOn = DateTime.UtcNow;
 
-            var entry = new CategoryEntry()
+            var entry = new EntryModel()
             {
                 CategoryEntryName = entryDTO.EntryName,
                 CategoryId = entryDTO.CategoryId,
@@ -177,12 +177,12 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<CategoryEntry>> GetRecentAsync()
+        public async Task<List<EntryModel>> GetRecentAsync()
         {
             var entries = await _context.CategoriesEntries
                 .Where(entry => entry.OwnerId == _currentUserService.UserId)
                 .Include(x => x.Category)
-                .Select(x => new CategoryEntry
+                .Select(x => new EntryModel
                 {
                     CategoryEntryName = x.CategoryEntryName,
                     Id = x.Id,
