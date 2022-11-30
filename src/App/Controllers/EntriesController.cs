@@ -21,7 +21,7 @@ namespace App.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(BaseApiResponse<EntryModel>), 200)]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get([FromQuery] string id)
         {
             var data = await _entryService.GetEntryAsync(id);
 

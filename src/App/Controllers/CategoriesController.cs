@@ -83,7 +83,7 @@ namespace App.Controllers
 
         [HttpPut]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> Updatecategory([FromBody] CategoryDto category)
+        public async Task<IActionResult> UpdateCategory([FromBody] CategoryDto category)
         {
             await _categoryService.UpdateCategoryAsync(category);
 

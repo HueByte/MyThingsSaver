@@ -31,7 +31,7 @@ namespace App.Middlewares
                 logger.LogError(ex, "Error Message: ");
                 var result = await GetExceptionResponse(context, ex);
 
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsJsonAsync(result);
             }

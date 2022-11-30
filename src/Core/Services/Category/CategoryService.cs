@@ -113,11 +113,23 @@ namespace Core.Services.Category
             if (string.IsNullOrWhiteSpace(categoryInput.Name))
                 throw new EndpointException("Name cannot be empty");
 
+            // check if under parent the same category name already exists
+            if (!string.IsNullOrEmpty(categoryInput.CategoryParentId))
+            {
+                var categoryCheckQuery = await _repository.GetAllAsync();
+                var isNameDuplicate = await categoryCheckQuery.AnyAsync(entry =>
+                        entry.ParentCategoryId == categoryInput.CategoryParentId
+                        && entry.Name == categoryInput.Name);
+
+                if (isNameDuplicate)
+                    throw new EndpointException("Couldn't update that category, this name is already being used");
+            }
+
+            // check if this category exists
             var categoryQuery = await _repository.GetAllAsync();
             var category = await categoryQuery.FirstOrDefaultAsync(cat =>
                 cat.Id == categoryInput.CategoryId
-                && cat.ParentCategoryId == categoryInput.CategoryParentId
-                && cat.Name != categoryInput.Name);
+                && cat.ParentCategoryId == categoryInput.CategoryParentId);
 
             if (category is null)
                 throw new EndpointException("Couldn't update that category");

@@ -88,7 +88,7 @@ public class EntryService : IEntryService
             Name = entryInput.EntryName,
             CategoryId = entryInput.CategoryId,
             Content = "",
-            Size = ASCIIEncoding.Unicode.GetByteCount(entryInput.Content),
+            Size = default,
             CreatedOn = DateTime.UtcNow,
             LastUpdatedOn = DateTime.UtcNow,
             Image = entryInput.Image,
