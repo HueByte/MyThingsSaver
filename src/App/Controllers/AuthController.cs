@@ -35,7 +35,7 @@ namespace App.Controllers
         }
 
         [HttpPost("login")]
-        [ProducesResponseType(typeof(VerifiedUserDto), 200)]
+        [ProducesResponseType(typeof(BaseApiResponse<VerifiedUserDto>), 200)]
         public async Task<IActionResult> Login([FromBody] LoginUserDto userDto)
         {
             var data = await _userService.LoginUser(userDto, GetIpAddress());
@@ -59,7 +59,7 @@ namespace App.Controllers
         }
 
         [HttpPost("refreshToken")]
-        [ProducesResponseType(typeof(VerifiedUserDto), 200)]
+        [ProducesResponseType(typeof(BaseApiResponse<VerifiedUserDto>), 200)]
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];

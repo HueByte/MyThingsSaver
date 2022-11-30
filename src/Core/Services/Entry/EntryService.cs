@@ -48,11 +48,11 @@ public class EntryService : IEntryService
         entries.SubCategories = await _categoryService.GetSubCategoriesAsync(categoryId);
 
         var entriesQuery = await _repository.GetAllAsync();
-        entriesQuery.Where(entry => entry.CategoryId == categoryId);
+        entriesQuery = entriesQuery.Where(entry => entry.CategoryId == categoryId);
 
-        if (withContent)
+        if (!withContent)
         {
-            entriesQuery.Select(entry => new EntryModel
+            entriesQuery = entriesQuery.Select(entry => new EntryModel
             {
                 CreatedOn = entry.CreatedOn,
                 Id = entry.Id,
