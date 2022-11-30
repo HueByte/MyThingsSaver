@@ -26,6 +26,7 @@ namespace App.Controllers
         }
 
         [HttpPost("register")]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterDto registerUser)
         {
             var data = await _userService.CreateUser(registerUser);
@@ -34,6 +35,7 @@ namespace App.Controllers
         }
 
         [HttpPost("login")]
+        [ProducesResponseType(typeof(VerifiedUserDto), 200)]
         public async Task<IActionResult> Login([FromBody] LoginUserDto userDto)
         {
             var data = await _userService.LoginUser(userDto, GetIpAddress());
@@ -48,6 +50,7 @@ namespace App.Controllers
         }
 
         [HttpPost("changePassword")]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto user)
         {
             await _userService.ChangePasswordAsync(user);
@@ -56,6 +59,7 @@ namespace App.Controllers
         }
 
         [HttpPost("refreshToken")]
+        [ProducesResponseType(typeof(VerifiedUserDto), 200)]
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
@@ -72,6 +76,7 @@ namespace App.Controllers
         }
 
         [HttpPost("revokeToken")]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> RevokeToken([FromBody] string bodyToken)
         {
             var token = bodyToken ?? Request.Cookies[CookieNames.RefreshTokenCookie];
@@ -82,6 +87,7 @@ namespace App.Controllers
         }
 
         [HttpPost("logout")]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> Logout()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];

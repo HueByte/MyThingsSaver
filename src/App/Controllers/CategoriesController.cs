@@ -1,7 +1,9 @@
 using App.Extensions;
+using Common.ApiResonse;
 using Core.DTO;
 using Core.Interfaces.Services;
 using Core.lib;
+using Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +19,7 @@ namespace App.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(BaseApiResponse<CategoryModel>), 200)]
         public async Task<IActionResult> GetCategory(string id)
         {
             var data = await _categoryService.GetCategoryAsync(id);
@@ -25,6 +28,7 @@ namespace App.Controllers
         }
 
         [HttpGet("All")]
+        [ProducesResponseType(typeof(BaseApiResponse<List<CategoryModel>>), 200)]
         public async Task<IActionResult> GetAll()
         {
             var data = await _categoryService.GetAllCategoriesAsync();
@@ -33,6 +37,7 @@ namespace App.Controllers
         }
 
         [HttpGet("AllRoot")]
+        [ProducesResponseType(typeof(BaseApiResponse<List<CategoryModel>>), 200)]
         public async Task<IActionResult> GetAllRoot()
         {
             var data = await _categoryService.GetRootCategoriesAsync();
@@ -41,7 +46,7 @@ namespace App.Controllers
         }
 
         [HttpGet("AllSub")]
-        [Authorize]
+        [ProducesResponseType(typeof(BaseApiResponse<List<CategoryModel>>), 200)]
         public async Task<IActionResult> GetAllSub([FromQuery] string parentId)
         {
             var data = await _categoryService.GetSubCategoriesAsync(parentId);
@@ -50,6 +55,7 @@ namespace App.Controllers
         }
 
         [HttpGet("WithEntries")]
+        [ProducesResponseType(typeof(BaseApiResponse<CategoryModel>), 200)]
         public async Task<IActionResult> GetCategoryWithEntries([FromQuery] string categoryId)
         {
             var data = await _categoryService.GetCategoryWithEntriesAsync(categoryId);
@@ -58,6 +64,7 @@ namespace App.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> AddCategory([FromBody] CategoryDto category)
         {
             await _categoryService.AddCategoryAsync(category);
@@ -66,6 +73,7 @@ namespace App.Controllers
         }
 
         [HttpDelete]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDto category)
         {
             await _categoryService.RemoveCategoryAsync(category.CategoryId);
@@ -74,6 +82,7 @@ namespace App.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> Updatecategory([FromBody] CategoryDto category)
         {
             await _categoryService.UpdateCategoryAsync(category);

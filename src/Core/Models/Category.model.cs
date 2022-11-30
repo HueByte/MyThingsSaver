@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Core.Abstraction;
 
 namespace Core.Models
@@ -21,6 +22,7 @@ namespace Core.Models
 
         [ForeignKey("UserId")]
         public override string UserId { get; set; }
+        [JsonIgnore]
         public virtual ApplicationUserModel User { get; set; }
 
         [ForeignKey("ParentCategoryId")]
