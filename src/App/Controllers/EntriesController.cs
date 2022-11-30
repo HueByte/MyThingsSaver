@@ -8,25 +8,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.Controllers
 {
-    public class CategoryEntryController : BaseApiController
+    [Authorize]
+    public class EntriesController : BaseApiController
     {
         private readonly IEntryService _entryService;
-        public CategoryEntryController(IEntryService entryService)
+        public EntriesController(IEntryService entryService)
         {
             _entryService = entryService;
         }
 
-        [HttpGet("Get")]
-        [Authorize]
-        public async Task<IActionResult> GetById(string id)
+        [HttpGet]
+        public async Task<IActionResult> Get(string id)
         {
             var data = await _entryService.GetEntryAsync(id);
 
             return CreateResponse.FromData(data);
         }
 
-        [HttpGet("GetAll")]
-        [Authorize]
+        [HttpGet("All")]
         public async Task<IActionResult> GetAll([FromQuery] string categoryId, bool withContent)
         {
             var data = await _entryService.GetAllEntriesAsync(categoryId, withContent);
@@ -34,8 +33,7 @@ namespace App.Controllers
             return CreateResponse.FromData(data);
         }
 
-        [HttpPost("Add")]
-        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> Add([FromBody] EntryDTO entry)
         {
             await _entryService.AddEntryAsync(entry);
@@ -43,8 +41,7 @@ namespace App.Controllers
             return CreateResponse.Empty();
         }
 
-        [HttpPost("Update")]
-        [Authorize]
+        [HttpPut]
         public async Task<IActionResult> Update([FromBody] EntryDTO entry)
         {
             await _entryService.UpdateEntryAsync(entry);
@@ -52,8 +49,7 @@ namespace App.Controllers
             return CreateResponse.Empty();
         }
 
-        [HttpPost("UpdateWithoutContent")]
-        [Authorize]
+        [HttpPatch]
         public async Task<IActionResult> UpdateWithoutContent([FromBody] EntryDTO entry)
         {
             await _entryService.UpdateEntryWithoutContentAsync(entry);
@@ -61,8 +57,7 @@ namespace App.Controllers
             return CreateResponse.Empty();
         }
 
-        [HttpDelete("Delete")]
-        [Authorize]
+        [HttpDelete]
         public async Task<IActionResult> Delete([FromQuery] string id)
         {
             await _entryService.RemoveEntryAsync(id);
@@ -70,8 +65,7 @@ namespace App.Controllers
             return CreateResponse.Empty();
         }
 
-        [HttpGet("GetRecent")]
-        [Authorize]
+        [HttpGet("Recent")]
         public async Task<IActionResult> GetRecent()
         {
             var data = await _entryService.GetRecentAsync();

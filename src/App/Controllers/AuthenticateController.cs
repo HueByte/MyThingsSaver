@@ -33,7 +33,7 @@ namespace App.Controllers
             return CreateResponse.FromData(data);
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto userDto)
         {
             var data = await _userService.LoginUser(userDto, GetIpAddress());
@@ -47,7 +47,7 @@ namespace App.Controllers
             return CreateResponse.FromBaseApiResponse(result);
         }
 
-        [HttpPost("ChangePassword")]
+        [HttpPost("changePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto user)
         {
             await _userService.ChangePasswordAsync(user);
@@ -55,7 +55,7 @@ namespace App.Controllers
             return CreateResponse.Empty();
         }
 
-        [HttpPost("refresh-token")]
+        [HttpPost("refreshToken")]
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
@@ -71,7 +71,7 @@ namespace App.Controllers
             return CreateResponse.FromBaseApiResponse(result);
         }
 
-        [HttpPost("revoke-token")]
+        [HttpPost("revokeToken")]
         public async Task<IActionResult> RevokeToken([FromBody] string bodyToken)
         {
             var token = bodyToken ?? Request.Cookies[CookieNames.RefreshTokenCookie];

@@ -9,25 +9,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.Controllers
 {
-    public class CategoryController : BaseApiController
+    [Authorize]
+    public class CategoriesController : BaseApiController
     {
         private readonly ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
 
-        [HttpGet("GetAll")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetAll()
-        {
-            var data = await _categoryService.GetAllCategoriesAsync();
-
-            return CreateResponse.FromData(data);
-        }
-
-        [HttpGet("Get")]
-        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> GetCategory(string id)
         {
             var data = await _categoryService.GetCategoryAsync(id);
@@ -35,8 +26,15 @@ namespace App.Controllers
             return CreateResponse.FromData(data);
         }
 
-        [HttpGet("GetAllRoot")]
-        [Authorize]
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAll()
+        {
+            var data = await _categoryService.GetAllCategoriesAsync();
+
+            return CreateResponse.FromData(data);
+        }
+
+        [HttpGet("AllRoot")]
         public async Task<IActionResult> GetAllRoot()
         {
             var data = await _categoryService.GetRootCategoriesAsync();
@@ -44,7 +42,7 @@ namespace App.Controllers
             return CreateResponse.FromData(data);
         }
 
-        [HttpGet("GetAllSub")]
+        [HttpGet("AllSub")]
         [Authorize]
         public async Task<IActionResult> GetAllSub([FromQuery] string parentId)
         {
@@ -53,8 +51,15 @@ namespace App.Controllers
             return CreateResponse.FromData(data);
         }
 
-        [HttpPost("Add")]
-        [Authorize]
+        [HttpGet("WithEntries")]
+        public async Task<IActionResult> GetCategoryWithEntries([FromQuery] string categoryId)
+        {
+            var data = await _categoryService.GetCategoryWithEntriesAsync(categoryId);
+
+            return CreateResponse.FromData(data);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> AddCategory([FromBody] CategoryDto category)
         {
             await _categoryService.AddCategoryAsync(category);
@@ -62,8 +67,7 @@ namespace App.Controllers
             return CreateResponse.Empty();
         }
 
-        [HttpPost("Remove")]
-        [Authorize]
+        [HttpDelete]
         public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDto category)
         {
             await _categoryService.RemoveCategoryAsync(category.CategoryId);
@@ -71,22 +75,12 @@ namespace App.Controllers
             return CreateResponse.Empty();
         }
 
-        [HttpPost("Update")]
-        [Authorize]
+        [HttpPut]
         public async Task<IActionResult> Updatecategory([FromBody] CategoryDto category)
         {
             await _categoryService.UpdateCategoryAsync(category);
 
             return CreateResponse.Empty();
-        }
-
-        [HttpGet("GetWithEntries")]
-        [Authorize]
-        public async Task<IActionResult> GetCategoryWithEntries([FromQuery] string categoryId)
-        {
-            var data = await _categoryService.GetCategoryWithEntriesAsync(categoryId);
-
-            return CreateResponse.FromData(data);
         }
     }
 }
