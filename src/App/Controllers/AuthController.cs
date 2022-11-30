@@ -15,11 +15,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.Controllers
 {
-    public class AuthenticateController : BaseApiController
+    public class AuthController : BaseApiController
     {
         private readonly IUserService _userService;
         private readonly IRefreshTokenService _refreshTokenService;
-        public AuthenticateController(IUserService userService, IRefreshTokenService refreshTokenService)
+        public AuthController(IUserService userService, IRefreshTokenService refreshTokenService)
         {
             _userService = userService;
             _refreshTokenService = refreshTokenService;
