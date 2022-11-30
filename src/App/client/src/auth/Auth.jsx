@@ -53,7 +53,7 @@
 //   };
 
 //   return await fetch(LogoutEndpoint, requestOptions);
-// };
+// // };
 
 // export const SilentRefresh = async () => {
 //   const requestOptions = {

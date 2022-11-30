@@ -88,20 +88,20 @@ const ExplorerContent = () => {
               currentEntries.map((entry) => {
                 return (
                   <NavLink
-                    key={entry.categoryEntryId}
+                    key={entry.id}
                     className="row item"
-                    to={`/entry/${lastUsedId}/${entry.categoryEntryId}`}
+                    to={`/entry/${lastUsedId}/${entry.id}`}
                   >
                     <div className="space icon">
                       <FaStickyNote />
                     </div>
                     <div className="column title ellipsis">
                       <abbr
-                        title={entry.categoryEntryName}
+                        title={entry.name}
                         className="ellipsis"
                         style={{ cursor: "pointer" }}
                       >
-                        {entry.categoryEntryName}
+                        {entry.name}
                       </abbr>
                     </div>
                     <div className="column date">

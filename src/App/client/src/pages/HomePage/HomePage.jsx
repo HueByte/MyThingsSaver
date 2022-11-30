@@ -36,14 +36,14 @@ const HomePage = () => {
           {entries.length > 0 ? (
             entries.map((entry, index) => (
               <NavLink
-                to={`/entry/${entry.category.categoryId}/${entry.categoryEntryId}`}
+                to={`/entry/${entry.category.id}/${entry.id}`}
                 className="entry"
                 key={index}
               >
                 <div className="image">
                   <FaStickyNote />
                 </div>
-                <div className="name ellipsis">{entry.categoryEntryName}</div>
+                <div className="name ellipsis">{entry.name}</div>
                 <div className="information">
                   <div className="line">
                     <div className="item">Category:</div>

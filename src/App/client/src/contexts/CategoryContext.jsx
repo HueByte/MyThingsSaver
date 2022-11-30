@@ -33,7 +33,8 @@ const CategoryProvider = ({ children }) => {
       },
     });
 
-    ContextGetAllCategories().then((result) => setCategories(result));
+    let categoriesResult = await ContextGetAllCategories();
+    setCategories(categoriesResult);
 
     // return await CategoriesRepository.Add(name.trim(), parentId)
     //   .then((result) => {
@@ -45,17 +46,15 @@ const CategoryProvider = ({ children }) => {
 
   async function ContextRemoveCategory(categoryId) {
     let result = await CategoriesService.deleteApiCategories({
-      requestBody: {
-        categoryId: categoryId,
-      },
+      requestBody: { categoryId: categoryId },
     });
 
-    let newCategories = categories;
-    newCategories = newCategories.filter((category) => {
+    let newCategories = categories.filter((category) => {
       return category.categoryId !== categoryId;
     });
 
     setCategories(newCategories);
+
     return result?.isSuccess;
 
     // return await CategoriesRepository.Remove(categoryId)
@@ -71,12 +70,14 @@ const CategoryProvider = ({ children }) => {
     //   .catch((error) => console.error(error));
   }
 
+  // TODO: is it necessary?
   async function ContextRemoveChildCategory(categoryId) {
     await CategoriesService.deleteApiCategories({
       requestBody: { categoryId: categoryId },
     });
 
     let newCategogries = await ContextGetAllCategories();
+
     setCategories(newCategogries);
 
     // await CategoriesRepository.Remove(categoryId);
@@ -102,6 +103,7 @@ const CategoryProvider = ({ children }) => {
     newCategories[index].name = newName;
 
     setCategories(newCategories);
+
     return result?.isSuccess;
 
     // return await CategoriesRepository.Update(categoryId, newName)
@@ -120,17 +122,23 @@ const CategoryProvider = ({ children }) => {
     //   .catch((error) => console.log(error));
   }
 
-  async function ContextEditChildCategory(categoryId, newName) {
+  async function ContextEditChildCategory(
+    categoryId,
+    parentCategoryId,
+    newName
+  ) {
     if (newName.length === 0) return;
 
     let result = await CategoriesService.putApiCategories({
       requestBody: {
         categoryId: categoryId,
+        categoryParentId: parentCategoryId,
         name: newName,
       },
     });
 
     let newCategories = await ContextGetAllCategories();
+
     setCategories(newCategories);
 
     // await CategoriesRepository.Update(categoryId, newName);
@@ -142,7 +150,7 @@ const CategoryProvider = ({ children }) => {
   async function ContextGetAllCategories() {
     let result = await CategoriesService.getApiCategoriesAll();
 
-    return result;
+    return result?.data;
 
     // let result = await CategoriesRepository.GetAll()
     //   .then((result) => {
@@ -156,7 +164,7 @@ const CategoryProvider = ({ children }) => {
   async function ContextGetAllRootCategories() {
     let result = await CategoriesService.getApiCategoriesAllRoot();
 
-    return result;
+    return result?.data;
 
     // let result = await CategoriesRepository.GetRoot()
     //   .then((result) => {
@@ -170,7 +178,7 @@ const CategoryProvider = ({ children }) => {
   async function ContextGetAllSubCategories(parentID) {
     let result = await CategoriesService.getApiCategoriesAllSub();
 
-    return result;
+    return result?.data;
 
     // let result = await CategoriesRepository.GetSub(parentID)
     //   .then((result) => {

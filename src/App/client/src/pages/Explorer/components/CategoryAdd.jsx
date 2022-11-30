@@ -15,10 +15,7 @@ const CategoryAdd = ({ isActive, setIsActive, parentCategory }) => {
       return;
     }
 
-    await categoryContext.ContextAddCategory(
-      categoryName,
-      parentCategory?.categoryId
-    );
+    await categoryContext.ContextAddCategory(categoryName, parentCategory?.id);
 
     setIsActive(false);
   };

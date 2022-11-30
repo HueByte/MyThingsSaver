@@ -31,9 +31,7 @@ const Explorer = () => {
     explorer.current = document.getElementById("explorer-menu");
 
     if (categoryId) {
-      var result = categoryContext.categories.find(
-        (x) => x.categoryId == categoryId
-      );
+      var result = categoryContext.categories.find((x) => x.id == categoryId);
 
       setLastUsedPath(result?.path?.split("/"));
     } else {
@@ -41,11 +39,11 @@ const Explorer = () => {
 
       if (lastPath) {
         var result = categoryContext.categories.find(
-          (x) => x.categoryId == lastPath[lastPath.length - 1]
+          (x) => x.id == lastPath[lastPath.length - 1]
         );
 
         setLastUsedPath(result?.path.split("/"));
-        if (result) navigate(`/explore/${result?.categoryId}`);
+        if (result) navigate(`/explore/${result?.id}`);
       }
     }
 
@@ -54,9 +52,7 @@ const Explorer = () => {
 
   useEffect(() => {
     if (lastUsedId) {
-      var result = categoryContext.categories.find(
-        (x) => x.categoryId == lastUsedId
-      );
+      var result = categoryContext.categories.find((x) => x.id == lastUsedId);
 
       localStorage.setItem("lastPath", result?.path);
       setLastUsedPath(result?.path);
@@ -120,7 +116,7 @@ const Explorer = () => {
                       if (category.level == 0) {
                         return (
                           <Item
-                            key={category.categoryId}
+                            key={category.id}
                             category={category}
                             recentPath={lastUsedPath}
                             setCurrentContextItem={setContextMenuCategory}

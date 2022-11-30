@@ -42,14 +42,15 @@ const Entry = () => {
 
   useEffect(() => {
     (async () => {
-      let result = await EntriesService.getApiEntries(entryId);
+      let result = await EntriesService.getApiEntries({ id: entryId });
+
       if (!result.isSuccess) {
         setShouldRedirect(true);
         return;
       }
 
       setEntry(result.data);
-      setName(result.data.categoryEntryName);
+      setName(result.data.name);
       setEditValue(result.data.content);
       checkEntrySize(result.data.content.length);
 
@@ -98,9 +99,9 @@ const Entry = () => {
   };
 
   const removeEntry = async () => {
-    await EntriesService.deleteApiEntries({ id: entryId });
+    let result = await EntriesService.deleteApiEntries({ id: entryId });
 
-    setShouldRedirect(true);
+    if (result.isSuccess) setShouldRedirect(true);
 
     // await EntriesRepository.Delete(entryId)
     //   .then(() => setShouldRedirect(true))

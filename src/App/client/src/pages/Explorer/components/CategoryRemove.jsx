@@ -9,9 +9,9 @@ const CategoryRemove = ({ isActive, setIsActive, category }) => {
 
   const sendRequest = async () => {
     if (!category.parentCategoryId) {
-      await categoryContext.ContextRemoveCategory(category.categoryId);
+      await categoryContext.ContextRemoveCategory(category.id);
     } else {
-      await categoryContext.ContextRemoveChildCategory(category.categoryId);
+      await categoryContext.ContextRemoveChildCategory(category.id);
     }
 
     setIsActive(false);

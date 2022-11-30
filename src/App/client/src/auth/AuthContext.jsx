@@ -1,7 +1,8 @@
 import { object } from "prop-types";
 import React, { createContext, useEffect, useState } from "react";
+import { AuthService } from "../api";
 import { infoModal } from "../core/Modals";
-import { AuthLogout } from "./Auth";
+import "../api/axiosConfig";
 
 const AuthContext = createContext();
 
@@ -27,7 +28,8 @@ const AuthProvider = ({ children }) => {
   };
 
   const signout = async () => {
-    await AuthLogout().then(localStorage.clear());
+    await AuthService.postApiAuthLogout();
+    localStorage.clear();
     setAuthState(null);
     window.location.reload();
   };

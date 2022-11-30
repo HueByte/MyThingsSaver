@@ -42,7 +42,7 @@ const Login = () => {
       },
     });
 
-    authContext.setAuthState(result);
+    authContext.setAuthState(result.data);
 
     // await AuthLogin(username.current.value, password.current.value)
     //   .then((result) => {

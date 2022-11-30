@@ -29,11 +29,9 @@ const EntryUpdate = ({
     });
 
     let newEntries = [...entries];
-    let index = newEntries.findIndex(
-      (obj) => obj.categoryEntryId == entryToEdit.categoryEntryId
-    );
+    let index = newEntries.findIndex((obj) => obj.id == entryToEdit.id);
 
-    newEntries[index].categoryEntryName = name;
+    newEntries[index].name = name;
     setEntries(newEntries);
 
     // await EntriesRepository.UpdateWithoutContent(

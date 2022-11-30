@@ -19,17 +19,19 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
       return;
     }
 
-    if (category.parentCategoryId) {
-      await categoryContext.ContextEditChildCategory(
-        category.categoryId,
-        categoryName
-      );
-    } else {
-      await categoryContext.ContextEditCategory(
-        category.categoryId,
-        categoryName
-      );
+    let result = await categoryContext.ContextEditChildCategory(
+      category.id,
+      category.parentCategoryId,
+      categoryName
+    );
+    debugger;
+    console.log(result);
+
+    if (!result.isSuccess) {
+      warningModal(result.errors.join(".\n"));
     }
+
+    console.log("yeet");
 
     setIsActive(false);
   };
