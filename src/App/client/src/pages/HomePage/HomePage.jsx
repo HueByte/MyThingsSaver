@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaFolderOpen, FaStickyNote } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import EntriesRepository from "../../api/repositories/EntriesRepository";
+import { EntriesService } from "../../api";
+// import EntriesRepository from "../../api/repositories/EntriesRepository";
 import Loader from "../../components/Loaders/Loader";
 import "./HomePage.scss";
 
@@ -11,11 +12,16 @@ const HomePage = () => {
 
   useEffect(() => {
     (async () => {
-      await EntriesRepository.GetRecent()
-        .then((result) => {
-          if (result.isSuccess) setEntries(result.data);
-        })
-        .catch((error) => console.error(error));
+      let result = await EntriesService.getApiEntriesRecent();
+      if (result.isSuccess) {
+        setEntries(result.data);
+      }
+
+      // await EntriesRepository.GetRecent()
+      //   .then((result) => {
+      //     if (result.isSuccess) setEntries(result.data);
+      //   })
+      //   .catch((error) => console.error(error));
 
       setFetching(false);
     })();

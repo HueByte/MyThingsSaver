@@ -3,7 +3,7 @@ import { NavLink, Navigate } from "react-router-dom";
 import "./Auth.css";
 import "../../core/BasicLayout/BasicLayoutStyles.scss";
 import AuthTemplate from "./AuthTemplate";
-import { AuthRegister } from "../../auth/Auth";
+// import { AuthRegister } from "../../auth/Auth";
 import { AuthContext } from "../../auth/AuthContext";
 import {
   errorModal,
@@ -11,6 +11,7 @@ import {
   successModal,
   warningModal,
 } from "../../core/Modals";
+import { AuthService } from "../../api/services/AuthService";
 
 const Register = () => {
   const authContext = useContext(AuthContext);
@@ -43,20 +44,31 @@ const Register = () => {
     }
 
     infoModal("Creating account...");
-    await AuthRegister(
-      email.current.value,
-      username.current.value,
-      password.current.value
-    )
-      .then((result) => {
-        if (result.isSuccess)
-          successModal(
-            `You can now log in. User ${username.current.value} created!`,
-            10000
-          );
-        else errorModal(result?.errors.join("\n"), 10000);
-      })
-      .catch((errors) => console.error(errors));
+    var result = await AuthService.postApiAuthRegister({
+      requestBody: {
+        email: email.current.value,
+        password: password.current.value,
+        userName: username.current.value,
+      },
+    });
+
+    if (result.isSuccess) {
+    }
+
+    // await AuthRegister(
+    //   email.current.value,
+    //   username.current.value,
+    //   password.current.value
+    // )
+    //   .then((result) => {
+    //     if (result.isSuccess)
+    //       successModal(
+    //         `You can now log in. User ${username.current.value} created!`,
+    //         10000
+    //       );
+    //     else errorModal(result?.errors.join("\n"), 10000);
+    //   })
+    //   .catch((errors) => console.error(errors));
 
     setIsWorking(false);
   };

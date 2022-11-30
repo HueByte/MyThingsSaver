@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useOutletContext, useParams } from "react-router";
 import { NavLink } from "react-router-dom";
-import EntriesRepository from "../../api/repositories/EntriesRepository";
+// import EntriesRepository from "../../api/repositories/EntriesRepository";
 import Loader from "../../components/Loaders/Loader";
 import EntryDelete from "./components/EntryDelete";
 import EntryUpdate from "./components/EntryUpdate";
@@ -15,6 +15,7 @@ import {
   FaStickyNote,
   FaTimes,
 } from "react-icons/fa";
+import { EntriesService } from "../../api";
 
 const ExplorerContent = () => {
   const [lastUsedId, setLastUsedId] = useOutletContext();
@@ -42,11 +43,16 @@ const ExplorerContent = () => {
   const fetchEntries = async (categoryId) => {
     setIsLoadingEntries(true);
 
-    let result = await EntriesRepository.GetAll(categoryId).catch((error) =>
-      console.error(error)
-    );
+    let result = await EntriesService.getApiEntriesAll({
+      categoryId: categoryId,
+      withContent: false,
+    });
 
-    setCurrentEntries(result.data.categoryEntries);
+    // let result = await EntriesRepository.GetAll(categoryId).catch((error) =>
+    //   console.error(error)
+    // );
+
+    setCurrentEntries(result.data.entries);
     setLastUsedId(() => categoryId);
   };
 

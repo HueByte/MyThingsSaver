@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Navigate } from "react-router-dom";
-import { AuthLogin } from "../../auth/Auth";
+// import { AuthLogin } from "../../auth/Auth";
 import { AuthContext } from "../../auth/AuthContext";
 import "./Auth.css";
 import "../../core/BasicLayout/BasicLayoutStyles.scss";
 import AuthTemplate from "./AuthTemplate";
 import { errorModal, warningModal } from "../../core/Modals";
+import { AuthService } from "../../api/services/AuthService";
 
 const Login = () => {
   const authContext = useContext(AuthContext);
@@ -34,14 +35,23 @@ const Login = () => {
       return;
     }
 
-    await AuthLogin(username.current.value, password.current.value)
-      .then((result) => {
-        if (result.isSuccess) authContext.setAuthState(result.data);
-        else errorModal(result?.errors.join("\n"), 10000);
-      })
-      .catch((errors) => {
-        console.log(errors);
-      });
+    var result = await AuthService.postApiAuthLogin({
+      requestBody: {
+        username: username.current.value,
+        password: password.current.value,
+      },
+    });
+
+    authContext.setAuthState(result);
+
+    // await AuthLogin(username.current.value, password.current.value)
+    //   .then((result) => {
+    //     if (result.isSuccess) authContext.setAuthState(result.data);
+    //     else errorModal(result?.errors.join("\n"), 10000);
+    //   })
+    //   .catch((errors) => {
+    //     console.log(errors);
+    //   });
 
     setIsWorking(false);
   };

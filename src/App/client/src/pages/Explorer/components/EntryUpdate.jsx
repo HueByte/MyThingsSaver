@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import EntriesRepository from "../../../api/repositories/EntriesRepository";
+import { EntriesService } from "../../../api";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { errorModal, warningModal } from "../../../core/Modals";
 
@@ -20,21 +20,37 @@ const EntryUpdate = ({
       return;
     }
 
-    await EntriesRepository.UpdateWithoutContent(
-      entryToEdit.categoryEntryId,
-      name,
-      entryToEdit.categoryId
-    )
-      .then(() => {
-        let newEntries = [...entries];
-        let index = newEntries.findIndex(
-          (obj) => obj.categoryEntryId == entryToEdit.categoryEntryId
-        );
+    await EntriesService.patchApiEntries({
+      requestBody: {
+        entryId: entryToEdit.id,
+        categoryId: entryToEdit.categoryId,
+        entryName: name,
+      },
+    });
 
-        newEntries[index].categoryEntryName = name;
-        setEntries(newEntries);
-      })
-      .catch(() => errorModal("Something went wrong while updating entry"));
+    let newEntries = [...entries];
+    let index = newEntries.findIndex(
+      (obj) => obj.categoryEntryId == entryToEdit.categoryEntryId
+    );
+
+    newEntries[index].categoryEntryName = name;
+    setEntries(newEntries);
+
+    // await EntriesRepository.UpdateWithoutContent(
+    //   entryToEdit.categoryEntryId,
+    //   name,
+    //   entryToEdit.categoryId
+    // )
+    //   .then(() => {
+    //     let newEntries = [...entries];
+    //     let index = newEntries.findIndex(
+    //       (obj) => obj.categoryEntryId == entryToEdit.categoryEntryId
+    //     );
+
+    //     newEntries[index].categoryEntryName = name;
+    //     setEntries(newEntries);
+    //   })
+    //   .catch(() => errorModal("Something went wrong while updating entry"));
 
     setIsActive(false);
   };

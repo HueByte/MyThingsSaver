@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Navigate, useParams } from "react-router";
-import EntriesRepository from "../../api/repositories/EntriesRepository";
+// import EntriesRepository from "../../api/repositories/EntriesRepository";
 import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
 import "./Entry.scss";
@@ -10,11 +10,20 @@ import { BasicModal } from "../../components/BasicModal/BasicModal";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import { DropdownItem, DropdownButton } from "../../components/Dropdown";
 import { FaRegStickyNote } from "react-icons/fa";
+import { EntriesService } from "../../api";
 
 const sendUpdateCallback = async (entryId, newName, data) => {
-  await EntriesRepository.Update(entryId, newName, data).catch((error) =>
-    console.error(error)
-  );
+  await EntriesService.putApiEntries({
+    requestBody: {
+      entryId: entryId,
+      content: data,
+      entryName: newName,
+    },
+  });
+
+  // await EntriesRepository.Update(entryId, newName, data).catch((error) =>
+  //   console.error(error)
+  // );
 };
 
 const performAutosave = AwesomeDebouncePromise(sendUpdateCallback, 2000);
@@ -33,20 +42,31 @@ const Entry = () => {
 
   useEffect(() => {
     (async () => {
-      await EntriesRepository.Get(entryId)
-        .then((result) => {
-          if (!result.isSuccess) {
-            setShouldRedirect(true);
-            return;
-          }
+      let result = await EntriesService.getApiEntries(entryId);
+      if (!result.isSuccess) {
+        setShouldRedirect(true);
+        return;
+      }
 
-          setEntry(result.data);
-          setName(result.data.categoryEntryName);
-          setEditValue(result.data.content);
+      setEntry(result.data);
+      setName(result.data.categoryEntryName);
+      setEditValue(result.data.content);
+      checkEntrySize(result.data.content.length);
 
-          checkEntrySize(result.data.content.length);
-        })
-        .catch((error) => console.error(error));
+      // await EntriesRepository.Get(entryId)
+      //   .then((result) => {
+      //     if (!result.isSuccess) {
+      //       setShouldRedirect(true);
+      //       return;
+      //     }
+
+      //     setEntry(result.data);
+      //     setName(result.data.categoryEntryName);
+      //     setEditValue(result.data.content);
+
+      //     checkEntrySize(result.data.content.length);
+      //   })
+      //   .catch((error) => console.error(error));
     })();
   }, []);
 
@@ -78,9 +98,13 @@ const Entry = () => {
   };
 
   const removeEntry = async () => {
-    await EntriesRepository.Delete(entryId)
-      .then(() => setShouldRedirect(true))
-      .catch((error) => console.error(error));
+    await EntriesService.deleteApiEntries({ id: entryId });
+
+    setShouldRedirect(true);
+
+    // await EntriesRepository.Delete(entryId)
+    //   .then(() => setShouldRedirect(true))
+    //   .catch((error) => console.error(error));
 
     successModal("Sucessfully removed entry");
   };
