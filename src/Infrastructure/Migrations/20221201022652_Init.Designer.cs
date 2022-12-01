@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MTS.Infrastructure.Migrations
 {
     [DbContext(typeof(MTSContext))]
-    [Migration("20221201010554_Init")]
+    [Migration("20221201022652_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,7 +231,6 @@ namespace MTS.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ParentCategoryId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Path")
@@ -262,14 +261,12 @@ namespace MTS.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
                         .HasColumnType("BLOB");
 
                     b.Property<DateTime>("LastUpdatedOn")
@@ -308,25 +305,21 @@ namespace MTS.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedByIp")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ReasonRevoked")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Revoked")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RevokedByIp")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Token")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -392,8 +385,7 @@ namespace MTS.Infrastructure.Migrations
                     b.HasOne("MTS.Core.Models.CategoryModel", "ParentCategory")
                         .WithMany("ChildCategories")
                         .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MTS.Core.Models.ApplicationUserModel", "User")
                         .WithMany("Categories")

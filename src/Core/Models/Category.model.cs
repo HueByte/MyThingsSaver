@@ -13,21 +13,21 @@ namespace MTS.Core.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override string Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
         public DateTime LastEditedOnDate { get; set; }
-        public string Path { get; set; }
+        public string Path { get; set; } = string.Empty;
         public byte Level { get; set; }
-        public virtual ICollection<EntryModel> Entries { get; set; }
+        public virtual ICollection<EntryModel>? Entries { get; set; }
 
         [ForeignKey("UserId")]
-        public override string UserId { get; set; }
+        public override string UserId { get; set; } = string.Empty;
         [JsonIgnore]
         public virtual ApplicationUserModel User { get; set; }
 
         [ForeignKey("ParentCategoryId")]
-        public string ParentCategoryId { get; set; }
-        public virtual CategoryModel ParentCategory { get; set; }
-        public virtual ICollection<CategoryModel> ChildCategories { get; set; }
+        public string? ParentCategoryId { get; set; }
+        public virtual CategoryModel? ParentCategory { get; set; }
+        public virtual ICollection<CategoryModel>? ChildCategories { get; set; }
     }
 }

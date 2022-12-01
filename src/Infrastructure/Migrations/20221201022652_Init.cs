@@ -165,7 +165,7 @@ namespace MTS.Infrastructure.Migrations
                     Path = table.Column<string>(type: "TEXT", nullable: false),
                     Level = table.Column<byte>(type: "INTEGER", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    ParentCategoryId = table.Column<string>(type: "TEXT", nullable: false)
+                    ParentCategoryId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -190,13 +190,13 @@ namespace MTS.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Token = table.Column<string>(type: "TEXT", nullable: false),
+                    Token = table.Column<string>(type: "TEXT", nullable: true),
                     Expires = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedByIp = table.Column<string>(type: "TEXT", nullable: true),
                     Revoked = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    RevokedByIp = table.Column<string>(type: "TEXT", nullable: false),
-                    ReasonRevoked = table.Column<string>(type: "TEXT", nullable: false),
+                    RevokedByIp = table.Column<string>(type: "TEXT", nullable: true),
+                    ReasonRevoked = table.Column<string>(type: "TEXT", nullable: true),
                     ApplicationUserModelId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -217,8 +217,8 @@ namespace MTS.Infrastructure.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastUpdatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Content = table.Column<string>(type: "TEXT", nullable: false),
-                    Image = table.Column<byte[]>(type: "BLOB", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: true),
+                    Image = table.Column<byte[]>(type: "BLOB", nullable: true),
                     Size = table.Column<int>(type: "INTEGER", nullable: false),
                     CategoryId = table.Column<string>(type: "TEXT", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: false)

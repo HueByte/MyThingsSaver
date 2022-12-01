@@ -21,11 +21,6 @@ namespace MTS.App.Configuration
         public static async Task<WebApplication> SeedIdentity(this WebApplication webapp)
         {
             var scope = webapp.Services.CreateAsyncScope();
-            var context = scope.ServiceProvider.GetRequiredService<MTSContext>();
-
-            if (!await context.Database.EnsureCreatedAsync())
-                return webapp;
-
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUserModel>>();
             string[] roles = { Role.USER, Role.ADMIN };

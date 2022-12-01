@@ -42,16 +42,8 @@ const Login = () => {
       },
     });
 
-    authContext.setAuthState(result.data);
-
-    // await AuthLogin(username.current.value, password.current.value)
-    //   .then((result) => {
-    //     if (result.isSuccess) authContext.setAuthState(result.data);
-    //     else errorModal(result?.errors.join("\n"), 10000);
-    //   })
-    //   .catch((errors) => {
-    //     console.log(errors);
-    //   });
+    if (!result.isSuccess) errorModal(result.errors.join(".\n"), 20000);
+    else authContext.setAuthState(result.data);
 
     setIsWorking(false);
   };

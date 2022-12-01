@@ -57,6 +57,8 @@ const Register = () => {
         `You can now log in. User ${username.current.value} created!`,
         10000
       );
+    } else {
+      errorModal(result.errors.join(".\n"), 20000);
     }
 
     // await AuthRegister(

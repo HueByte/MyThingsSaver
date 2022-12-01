@@ -10,21 +10,21 @@ namespace MTS.Core.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public override string Id { get; set; }
-        public string Name { get; set; }
+        public override string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public DateTime CreatedOn { get; set; }
         public DateTime LastUpdatedOn { get; set; }
-        public string Content { get; set; }
-        public byte[] Image { get; set; }
+        public string? Content { get; set; }
+        public byte[]? Image { get; set; }
         public int Size { get; set; }
 
         [ForeignKey("Id")]
-        public string CategoryId { get; set; }
-        public CategoryModel Category { get; set; }
+        public string CategoryId { get; set; } = string.Empty;
+        public CategoryModel? Category { get; set; }
 
         [ForeignKey("Id")]
-        public override string UserId { get; set; }
+        public override string UserId { get; set; } = string.Empty;
         [JsonIgnore]
-        public virtual ApplicationUserModel User { get; set; }
+        public virtual ApplicationUserModel? User { get; set; }
     }
 }
