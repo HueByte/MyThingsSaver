@@ -15,7 +15,6 @@ namespace Core.lib
         public static IActionResult FromData<T>(T? data) where T : class
         {
             BaseApiResponse<T> result = new(data);
-
             return FromBaseApiResponse(result);
         }
 
@@ -24,7 +23,6 @@ namespace Core.lib
             if (!typeof(T).IsPrimitive) throw new Exception($"{data.GetType()} is not primitive data type");
 
             BaseApiResponse<T> result = new(data);
-
             return FromBaseApiResponse(result);
         }
 
@@ -32,8 +30,8 @@ namespace Core.lib
         {
             if (result.IsSuccess)
                 return new OkObjectResult(result);
-            else
-                return new BadRequestObjectResult(result);
+
+            return new BadRequestObjectResult(result);
         }
     }
 }
