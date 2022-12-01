@@ -68,7 +68,6 @@ else
         app.UseHttpsRedirection();
 }
 
-app.UseHttpLogging();
 app.UseCors();
 app.UseForwardedHeaders();
 app.UseRouting();
