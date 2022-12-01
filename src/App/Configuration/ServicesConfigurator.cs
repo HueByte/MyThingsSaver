@@ -1,15 +1,15 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using App.Authentication;
-using App.Guide;
 using Common.Constants;
 using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Models;
+using Core.Services.Authentication;
 using Core.Services.Category;
 using Core.Services.CurrentUser;
 using Core.Services.Entry;
+using Core.Services.Guide;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,24 +21,24 @@ using Microsoft.OpenApi.Models;
 // composition root
 namespace App.Configuration
 {
-    public class ModuleConfiguration
+    public class ServicesConfigurator
     {
         private readonly IServiceCollection _services;
         private readonly AppSettingsRoot _configuration;
-        public ModuleConfiguration(IServiceCollection services, AppSettingsRoot configuration)
+        public ServicesConfigurator(IServiceCollection services, AppSettingsRoot configuration)
         {
             _services = services ?? new ServiceCollection();
             _configuration = configuration;
         }
 
-        public ModuleConfiguration AddAppSettings()
+        public ServicesConfigurator AddAppSettings()
         {
             _services.AddSingleton(_configuration);
 
             return this;
         }
 
-        public ModuleConfiguration ConfigureDatabase(bool isProduction)
+        public ServicesConfigurator ConfigureDatabase(bool isProduction)
         {
             var databaseType = _configuration.Database.Type.ToLower();
 
@@ -65,7 +65,7 @@ namespace App.Configuration
             return this;
         }
 
-        public ModuleConfiguration ConfigureControllersWithViews()
+        public ServicesConfigurator ConfigureControllersWithViews()
         {
             _services.AddControllersWithViews()
                 .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -75,7 +75,7 @@ namespace App.Configuration
             return this;
         }
 
-        public ModuleConfiguration ConfigureSecurity()
+        public ServicesConfigurator ConfigureSecurity()
         {
             _services.AddIdentity<ApplicationUserModel, IdentityRole>()
                      .AddEntityFrameworkStores<AppDbContext>()
@@ -138,21 +138,20 @@ namespace App.Configuration
             return this;
         }
 
-        public ModuleConfiguration ConfigureServices()
+        public ServicesConfigurator ConfigureServices()
         {
             // services
             _services.AddScoped<ICategoryService, CategoryService>();
             _services.AddScoped<IEntryService, EntryService>();
             _services.AddScoped<ICurrentUserService, CurrentUserService>();
+            _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
+            _services.AddScoped<IUserService, UserService>();
+            _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
             // repositories
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
             _services.AddScoped<IEntryRepository, EntryRepository>();
-
-
-            _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
-            _services.AddScoped<IUserService, UserService>();
-            _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            _services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             // guide 
             GuideService _guide = new();
@@ -161,7 +160,7 @@ namespace App.Configuration
             return this;
         }
 
-        public ModuleConfiguration ConfigureCors()
+        public ServicesConfigurator ConfigureCors()
         {
             var origins = _configuration.Origins.ToArray();
             _services.AddCors(o => o.AddDefaultPolicy(builder =>
@@ -175,7 +174,7 @@ namespace App.Configuration
             return this;
         }
 
-        public ModuleConfiguration ConfigureForwardedHeaders()
+        public ServicesConfigurator ConfigureForwardedHeaders()
         {
             var type = _configuration.Network.Type;
 
@@ -190,7 +189,7 @@ namespace App.Configuration
             return this;
         }
 
-        public ModuleConfiguration ConfigureSwagger()
+        public ServicesConfigurator ConfigureSwagger()
         {
             _services.AddSwaggerGen(c =>
             {

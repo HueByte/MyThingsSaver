@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using App.Authentication;
 using App.Extensions;
 using Common.ApiResonse;
 using Common.Constants;
 using Core.DTO;
 using Core.Entities;
+using Core.Interfaces.Services;
 using Core.lib;
 using Core.Models;
 using Microsoft.AspNetCore.Authorization;

@@ -1,27 +1,33 @@
-using App.Guide;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Common.Constants;
 using Core.DTO;
 using Core.Entities;
+using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
 using Core.Models;
-using Infrastructure;
+using Core.Services.Guide;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.Authentication
+namespace Core.Services.Authentication
 {
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUserModel> _userManager;
         private readonly SignInManager<ApplicationUserModel> _signInManager;
         private readonly IJwtAuthentication _jwtAuthentication;
-        private readonly AppDbContext _context;
         private readonly GuideService _guide;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IEntryRepository _entryRepository;
         private readonly AppSettingsRoot _settings;
         private readonly IRefreshTokenService _refreshTokenService;
         public UserService(UserManager<ApplicationUserModel> userManager,
                            SignInManager<ApplicationUserModel> signInManager,
                            IJwtAuthentication jwtAuthentication,
-                           AppDbContext context,
+                           ICategoryRepository categoryRepository,
+                           IEntryRepository entryRepository,
                            GuideService guide,
                            AppSettingsRoot settings,
                            IRefreshTokenService refreshTokenService)
@@ -29,7 +35,8 @@ namespace App.Authentication
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtAuthentication = jwtAuthentication;
-            _context = context;
+            _categoryRepository = categoryRepository;
+            _entryRepository = entryRepository;
             _guide = guide;
             _settings = settings;
             _refreshTokenService = refreshTokenService;
@@ -108,8 +115,7 @@ namespace App.Authentication
             await _refreshTokenService.RemoveOldRefreshTokens(user);
 
             // save removal of old refresh tokens
-            _context.Update(user);
-            await _context.SaveChangesAsync();
+            await _userManager.UpdateAsync(user);
 
             return new VerifiedUserDto()
             {
@@ -162,9 +168,9 @@ namespace App.Authentication
                 Id = Guid.NewGuid().ToString()
             };
 
-            await _context.Categories.AddAsync(guideCategory);
-            await _context.Entries.AddRangeAsync(new EntryModel[] { welcome, guide });
-            await _context.SaveChangesAsync();
+            await _categoryRepository.AddAsync(guideCategory);
+            await _entryRepository.AddRangeAsync(new EntryModel[] { welcome, guide });
+            await _categoryRepository.SaveChangesAsync();
         }
     }
 }

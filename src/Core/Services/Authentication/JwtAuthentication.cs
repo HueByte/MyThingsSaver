@@ -1,12 +1,15 @@
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using Core.Entities;
+using Core.Interfaces.Services;
 using Core.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace App.Authentication
+namespace Core.Services.Authentication
 {
     public class JwtAuthentication : IJwtAuthentication
     {

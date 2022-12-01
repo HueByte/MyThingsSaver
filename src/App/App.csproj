@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Guide/Templates/*.*">
+    <Content Include="Templates/*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="../../examples/*.*" LinkBase="examples">

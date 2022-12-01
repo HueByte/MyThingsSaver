@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace App.Guide
+namespace Core.Services.Guide
 {
     public class GuideService
     {
@@ -12,7 +12,7 @@ namespace App.Guide
         public int GUIDE_SIZE { get; set; }
 
         private static string FolderPath
-            => AppContext.BaseDirectory + Path.Combine("Guide", "Templates");
+            => AppContext.BaseDirectory + Path.Combine("Templates");
 
         public GuideService()
         {

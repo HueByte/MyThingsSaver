@@ -32,7 +32,7 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 
 builder.Host.ConfigureServices(services =>
 {
-    _ = new ModuleConfiguration(services, appsettings).AddAppSettings()
+    _ = new ServicesConfigurator(services, appsettings).AddAppSettings()
                                                       .ConfigureServices()
                                                       .ConfigureControllersWithViews()
                                                       .ConfigureDatabase(builder.Environment.IsProduction())
@@ -45,9 +45,8 @@ builder.Host.ConfigureServices(services =>
 
 var app = builder.Build();
 
-app = new BeforeStart(app).PerformMigrations()
-                          .SeedIdentity()
-                          .Initialize();
+await app.Migrate();
+await app.SeedIdentity();
 
 // configue app
 app.UseErrorHandler();

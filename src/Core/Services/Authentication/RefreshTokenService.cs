@@ -1,23 +1,28 @@
+using System;
+using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Core.DTO;
 using Core.Entities;
+using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
 using Core.Models;
-using Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
-namespace App.Authentication
+namespace Core.Services.Authentication
 {
     public class RefreshTokenService : IRefreshTokenService
     {
-        private AppSettingsRoot _settings;
-        private AppDbContext _context;
-        private UserManager<ApplicationUserModel> _userManager;
-        private IJwtAuthentication _jwtAuth;
-        public RefreshTokenService(AppDbContext context, AppSettingsRoot settings, UserManager<ApplicationUserModel> userManager, IJwtAuthentication jwtAuthentication)
+        private readonly AppSettingsRoot _settings;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly UserManager<ApplicationUserModel> _userManager;
+        private readonly IJwtAuthentication _jwtAuth;
+        public RefreshTokenService(IRefreshTokenRepository refreshTokenRepository, AppSettingsRoot settings, UserManager<ApplicationUserModel> userManager, IJwtAuthentication jwtAuthentication)
         {
-            _context = context;
+            _refreshTokenRepository = refreshTokenRepository;
             _settings = settings;
             _userManager = userManager;
             _jwtAuth = jwtAuthentication;
@@ -55,9 +60,7 @@ namespace App.Authentication
 
             // Remove old tokens
             await RemoveOldRefreshTokens(user);
-
-            _context.Update(user);
-            await _context.SaveChangesAsync();
+            await _userManager.UpdateAsync(user);
 
             var roles = await _userManager.GetRolesAsync(user);
             var jwtToken = _jwtAuth.GenerateJsonWebToken(user, roles);
@@ -86,8 +89,7 @@ namespace App.Authentication
 
             RevokeRefreshToken(refreshToken, ipAddress);
 
-            _context.Update(user);
-            await _context.SaveChangesAsync();
+            await _userManager.UpdateAsync(user);
         }
 
         /// <summary>
