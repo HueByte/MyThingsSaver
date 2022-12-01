@@ -1,8 +1,6 @@
 using System;
-using System.Threading.Tasks;
 using Common.ApiResonse;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Core.lib
 {
@@ -10,13 +8,13 @@ namespace Core.lib
     {
         public static IActionResult Empty()
         {
-            var result = new BaseApiResponse<object>(default, null, true);
+            BaseApiResponse<object> result = new(default, null!, true);
             return new OkObjectResult(result);
         }
 
         public static IActionResult FromData<T>(T? data) where T : class
         {
-            var result = new BaseApiResponse<T>(data);
+            BaseApiResponse<T> result = new(data);
 
             return FromBaseApiResponse(result);
         }
@@ -25,7 +23,7 @@ namespace Core.lib
         {
             if (!typeof(T).IsPrimitive) throw new Exception($"{data.GetType()} is not primitive data type");
 
-            var result = new BaseApiResponse<T>(data);
+            BaseApiResponse<T> result = new(data);
 
             return FromBaseApiResponse(result);
         }
