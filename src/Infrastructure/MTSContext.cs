@@ -1,9 +1,8 @@
-using Core.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MTS.Core.Models;
 
-namespace Infrastructure
+namespace MTS.Infrastructure
 {
     public partial class MTSContext : IdentityDbContext<ApplicationUserModel>
     {

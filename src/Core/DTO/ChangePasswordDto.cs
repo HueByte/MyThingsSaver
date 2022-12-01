@@ -1,4 +1,4 @@
-namespace Core.DTO
+namespace MTS.Core.DTO
 {
     public class ChangePasswordDto
     {

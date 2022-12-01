@@ -1,20 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
-using App.Extensions;
-using Common.Constants;
-using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.Configuration;
+using MTS.App.Extensions;
+using MTS.Core.Entities;
 
-namespace App.Controllers
+namespace MTS.App.Controllers
 {
     public class ConfigurationController : BaseApiController
     {

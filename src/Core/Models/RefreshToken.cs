@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Core.Abstraction;
+using MTS.Core.Abstraction;
 
-namespace Core.Models
+namespace MTS.Core.Models
 {
     public class RefreshTokenModel : DbModel<int>
     {

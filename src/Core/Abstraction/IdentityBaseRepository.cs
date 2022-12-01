@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Models;
-using Core.Services.CurrentUser;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MTS.Core.Models;
+using MTS.Core.Services.CurrentUser;
 
-namespace Core.Abstraction
+namespace MTS.Core.Abstraction
 {
     public class IdentityBaseRepository<TKeyType, TEntity, TContext> : IIdentityRepository<TKeyType, TEntity>
         where TKeyType : IConvertible

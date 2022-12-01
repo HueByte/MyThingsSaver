@@ -1,6 +1,6 @@
 using System.Data.SqlTypes;
 
-namespace Common.Constants
+namespace MTS.Common.Constants
 {
     public class CookieNames
     {

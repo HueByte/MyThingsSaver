@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Core.Models;
+using MTS.Core.Models;
 
-namespace Core.Interfaces.Services;
+namespace MTS.Core.Interfaces.Services;
 
 public interface IJwtAuthentication
 {

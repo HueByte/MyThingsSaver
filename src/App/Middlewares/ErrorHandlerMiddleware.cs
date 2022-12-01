@@ -1,11 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Net;
-using Common.ApiResonse;
-using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using MTS.Common.ApiResonse;
+using MTS.Core.Entities;
 
-namespace App.Middlewares
+namespace MTS.App.Middlewares
 {
     public static class ErrorHandlerExtensions
     {

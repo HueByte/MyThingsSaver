@@ -1,17 +1,17 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Common.Constants;
-using Core.DTO;
-using Core.Entities;
-using Core.Interfaces.Repositories;
-using Core.Interfaces.Services;
-using Core.Models;
-using Core.Services.Guide;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MTS.Common.Constants;
+using MTS.Core.DTO;
+using MTS.Core.Entities;
+using MTS.Core.Interfaces.Repositories;
+using MTS.Core.Interfaces.Services;
+using MTS.Core.Models;
+using MTS.Core.Services.Guide;
 
-namespace Core.Services.Authentication
+namespace MTS.Core.Services.Authentication
 {
     public class UserService : IUserService
     {

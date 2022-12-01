@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Common.ApiResonse
+namespace MTS.Common.ApiResonse
 {
     public class BaseApiResponse<T>
     {

@@ -1,10 +1,10 @@
 using System.Reflection.Metadata.Ecma335;
-using Common.Constants;
-using Core.Entities;
+using MTS.Common.Constants;
+using MTS.Core.Entities;
 using Serilog;
 using Serilog.Events;
 
-namespace Core.lib
+namespace MTS.Core.lib
 {
     public static class SerilogConfigurator
     {

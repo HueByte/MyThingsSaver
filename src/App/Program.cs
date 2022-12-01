@@ -1,8 +1,8 @@
-using App;
-using App.Configuration;
-using App.Middlewares;
-using Core.Entities;
-using Core.lib;
+using MTS.App;
+using MTS.App.Configuration;
+using MTS.App.Middlewares;
+using MTS.Core.Entities;
+using MTS.Core.lib;
 using Serilog;
 using Serilog.Events;
 

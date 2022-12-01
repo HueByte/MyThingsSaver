@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Core.DTO;
-using Core.Models;
+using MTS.Core.DTO;
+using MTS.Core.Models;
 
-namespace Core.Interfaces.Services
+namespace MTS.Core.Interfaces.Services
 {
     public interface ICategoryService
     {

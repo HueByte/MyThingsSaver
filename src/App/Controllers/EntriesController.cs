@@ -1,14 +1,14 @@
-using App.Extensions;
-using Common.ApiResonse;
-using Core.DTO;
-using Core.Interfaces.Services;
-using Core.lib;
-using Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MTS.App.Extensions;
+using MTS.Common.ApiResonse;
+using MTS.Core.DTO;
+using MTS.Core.Interfaces.Services;
+using MTS.Core.Models;
+using MTS.Core.lib;
 // using Newtonsoft.Json.Serialization;
 
-namespace App.Controllers
+namespace MTS.App.Controllers
 {
     [Authorize]
     public class EntriesController : BaseApiController

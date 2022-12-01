@@ -1,12 +1,12 @@
-using App.Extensions;
-using Common.ApiResonse;
-using Core.DTO;
-using Core.lib;
-using Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MTS.App.Extensions;
+using MTS.Common.ApiResonse;
+using MTS.Core.DTO;
+using MTS.Core.lib;
+using MTS.Core.Models;
 
-namespace App.Controllers
+namespace MTS.App.Controllers
 {
     [Authorize]
     public class CategoriesController : BaseApiController

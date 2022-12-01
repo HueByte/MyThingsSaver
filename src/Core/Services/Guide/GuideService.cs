@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace Core.Services.Guide
+namespace MTS.Core.Services.Guide
 {
     public class GuideService
     {

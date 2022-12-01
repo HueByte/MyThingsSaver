@@ -1,19 +1,10 @@
-using System;
-using System.Threading.Tasks;
-using App.Extensions;
-using Common.ApiResonse;
-using Common.Constants;
-using Core.DTO;
-using Core.Entities;
-using Core.Interfaces.Services;
-using Core.lib;
-using Core.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MTS.App.Extensions;
+using MTS.Common.ApiResonse;
+using MTS.Core.DTO;
+using MTS.Core.lib;
 
-namespace App.Controllers
+namespace MTS.App.Controllers
 {
     public class AuthController : BaseApiController
     {

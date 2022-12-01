@@ -1,8 +1,8 @@
 using System;
 using System.Text.Json.Serialization;
-using Core.Models;
+using MTS.Core.Models;
 
-namespace Core.DTO
+namespace MTS.Core.DTO
 {
     public class VerifiedUserDto
     {

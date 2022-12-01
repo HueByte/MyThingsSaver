@@ -1,6 +1,6 @@
 using System;
 
-namespace Core.Abstraction
+namespace MTS.Core.Abstraction
 {
     public class DbModel<TKey> where TKey : IConvertible
     {

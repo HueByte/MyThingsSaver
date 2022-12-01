@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Core.Models;
+using MTS.Core.Models;
 
-namespace Core.Entities
+namespace MTS.Core.Entities
 {
     public class AllCategoryEntries
     {

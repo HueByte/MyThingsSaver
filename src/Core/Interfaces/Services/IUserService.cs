@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using Core.DTO;
-using Core.Entities;
 using Microsoft.AspNetCore.Identity;
+using MTS.Core.DTO;
+using MTS.Core.Entities;
 
-namespace Core.Interfaces.Services;
+namespace MTS.Core.Interfaces.Services;
 
 public interface IUserService
 {

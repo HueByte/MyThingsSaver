@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using Core.Abstraction;
+using MTS.Core.Abstraction;
 
-namespace Core.Models
+namespace MTS.Core.Models
 {
     public class CategoryModel : IdentityDbModel<string, string>
     {

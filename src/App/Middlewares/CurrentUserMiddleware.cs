@@ -1,7 +1,7 @@
 using System.Security.Claims;
-using Core.Services.CurrentUser;
+using MTS.Core.Services.CurrentUser;
 
-namespace App.Middlewares
+namespace MTS.App.Middlewares
 {
     public class CurrentUserMiddleware
     {

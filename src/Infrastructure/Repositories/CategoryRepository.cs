@@ -1,9 +1,9 @@
-using Core.Abstraction;
-using Core.Interfaces.Repositories;
-using Core.Models;
-using Core.Services.CurrentUser;
+using MTS.Core.Abstraction;
+using MTS.Core.Interfaces.Repositories;
+using MTS.Core.Models;
+using MTS.Core.Services.CurrentUser;
 
-namespace Infrastructure.Repositories;
+namespace MTS.Infrastructure.Repositories;
 
 public class CategoryRepository : IdentityBaseRepository<string, CategoryModel, MTSContext>, ICategoryRepository
 {

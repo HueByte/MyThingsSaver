@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.DTO;
-using Core.Entities;
-using Core.Interfaces.Repositories;
-using Core.Interfaces.Services;
-using Core.Models;
-using Core.Services.CurrentUser;
 using Microsoft.EntityFrameworkCore;
+using MTS.Core.DTO;
+using MTS.Core.Entities;
+using MTS.Core.Interfaces.Repositories;
+using MTS.Core.Interfaces.Services;
+using MTS.Core.Models;
+using MTS.Core.Services.CurrentUser;
 
-namespace Core.Services.Category
+namespace MTS.Core.Services.Category
 {
     public class CategoryService : ICategoryService
     {

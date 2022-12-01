@@ -1,25 +1,25 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using Common.Constants;
-using Core.Entities;
-using Core.Interfaces.Repositories;
-using Core.Interfaces.Services;
-using Core.Models;
-using Core.Services.Authentication;
-using Core.Services.Category;
-using Core.Services.CurrentUser;
-using Core.Services.Entry;
-using Core.Services.Guide;
-using Infrastructure;
-using Infrastructure.Repositories;
+using MTS.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MTS.Common.Constants;
+using MTS.Core.Entities;
+using MTS.Core.Interfaces.Repositories;
+using MTS.Core.Interfaces.Services;
+using MTS.Core.Models;
+using MTS.Core.Services.Authentication;
+using MTS.Core.Services.Category;
+using MTS.Core.Services.CurrentUser;
+using MTS.Core.Services.Entry;
+using MTS.Core.Services.Guide;
+using MTS.Infrastructure.Repositories;
 
 // composition root
-namespace App.Configuration
+namespace MTS.App.Configuration
 {
     public class ServicesConfigurator
     {

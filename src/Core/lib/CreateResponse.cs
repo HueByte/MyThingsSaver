@@ -1,8 +1,8 @@
 using System;
-using Common.ApiResonse;
 using Microsoft.AspNetCore.Mvc;
+using MTS.Common.ApiResonse;
 
-namespace Core.lib
+namespace MTS.Core.lib
 {
     public static class CreateResponse
     {

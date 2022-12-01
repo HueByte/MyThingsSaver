@@ -7,11 +7,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Common.Constants;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
+using MTS.Common.Constants;
 
-namespace Core.Entities
+namespace MTS.Core.Entities
 {
     public class AppSettingsRoot
     {

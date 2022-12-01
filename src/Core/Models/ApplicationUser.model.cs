@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Core.Abstraction;
 using Microsoft.AspNetCore.Identity;
+using MTS.Core.Abstraction;
 
-namespace Core.Models
+namespace MTS.Core.Models
 {
     public class ApplicationUserModel : IdentityUser
     {

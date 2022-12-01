@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{F7A855B6-A4F3-4CAE-A9EF-6716D2932B5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTS.App", "App\MTS.App.csproj", "{F7A855B6-A4F3-4CAE-A9EF-6716D2932B5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{44BF7D48-3575-42D9-9BE3-26D8D6E9A2E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTS.Common", "Common\MTS.Common.csproj", "{44BF7D48-3575-42D9-9BE3-26D8D6E9A2E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{AAA66DA9-C5BB-4697-AAEF-717ECF2896AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTS.Core", "Core\MTS.Core.csproj", "{AAA66DA9-C5BB-4697-AAEF-717ECF2896AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{0998B8E3-BBF5-424F-9339-AA0FDD7F81C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MTS.Infrastructure", "Infrastructure\MTS.Infrastructure.csproj", "{0998B8E3-BBF5-424F-9339-AA0FDD7F81C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F7A855B6-A4F3-4CAE-A9EF-6716D2932B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -72,5 +69,11 @@ Global
 		{0998B8E3-BBF5-424F-9339-AA0FDD7F81C7}.Release|x64.Build.0 = Release|Any CPU
 		{0998B8E3-BBF5-424F-9339-AA0FDD7F81C7}.Release|x86.ActiveCfg = Release|Any CPU
 		{0998B8E3-BBF5-424F-9339-AA0FDD7F81C7}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E61D66A-BDB2-4517-9C05-97A3F97708DE}
 	EndGlobalSection
 EndGlobal

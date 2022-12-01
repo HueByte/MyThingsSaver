@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure
+namespace MTS.Infrastructure
 {
     // Manual migration
     // navigate to root folder of infrastructure
@@ -14,15 +14,14 @@ namespace Infrastructure
             services.AddDbContext<MTSContext>(
                                 options => options.UseMySql(connectionString,
                                 ServerVersion.AutoDetect(connectionString),
-                                x => x.MigrationsAssembly("Infrastructure"))
-
+                                x => x.MigrationsAssembly(typeof(Setup).Assembly.GetName().Name))
             );
 
         public static void AddDbContextMysqlDebug(this IServiceCollection services, string connectionString) =>
             services.AddDbContext<MTSContext>(
                                 options => options.UseMySql(connectionString,
                                 ServerVersion.AutoDetect(connectionString),
-                                x => x.MigrationsAssembly("Infrastructure"))
+                                x => x.MigrationsAssembly(typeof(Setup).Assembly.GetName().Name))
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors()
             );
@@ -30,7 +29,7 @@ namespace Infrastructure
         public static void AddDbContextSqlite(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<MTSContext>(
-                options => options.UseSqlite(connectionString, x => x.MigrationsAssembly("Infrastructure"))
+                options => options.UseSqlite(connectionString, x => x.MigrationsAssembly(typeof(Setup).Assembly.GetName().Name))
             );
         }
     }

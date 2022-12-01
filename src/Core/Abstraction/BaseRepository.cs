@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.Abstraction
+namespace MTS.Core.Abstraction
 {
     public class BaseRepository<TKeyType, TEntity, TContext> : IRepository<TKeyType, TEntity>
         where TKeyType : IConvertible

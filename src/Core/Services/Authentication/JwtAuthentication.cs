@@ -4,12 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Core.Entities;
-using Core.Interfaces.Services;
-using Core.Models;
 using Microsoft.IdentityModel.Tokens;
+using MTS.Core.Entities;
+using MTS.Core.Interfaces.Services;
+using MTS.Core.Models;
 
-namespace Core.Services.Authentication
+namespace MTS.Core.Services.Authentication
 {
     public class JwtAuthentication : IJwtAuthentication
     {

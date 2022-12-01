@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Common.Constants
+namespace MTS.Common.Constants
 {
     public class SerilogConstants
     {

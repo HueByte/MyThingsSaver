@@ -1,7 +1,7 @@
-using Core.Abstraction;
-using Core.Models;
+using MTS.Core.Abstraction;
+using MTS.Core.Models;
 
-namespace Core.Interfaces.Repositories
+namespace MTS.Core.Interfaces.Repositories
 {
     public interface IRefreshTokenRepository : IRepository<int, RefreshTokenModel>
     {

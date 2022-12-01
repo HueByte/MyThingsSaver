@@ -1,4 +1,4 @@
-namespace App
+namespace MTS.App
 {
     public static class Logo
     {

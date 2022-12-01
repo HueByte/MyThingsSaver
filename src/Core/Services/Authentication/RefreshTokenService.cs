@@ -3,16 +3,16 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Core.DTO;
-using Core.Entities;
-using Core.Interfaces.Repositories;
-using Core.Interfaces.Services;
-using Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using MTS.Core.DTO;
+using MTS.Core.Entities;
+using MTS.Core.Interfaces.Repositories;
+using MTS.Core.Interfaces.Services;
+using MTS.Core.Models;
 
-namespace Core.Services.Authentication
+namespace MTS.Core.Services.Authentication
 {
     public class RefreshTokenService : IRefreshTokenService
     {
