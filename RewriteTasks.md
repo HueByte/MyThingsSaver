@@ -13,7 +13,7 @@
 ~- Move ICurrentUserService to interfaces~
 - Rename AppDbContext
 - Rewrite build scripts
-- Add global usings
+~- Add global usings~
 
 ### Frontend
 - Fully implement generated api client
