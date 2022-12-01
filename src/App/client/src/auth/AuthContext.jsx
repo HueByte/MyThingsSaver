@@ -28,7 +28,10 @@ const AuthProvider = ({ children }) => {
   };
 
   const signout = async () => {
-    await AuthService.postApiAuthLogout();
+    try {
+      await AuthService.postApiAuthLogout();
+    } catch (ex) {}
+
     localStorage.clear();
     setAuthState(null);
     window.location.reload();
