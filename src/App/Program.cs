@@ -52,7 +52,6 @@ await app.SeedIdentity();
 app.UseErrorHandler();
 if (app.Environment.IsDevelopment())
 {
-    // app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -72,13 +71,10 @@ else
 app.UseHttpLogging();
 app.UseCors();
 app.UseForwardedHeaders();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
-
 app.UseStaticFiles(new StaticFileOptions()
 {
     OnPrepareResponse = ctx =>
@@ -94,22 +90,6 @@ app.UseStaticFiles(new StaticFileOptions()
 
 app.MapControllers();
 app.UseCurrentUser();
-
-var useHttps = appsettings.Network.UseHttps;
-var httpPort = appsettings.Network.HttpPort;
-var httpsPort = appsettings.Network.HttpsPort;
-
-// if (useHttps)
-// {
-//     app.Urls.Add($"http://localhost:{httpPort}");
-//     app.Urls.Add($"https://localhost:{httpsPort}");
-// }
-// else
-// {
-//     app.Urls.Add($"http://localhost:80");
-// }
-
 app.MapGet("/api", () => "Hello World");
-
 app.MapFallbackToFile("index.html");
 app.Run();

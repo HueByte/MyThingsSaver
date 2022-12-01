@@ -23,12 +23,13 @@ namespace App.Configuration
             var scope = webapp.Services.CreateAsyncScope();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUserModel>>();
+            string[] roles = { Role.USER, Role.ADMIN };
 
-            if (!await roleManager.RoleExistsAsync(Role.USER))
-                await roleManager.CreateAsync(new IdentityRole(Role.USER));
-
-            if (!await roleManager.RoleExistsAsync(Role.ADMIN))
-                await roleManager.CreateAsync(new IdentityRole(Role.ADMIN));
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+            }
 
             var admin = await userManager.FindByNameAsync("admin");
             if (admin is null)
