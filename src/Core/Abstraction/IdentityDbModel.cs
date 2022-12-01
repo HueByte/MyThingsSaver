@@ -2,9 +2,10 @@ using System;
 
 namespace Core.Abstraction
 {
-    public class IdentityDbModel<TKey, TUserKey> where TKey : IConvertible
+    public class IdentityDbModel<TKey, TUserKey> : DbModel<TKey>
+        where TKey : IConvertible
+        where TUserKey : IConvertible
     {
-        public virtual TKey Id { get; set; }
-        public virtual TUserKey UserId { get; set; }
+        public virtual TUserKey UserId { get; set; } = default!;
     }
 }

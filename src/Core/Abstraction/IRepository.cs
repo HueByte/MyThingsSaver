@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace Core.Abstraction
 {
-    public interface IRepository<Tkey, TEntity> where Tkey : IConvertible where TEntity : DbModel<Tkey>
+    public interface IRepository<Tkey, TEntity>
+        where Tkey : IConvertible
+        where TEntity : DbModel<Tkey>
     {
         Task<TEntity?> GetAsync(Tkey id);
         Task<IQueryable<TEntity>> GetAllAsync();

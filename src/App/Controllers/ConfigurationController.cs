@@ -92,7 +92,7 @@ namespace App.Controllers
                     WriteIndented = true
                 };
 
-                var settingsJson = System.Text.Json.JsonSerializer.Serialize(settings, options);
+                var settingsJson = JsonSerializer.Serialize(settings, options);
 
                 await WriteSettingsAsync(settingsJson);
                 return Ok();
