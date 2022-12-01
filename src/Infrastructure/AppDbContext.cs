@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
-    public partial class AppDbContext : IdentityDbContext<ApplicationUserModel>
+    public partial class MTSContext : IdentityDbContext<ApplicationUserModel>
     {
-        public AppDbContext() { }
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public MTSContext() { }
+        public MTSContext(DbContextOptions<MTSContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         protected override void OnModelCreating(ModelBuilder builder)

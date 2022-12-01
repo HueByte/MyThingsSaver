@@ -11,7 +11,7 @@ namespace Infrastructure
     public static class Setup
     {
         public static void AddDbContextMysqlProduction(this IServiceCollection services, string connectionString) =>
-            services.AddDbContext<AppDbContext>(
+            services.AddDbContext<MTSContext>(
                                 options => options.UseMySql(connectionString,
                                 ServerVersion.AutoDetect(connectionString),
                                 x => x.MigrationsAssembly("Infrastructure"))
@@ -19,7 +19,7 @@ namespace Infrastructure
             );
 
         public static void AddDbContextMysqlDebug(this IServiceCollection services, string connectionString) =>
-            services.AddDbContext<AppDbContext>(
+            services.AddDbContext<MTSContext>(
                                 options => options.UseMySql(connectionString,
                                 ServerVersion.AutoDetect(connectionString),
                                 x => x.MigrationsAssembly("Infrastructure"))
@@ -29,7 +29,7 @@ namespace Infrastructure
 
         public static void AddDbContextSqlite(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<AppDbContext>(
+            services.AddDbContext<MTSContext>(
                 options => options.UseSqlite(connectionString, x => x.MigrationsAssembly("Infrastructure"))
             );
         }

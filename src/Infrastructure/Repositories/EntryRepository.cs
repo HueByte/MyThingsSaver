@@ -5,7 +5,7 @@ using Core.Services.CurrentUser;
 
 namespace Infrastructure.Repositories;
 
-public class EntryRepository : IdentityBaseRepository<string, EntryModel, AppDbContext>, IEntryRepository
+public class EntryRepository : IdentityBaseRepository<string, EntryModel, MTSContext>, IEntryRepository
 {
-    public EntryRepository(AppDbContext context, ICurrentUserService currentUser) : base(context, currentUser) { }
+    public EntryRepository(MTSContext context, ICurrentUserService currentUser) : base(context, currentUser) { }
 }

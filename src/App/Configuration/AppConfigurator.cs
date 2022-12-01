@@ -11,7 +11,7 @@ namespace App.Configuration
         public static async Task<WebApplication> Migrate(this WebApplication webapp)
         {
             var scope = webapp.Services.CreateAsyncScope();
-            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var context = scope.ServiceProvider.GetRequiredService<MTSContext>();
 
             await context.Database.MigrateAsync();
 

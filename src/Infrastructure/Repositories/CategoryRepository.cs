@@ -5,7 +5,7 @@ using Core.Services.CurrentUser;
 
 namespace Infrastructure.Repositories;
 
-public class CategoryRepository : IdentityBaseRepository<string, CategoryModel, AppDbContext>, ICategoryRepository
+public class CategoryRepository : IdentityBaseRepository<string, CategoryModel, MTSContext>, ICategoryRepository
 {
-    public CategoryRepository(AppDbContext context, ICurrentUserService currentUser) : base(context, currentUser) { }
+    public CategoryRepository(MTSContext context, ICurrentUserService currentUser) : base(context, currentUser) { }
 }

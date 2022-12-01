@@ -5,8 +5,8 @@ using Core.Services.CurrentUser;
 
 namespace Infrastructure.Repositories
 {
-    public class RefreshTokenRepository : BaseRepository<int, RefreshTokenModel, AppDbContext>, IRefreshTokenRepository
+    public class RefreshTokenRepository : BaseRepository<int, RefreshTokenModel, MTSContext>, IRefreshTokenRepository
     {
-        public RefreshTokenRepository(AppDbContext context) : base(context) { }
+        public RefreshTokenRepository(MTSContext context) : base(context) { }
     }
 }

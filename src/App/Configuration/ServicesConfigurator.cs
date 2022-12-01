@@ -78,7 +78,7 @@ namespace App.Configuration
         public ServicesConfigurator ConfigureSecurity()
         {
             _services.AddIdentity<ApplicationUserModel, IdentityRole>()
-                     .AddEntityFrameworkStores<AppDbContext>()
+                     .AddEntityFrameworkStores<MTSContext>()
                      .AddDefaultTokenProviders();
 
             _services.Configure<IdentityOptions>(options =>
