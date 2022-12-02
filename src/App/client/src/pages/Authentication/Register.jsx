@@ -61,21 +61,6 @@ const Register = () => {
       errorModal(result.errors.join(".\n"), 20000);
     }
 
-    // await AuthRegister(
-    //   email.current.value,
-    //   username.current.value,
-    //   password.current.value
-    // )
-    //   .then((result) => {
-    //     if (result.isSuccess)
-    //       successModal(
-    //         `You can now log in. User ${username.current.value} created!`,
-    //         10000
-    //       );
-    //     else errorModal(result?.errors.join("\n"), 10000);
-    //   })
-    //   .catch((errors) => console.error(errors));
-
     setIsWorking(false);
   };
 
@@ -86,49 +71,43 @@ const Register = () => {
   if (authContext.isAuthenticated()) return <Navigate to="/" />;
   return (
     <AuthTemplate isWorking={isWorking}>
-      <div className="auth-welcome">
-        <span>Welcome to My things saver!</span>
-        <br />
-        <span>Register your account here</span>
-      </div>
-      <div className="auth-input-container">
+      <div className="welcome">Sign up</div>
+      <div className="input-container">
+        <label>Email</label>
         <input
+          type="text"
           id="email-input"
-          type="text"
-          className="basic-input auth-input"
-          placeholder="E-mail"
-          autoComplete="email"
+          className="mts-input"
+          placeholder="email@domain.com"
         />
+        <label>Username</label>
         <input
+          type="text"
           id="username-input"
-          type="text"
-          className="basic-input auth-input"
-          placeholder="Username"
-          autoComplete="username"
+          className="mts-input"
+          placeholder="username"
         />
+        <label>Password</label>
         <input
-          id="password-input"
           type="password"
-          className="basic-input auth-input"
-          placeholder="Password"
-          autoComplete="current-password"
+          id="password-input"
+          className="mts-input"
+          placeholder="password"
         />
       </div>
-      <div className="auth-menu">
-        <div className="auth-menu-side"></div>
-        <div className="auth-menu-side">
-          <div
-            onKeyDown={handleEnter}
-            onClick={() => setIsWorking(true)}
-            className="basic-button auth-button"
-          >
-            Register
-          </div>
-          <NavLink to="/auth/login" className="basic-button auth-button">
-            Log in
-          </NavLink>
-        </div>
+      <div
+        className="mts-button gradient-background-r full-button"
+        onKeyDown={handleEnter}
+        onClick={() => setIsWorking(true)}
+      >
+        Create Account
       </div>
+      <NavLink
+        to="/auth/login"
+        className="mts-button gradient-background-r full-button"
+      >
+        Sign in
+      </NavLink>
     </AuthTemplate>
   );
 };

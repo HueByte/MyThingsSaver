@@ -60,7 +60,7 @@ const Login = () => {
         <input
           id="username-input"
           type="text"
-          placeholder="email@domain.com"
+          placeholder="username"
           className="mts-input"
           autoComplete="on"
         />
@@ -75,7 +75,7 @@ const Login = () => {
         />
       </div>
       <div
-        className="mts-button gradient-background-r continue"
+        className="mts-button gradient-background-r full-button"
         onClick={authenticate}
       >
         Continue
