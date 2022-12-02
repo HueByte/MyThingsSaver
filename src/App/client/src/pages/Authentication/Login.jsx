@@ -62,17 +62,24 @@ const Login = () => {
           type="text"
           placeholder="email@domain.com"
           className="mts-input"
+          autoComplete="on"
         />
 
         <label>Password</label>
         <input
-          id="username-input"
-          type="text"
+          id="password-input"
+          type="password"
           placeholder="password"
           className="mts-input"
+          autoComplete="on"
         />
       </div>
-      <div className="mts-button gradient-background-r continue">Continue</div>
+      <div
+        className="mts-button gradient-background-r continue"
+        onClick={authenticate}
+      >
+        Continue
+      </div>
       <div className="singup-text">
         Don't have account? <NavLink to="/auth/register">Sign up</NavLink>
       </div>
