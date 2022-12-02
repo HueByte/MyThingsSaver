@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, Navigate } from "react-router-dom";
-// import { AuthLogin } from "../../auth/Auth";
 import { AuthContext } from "../../auth/AuthContext";
-import "./Auth.css";
+import "./Auth.scss";
 import "../../core/BasicLayout/BasicLayoutStyles.scss";
 import AuthTemplate from "./AuthTemplate";
 import { errorModal, warningModal } from "../../core/Modals";
@@ -55,41 +54,30 @@ const Login = () => {
   if (authContext.isAuthenticated()) return <Navigate to="/" />;
   return (
     <AuthTemplate isWorking={isWorking}>
-      <div className="auth-welcome">Welcome to My things saver!</div>
-      <div className="auth-input-container">
+      <div className="welcome">Sign in</div>
+      <div className="input-container">
+        <label>Username</label>
         <input
           id="username-input"
           type="text"
-          className="basic-input auth-input"
-          placeholder="Username"
-          autoComplete="username"
+          placeholder="email@domain.com"
+          className="mts-input"
         />
+
+        <label>Password</label>
         <input
-          id="password-input"
-          type="password"
-          className="basic-input auth-input"
-          placeholder="Password"
-          autoComplete="current-password"
+          id="username-input"
+          type="text"
+          placeholder="password"
+          className="mts-input"
         />
       </div>
-      <div className="auth-menu">
-        <div className="auth-menu-side">
-          <NavLink to="/HelpMe" className="auth-button-help">
-            Can't log in?
-          </NavLink>
-        </div>
-        <div className="auth-menu-side">
-          <div
-            onKeyDown={handleEnter}
-            onClick={() => setIsWorking(true)}
-            className="basic-button auth-button"
-          >
-            Log in
-          </div>
-          <NavLink to="/auth/register" className="basic-button auth-button">
-            Register
-          </NavLink>
-        </div>
+      <div className="mts-button gradient-background-r continue">Continue</div>
+      <div className="singup-text">
+        Don't have account? <NavLink to="/auth/register">Sign up</NavLink>
+      </div>
+      <div>
+        <NavLink to="/helpme">Forgot Password?</NavLink>
       </div>
     </AuthTemplate>
   );

@@ -1,3 +1,5 @@
+@use './styles/theme' as theme;
+
 /* scroll bar */
 /* ---------------------------------------------------------------------------------------------------- */
 
@@ -86,12 +88,16 @@ abbr {
 }
 
 a,
-a:hover,
 a:link,
 a:visited,
 a:active {
   text-decoration: none;
-  color: var(--Rose);
+  color: theme.$link-color;
+  transition: 200ms;
+
+  &:hover {
+    color: theme.$link-color-hover;
+  }
 }
 
 input,
@@ -117,11 +123,13 @@ input:focus {
   outline: 0;
 }
 
-/* input::placeholder,
-input::-moz-placeholder,
-input::-webkit-input-placeholder {
-  color: var(--DarkGrey)
-} */
+input,
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  color: #FFF;
+  caret-color: #FFF;
+}
 
 /* Box Sizing Reset
 -----------------------------------------------*/
@@ -163,8 +171,7 @@ input[type="tel"],
 input[type="text"],
 input[type="time"],
 input[type="url"],
-input[type="week"] {
-}
+input[type="week"] {}
 
 /* Button Controls
 -----------------------------------------------*/
@@ -178,8 +185,7 @@ input[type="radio"] {
 /* File Uploads
 -----------------------------------------------*/
 
-input[type="file"] {
-}
+input[type="file"] {}
 
 /* Search Input
 -----------------------------------------------*/
@@ -219,6 +225,7 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
   margin: 0;
 }
+
 input[type="number"] {
   -moz-appearance: textfield !important;
 }

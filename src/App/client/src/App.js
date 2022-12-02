@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { ClientRouter } from "./routes/Routes";
