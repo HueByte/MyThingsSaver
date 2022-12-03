@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { EntriesService } from "../../api";
 // import EntriesRepository from "../../api/repositories/EntriesRepository";
 import Loader from "../../components/Loaders/Loader";
+import { errorModal } from "../../core/Modals";
 import "./HomePage.scss";
 
 const HomePage = () => {
@@ -15,13 +16,9 @@ const HomePage = () => {
       let result = await EntriesService.getApiEntriesRecent();
       if (result.isSuccess) {
         setEntries(result.data);
+      } else {
+        errorModal(result.errors.join("\n"));
       }
-
-      // await EntriesRepository.GetRecent()
-      //   .then((result) => {
-      //     if (result.isSuccess) setEntries(result.data);
-      //   })
-      //   .catch((error) => console.error(error));
 
       setFetching(false);
     })();

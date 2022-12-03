@@ -175,11 +175,15 @@
 }
 
 @media screen and (max-width: 425px) {
-    .auth-container {
-        .right {
-            .menu {
-                .menu-block {
-                    flex-direction: column;
+    .auth__wrapper {
+        .auth-container {
+            .right {
+                padding: 2em 1em;
+
+                .menu {
+                    .menu-block {
+                        flex-direction: column;
+                    }
                 }
             }
         }

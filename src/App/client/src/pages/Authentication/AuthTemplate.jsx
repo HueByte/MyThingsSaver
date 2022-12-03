@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import logo from "../../assets/CloudByteColor.png";
 import "./Auth.scss";
 import Loader from "../../components/Loaders/Loader.jsx";
@@ -6,7 +5,7 @@ import Loader from "../../components/Loaders/Loader.jsx";
 const AuthTemplate = ({ children, isWorking = false }) => {
   return (
     <div className="auth__wrapper">
-      <div className="border-gradient auth-container">
+      <div className="auth-container border-gradient">
         {isWorking ? (
           <div className="loading-overlay">
             <Loader />
@@ -18,7 +17,7 @@ const AuthTemplate = ({ children, isWorking = false }) => {
           <img src={logo} className="logo" />
         </div>
         <div className="right">{children}</div>
-        <div className="auth-bottom-wave">
+        <div className="wave">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
             <path
               fill="#001829"
