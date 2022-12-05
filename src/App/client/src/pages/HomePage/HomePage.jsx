@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaFolderOpen, FaStickyNote } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import EntriesRepository from "../../api/repositories/EntriesRepository";
+import { EntriesService } from "../../api";
+// import EntriesRepository from "../../api/repositories/EntriesRepository";
 import Loader from "../../components/Loaders/Loader";
+import { errorModal } from "../../core/Modals";
 import "./HomePage.scss";
 
 const HomePage = () => {
@@ -11,11 +13,12 @@ const HomePage = () => {
 
   useEffect(() => {
     (async () => {
-      await EntriesRepository.GetRecent()
-        .then((result) => {
-          if (result.isSuccess) setEntries(result.data);
-        })
-        .catch((error) => console.error(error));
+      let result = await EntriesService.getApiEntriesRecent();
+      if (result.isSuccess) {
+        setEntries(result.data);
+      } else {
+        errorModal(result.errors.join("\n"));
+      }
 
       setFetching(false);
     })();
@@ -30,14 +33,14 @@ const HomePage = () => {
           {entries.length > 0 ? (
             entries.map((entry, index) => (
               <NavLink
-                to={`/entry/${entry.category.categoryId}/${entry.categoryEntryId}`}
+                to={`/entry/${entry.category.id}/${entry.id}`}
                 className="entry"
                 key={index}
               >
                 <div className="image">
                   <FaStickyNote />
                 </div>
-                <div className="name ellipsis">{entry.categoryEntryName}</div>
+                <div className="name ellipsis">{entry.name}</div>
                 <div className="information">
                   <div className="line">
                     <div className="item">Category:</div>

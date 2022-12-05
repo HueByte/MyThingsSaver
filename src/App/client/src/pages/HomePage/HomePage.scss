@@ -14,6 +14,10 @@ $entry-height: 200px;
   margin: auto;
   padding: variables.$l-padding variables.$h-padding;
 
+  a:hover {
+    color: theme.$text-color;
+  }
+
   .entry {
     flex: 1 1 auto;
     min-width: $entry-width;
@@ -21,8 +25,7 @@ $entry-height: 200px;
     height: $entry-height;
     margin: 1rem;
     cursor: pointer;
-    background-color: theme.$Background;
-    backdrop-filter: blur(0.8px);
+    background-color: theme.$alternate-background-color;
     border-radius: 10px;
     transition: 200ms ease-in-out;
     display: flex;
@@ -30,28 +33,28 @@ $entry-height: 200px;
     justify-content: center;
     flex-direction: column;
     padding: variables.$m-padding;
-    color: theme.$TextAccent;
+    color: theme.$text-color;
 
     &:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 10px theme.$HoverAccent;
+      box-shadow: 0 0 10px theme.$accent2;
 
       .name,
       .information .line:first-child {
-        color: theme.$HoverAccent;
+        color: theme.$accent2;
       }
     }
 
     .image {
       font-size: xx-large;
-      color: theme.$IconAccent;
+      color: theme.$accent2;
     }
 
     .name {
       font-size: large;
       width: 100%;
       text-align: center;
-      color: theme.$AlternativeSpecialText;
+      color: theme.$accent;
       padding: 10px;
       font-weight: bold;
       letter-spacing: 0.6px;
@@ -77,7 +80,7 @@ $entry-height: 200px;
         }
 
         &:first-child {
-          color: theme.$AlternativeSpecialText;
+          color: theme.$accent;
         }
       }
 
@@ -99,7 +102,3 @@ $entry-height: 200px;
     }
   }
 }
-
-@media screen and (max-width: variables.$small-resolution) {}
-
-@media screen and (max-width: variables.$mobile-resolution) {}

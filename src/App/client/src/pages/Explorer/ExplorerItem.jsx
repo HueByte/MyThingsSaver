@@ -7,7 +7,7 @@ const Item = ({ category, recentPath, setCurrentContextItem }) => {
   const [showChilds, setShowChilds] = useState(false);
 
   useEffect(() => {
-    if (recentPath?.includes(category.categoryId)) {
+    if (recentPath?.includes(category.id)) {
       setShowChilds(true);
     }
   }, []);
@@ -15,7 +15,7 @@ const Item = ({ category, recentPath, setCurrentContextItem }) => {
   return (
     <>
       <NavLink
-        to={`/explore/${category.categoryId}`}
+        to={`/explore/${category.id}`}
         className="item ellipsis"
         style={determineDepth(category)}
         onContextMenu={(e) => {
@@ -48,7 +48,7 @@ const Item = ({ category, recentPath, setCurrentContextItem }) => {
         category.childCategories?.map((subCategory) => {
           return (
             <Item
-              key={subCategory.categoryId}
+              key={subCategory.id}
               category={subCategory}
               recentPath={recentPath}
               setCurrentContextItem={setCurrentContextItem}

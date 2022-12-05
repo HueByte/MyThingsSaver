@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import CategoriesRepository from "../api/repositories/CategoriesRepository";
+import { CategoriesService } from "../api/services/CategoriesService.ts";
+// import CategoriesRepository from "../api/repositories/CategoriesRepository";
 import { AuthContext } from "../auth/AuthContext";
 import Loader from "../components/Loaders/Loader";
 
@@ -25,92 +26,167 @@ const CategoryProvider = ({ children }) => {
   async function ContextAddCategory(name, parentId) {
     if (name.length === 0) return;
 
-    return await CategoriesRepository.Add(name.trim(), parentId)
-      .then((result) => {
-        ContextGetAllCategories().then((result) => setCategories(result));
-        return result?.isSuccess;
-      })
-      .catch((error) => console.error(error));
+    let result = await CategoriesService.postApiCategories({
+      requestBody: {
+        categoryParentId: parentId,
+        name: name.trim(),
+      },
+    });
+
+    let categoriesResult = await ContextGetAllCategories();
+    setCategories(categoriesResult);
+
+    // return await CategoriesRepository.Add(name.trim(), parentId)
+    //   .then((result) => {
+    //     ContextGetAllCategories().then((result) => setCategories(result));
+    //     return result?.isSuccess;
+    //   })
+    //   .catch((error) => console.error(error));
   }
 
   async function ContextRemoveCategory(categoryId) {
-    return await CategoriesRepository.Remove(categoryId)
-      .then(async (result) => {
-        let newCategories = categories;
-        newCategories = newCategories.filter((category) => {
-          return category.categoryId !== categoryId;
-        });
+    let result = await CategoriesService.deleteApiCategories({
+      requestBody: { categoryId: categoryId },
+    });
 
-        setCategories(newCategories);
-        return result?.isSuccess;
-      })
-      .catch((error) => console.error(error));
+    let newCategories = categories.filter((category) => {
+      return category.categoryId !== categoryId;
+    });
+
+    setCategories(newCategories);
+
+    return result?.isSuccess;
+
+    // return await CategoriesRepository.Remove(categoryId)
+    //   .then(async (result) => {
+    //     let newCategories = categories;
+    //     newCategories = newCategories.filter((category) => {
+    //       return category.categoryId !== categoryId;
+    //     });
+
+    //     setCategories(newCategories);
+    //     return result?.isSuccess;
+    //   })
+    //   .catch((error) => console.error(error));
   }
 
+  // TODO: is it necessary?
   async function ContextRemoveChildCategory(categoryId) {
-    await CategoriesRepository.Remove(categoryId);
+    await CategoriesService.deleteApiCategories({
+      requestBody: { categoryId: categoryId },
+    });
 
     let newCategogries = await ContextGetAllCategories();
+
     setCategories(newCategogries);
+
+    // await CategoriesRepository.Remove(categoryId);
+
+    // let newCategogries = await ContextGetAllCategories();
+    // setCategories(newCategogries);
   }
 
   // TODO: Edited entity doesn't update on sidebar
   async function ContextEditCategory(categoryId, newName) {
     if (newName.length === 0) return;
 
-    return await CategoriesRepository.Update(categoryId, newName)
-      .then((result) => {
-        // needed for quick refresh of data
-        let newCategories = [...categories];
-        let index = newCategories.findIndex(
-          (obj) => obj.categoryId == categoryId
-        );
+    let result = await CategoriesService.putApiCategories({
+      requestBody: {
+        categoryId: categoryId,
+        name: newName,
+      },
+    });
 
-        newCategories[index].name = newName;
+    let newCategories = [...categories];
+    let index = newCategories.findIndex((obj) => obj.categoryId == categoryId);
 
-        setCategories(newCategories);
-        return result?.isSuccess;
-      })
-      .catch((error) => console.log(error));
+    newCategories[index].name = newName;
+
+    setCategories(newCategories);
+
+    return result?.isSuccess;
+
+    // return await CategoriesRepository.Update(categoryId, newName)
+    //   .then((result) => {
+    //     // needed for quick refresh of data
+    //     let newCategories = [...categories];
+    //     let index = newCategories.findIndex(
+    //       (obj) => obj.categoryId == categoryId
+    //     );
+
+    //     newCategories[index].name = newName;
+
+    //     setCategories(newCategories);
+    //     return result?.isSuccess;
+    //   })
+    //   .catch((error) => console.log(error));
   }
 
-  async function ContextEditChildCategory(categoryId, newName) {
+  async function ContextEditChildCategory(
+    categoryId,
+    parentCategoryId,
+    newName
+  ) {
     if (newName.length === 0) return;
 
-    await CategoriesRepository.Update(categoryId, newName);
+    let result = await CategoriesService.putApiCategories({
+      requestBody: {
+        categoryId: categoryId,
+        categoryParentId: parentCategoryId,
+        name: newName,
+      },
+    });
 
     let newCategories = await ContextGetAllCategories();
+
     setCategories(newCategories);
+
+    // await CategoriesRepository.Update(categoryId, newName);
+
+    // let newCategories = await ContextGetAllCategories();
+    // setCategories(newCategories);
   }
 
   async function ContextGetAllCategories() {
-    let result = await CategoriesRepository.GetAll()
-      .then((result) => {
-        return result?.data;
-      })
-      .catch((error) => console.error(error));
+    let result = await CategoriesService.getApiCategoriesAll();
 
-    return result;
+    return result?.data;
+
+    // let result = await CategoriesRepository.GetAll()
+    //   .then((result) => {
+    //     return result?.data;
+    //   })
+    //   .catch((error) => console.error(error));
+
+    // return result;
   }
 
   async function ContextGetAllRootCategories() {
-    let result = await CategoriesRepository.GetRoot()
-      .then((result) => {
-        return result?.data;
-      })
-      .catch((error) => console.error(error));
+    let result = await CategoriesService.getApiCategoriesAllRoot();
 
-    return result;
+    return result?.data;
+
+    // let result = await CategoriesRepository.GetRoot()
+    //   .then((result) => {
+    //     return result?.data;
+    //   })
+    //   .catch((error) => console.error(error));
+
+    // return result;
   }
 
   async function ContextGetAllSubCategories(parentID) {
-    let result = await CategoriesRepository.GetSub(parentID)
-      .then((result) => {
-        return result?.data;
-      })
-      .catch((error) => console.error(error));
+    let result = await CategoriesService.getApiCategoriesAllSub();
 
-    return result;
+    return result?.data;
+
+    // let result = await CategoriesRepository.GetSub(parentID)
+    //   .then((result) => {
+    //     return result?.data;
+    //   })
+    //   .catch((error) => console.error(error));
+
+    // return result;
   }
 
   const value = {

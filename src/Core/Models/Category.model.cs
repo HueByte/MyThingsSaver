@@ -3,28 +3,31 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using MTS.Core.Abstraction;
 
-namespace Core.Models
+namespace MTS.Core.Models
 {
-    public class Category
+    public class CategoryModel : IdentityDbModel<string, string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string CategoryId { get; set; }
-        public string Name { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime LastEditedOn { get; set; }
-        public string Path { get; set; }
+        public override string Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastEditedOnDate { get; set; }
+        public string Path { get; set; } = string.Empty;
         public byte Level { get; set; }
-        public virtual ICollection<CategoryEntry> CategoryEntries { get; set; }
+        public virtual ICollection<EntryModel>? Entries { get; set; }
 
-        [ForeignKey("OwnerId")]
-        public string OwnerId { get; set; }
-        public virtual ApplicationUser Owner { get; set; }
+        [ForeignKey("UserId")]
+        public override string UserId { get; set; } = string.Empty;
+        [JsonIgnore]
+        public virtual ApplicationUserModel User { get; set; }
 
         [ForeignKey("ParentCategoryId")]
-        public string ParentCategoryId { get; set; }
-        public virtual Category ParentCategory { get; set; }
-        public virtual ICollection<Category> ChildCategories { get; set; }
+        public string? ParentCategoryId { get; set; }
+        public virtual CategoryModel? ParentCategory { get; set; }
+        public virtual ICollection<CategoryModel>? ChildCategories { get; set; }
     }
 }

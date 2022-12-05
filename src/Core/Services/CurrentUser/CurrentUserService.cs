@@ -1,4 +1,4 @@
-namespace Core.Services.CurrentUser
+namespace MTS.Core.Services.CurrentUser
 {
     public class CurrentUserService : ICurrentUserService
     {

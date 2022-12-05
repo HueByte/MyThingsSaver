@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Extensions
+namespace MTS.App.Extensions
 {
     [Route("api/[controller]")]
     [ApiController]

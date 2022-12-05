@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import EntriesRepository from "../../../api/repositories/EntriesRepository";
+import { EntriesService } from "../../../api";
+// import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { errorModal, warningModal } from "../../../core/Modals";
 
@@ -14,15 +15,29 @@ const EntryAdd = ({ isActive, setIsActive, categoryId, setEntries }) => {
       return;
     }
 
-    await EntriesRepository.Add(entryName, categoryId)
-      .then(async () => {
-        await EntriesRepository.GetAll(categoryId)
-          .then((result) => setEntries(result?.data?.categoryEntries))
-          .catch(() =>
-            errorModal("Something went wrong while fetching updated entries")
-          );
-      })
-      .catch(() => errorModal("Something went wrong with adding entry"));
+    let result = await EntriesService.postApiEntries({
+      requestBody: {
+        entryName: entryName,
+        categoryId: categoryId,
+      },
+    });
+
+    let newEntries = await EntriesService.getApiEntriesAll({
+      categoryId: categoryId,
+      withContent: false,
+    });
+
+    setEntries(newEntries?.data?.entries);
+
+    // await EntriesRepository.Add(entryName, categoryId)
+    //   .then(async () => {
+    //     await EntriesRepository.GetAll(categoryId)
+    //       .then((result) => setEntries(result?.data?.categoryEntries))
+    //       .catch(() =>
+    //         errorModal("Something went wrong while fetching updated entries")
+    //       );
+    //   })
+    //   .catch(() => errorModal("Something went wrong with adding entry"));
 
     setIsActive(false);
   };

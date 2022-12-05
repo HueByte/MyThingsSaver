@@ -1,11 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Net;
-using Common.ApiResonse;
-using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using MTS.Common.ApiResonse;
+using MTS.Core.Entities;
 
-namespace App.Middlewares
+namespace MTS.App.Middlewares
 {
     public static class ErrorHandlerExtensions
     {
@@ -31,7 +31,7 @@ namespace App.Middlewares
                 logger.LogError(ex, "Error Message: ");
                 var result = await GetExceptionResponse(context, ex);
 
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = (int)HttpStatusCode.OK; // temp
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsJsonAsync(result);
             }

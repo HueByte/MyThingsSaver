@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure
+namespace MTS.Infrastructure
 {
     // Manual migration
     // navigate to root folder of infrastructure
@@ -11,26 +11,25 @@ namespace Infrastructure
     public static class Setup
     {
         public static void AddDbContextMysqlProduction(this IServiceCollection services, string connectionString) =>
-            services.AddDbContext<AppDbContext>(
+            services.AddDbContext<MTSContext>(
                                 options => options.UseMySql(connectionString,
                                 ServerVersion.AutoDetect(connectionString),
-                                x => x.MigrationsAssembly("Infrastructure"))
-
+                                x => x.MigrationsAssembly(typeof(Setup).Assembly.GetName().Name))
             );
 
         public static void AddDbContextMysqlDebug(this IServiceCollection services, string connectionString) =>
-            services.AddDbContext<AppDbContext>(
+            services.AddDbContext<MTSContext>(
                                 options => options.UseMySql(connectionString,
                                 ServerVersion.AutoDetect(connectionString),
-                                x => x.MigrationsAssembly("Infrastructure"))
+                                x => x.MigrationsAssembly(typeof(Setup).Assembly.GetName().Name))
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors()
             );
 
         public static void AddDbContextSqlite(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<AppDbContext>(
-                options => options.UseSqlite(connectionString, x => x.MigrationsAssembly("Infrastructure"))
+            services.AddDbContext<MTSContext>(
+                options => options.UseSqlite(connectionString, x => x.MigrationsAssembly(typeof(Setup).Assembly.GetName().Name))
             );
         }
     }

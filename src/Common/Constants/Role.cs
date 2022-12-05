@@ -1,4 +1,4 @@
-namespace Common.Constants
+namespace MTS.Common.Constants
 {
     public class Role
     {

@@ -1,8 +1,8 @@
-using App;
-using App.Configuration;
-using App.Middlewares;
-using Core.Entities;
-using Core.lib;
+using MTS.App;
+using MTS.App.Configuration;
+using MTS.App.Middlewares;
+using MTS.Core.Entities;
+using MTS.Core.lib;
 using Serilog;
 using Serilog.Events;
 
@@ -32,7 +32,7 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
 
 builder.Host.ConfigureServices(services =>
 {
-    _ = new ModuleConfiguration(services, appsettings).AddAppSettings()
+    _ = new ServicesConfigurator(services, appsettings).AddAppSettings()
                                                       .ConfigureServices()
                                                       .ConfigureControllersWithViews()
                                                       .ConfigureDatabase(builder.Environment.IsProduction())
@@ -45,17 +45,15 @@ builder.Host.ConfigureServices(services =>
 
 var app = builder.Build();
 
-app = new BeforeStart(app).PerformMigrations()
-                          .SeedIdentity()
-                          .Initialize();
+await app.Migrate();
+await app.SeedIdentity();
 
 // configue app
 app.UseErrorHandler();
 if (app.Environment.IsDevelopment())
 {
-    // app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "App v1"));
+    app.UseSwaggerUI();
 }
 
 else
@@ -70,16 +68,12 @@ else
         app.UseHttpsRedirection();
 }
 
-app.UseHttpLogging();
 app.UseCors();
 app.UseForwardedHeaders();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
-
 app.UseStaticFiles(new StaticFileOptions()
 {
     OnPrepareResponse = ctx =>
@@ -95,22 +89,6 @@ app.UseStaticFiles(new StaticFileOptions()
 
 app.MapControllers();
 app.UseCurrentUser();
-
-var useHttps = appsettings.Network.UseHttps;
-var httpPort = appsettings.Network.HttpPort;
-var httpsPort = appsettings.Network.HttpsPort;
-
-if (useHttps)
-{
-    app.Urls.Add($"http://localhost:{httpPort}");
-    app.Urls.Add($"https://localhost:{httpsPort}");
-}
-else
-{
-    app.Urls.Add($"http://localhost:{httpPort}");
-}
-
 app.MapGet("/api", () => "Hello World");
-
 app.MapFallbackToFile("index.html");
 app.Run();

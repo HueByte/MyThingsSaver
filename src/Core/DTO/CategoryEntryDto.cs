@@ -1,11 +1,11 @@
-namespace Core.DTO
+namespace MTS.Core.DTO
 {
-    public class CategoryEntryDto
+    public class EntryDTO
     {
-        public string CategoryId { get; set; }
-        public string EntryId { get; set; }
-        public string EntryName { get; set; }
-        public string Content { get; set; }
-        public byte[] Image { get; set; }
+        public string? CategoryId { get; set; }
+        public string? EntryId { get; set; }
+        public string? EntryName { get; set; }
+        public string? Content { get; set; }
+        public byte[]? Image { get; set; }
     }
 }

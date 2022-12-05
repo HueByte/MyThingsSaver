@@ -1,27 +1,30 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using MTS.Core.Abstraction;
 
-namespace Core.Models
+namespace MTS.Core.Models
 {
-    public class CategoryEntry
+    public class EntryModel : IdentityDbModel<string, string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string CategoryEntryId { get; set; }
-        public string CategoryEntryName { get; set; }
+        public override string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public DateTime CreatedOn { get; set; }
         public DateTime LastUpdatedOn { get; set; }
-        public string Content { get; set; }
-        public byte[] Image { get; set; }
+        public string? Content { get; set; }
+        public byte[]? Image { get; set; }
         public int Size { get; set; }
 
-        [ForeignKey("CategoryId")]
-        public string CategoryId { get; set; }
-        public Category Category { get; set; }
+        [ForeignKey("Id")]
+        public string CategoryId { get; set; } = string.Empty;
+        public CategoryModel? Category { get; set; }
 
-        [ForeignKey("OwnerId")]
-        public string OwnerId { get; set; }
-        public virtual ApplicationUser Owner { get; set; }
+        [ForeignKey("Id")]
+        public override string UserId { get; set; } = string.Empty;
+        [JsonIgnore]
+        public virtual ApplicationUserModel? User { get; set; }
     }
 }

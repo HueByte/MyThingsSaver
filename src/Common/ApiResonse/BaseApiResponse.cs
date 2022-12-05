@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Common.ApiResonse
+namespace MTS.Common.ApiResonse
 {
     public class BaseApiResponse<T>
     {
@@ -15,7 +15,7 @@ namespace Common.ApiResonse
         public bool IsSuccess { get; set; }
 
         public BaseApiResponse() { }
-        public BaseApiResponse(T? data) : this(data, null, true) { }
+        public BaseApiResponse(T? data) : this(data, null!, true) { }
         public BaseApiResponse(T? data, List<string> errors, bool isSuccess)
         {
             Data = data;

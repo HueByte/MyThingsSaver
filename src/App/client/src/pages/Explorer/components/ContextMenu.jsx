@@ -66,7 +66,7 @@ const ContextMenu = ({ category }) => {
 
   // commands
   const Open = () => {
-    navigate(`/explore/${category.categoryId}`);
+    navigate(`/explore/${category.id}`);
     contextMenu.current.classList.remove("visible");
   };
 
@@ -95,7 +95,7 @@ const ContextMenu = ({ category }) => {
             </div>
 
             <NavLink
-              to={`/explore/${category.categoryId}`}
+              to={`/explore/${category.id}`}
               className="item"
               target="_blank"
             >

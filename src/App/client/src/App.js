@@ -1,10 +1,8 @@
-import "./App.css";
+import "./App.scss";
 import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { ClientRouter } from "./routes/Routes";
 import { AuthProvider } from "./auth/AuthContext";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
 import Loader from "./components/Loaders/Loader";
 import { Suspense } from "react";
 
@@ -21,10 +19,6 @@ Modal.setAppElement("#root");
 function App() {
   const history = createBrowserHistory();
 
-  const init = async (main) => {
-    await loadFull(main);
-  };
-
   return (
     <BrowserRouter history={history}>
       <AuthProvider>
@@ -35,7 +29,6 @@ function App() {
           </ErrorBoundary>
         </Suspense>
       </AuthProvider>
-      <Particles id="tsparticles" options={ParticlesOptions} init={init} />
     </BrowserRouter>
   );
 }
@@ -45,34 +38,3 @@ const ErrorBoundary = ({ children }) => {
 };
 
 export default App;
-
-const ParticlesOptions = {
-  fpsLimit: 45,
-  particles: {
-    links: {
-      distance: 120,
-      enable: true,
-      triangles: {
-        enable: true,
-        opacity: 0.4,
-      },
-    },
-    move: {
-      enable: true,
-      speed: 1,
-    },
-    size: {
-      value: 0.7,
-    },
-    shape: {
-      type: "circle",
-    },
-    number: {
-      density: {
-        enable: true,
-        area: 1000,
-      },
-      value: 32,
-    },
-  },
-};

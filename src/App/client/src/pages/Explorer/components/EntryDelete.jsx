@@ -1,5 +1,6 @@
 import React from "react";
-import EntriesRepository from "../../../api/repositories/EntriesRepository";
+import { EntriesService } from "../../../api";
+// import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { errorModal, successModal } from "../../../core/Modals";
 
@@ -11,17 +12,26 @@ const EntryDelete = ({
   setEntries,
 }) => {
   const sendRequest = async () => {
-    await EntriesRepository.Delete(entryToDelete.categoryEntryId)
-      .then(async () => {
-        let newEntries = entries;
-        newEntries = newEntries.filter((entry) => {
-          return entry.categoryEntryId !== entryToDelete.categoryEntryId;
-        });
+    await EntriesService.deleteApiEntries({ id: entryToDelete.id });
 
-        setEntries(newEntries);
-        successModal("Successfully removed entry");
-      })
-      .catch(() => errorModal("Removing entry failed"));
+    let newEntries = entries;
+    newEntries = newEntries.filter((entry) => {
+      return entry.categoryEntryId !== entryToDelete.categoryEntryId;
+    });
+
+    setEntries(newEntries);
+
+    // await EntriesRepository.Delete(entryToDelete.categoryEntryId)
+    //   .then(async () => {
+    //     let newEntries = entries;
+    //     newEntries = newEntries.filter((entry) => {
+    //       return entry.categoryEntryId !== entryToDelete.categoryEntryId;
+    //     });
+
+    //     setEntries(newEntries);
+    //     successModal("Successfully removed entry");
+    //   })
+    //   .catch(() => errorModal("Removing entry failed"));
 
     setIsActive(false);
   };
@@ -41,7 +51,7 @@ const EntryDelete = ({
               <p style={{ textAlign: "center", width: "100%" }}>
                 Are you sure you want to delete{" "}
                 <span className="title">
-                  {entryToDelete ? entryToDelete.categoryEntryName : ""}
+                  {entryToDelete ? entryToDelete.name : ""}
                 </span>
               </p>
             </div>

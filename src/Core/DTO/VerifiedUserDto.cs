@@ -1,29 +1,29 @@
 using System;
 using System.Text.Json.Serialization;
-using Core.Models;
+using MTS.Core.Models;
 
-namespace Core.DTO
+namespace MTS.Core.DTO
 {
     public class VerifiedUserDto
     {
-        public string Username { get; set; }
-        public string[] Roles { get; set; }
+        public string? Username { get; set; }
+        public string[]? Roles { get; set; }
 
         [JsonIgnore]
-        public string RefreshToken { get; set; }
+        public string? RefreshToken { get; set; }
 
         [JsonIgnore]
         public DateTime RefreshTokenExpiration { get; set; }
 
         [JsonIgnore]
-        public string Token { get; set; }
+        public string? Token { get; set; }
 
         [JsonIgnore]
         public DateTime AccessTokenExpiration { get; set; }
 
         public VerifiedUserDto() { }
 
-        public VerifiedUserDto(ApplicationUser user, string[] roles, string jwtToken, RefreshToken refreshToken, DateTime accessTokenExireDate)
+        public VerifiedUserDto(ApplicationUserModel user, string[] roles, string jwtToken, RefreshTokenModel refreshToken, DateTime accessTokenExireDate)
         {
             Username = user.UserName;
             Roles = roles;

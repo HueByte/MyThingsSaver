@@ -10,6 +10,8 @@ build/
 Release/
 Deploy/
 local
+**/api/*
+**/api2/*
 
 # pem
 *.pem
