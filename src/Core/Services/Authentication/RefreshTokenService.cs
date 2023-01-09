@@ -99,7 +99,7 @@ namespace MTS.Core.Services.Authentication
         /// <returns></returns>
         public Task RemoveOldRefreshTokens(ApplicationUserModel user)
         {
-            user.RefreshTokens.RemoveAll(token => !token.IsActive
+            user.RefreshTokens?.RemoveAll(token => !token.IsActive
                                       && token.Created.AddDays(_settings.JWT.RefreshTokenExpireTime) <= DateTime.UtcNow);
 
             return Task.CompletedTask;

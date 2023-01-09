@@ -108,7 +108,8 @@ namespace MTS.Core.Services.Authentication
                 throw new EndpointException("Couldn't log in, check your login or password");
 
             var refreshToken = _refreshTokenService.CreateRefreshToken(ipAddress);
-            user.RefreshTokens.Add(refreshToken);
+            user!.RefreshTokens?.Add(refreshToken);
+
             var roles = await _userManager.GetRolesAsync(user!);
             var token = _jwtAuthentication.GenerateJsonWebToken(user!, roles);
 
