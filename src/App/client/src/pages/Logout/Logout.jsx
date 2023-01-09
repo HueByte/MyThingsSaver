@@ -5,10 +5,15 @@ import { AuthContext } from "../../auth/AuthContext";
 const Logout = () => {
   const authContext = useContext(AuthContext);
   const [redirect, setRedirect] = useState(false);
+
   useEffect(() => {
-    authContext.signout();
-    setRedirect(true);
+    (async () => {
+      await authContext.signout();
+      setRedirect(true);
+    })();
   }, []);
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   return <>{redirect ? <Navigate to="/auth/login" /> : <>logging out...</>}</>;
 };

@@ -156,12 +156,12 @@ select {
 }
 
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 50px theme.$alternate-background-color-light inset;
+  -webkit-box-shadow: 0 0 0 50px theme.$alt-background-color-light inset;
   -webkit-text-fill-color: #FFF;
 }
 
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 50px theme.$alternate-background-color-light inset;
+  -webkit-box-shadow: 0 0 0 50px theme.$alt-background-color-light inset;
   -webkit-text-fill-color: #FFF;
 }
 
