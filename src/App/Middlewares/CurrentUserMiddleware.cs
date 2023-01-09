@@ -3,6 +3,12 @@ using MTS.Core.Services.CurrentUser;
 
 namespace MTS.App.Middlewares
 {
+    public static class CurrentUserExtensions
+    {
+        public static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app)
+            => app.UseMiddleware<CurrentUserMiddleware>();
+    }
+
     public class CurrentUserMiddleware
     {
         private readonly RequestDelegate _next;
@@ -16,11 +22,5 @@ namespace MTS.App.Middlewares
             currentUserService.UserId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _next(context);
         }
-    }
-
-    public static class CurrentUserExtensions
-    {
-        public static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app)
-            => app.UseMiddleware<CurrentUserMiddleware>();
     }
 }

@@ -16,7 +16,7 @@ namespace MTS.Common.ApiResonse
 
         public BaseApiResponse() { }
         public BaseApiResponse(T? data) : this(data, null!, true) { }
-        public BaseApiResponse(T? data, List<string> errors, bool isSuccess)
+        public BaseApiResponse(T? data, List<string>? errors, bool isSuccess)
         {
             Data = data;
             Errors = errors!;

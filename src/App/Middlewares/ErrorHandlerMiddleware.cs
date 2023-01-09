@@ -12,6 +12,7 @@ namespace MTS.App.Middlewares
         public static IApplicationBuilder UseErrorHandler(this IApplicationBuilder app)
             => app.UseMiddleware<ErrorHandlerMiddleware>();
     }
+
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
@@ -31,8 +32,9 @@ namespace MTS.App.Middlewares
                 logger.LogError(ex, "Error Message: ");
                 var result = await GetExceptionResponse(context, ex);
 
-                context.Response.StatusCode = (int)HttpStatusCode.OK; // temp
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest; // temp
                 context.Response.ContentType = "application/json";
+
                 await context.Response.WriteAsJsonAsync(result);
             }
         }
