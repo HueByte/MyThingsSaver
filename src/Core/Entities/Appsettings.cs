@@ -136,7 +136,7 @@ namespace MTS.Core.Entities
             if (string.IsNullOrEmpty(settings.JWT.Key) || settings.JWT.Key.Length < 32)
                 errors.Add("Your JWT key is empty or is too short");
 
-            if ((int)settings.JWT.AccessTokenExpireTime <= 0 || (int)settings.JWT.RefreshTokenExpireTime <= 0 || (int)settings.JWT.AccessTokenExpireTime > (int)settings.JWT.RefreshTokenExpireTime)
+            if ((double)settings.JWT.AccessTokenExpireTime <= 0 || (int)settings.JWT.RefreshTokenExpireTime <= 0 || (double)settings.JWT.AccessTokenExpireTime > (double)settings.JWT.RefreshTokenExpireTime)
                 errors.Add("Your expire time values are incorrect, remember that {RefreshTokenexpireTime} should be bigger than {AccessTokenExpireTime}");
 
             // validate database
@@ -154,7 +154,7 @@ namespace MTS.Core.Entities
             {
                 string message = string.Join("\n--- ", errors);
                 Console.WriteLine($"You got some config errors\n--- {message}");
-                throw new Exception("Your config validation failed");
+                throw new Exception("Config validation failed");
             }
 
             return true;
@@ -178,8 +178,8 @@ namespace MTS.Core.Entities
         public string Key { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }
-        public int AccessTokenExpireTime { get; set; }
-        public int RefreshTokenExpireTime { get; set; }
+        public double AccessTokenExpireTime { get; set; }
+        public double RefreshTokenExpireTime { get; set; }
     }
 
     public class Database
