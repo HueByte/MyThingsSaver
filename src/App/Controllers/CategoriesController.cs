@@ -23,7 +23,7 @@ namespace MTS.App.Controllers
         {
             var data = await _categoryService.GetCategoryAsync(id);
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
         [HttpGet("All")]
@@ -32,7 +32,7 @@ namespace MTS.App.Controllers
         {
             var data = await _categoryService.GetAllCategoriesAsync();
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
         [HttpGet("AllRoot")]
@@ -41,7 +41,7 @@ namespace MTS.App.Controllers
         {
             var data = await _categoryService.GetRootCategoriesAsync();
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
         [HttpGet("AllSub")]
@@ -50,7 +50,7 @@ namespace MTS.App.Controllers
         {
             var data = await _categoryService.GetSubCategoriesAsync(parentId);
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
         [HttpGet("WithEntries")]
@@ -59,7 +59,7 @@ namespace MTS.App.Controllers
         {
             var data = await _categoryService.GetCategoryWithEntriesAsync(categoryId);
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
         [HttpPost]
@@ -68,7 +68,7 @@ namespace MTS.App.Controllers
         {
             await _categoryService.AddCategoryAsync(category);
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
 
         [HttpDelete]
@@ -77,7 +77,7 @@ namespace MTS.App.Controllers
         {
             await _categoryService.RemoveCategoryAsync(category.CategoryId);
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
 
         [HttpPut]
@@ -86,7 +86,7 @@ namespace MTS.App.Controllers
         {
             await _categoryService.UpdateCategoryAsync(category);
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MTS.App.Controllers
         {
             var data = await _userService.CreateUser(registerUser);
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
         [HttpPost("login")]
@@ -37,7 +37,7 @@ namespace MTS.App.Controllers
                 AttachAuthCookies(result.Data!);
             }
 
-            return CreateResponse.FromBaseApiResponse(result);
+            return ApiResponse.Create(result);
         }
 
         [HttpPost("changePassword")]
@@ -46,7 +46,7 @@ namespace MTS.App.Controllers
         {
             await _userService.ChangePasswordAsync(user);
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
 
         [HttpPost("refreshToken")]
@@ -63,7 +63,7 @@ namespace MTS.App.Controllers
                 AttachAuthCookies(result.Data!);
             }
 
-            return CreateResponse.FromBaseApiResponse(result);
+            return ApiResponse.Create(result);
         }
 
         [HttpPost("revokeToken")]
@@ -74,7 +74,7 @@ namespace MTS.App.Controllers
 
             await _refreshTokenService.RevokeToken(token!, GetIpAddress());
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
 
         [HttpPost("logout")]
@@ -82,11 +82,14 @@ namespace MTS.App.Controllers
         public async Task<IActionResult> Logout()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
-            await _refreshTokenService.RevokeToken(refreshToken!, GetIpAddress());
+
+            if (refreshToken is not null)
+                await _refreshTokenService.RevokeToken(refreshToken!, GetIpAddress());
 
             Response.Cookies.Delete(CookieNames.RefreshTokenCookie);
             Response.Cookies.Delete(CookieNames.AccessToken);
-            return CreateResponse.Empty();
+
+            return ApiResponse.Empty();
         }
 
         private void AttachAuthCookies(VerifiedUserDto user)
