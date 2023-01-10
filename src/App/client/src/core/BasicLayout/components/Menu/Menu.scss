@@ -111,7 +111,7 @@ $logo-width: 240px;
         background-color: theme.$primaryDark;
 
         &:hover {
-          color: white;
+          color: white !important;
         }
       }
     }

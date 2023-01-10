@@ -19,6 +19,14 @@ code {
   border-radius: 10px;
 }
 
+.border-gradient-bottom {
+  border: double 4px transparent;
+  background-image: linear-gradient(to bottom, theme.$neutralDarker, theme.$primary), linear-gradient(to bottom, theme.$neutralDarker, theme.$primary);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 10px;
+}
+
 .mts-input {
   padding: 10px;
   border-radius: 5px;

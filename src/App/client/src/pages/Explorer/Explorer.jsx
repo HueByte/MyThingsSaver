@@ -90,7 +90,9 @@ const Explorer = () => {
     <div className="categories__wrapper">
       <div className="container">
         <div
-          className={`left-menu${isMenuExpanded ? " expand" : ""}`}
+          className={`left-menu${
+            isMenuExpanded ? " expand" : ""
+          }  border-gradient-bottom`}
           id="explorer-menu"
           onContextMenu={() => setContextMenuCategory(null)}
         >
