@@ -1,7 +1,5 @@
-import React from "react";
 import { useState } from "react";
 import { EntriesService } from "../../../api";
-// import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { errorModal, warningModal } from "../../../core/Modals";
 
@@ -57,17 +55,17 @@ const EntryAdd = ({ isActive, setIsActive, categoryId, setEntries }) => {
               <div className="field-name">Entry name</div>
               <input
                 type="text"
-                className="basic-input field-input"
+                className="mts-input field-input"
                 autoComplete="off"
                 onInput={(e) => setEntryName(e.target.value)}
               />
             </div>
           </div>
-          <div className="menu horizontal">
-            <div className="basic-button item" onClick={sendRequest}>
+          <div className="menu horizontal center">
+            <div className="mts-button item" onClick={sendRequest}>
               Add
             </div>
-            <div className="basic-button item" onClick={closeModal}>
+            <div className="mts-button item" onClick={closeModal}>
               Close
             </div>
           </div>

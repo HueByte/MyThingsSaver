@@ -65,22 +65,22 @@ const EntryUpdate = ({
         <>
           <div className="content">
             <div className="block vertical">
-              <div className="field-name">New entry name</div>
+              <div className="field-name">New name</div>
               <input
                 id="entry-name-input"
                 type="text"
-                className="basic-input field-input"
-                placeholder={entryToEdit ? entryToEdit.categoryEntryName : ""}
+                className="mts-input field-input"
+                placeholder={entryToEdit ? entryToEdit.name : ""}
                 autoComplete="off"
                 onInput={(e) => setName(e.target.value)}
               />
             </div>
           </div>
           <div className="menu horizontal">
-            <div className="basic-button item" onClick={sendRequest}>
+            <div className="mts-button item" onClick={sendRequest}>
               Update
             </div>
-            <div className="basic-button item" onClick={closeModal}>
+            <div className="mts-button item" onClick={closeModal}>
               Cancel
             </div>
           </div>

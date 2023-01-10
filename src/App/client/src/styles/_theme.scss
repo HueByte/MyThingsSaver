@@ -63,9 +63,9 @@ $altBackgroundColor: #000c14;
 $altBackgroundColorLight: #051929;
 
 :export {
-    background: $Background;
-    darkerBackground: $DarkerBackground;
-    mainBackground: $MainBackground;
-    passiveAccent: $PassiveAccent;
-    lighterBackground: $LighterBackground;
+    background: $backgroundColor;
+    darkerBackground: $altBackgroundColor;
+    mainBackground: $backgroundColor;
+    passiveAccent: $textPassive;
+    lighterBackground: $altBackgroundColorLight;
 }
