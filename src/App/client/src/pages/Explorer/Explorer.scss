@@ -25,7 +25,7 @@ $content-column-title-width: 150px;
       width: 16%;
       max-width: 90%;
       position: relative;
-      background-color: theme.$alt-background-color;
+      background-color: theme.$altBackgroundColor;
       z-index: 15;
       transition: transitions.$fast;
       border-width: 0 3px 0 0;
@@ -40,7 +40,7 @@ $content-column-title-width: 150px;
         right: -2em;
         width: 4em;
         height: 4em;
-        background-color: rgba(theme.$background-color, 0.7);
+        background-color: rgba(theme.$backgroundColor, 0.7);
         border-radius: 100%;
         z-index: 105 !important;
         cursor: pointer;
@@ -67,7 +67,7 @@ $content-column-title-width: 150px;
         overflow-x: hidden;
         width: 100%;
         height: 100%;
-        background-color: theme.$alt-background-color;
+        background-color: theme.$altBackgroundColor;
         border-radius: 15px 0 0 15px;
         padding: variables.$s-padding;
 
@@ -128,7 +128,7 @@ $content-column-title-width: 150px;
 
     .content__wrapper {
       padding: variables.$m-padding;
-      background-color: theme.$alt-background-color-light;
+      background-color: theme.$altBackgroundColorLight;
       border-radius: 0 15px 15px 0;
       min-width: 50px;
       flex: 9;
@@ -146,11 +146,11 @@ $content-column-title-width: 150px;
           display: grid;
           place-items: center;
           height: 100%;
-          color: theme.$alt-background-color;
+          color: theme.$altBackgroundColor;
         }
 
         .header {
-          background-color: theme.$alt-background-color;
+          background-color: theme.$altBackgroundColor;
           margin-bottom: variables.$s-margin;
           position: -webkit-sticky;
           position: sticky;
@@ -165,7 +165,7 @@ $content-column-title-width: 150px;
           transition: transitions.$medium;
 
           &:nth-child(odd) {
-            background-color: theme.$alt-background-color;
+            background-color: theme.$altBackgroundColor;
           }
 
           &:hover {

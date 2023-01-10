@@ -45,12 +45,12 @@ $masthead-text: #fff;
 $button-color: #263238;
 
 
-$text-color: #e1e0e0;
-$text-color-light: #FFF;
-$text-passive: #4b4b4b;
+$textColor: #e1e0e0;
+$textColorLight: #FFF;
+$textPassive: #4b4b4b;
 $button-text: #fff;
-$link-color: #FFA69E;
-$link-color-hover: #00fa9a;
+$linkColor: #FFA69E;
+$linkColorHover: #00fa9a;
 $primary: #c62368;
 $primaryLight: #00fa9a;
 $primaryDark: #861657;
@@ -58,9 +58,9 @@ $secondary: #fa7268;
 $secondaryLight: #FFA69E;
 $secondaryDark: #da3f67;
 $neutralDarker: #7300ff;
-$background-color: #001220;
-$alt-background-color: #000c14;
-$alt-background-color-light: #051929;
+$backgroundColor: #001220;
+$altBackgroundColor: #000c14;
+$altBackgroundColorLight: #051929;
 
 :export {
     background: $Background;

@@ -5,7 +5,7 @@
 $logo-width: 240px;
 
 .nav-top {
-  background-color: theme.$alt-background-color;
+  background-color: theme.$altBackgroundColor;
   height: 64px;
   width: 100%;
   position: relative;
@@ -19,7 +19,7 @@ $logo-width: 240px;
   * {
     font-weight: bold;
     letter-spacing: 0.6px;
-    color: theme.$text-passive !important;
+    color: theme.$textPassive !important;
   }
 
   .logo {
@@ -28,7 +28,7 @@ $logo-width: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: theme.$alt-background-color;
+    background-color: theme.$altBackgroundColor;
 
     .img {
       width: 60px;
@@ -38,8 +38,8 @@ $logo-width: 240px;
   }
 
   .active {
-    color: theme.$text-color-light !important;
-    background-color: theme.$background-color !important;
+    color: theme.$textColorLight !important;
+    background-color: theme.$backgroundColor !important;
   }
 
   .content {
@@ -48,7 +48,7 @@ $logo-width: 240px;
     display: flex;
     flex-direction: row;
     position: relative;
-    background-color: theme.$alt-background-color;
+    background-color: theme.$altBackgroundColor;
 
     .left {
       display: flex;
@@ -67,7 +67,7 @@ $logo-width: 240px;
         cursor: pointer;
         font-size: large;
         transition: transitions.$default;
-        color: theme.$text-passive;
+        color: theme.$textPassive;
         margin-right: 0.5rem;
         max-width: 200px;
 
@@ -96,7 +96,7 @@ $logo-width: 240px;
         margin-right: 5px;
         height: fit-content;
         width: 120px;
-        color: theme.$text-passive;
+        color: theme.$textPassive;
         cursor: pointer;
 
         &:hover {

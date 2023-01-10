@@ -92,11 +92,11 @@ a:link,
 a:visited,
 a:active {
   text-decoration: none;
-  color: theme.$link-color;
+  color: theme.$linkColor;
   transition: 200ms;
 
   &:hover {
-    color: theme.$link-color-hover;
+    color: theme.$linkColorHover;
   }
 }
 
@@ -156,12 +156,12 @@ select {
 }
 
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 50px theme.$alt-background-color-light inset;
+  -webkit-box-shadow: 0 0 0 50px theme.$altBackgroundColorLight inset;
   -webkit-text-fill-color: #FFF;
 }
 
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 50px theme.$alt-background-color-light inset;
+  -webkit-box-shadow: 0 0 0 50px theme.$altBackgroundColorLight inset;
   -webkit-text-fill-color: #FFF;
 }
 

@@ -15,7 +15,7 @@ $entry-height: 200px;
   padding: variables.$l-padding variables.$h-padding;
 
   a:hover {
-    color: theme.$text-color;
+    color: theme.$textColor;
   }
 
   .entry {
@@ -25,7 +25,7 @@ $entry-height: 200px;
     height: $entry-height;
     margin: 1rem;
     cursor: pointer;
-    background-color: theme.$alt-background-color;
+    background-color: theme.$altBackgroundColor;
     border-radius: 10px;
     transition: 200ms ease-in-out;
     display: flex;
@@ -33,7 +33,7 @@ $entry-height: 200px;
     justify-content: center;
     flex-direction: column;
     padding: variables.$m-padding;
-    color: theme.$text-color;
+    color: theme.$textColor;
 
     &:hover {
       transform: scale(1.05);
