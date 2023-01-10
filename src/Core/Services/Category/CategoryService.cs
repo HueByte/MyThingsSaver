@@ -22,14 +22,14 @@ namespace MTS.Core.Services.Category
             _currentUser = currentUser;
         }
 
-        public async Task<CategoryModel> GetCategoryAsync(string id)
+        public async Task<CategoryModel?> GetCategoryAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-                return null;
+                return null!;
 
             var category = await _repository.GetAsync(id);
 
-            return category;
+            return category!;
         }
 
         public async Task<List<CategoryModel>> GetAllCategoriesAsync()

@@ -13,11 +13,13 @@ $logo-width: 240px;
   z-index: 998;
   display: flex;
   flex-direction: row;
+  border-radius: 0;
+  border-width: 0 0 2px 0;
 
   * {
     font-weight: bold;
     letter-spacing: 0.6px;
-    color: theme.$PassiveAccent !important;
+    color: theme.$text-passive !important;
   }
 
   .logo {
@@ -26,6 +28,7 @@ $logo-width: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: theme.$alt-background-color;
 
     .img {
       width: 60px;
@@ -35,9 +38,8 @@ $logo-width: 240px;
   }
 
   .active {
-    color: theme.$TextAccent !important;
-    background-color: theme.$DarkerBackground !important;
-    border-bottom: 2px solid theme.$Rose !important;
+    color: theme.$text-color-light !important;
+    background-color: theme.$background-color !important;
   }
 
   .content {
@@ -46,6 +48,7 @@ $logo-width: 240px;
     display: flex;
     flex-direction: row;
     position: relative;
+    background-color: theme.$alt-background-color;
 
     .left {
       display: flex;
@@ -64,13 +67,12 @@ $logo-width: 240px;
         cursor: pointer;
         font-size: large;
         transition: transitions.$default;
-        color: var(--Grey) !important;
-        border-bottom: 2px solid var(--Shark);
+        color: theme.$text-passive;
         margin-right: 0.5rem;
         max-width: 200px;
 
         &:hover {
-          background-color: var(--Rose);
+          background-color: theme.$primaryDark;
           color: white !important;
         }
       }
@@ -94,11 +96,11 @@ $logo-width: 240px;
         margin-right: 5px;
         height: fit-content;
         width: 120px;
-        color: var(--Grey);
+        color: theme.$text-passive;
         cursor: pointer;
 
         &:hover {
-          color: var(--Rose);
+          color: theme.$primaryDark !important;
         }
       }
 
@@ -106,7 +108,7 @@ $logo-width: 240px;
         color: white !important;
         cursor: default;
         border-radius: 10px;
-        background-color: var(--SharkDarkSub);
+        background-color: theme.$primaryDark;
 
         &:hover {
           color: white;

@@ -1,10 +1,11 @@
 @use "../../../../styles/variables" as variables;
 @use "../../../../styles/transitions" as transitions;
+@use "../../../../styles/theme" as theme;
 
 .nav-top-mobile {
   height: 100vh;
   width: 100%;
-  background-color: var(--SharkDark);
+  background-color: theme.$alt-background-color;
   z-index: 999;
   display: flex;
   overflow: hidden;
@@ -41,7 +42,7 @@
     flex-shrink: 0;
 
     .active {
-      background-color: var(--Rose) !important;
+      background-color: theme.$primary !important;
     }
 
     .item {
@@ -62,7 +63,7 @@
 
       &:hover {
         transform: scale(1.1);
-        background-color: var(--Shark);
+        background-color: theme.$background;
       }
     }
   }

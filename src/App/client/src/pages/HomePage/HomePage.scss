@@ -37,24 +37,24 @@ $entry-height: 200px;
 
     &:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 10px theme.$accent2;
+      box-shadow: 0 0 10px theme.$primary;
 
       .name,
       .information .line:first-child {
-        color: theme.$accent2;
+        color: theme.$primary;
       }
     }
 
     .image {
       font-size: xx-large;
-      color: theme.$accent2;
+      color: theme.$primary;
     }
 
     .name {
       font-size: large;
       width: 100%;
       text-align: center;
-      color: theme.$accent;
+      color: theme.$primaryLight;
       padding: 10px;
       font-weight: bold;
       letter-spacing: 0.6px;
@@ -80,7 +80,7 @@ $entry-height: 200px;
         }
 
         &:first-child {
-          color: theme.$accent;
+          color: theme.$primaryLight;
         }
       }
 

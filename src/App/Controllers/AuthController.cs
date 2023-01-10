@@ -94,6 +94,8 @@ namespace MTS.App.Controllers
 
         private void AttachAuthCookies(VerifiedUserDto user)
         {
+            if (user is null) return;
+
             var refreshTokenOptions = new CookieOptions
             {
                 HttpOnly = true,

@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { NavLink, Navigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../../../auth/AuthContext";
 import "./Menu.scss";
 import "./MobileMenu.scss";
@@ -22,7 +22,7 @@ const Menu = () => {
 
 const DesktopMenu = ({ logout, authContext }) => {
   return (
-    <div className="nav-top">
+    <div className="nav-top border-gradient">
       <div className="logo">
         <div className="img">
           <img src={logo} width="60" height="40" alt="CloudByte logo" />
