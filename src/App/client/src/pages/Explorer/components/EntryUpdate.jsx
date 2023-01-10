@@ -76,7 +76,7 @@ const EntryUpdate = ({
               />
             </div>
           </div>
-          <div className="menu horizontal">
+          <div className="menu horizontal center">
             <div className="mts-button item" onClick={sendRequest}>
               Update
             </div>
