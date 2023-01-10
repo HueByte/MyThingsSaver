@@ -4,7 +4,7 @@ import "./Auth.scss";
 import "../../core/BasicLayout/BasicLayoutStyles.scss";
 import AuthTemplate from "./AuthTemplate";
 // import { AuthRegister } from "../../auth/Auth";
-import { AuthContext } from "../../auth/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import {
   errorModal,
   infoModal,

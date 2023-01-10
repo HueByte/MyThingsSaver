@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
-import { AuthContext } from "../../auth/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import { Outlet, useNavigate, useParams } from "react-router";
 import Loader from "../../components/Loaders/Loader";
 import { CategoryContext } from "../../contexts/CategoryContext";

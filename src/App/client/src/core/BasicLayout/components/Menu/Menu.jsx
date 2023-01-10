@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../../../../auth/AuthContext";
+import { AuthContext } from "../../../../contexts/AuthContext";
 import "./Menu.scss";
 import "./MobileMenu.scss";
 import logo from "../../../../assets/CloudByteColor.png";

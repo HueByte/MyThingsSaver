@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { CategoriesService } from "../api/services/CategoriesService.ts";
-import { AuthContext } from "../auth/AuthContext";
+import { AuthContext } from "./AuthContext";
 import Loader from "../components/Loaders/Loader";
 
 const CategoryContext = createContext();
