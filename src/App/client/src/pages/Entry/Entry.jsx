@@ -155,7 +155,7 @@ const Entry = () => {
                     <label>Name:</label>
                     <input
                       type="text"
-                      className="basic-input"
+                      className="mts-input"
                       placeholder={`${name}`}
                       onChange={handleChange}
                       autoComplete="off"

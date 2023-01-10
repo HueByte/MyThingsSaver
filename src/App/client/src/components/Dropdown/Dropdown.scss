@@ -48,10 +48,10 @@ $drop-width: 160px;
     transform: translate(-2em);
     width: $drop-width;
     transition: transitions.$medium;
-    background-color: theme.$MainBackground;
+    background-color: theme.$backgroundColor;
     transition-delay: 1s;
     border-radius: 2px;
-    border: 1px solid theme.$LighterBackground;
+    border: 1px solid theme.$altBackgroundColorLight;
     z-index: 150;
 
     .option {
@@ -61,7 +61,7 @@ $drop-width: 160px;
 
       &:hover {
         cursor: pointer;
-        background-color: theme.$LighterBackground;
+        background-color: theme.$altBackgroundColorLight;
       }
 
       &:first-child {

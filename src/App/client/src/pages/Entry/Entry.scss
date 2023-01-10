@@ -111,10 +111,6 @@ $read-width: 724px;
 
         input {
           margin-left: 1em;
-
-          &:focus {
-            border: 1px solid theme.$primary !important;
-          }
         }
       }
     }
