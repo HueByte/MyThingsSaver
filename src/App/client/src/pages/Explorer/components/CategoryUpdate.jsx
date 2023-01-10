@@ -24,14 +24,10 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
       category.parentCategoryId,
       categoryName
     );
-    debugger;
-    console.log(result);
 
-    if (!result.isSuccess) {
-      warningModal(result.errors.join(".\n"));
+    if (!result?.isSuccess) {
+      warningModal(result.errors?.join(".\n"));
     }
-
-    console.log("yeet");
 
     setIsActive(false);
   };

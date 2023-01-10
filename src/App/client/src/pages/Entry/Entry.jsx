@@ -200,18 +200,18 @@ const DeleteModal = ({ entry, onDelete, closeDeleteModal }) => {
         <div className="block">
           <p style={{ textAlign: "center", width: "100%" }}>
             Are you sure you want to delete{" "}
-            <span class="title">{entry.categoryEntryName} ?</span>
+            <span class="title">{entry.name} ?</span>
           </p>
         </div>
       </div>
       <div className="menu horizontal center">
         <div
-          className="basic-button item"
-          onClick={() => onDelete(entry.categoryEntryId)}
+          className="mts-button item"
+          onClick={() => onDelete(entry.entryId)}
         >
           Yes
         </div>
-        <div className="basic-button item" onClick={closeDeleteModal}>
+        <div className="mts-button item" onClick={closeDeleteModal}>
           No
         </div>
       </div>
