@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Navigate, useParams } from "react-router";
-// import EntriesRepository from "../../api/repositories/EntriesRepository";
 import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
 import "./Entry.scss";
@@ -20,10 +19,6 @@ const sendUpdateCallback = async (entryId, newName, data) => {
       entryName: newName,
     },
   });
-
-  // await EntriesRepository.Update(entryId, newName, data).catch((error) =>
-  //   console.error(error)
-  // );
 };
 
 const performAutosave = AwesomeDebouncePromise(sendUpdateCallback, 2000);
@@ -53,21 +48,6 @@ const Entry = () => {
       setName(result.data.name);
       setEditValue(result.data.content);
       checkEntrySize(result.data.content.length);
-
-      // await EntriesRepository.Get(entryId)
-      //   .then((result) => {
-      //     if (!result.isSuccess) {
-      //       setShouldRedirect(true);
-      //       return;
-      //     }
-
-      //     setEntry(result.data);
-      //     setName(result.data.categoryEntryName);
-      //     setEditValue(result.data.content);
-
-      //     checkEntrySize(result.data.content.length);
-      //   })
-      //   .catch((error) => console.error(error));
     })();
   }, []);
 
@@ -102,10 +82,6 @@ const Entry = () => {
     let result = await EntriesService.deleteApiEntries({ id: entryId });
 
     if (result.isSuccess) setShouldRedirect(true);
-
-    // await EntriesRepository.Delete(entryId)
-    //   .then(() => setShouldRedirect(true))
-    //   .catch((error) => console.error(error));
 
     successModal("Sucessfully removed entry");
   };

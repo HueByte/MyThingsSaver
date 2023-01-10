@@ -16,22 +16,10 @@ const EntryDelete = ({
 
     let newEntries = entries;
     newEntries = newEntries.filter((entry) => {
-      return entry.categoryEntryId !== entryToDelete.categoryEntryId;
+      return entry.id !== entryToDelete.id;
     });
 
     setEntries(newEntries);
-
-    // await EntriesRepository.Delete(entryToDelete.categoryEntryId)
-    //   .then(async () => {
-    //     let newEntries = entries;
-    //     newEntries = newEntries.filter((entry) => {
-    //       return entry.categoryEntryId !== entryToDelete.categoryEntryId;
-    //     });
-
-    //     setEntries(newEntries);
-    //     successModal("Successfully removed entry");
-    //   })
-    //   .catch(() => errorModal("Removing entry failed"));
 
     setIsActive(false);
   };

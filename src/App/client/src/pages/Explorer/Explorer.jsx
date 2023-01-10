@@ -104,7 +104,6 @@ const Explorer = () => {
             className="draggable"
             draggable="true"
             onDragStart={initial}
-            // onDrag={resize}
             onDragOver={resize}
             onDragEnd={stopDrag}
           ></div>

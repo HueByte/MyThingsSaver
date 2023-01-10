@@ -20,23 +20,17 @@ const EntryAdd = ({ isActive, setIsActive, categoryId, setEntries }) => {
       },
     });
 
+    if (!result?.isSuccess) {
+      errorModal("Something went wrong with adding entry");
+      return;
+    }
+
     let newEntries = await EntriesService.getApiEntriesAll({
       categoryId: categoryId,
       withContent: false,
     });
 
     setEntries(newEntries?.data?.entries);
-
-    // await EntriesRepository.Add(entryName, categoryId)
-    //   .then(async () => {
-    //     await EntriesRepository.GetAll(categoryId)
-    //       .then((result) => setEntries(result?.data?.categoryEntries))
-    //       .catch(() =>
-    //         errorModal("Something went wrong while fetching updated entries")
-    //       );
-    //   })
-    //   .catch(() => errorModal("Something went wrong with adding entry"));
-
     setIsActive(false);
   };
 

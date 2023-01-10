@@ -20,7 +20,7 @@ const EntryUpdate = ({
       return;
     }
 
-    await EntriesService.patchApiEntries({
+    let result = await EntriesService.patchApiEntries({
       requestBody: {
         entryId: entryToEdit.id,
         categoryId: entryToEdit.categoryId,
@@ -28,27 +28,16 @@ const EntryUpdate = ({
       },
     });
 
+    if (!result?.isSuccess) {
+      errorModal("Something went wrong while updating entry");
+      return;
+    }
+
     let newEntries = [...entries];
     let index = newEntries.findIndex((obj) => obj.id == entryToEdit.id);
 
     newEntries[index].name = name;
     setEntries(newEntries);
-
-    // await EntriesRepository.UpdateWithoutContent(
-    //   entryToEdit.categoryEntryId,
-    //   name,
-    //   entryToEdit.categoryId
-    // )
-    //   .then(() => {
-    //     let newEntries = [...entries];
-    //     let index = newEntries.findIndex(
-    //       (obj) => obj.categoryEntryId == entryToEdit.categoryEntryId
-    //     );
-
-    //     newEntries[index].categoryEntryName = name;
-    //     setEntries(newEntries);
-    //   })
-    //   .catch(() => errorModal("Something went wrong while updating entry"));
 
     setIsActive(false);
   };

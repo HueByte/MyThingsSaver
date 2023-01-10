@@ -48,10 +48,6 @@ const ExplorerContent = () => {
       withContent: false,
     });
 
-    // let result = await EntriesRepository.GetAll(categoryId).catch((error) =>
-    //   console.error(error)
-    // );
-
     setCurrentEntries(result.data.entries);
     setLastUsedId(() => categoryId);
   };

@@ -4,7 +4,6 @@ import "./BasicLayout.scss";
 import "./BasicLayoutStyles.scss";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Navigate, Outlet } from "react-router";
-// import Wave from "./components/Wave/Wave";
 import { CategoryProvider } from "../../contexts/CategoryContext";
 
 const BasicLayout = () => {
@@ -18,7 +17,6 @@ const BasicLayout = () => {
           <main className={"main__wrapper"}>
             <Outlet />
           </main>
-          {/* <Wave /> */}
         </div>
       </CategoryProvider>
     );
