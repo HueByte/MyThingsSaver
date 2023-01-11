@@ -31,14 +31,8 @@ namespace Core.Services.User
             if (user is null)
                 throw new EndpointException("Couldn't find this user");
 
-            var categoriesCountQuery = await _categoryRepository.GetAllAsync();
-            var entriesCountQuery = await _entryRepository.GetAllAsync();
-
-            categoriesCountQuery.Future();
-            entriesCountQuery.Future();
-
-            var categoriesCount = await categoriesCountQuery.CountAsync();
-            var entriesCount = await entriesCountQuery.CountAsync();
+            var categoriesCount = await (await _categoryRepository.GetAllAsync()).CountAsync();
+            var entriesCount = await (await _entryRepository.GetAllAsync()).CountAsync();
 
             UserInfoDto userInfo = new()
             {

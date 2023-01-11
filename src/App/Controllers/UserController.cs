@@ -2,6 +2,7 @@ using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using MTS.App.Extensions;
 using MTS.Core.lib;
+using MTS.Core.Services.CurrentUser;
 
 namespace MTS.App.Controllers
 {
@@ -20,6 +21,12 @@ namespace MTS.App.Controllers
             var result = await _userInfoService.GetUserInfoAsync();
 
             return ApiResponse.Data(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetUserAvatar()
+        {
+            return ApiResponse.Empty();
         }
     }
 }

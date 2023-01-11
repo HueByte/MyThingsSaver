@@ -26,12 +26,15 @@ async function errorHandler(error: { response: { status: any; data: any; }; conf
         } else if (status == 400) {
             let result: ApiResponse = error.response?.data;
 
-            if (result.errors.length > 0 && result.errors.find(err => err === "Token is invalid")) {
-                redirectToLogout();
-                return;
-            }
+            if (result) {
+                if (result.errors.length > 0 && result.errors.find(err => err === "Token is invalid")) {
+                    redirectToLogout();
+                    return;
+                }
 
-            errorModal(result.errors.join("\n"), 10000);
+                errorModal(result.errors.join("\n"), 10000);
+                return result;
+            }
         }
     }
 
