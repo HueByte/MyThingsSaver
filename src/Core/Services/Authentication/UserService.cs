@@ -51,7 +51,8 @@ namespace MTS.Core.Services.Authentication
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = registerUser.UserName,
-                Email = registerUser?.Email
+                Email = registerUser?.Email,
+                AccountCreatedDate = DateTime.UtcNow
             };
 
             var result = await _userManager.CreateAsync(user, registerUser?.Password);

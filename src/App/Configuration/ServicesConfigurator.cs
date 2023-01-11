@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using MTS.Infrastructure;
+using Core.Interfaces.Services;
+using Core.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +17,7 @@ using MTS.Core.Services.Category;
 using MTS.Core.Services.CurrentUser;
 using MTS.Core.Services.Entry;
 using MTS.Core.Services.Guide;
+using MTS.Infrastructure;
 using MTS.Infrastructure.Repositories;
 
 // composition root
@@ -147,6 +149,7 @@ namespace MTS.App.Configuration
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
             _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            _services.AddScoped<IUserInfoService, UserInfoService>();
 
             // repositories
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
