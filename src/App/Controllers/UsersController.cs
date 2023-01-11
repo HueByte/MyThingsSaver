@@ -6,10 +6,10 @@ using MTS.Core.Services.CurrentUser;
 
 namespace MTS.App.Controllers
 {
-    public class UserController : BaseApiController
+    public class UsersController : BaseApiController
     {
         private readonly IUserInfoService _userInfoService;
-        public UserController(IUserInfoService userInfoService)
+        public UsersController(IUserInfoService userInfoService)
         {
             _userInfoService = userInfoService;
         }
@@ -23,7 +23,7 @@ namespace MTS.App.Controllers
             return ApiResponse.Data(result);
         }
 
-        [HttpPost]
+        [HttpPost("avatar")]
         public async Task<IActionResult> SetUserAvatar()
         {
             return ApiResponse.Empty();
