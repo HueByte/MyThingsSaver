@@ -8,6 +8,7 @@ namespace MTS.Core.DTO
     {
         public string? Username { get; set; }
         public string[]? Roles { get; set; }
+        public string? AvatarUrl { get; set; }
 
         [JsonIgnore]
         public string? RefreshToken { get; set; }

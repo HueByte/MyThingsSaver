@@ -126,7 +126,8 @@ namespace MTS.Core.Services.Authentication
                 RefreshToken = refreshToken!.Token,
                 RefreshTokenExpiration = refreshToken!.Expires,
                 Token = token,
-                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime)
+                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
+                AvatarUrl = user.AvatarUrl
             };
         }
 

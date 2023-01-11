@@ -70,7 +70,8 @@ namespace MTS.Core.Services.Authentication
                 AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
                 RefreshToken = newRefreshToken.Token,
                 RefreshTokenExpiration = newRefreshToken.Expires,
-                Roles = roles.ToArray()
+                Roles = roles.ToArray(),
+                AvatarUrl = user.AvatarUrl
             };
         }
 
