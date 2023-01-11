@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MTS.App.Extensions;
 using MTS.Common.ApiResonse;
 using MTS.Core.DTO;
-using MTS.Core.Interfaces.Services;
 using MTS.Core.lib;
-using MTS.Core.Models;
-// using Newtonsoft.Json.Serialization;
 
 namespace MTS.App.Controllers
 {

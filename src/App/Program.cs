@@ -45,7 +45,7 @@ builder.Host.ConfigureServices(services =>
 
 var app = builder.Build();
 
-await app.Migrate();
+await app.MigrateAsync();
 await app.SeedIdentity();
 
 // configue app

@@ -1,16 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MTS.Common.Constants;
-using MTS.Core.Models;
 using MTS.Infrastructure;
 
 namespace MTS.App.Configuration
 {
     public static class AppConfigurator
     {
-        public static async Task<WebApplication> Migrate(this WebApplication webapp)
+        public static async Task<WebApplication> MigrateAsync(this WebApplication webapp)
         {
-            var scope = webapp.Services.CreateAsyncScope();
+            await using var scope = webapp.Services.CreateAsyncScope();
             var context = scope.ServiceProvider.GetRequiredService<MTSContext>();
 
             await context.Database.MigrateAsync();
@@ -20,7 +18,7 @@ namespace MTS.App.Configuration
 
         public static async Task<WebApplication> SeedIdentity(this WebApplication webapp)
         {
-            var scope = webapp.Services.CreateAsyncScope();
+            await using var scope = webapp.Services.CreateAsyncScope();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUserModel>>();
             string[] roles = { Role.USER, Role.ADMIN };
