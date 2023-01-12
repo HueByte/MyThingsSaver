@@ -1,11 +1,13 @@
+using Core.DTO;
 using Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MTS.App.Extensions;
 using MTS.Core.lib;
-using MTS.Core.Services.CurrentUser;
 
 namespace MTS.App.Controllers
 {
+    [Authorize]
     public class UsersController : BaseApiController
     {
         private readonly IUserInfoService _userInfoService;
@@ -24,8 +26,11 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("avatar")]
-        public async Task<IActionResult> SetUserAvatar()
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> SetUserAvatar(UserAvatarDto userAvatarDto)
         {
+            _ = await _userInfoService.ChangeUserAvatarAsync(userAvatarDto?.AvatarUrl!);
+
             return ApiResponse.Empty();
         }
     }

@@ -26,7 +26,7 @@ namespace Core.Services.User
 
         public async Task<UserInfoDto> GetUserInfoAsync()
         {
-            var user = await _userManager.FindByIdAsync(_currentUser.UserId);
+            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
 
             if (user is null)
                 throw new EndpointException("Couldn't find this user");
@@ -44,6 +44,20 @@ namespace Core.Services.User
             };
 
             return userInfo;
+        }
+
+        public async Task<bool> ChangeUserAvatarAsync(string avatarUrl)
+        {
+            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+
+            if (user is null)
+                throw new EndpointException("Couldn't find this user");
+
+            user.AvatarUrl = avatarUrl ?? "";
+
+            await _userManager.UpdateAsync(user);
+
+            return true;
         }
     }
 }
