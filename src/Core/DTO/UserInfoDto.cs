@@ -7,5 +7,6 @@ namespace Core.DTO
         public int EntriesCount { get; set; }
         public int CategoriesCount { get; set; }
         public string? AvatarUrl { get; set; }
+        public string[]? Roles { get; set; }
     }
 }

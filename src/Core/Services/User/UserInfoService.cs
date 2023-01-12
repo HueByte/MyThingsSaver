@@ -33,6 +33,7 @@ namespace Core.Services.User
 
             var categoriesCount = await (await _categoryRepository.GetAllAsync()).CountAsync();
             var entriesCount = await (await _entryRepository.GetAllAsync()).CountAsync();
+            var roles = await _userManager.GetRolesAsync(user);
 
             UserInfoDto userInfo = new()
             {
@@ -40,7 +41,8 @@ namespace Core.Services.User
                 AvatarUrl = user.AvatarUrl,
                 AccountCreatedDate = user.AccountCreatedDate,
                 CategoriesCount = categoriesCount,
-                EntriesCount = entriesCount
+                EntriesCount = entriesCount,
+                Roles = roles.ToArray()
             };
 
             return userInfo;

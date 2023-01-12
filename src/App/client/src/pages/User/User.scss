@@ -52,7 +52,19 @@
             .username {
                 text-align: center;
                 font-weight: bold;
-                letter-spacing: 0.9px;
+                font-size: larger;
+                letter-spacing: 0.7px;
+            }
+
+            .badges {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+
+                .badge {
+                    padding: 5px;
+                    border-radius: 5px;
+                }
             }
         }
 

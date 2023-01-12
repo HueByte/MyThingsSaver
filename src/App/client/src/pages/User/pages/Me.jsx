@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { UsersService } from "../../api";
-import Loader from "../../components/Loaders/Loader";
-import "./User.scss";
+import { UsersService } from "../../../api";
+import Loader from "../../../components/Loaders/Loader";
+import "../User.scss";
 
 const MePage = () => {
   const [userData, setUserData] = useState({});
@@ -10,12 +10,15 @@ const MePage = () => {
   useEffect(() => {
     (async () => {
       let result = await UsersService.getApiUsersMe();
-      console.log(result);
 
       setUserData(result.data);
       setIsFetched(true);
     })();
   }, []);
+
+  const capitalizeRole = (role) => {
+    return role.charAt(0).toUpperCase() + role.slice(1);
+  };
 
   return (
     <>
@@ -34,6 +37,12 @@ const MePage = () => {
             <div className="info">
               <span className="key">Entries Count: </span>
               {userData.entriesCount}
+            </div>
+            <div className="info">
+              <span className="key">Roles: </span>
+              {userData.roles.map((role, index) => {
+                return <span key={index}> {capitalizeRole(role)}</span>;
+              })}
             </div>
           </div>
           <div className="panel user-actions">

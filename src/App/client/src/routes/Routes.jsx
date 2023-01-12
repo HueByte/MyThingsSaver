@@ -17,7 +17,7 @@ const Entry = React.lazy(() => import("../pages/Entry/Entry"));
 const Logout = React.lazy(() => import("../pages/Logout/Logout"));
 const Explorer = React.lazy(() => import("../pages/Explorer/Explorer"));
 const UserPage = React.lazy(() => import("../pages/User/User"));
-const MePage = React.lazy(() => import("../pages/User/Me"));
+const MePage = React.lazy(() => import("../pages/User/pages/Me"));
 
 const ExplorerContent = React.lazy(() =>
   import("../pages/Explorer/ExplorerContent")
