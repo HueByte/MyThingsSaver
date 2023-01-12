@@ -176,7 +176,7 @@ const DeleteModal = ({ entry, onDelete, closeDeleteModal }) => {
         <div className="block">
           <p style={{ textAlign: "center", width: "100%" }}>
             Are you sure you want to delete{" "}
-            <span class="title">{entry.name} ?</span>
+            <span className="title">{entry.name} ?</span>
           </p>
         </div>
       </div>

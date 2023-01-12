@@ -75,7 +75,7 @@ const ExplorerContent = () => {
               <div className="column header-item">Type</div>
               <div className="column actions">
                 <FaPlus
-                  class="icon-action"
+                  className="icon-action"
                   onClick={() => setIsAddActive(true)}
                 />
               </div>

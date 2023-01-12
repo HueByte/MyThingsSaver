@@ -31,7 +31,7 @@ const DesktopMenu = ({ logout, authContext }) => {
       </div>
       <div className="content">
         <div className="left">
-          <NavLink exact to="/" activeClassName="active" className="item">
+          <NavLink to="/" activeClassName="active" className="item">
             Home
           </NavLink>
           <NavLink to="/explore" activeClassName="active" className="item">
@@ -81,7 +81,6 @@ const MobileMenu = ({ logout, authContext }) => {
       <div className="menu">
         <NavLink
           onClick={toggleMenu}
-          exact
           to="/"
           activeClassName="active"
           className="item"
