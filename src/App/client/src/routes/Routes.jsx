@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // other
 import PrivateRoute from "./AuthenticatedRoute";
@@ -16,6 +16,9 @@ const Register = React.lazy(() => import("../pages/Authentication/Register"));
 const Entry = React.lazy(() => import("../pages/Entry/Entry"));
 const Logout = React.lazy(() => import("../pages/Logout/Logout"));
 const Explorer = React.lazy(() => import("../pages/Explorer/Explorer"));
+const UserPage = React.lazy(() => import("../pages/User/User"));
+const MePage = React.lazy(() => import("../pages/User/Me"));
+
 const ExplorerContent = React.lazy(() =>
   import("../pages/Explorer/ExplorerContent")
 );
@@ -28,6 +31,7 @@ export const ClientRouter = () => {
   return (
     <Routes>
       <Route path="auth/login" element={<Login />} />
+
       <Route path="auth/register" element={<Register />} />
 
       <Route
@@ -38,18 +42,19 @@ export const ClientRouter = () => {
           </PrivateRoute>
         }
       >
-        <Route
-          index
-          element={
-            <PrivateRoute>
-              <HomePage />
-            </PrivateRoute>
-          }
-        />
+        <Route index element={<HomePage />} />
+
         <Route path="explore" element={<Explorer />}>
           <Route path=":categoryId" element={<ExplorerContent />} />
         </Route>
+
         <Route path="entry/:categoryId/:entryId" element={<Entry />} />
+
+        <Route path="user/*" element={<UserPage />}>
+          <Route path="me" element={<MePage />} />
+          <Route path="*" element={<Navigate to="me" replace />} />
+        </Route>
+
         <Route
           path="/settings"
           element={
@@ -58,8 +63,10 @@ export const ClientRouter = () => {
             </PrivateRoute>
           }
         />
+
         <Route path="*" element={<FOUR_ZERO_FOUR />} />
       </Route>
+
       <Route
         path="logout"
         element={

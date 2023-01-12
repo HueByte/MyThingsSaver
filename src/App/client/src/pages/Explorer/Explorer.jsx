@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
@@ -43,7 +43,7 @@ const Explorer = () => {
         );
 
         setLastUsedPath(result?.path.split("/"));
-        if (result) navigate(`/explore/${result?.id}`);
+        if (result) navigate(`/explore/${result?.id}}`, { replace: true });
       }
     }
 

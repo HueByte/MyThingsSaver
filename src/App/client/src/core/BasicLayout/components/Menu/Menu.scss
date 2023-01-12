@@ -19,7 +19,7 @@ $logo-width: 240px;
   * {
     font-weight: bold;
     letter-spacing: 0.6px;
-    color: theme.$textPassive !important;
+    color: theme.$textPassive;
   }
 
   .logo {
@@ -105,13 +105,21 @@ $logo-width: 240px;
       }
 
       .user {
-        color: white !important;
-        cursor: default;
+        cursor: pointer;
         border-radius: 10px;
-        background-color: theme.$primaryDark;
+        background-color: theme.$altBackgroundColorLight;
+        display: flex;
+        flex-direction: row;
 
-        &:hover {
-          color: white !important;
+        img {
+          width: 30px;
+          border-radius: 100%;
+          text-align: center;
+          margin-right: 10px;
+        }
+
+        span {
+          color: white;
         }
       }
     }
