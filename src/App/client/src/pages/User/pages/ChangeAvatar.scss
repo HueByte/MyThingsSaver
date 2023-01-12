@@ -1,0 +1,48 @@
+@use "../../../styles/theme" as theme;
+
+.panel {
+    .avatar-preview {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1em;
+        height: 200px;
+        position: relative;
+
+        img {
+            border-radius: 100%;
+            border: 2px solid #FFF;
+            width: 200px;
+            max-width: 200px;
+            height: 200px;
+        }
+    }
+
+    .avatar-input {
+        margin-top: 1em;
+        width: 100%;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        .item {
+            font-size: medium;
+            margin: 1em 1em 0 0;
+
+            &:hover {
+                color: theme.$primaryLight;
+            }
+        }
+
+        .accept {
+            color: theme.$primaryLight;
+        }
+
+        .cancel {
+            color: theme.$secondary;
+        }
+    }
+}

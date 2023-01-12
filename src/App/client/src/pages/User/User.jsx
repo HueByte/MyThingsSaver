@@ -1,5 +1,5 @@
 import "./User.scss";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";
@@ -29,8 +29,13 @@ const UserPage = () => {
         <div className="user-card border-gradient">
           <div className="avatar">
             <img
-              src={authContext.authState.avatarUrl ?? DefaultAvatar}
-              alt="avatar placeholder"
+              src={
+                authContext.authState.avatarUrl &&
+                !authContext.authState.avatarUrl.length >= 0
+                  ? authContext.authState.avatarUrl
+                  : DefaultAvatar
+              }
+              alt="avatar"
             />
           </div>
           <div className="username">{authContext.authState.username}</div>
@@ -48,7 +53,7 @@ const UserPage = () => {
               <AiOutlineUser /> Me
             </NavLink>
             <NavLink to="temp" activeClassName="active" className="item">
-              <AiOutlineUser /> About me
+              <AiOutlineUser /> Login logs
             </NavLink>
             <NavLink to="temp" activeClassName="active" className="item">
               <AiOutlineUser /> About me

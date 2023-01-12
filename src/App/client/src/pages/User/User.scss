@@ -80,8 +80,8 @@
                 flex-direction: column;
                 padding: 1em;
                 border-right: 2px solid theme.$primary;
-                min-width: 150px;
-                max-width: 150px;
+                min-width: 200px;
+                max-width: 200px;
 
                 .item:not(:first-child) {
                     margin-top: 0.5em;
@@ -119,18 +119,17 @@
                         padding: 0 5px;
                     }
 
-                    .info {
+                    .block {
                         padding: 5px;
 
                         .key {
                             color: theme.$primaryLight;
                         }
-
-                        .value {}
                     }
 
-                    .action {
+                    .action-button {
                         margin: 0.5em;
+                        color: #FFF;
                     }
                 }
             }

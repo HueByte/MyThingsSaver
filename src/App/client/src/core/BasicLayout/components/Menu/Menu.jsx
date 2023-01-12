@@ -48,8 +48,13 @@ const DesktopMenu = ({ logout, authContext }) => {
         <div className="right">
           <NavLink to="/user/me" className="user item">
             <img
-              src={authContext.authState.avatarUrl ?? DefaultAvatar}
-              alt="avatar placeholder"
+              src={
+                authContext.authState.avatarUrl &&
+                !authContext.authState.avatarUrl.length >= 0
+                  ? authContext.authState.avatarUrl
+                  : DefaultAvatar
+              }
+              alt="avatar"
             />
             <span>{authContext.authState?.username}</span>
           </NavLink>
