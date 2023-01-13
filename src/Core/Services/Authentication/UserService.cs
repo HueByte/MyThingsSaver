@@ -163,6 +163,30 @@ namespace MTS.Core.Services.Authentication
             return await HandleLogin(user!, userDto!.Password!, IpAddress);
         }
 
+        public async Task<bool> ChangeEmailAsync(string email)
+        {
+            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+            if (user is null)
+                throw new EndpointException("Couldn't find this user");
+
+            if (string.IsNullOrEmpty(email))
+                throw new EndpointException("Email cannot be empty");
+
+            if (user.Email == email)
+                return true;
+
+            var duplicateUser = await _userManager.FindByEmailAsync(email);
+            if (duplicateUser is not null)
+                throw new EndpointException("This email is already taken");
+
+            var result = await _userManager.ChangeEmailAsync(user, email, "");
+
+            if (!result.Succeeded)
+                throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
+
+            return result.Succeeded;
+        }
+
         private async Task<VerifiedUserDto> HandleLogin(ApplicationUserModel user, string password, string ipAddress)
         {
             if (user is null)
@@ -193,7 +217,8 @@ namespace MTS.Core.Services.Authentication
                 RefreshTokenExpiration = refreshToken!.Expires,
                 Token = token,
                 AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
-                AvatarUrl = user.AvatarUrl
+                AvatarUrl = user.AvatarUrl,
+                Email = user.Email
             };
         }
 

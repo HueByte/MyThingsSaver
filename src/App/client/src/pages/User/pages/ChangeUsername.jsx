@@ -1,5 +1,5 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import { useContext, useRef, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthService } from "../../../api";
 import Loader from "../../../components/Loaders/Loader";
 import { AuthContext } from "../../../contexts/AuthContext";
@@ -21,6 +21,7 @@ const ChangeUsernamePage = () => {
     }
 
     setIsUpdating(true);
+
     let result = await AuthService.postApiAuthUsername({
       requestBody: { username: newUsername },
     });
@@ -37,6 +38,7 @@ const ChangeUsernamePage = () => {
     setIsUpdating(false);
     navigate("/user/me");
   };
+
   return (
     <>
       <div className="panel">

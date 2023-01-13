@@ -28,10 +28,7 @@ namespace MTS.Core.lib
 
         public static IActionResult Create<T>(BaseApiResponse<T> result)
         {
-            if (result.IsSuccess)
-                return new OkObjectResult(result);
-
-            return new BadRequestObjectResult(result);
+            return new OkObjectResult(result);
         }
     }
 }

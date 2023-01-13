@@ -123,6 +123,15 @@ namespace MTS.App.Controllers
             return ApiResponse.Empty();
         }
 
+        [HttpPost("email")]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailDto emailDto)
+        {
+            var result = await _userService.ChangeEmailAsync(emailDto?.Email!);
+            BaseApiResponse<object> response = new() { IsSuccess = result };
+
+            return ApiResponse.Create(response);
+        }
+
         private void AttachAuthCookies(VerifiedUserDto user)
         {
             if (user is null) return;

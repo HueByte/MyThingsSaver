@@ -12,4 +12,5 @@ public interface IUserService
     Task<bool> ChangeUserAvatarAsync(string avatarUrl);
     Task<bool> ChangeUsernameAsync(string username);
     Task<bool> ChangePasswordAsync(string currentPassword, string newPassword);
+    Task<bool> ChangeEmailAsync(string email);
 }
