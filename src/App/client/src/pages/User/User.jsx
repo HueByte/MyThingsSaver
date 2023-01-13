@@ -1,5 +1,5 @@
 import "./User.scss";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";

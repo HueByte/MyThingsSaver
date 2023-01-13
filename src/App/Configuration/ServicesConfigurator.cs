@@ -1,17 +1,11 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using Core.Interfaces.Services;
-using Core.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MTS.Common.Constants;
 using MTS.Core.Entities;
-using MTS.Core.Interfaces.Repositories;
-using MTS.Core.Interfaces.Services;
-using MTS.Core.Models;
 using MTS.Core.Services.Authentication;
 using MTS.Core.Services.Category;
 using MTS.Core.Services.CurrentUser;
@@ -149,7 +143,6 @@ namespace MTS.App.Configuration
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
             _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
-            _services.AddScoped<IUserInfoService, UserInfoService>();
 
             // repositories
             _services.AddScoped<ICategoryRepository, CategoryRepository>();

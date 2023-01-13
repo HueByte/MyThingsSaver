@@ -10,6 +10,7 @@ using MTS.Core.Entities;
 using MTS.Core.Interfaces.Repositories;
 using MTS.Core.Interfaces.Services;
 using MTS.Core.Models;
+using MTS.Core.Services.CurrentUser;
 using MTS.Core.Services.Guide;
 
 namespace MTS.Core.Services.Authentication
@@ -24,8 +25,10 @@ namespace MTS.Core.Services.Authentication
         private readonly IEntryRepository _entryRepository;
         private readonly AppSettingsRoot _settings;
         private readonly IRefreshTokenService _refreshTokenService;
+        private readonly ICurrentUserService _currentUser;
         public UserService(UserManager<ApplicationUserModel> userManager,
                            SignInManager<ApplicationUserModel> signInManager,
+                           ICurrentUserService currentUser,
                            IJwtAuthentication jwtAuthentication,
                            ICategoryRepository categoryRepository,
                            IEntryRepository entryRepository,
@@ -36,11 +39,90 @@ namespace MTS.Core.Services.Authentication
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtAuthentication = jwtAuthentication;
+            _currentUser = currentUser;
             _categoryRepository = categoryRepository;
             _entryRepository = entryRepository;
             _guide = guide;
             _settings = settings;
             _refreshTokenService = refreshTokenService;
+        }
+
+        public async Task<UserInfoDto> GetUserInfoAsync()
+        {
+            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+
+            if (user is null)
+                throw new EndpointException("Couldn't find this user");
+
+            var categoriesCount = await (await _categoryRepository.GetAllAsync()).CountAsync();
+            var entriesCount = await (await _entryRepository.GetAllAsync()).CountAsync();
+            var roles = await _userManager.GetRolesAsync(user);
+
+            UserInfoDto userInfo = new()
+            {
+                Username = user.UserName,
+                AvatarUrl = user.AvatarUrl,
+                AccountCreatedDate = user.AccountCreatedDate,
+                CategoriesCount = categoriesCount,
+                EntriesCount = entriesCount,
+                Roles = roles.ToArray()
+            };
+
+            return userInfo;
+        }
+
+        public async Task<bool> ChangeUserAvatarAsync(string avatarUrl)
+        {
+            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+            if (user is null)
+                throw new EndpointException("Couldn't find this user");
+
+            if (user.AvatarUrl == avatarUrl)
+                return true;
+
+            user.AvatarUrl = avatarUrl ?? "";
+
+            await _userManager.UpdateAsync(user);
+
+            return true;
+        }
+
+        public async Task<bool> ChangeUsernameAsync(string username)
+        {
+            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+            if (user is null)
+                throw new EndpointException("Couldn't find this user");
+
+            if (string.IsNullOrEmpty(username))
+                throw new EndpointException("Username cannot be empty");
+
+            if (user.UserName == username)
+                return true;
+
+            var duplicateUser = await _userManager.FindByNameAsync(username);
+            if (duplicateUser is not null)
+                throw new EndpointException("This username is already taken");
+
+            await _userManager.SetUserNameAsync(user, username);
+
+            return true;
+        }
+
+        public async Task<bool> ChangePasswordAsync(string currentPassword, string newPassword)
+        {
+            if (string.IsNullOrEmpty(currentPassword) || string.IsNullOrEmpty(newPassword))
+                throw new Exception("New and old password can't be empty");
+
+            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+            if (user is null)
+                throw new EndpointException("Couldn't find this user");
+
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            if (!result.Succeeded)
+                throw new EndpointException("Couldn't change password, the current password is incorrect");
+
+            return true;
         }
 
         public async Task<IdentityResult> CreateUser(RegisterDto registerUser)

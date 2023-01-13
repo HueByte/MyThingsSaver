@@ -41,14 +41,39 @@ namespace MTS.App.Controllers
             return ApiResponse.Create(result);
         }
 
-        // [HttpPost("changePassword")]
-        // [ProducesResponseType(200)]
-        // public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto user)
-        // {
-        //     await _userService.ChangePasswordAsync(user);
+        [HttpGet("me")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> GetUserInformation()
+        {
+            var result = await _userService.GetUserInfoAsync();
 
-        //     return ApiResponse.Empty();
-        // }
+            return ApiResponse.Data(result);
+        }
+
+        [HttpPost("avatar")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> SetUserAvatar(UserAvatarDto userAvatarDto)
+        {
+            _ = await _userService.ChangeUserAvatarAsync(userAvatarDto?.AvatarUrl!);
+
+            return ApiResponse.Empty();
+        }
+
+        [HttpPost("username")]
+        public async Task<IActionResult> SetUsername(ChangeUsernameDto userUsernameDto)
+        {
+            _ = await _userService.ChangeUsernameAsync(userUsernameDto?.Username!);
+
+            return ApiResponse.Empty();
+        }
+
+        [HttpPost("password")]
+        public async Task<IActionResult> SetPassword(ChangePasswordDto userPasswordDto)
+        {
+            _ = await _userService.ChangePasswordAsync(userPasswordDto?.CurrentPassword!, userPasswordDto?.NewPassword!);
+
+            return ApiResponse.Empty();
+        }
 
         [HttpPost("refreshToken")]
         [ProducesResponseType(typeof(BaseApiResponse<VerifiedUserDto>), 200)]

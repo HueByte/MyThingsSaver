@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaGhost } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import { UsersService } from "../../../api";
+import { AuthService } from "../../../api";
 import Loader from "../../../components/Loaders/Loader";
 import "../User.scss";
 
@@ -11,7 +11,7 @@ const MePage = () => {
 
   useEffect(() => {
     (async () => {
-      let result = await UsersService.getApiUsersMe();
+      let result = await AuthService.getApiAuthMe();
 
       setUserData(result.data);
       setIsFetched(true);

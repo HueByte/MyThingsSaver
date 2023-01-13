@@ -4,7 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import { FaGhost } from "react-icons/fa";
 import DefaultAvatar from "../../../assets/DefaultAvatar.png";
 import "./ChangeAvatar.scss";
-import { UsersService } from "../../../api";
+import { AuthService } from "../../../api";
 import Loader from "../../../components/Loaders/Loader";
 import { errorModal } from "../../../core/Modals";
 
@@ -19,13 +19,12 @@ const ChangeAvatarPage = () => {
   }, []);
 
   const acceptImage = async () => {
-    setIsUpdating(true);
-
     let url = avatarInput.current.value;
-
     if (url === authContext.authState.avatarUrl) return;
 
-    let result = await UsersService.postApiUsersAvatar({
+    setIsUpdating(true);
+
+    let result = await AuthService.postApiAuthAvatar({
       requestBody: {
         avatarUrl: url,
       },

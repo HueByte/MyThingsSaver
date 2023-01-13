@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { UsersService } from "../../../api";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthService } from "../../../api";
 import Loader from "../../../components/Loaders/Loader";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { errorModal } from "../../../core/Modals";
@@ -11,6 +11,7 @@ const ChangePasswordPage = () => {
   const currentPasswordInput = useRef();
   const newPasswordInput = useRef();
   const repeatedPasswordInput = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     currentPasswordInput.current = document.getElementById(
@@ -40,7 +41,7 @@ const ChangePasswordPage = () => {
 
     setIsUpdating(true);
 
-    let result = await UsersService.postApiUsersPassword({
+    let result = await AuthService.postApiAuthPassword({
       requestBody: {
         currentPassword: currentPasswordInput.current.value,
         newPassword: newPasswordInput.current.value,
@@ -52,6 +53,7 @@ const ChangePasswordPage = () => {
     }
 
     setIsUpdating(false);
+    if (result.isSuccess) navigate("/user/me");
   };
 
   return (
