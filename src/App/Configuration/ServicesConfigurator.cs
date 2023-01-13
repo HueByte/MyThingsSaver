@@ -1,6 +1,9 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using Common.Constants;
 using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
+using Core.Services.LoginLog;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -15,6 +18,7 @@ using MTS.Core.Services.Entry;
 using MTS.Core.Services.Guide;
 using MTS.Infrastructure;
 using MTS.Infrastructure.Repositories;
+using MTS.Infrastructure.Services.Geolocation;
 
 // composition root
 namespace MTS.App.Configuration
@@ -131,6 +135,17 @@ namespace MTS.App.Configuration
             return this;
         }
 
+        public ServicesConfigurator ConfigureHttpClients()
+        {
+            _services.AddHttpClient(HttpClientNames.GEO_LOCATION_CLIENT, client =>
+            {
+                client.BaseAddress = new Uri("http://ip-api.com/");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+
+            return this;
+        }
+
         public ServicesConfigurator ConfigureServices()
         {
             // services
@@ -140,6 +155,8 @@ namespace MTS.App.Configuration
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
             _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            _services.AddScoped<ILoginLogService, LoginLogService>();
+            _services.AddScoped<IGeolocationService, GeolocationService>();
 
             // repositories
             _services.AddScoped<ICategoryRepository, CategoryRepository>();

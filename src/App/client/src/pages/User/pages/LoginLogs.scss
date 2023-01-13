@@ -1,0 +1,31 @@
+@use "../../../styles/theme" as theme;
+
+.panel {
+    .logs-container {
+        display: flex;
+        flex-direction: column;
+
+        .log {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-bottom: 1px solid theme.$primary;
+            padding: 0.5em;
+
+            .log-dic {
+                display: flex;
+                flex-direction: row;
+                gap: 0.5em;
+
+                .log-key {
+                    flex: 1;
+                    color: theme.$primaryLight;
+                }
+
+                .log-value {
+                    flex: 3;
+                }
+            }
+        }
+    }
+}

@@ -40,6 +40,7 @@ builder.Host.ConfigureServices(services =>
                                                       .ConfigureCors()
                                                       .ConfigureSwagger()
                                                       .ConfigureForwardedHeaders()
+                                                      .ConfigureHttpClients()
                                                       .Build();
 });
 

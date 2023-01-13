@@ -2,8 +2,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.DTO;
+using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MTS.Common.Constants;
 using MTS.Core.DTO;
 using MTS.Core.Entities;
@@ -26,6 +28,7 @@ namespace MTS.Core.Services.Authentication
         private readonly AppSettingsRoot _settings;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly ICurrentUserService _currentUser;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         public UserService(UserManager<ApplicationUserModel> userManager,
                            SignInManager<ApplicationUserModel> signInManager,
                            ICurrentUserService currentUser,
@@ -34,7 +37,8 @@ namespace MTS.Core.Services.Authentication
                            IEntryRepository entryRepository,
                            GuideService guide,
                            AppSettingsRoot settings,
-                           IRefreshTokenService refreshTokenService)
+                           IRefreshTokenService refreshTokenService,
+                           IServiceScopeFactory serviceScopeFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -45,6 +49,7 @@ namespace MTS.Core.Services.Authentication
             _guide = guide;
             _settings = settings;
             _refreshTokenService = refreshTokenService;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public async Task<UserInfoDto> GetUserInfoAsync()
@@ -219,6 +224,9 @@ namespace MTS.Core.Services.Authentication
             // save removal of old refresh tokens
             await _userManager.UpdateAsync(user);
 
+            // fire and forget log login
+            LogLoginAsync(user, ipAddress);
+
             return new VerifiedUserDto()
             {
                 Username = user!.UserName,
@@ -230,6 +238,17 @@ namespace MTS.Core.Services.Authentication
                 AvatarUrl = user.AvatarUrl,
                 Email = user.Email
             };
+        }
+
+        private void LogLoginAsync(ApplicationUserModel user, string ipAddress)
+        {
+            _ = Task.Run(async () =>
+            {
+                await using var scope = _serviceScopeFactory.CreateAsyncScope();
+                var loginLogService = scope.ServiceProvider.GetRequiredService<ILoginLogService>();
+
+                await loginLogService.LogLoginAsync(user, ipAddress);
+            });
         }
 
         private async Task SeedGuide(ApplicationUserModel user)
