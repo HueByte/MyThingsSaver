@@ -33,5 +33,13 @@ namespace MTS.App.Controllers
 
             return ApiResponse.Empty();
         }
+
+        [HttpPost("username")]
+        public async Task<IActionResult> SetUsername(ChangeUsernameDto userUsernameDto)
+        {
+            _ = await _userInfoService.ChangeUsernameAsync(userUsernameDto?.Username!);
+
+            return ApiResponse.Empty();
+        }
     }
 }

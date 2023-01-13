@@ -22,23 +22,4 @@
         margin-top: 1em;
         width: 100%;
     }
-
-    .action-buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-
-        .item {
-            font-size: medium;
-            margin: 1em 1em 0 0;
-        }
-
-        .accept {
-            color: theme.$primaryLight;
-        }
-
-        .cancel {
-            color: theme.$secondary;
-        }
-    }
 }

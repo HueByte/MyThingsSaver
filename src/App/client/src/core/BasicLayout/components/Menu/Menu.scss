@@ -110,6 +110,7 @@ $logo-width: 240px;
         background-color: theme.$altBackgroundColorLight;
         display: flex;
         flex-direction: row;
+        width: 150px;
 
         img {
           width: 30px;
@@ -118,11 +119,13 @@ $logo-width: 240px;
           margin-right: 10px;
         }
 
-        &:hover span {
+        &:hover .username {
           color: theme.$primaryLight !important;
         }
 
-        span {
+        .username {
+          cursor: pointer;
+          text-align: center;
           color: white;
         }
       }

@@ -63,5 +63,26 @@ namespace Core.Services.User
 
             return true;
         }
+
+        public async Task<bool> ChangeUsernameAsync(string username)
+        {
+            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+            if (user is null)
+                throw new EndpointException("Couldn't find this user");
+
+            if (string.IsNullOrEmpty(username))
+                throw new EndpointException("Username cannot be empty");
+
+            if (user.UserName == username)
+                return true;
+
+            var duplicateUser = await _userManager.FindByNameAsync(username);
+            if (duplicateUser is not null)
+                throw new EndpointException("This username is already taken");
+
+            await _userManager.SetUserNameAsync(user, username);
+
+            return true;
+        }
     }
 }

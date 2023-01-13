@@ -39,7 +39,12 @@ const UserPage = () => {
               alt="avatar"
             />
           </div>
-          <div className="username">{authContext.authState.username}</div>
+          <abbr
+            title={authContext.authState?.username}
+            className="username ellipsis"
+          >
+            {authContext.authState?.username}
+          </abbr>
           <div className="badges">
             {authContext.authState.roles?.map((role, index) => (
               <div key={index} className="badge" style={getRoleStyle()}>

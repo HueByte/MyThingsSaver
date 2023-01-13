@@ -61,11 +61,17 @@ const MePage = () => {
           </div>
           <div className="panel">
             <div className="panel-name">User Actions</div>
-            <div className="mts-button action-button">Change Email</div>
-            <div className="mts-button action-button">Change Password</div>
-            <div className="mts-button action-button">Change Username</div>
             <NavLink to="/user/avatar" className="mts-button action-button">
               Change Avatar
+            </NavLink>
+            <NavLink to="/user/email" className="mts-button action-button">
+              Change Email
+            </NavLink>
+            <NavLink to="/user/username" className="mts-button action-button">
+              Change Username
+            </NavLink>
+            <NavLink to="/user/password" className="mts-button action-button">
+              Change Password
             </NavLink>
           </div>
         </>

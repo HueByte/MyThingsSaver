@@ -6,5 +6,6 @@ namespace Core.Interfaces.Services
     {
         Task<UserInfoDto> GetUserInfoAsync();
         Task<bool> ChangeUserAvatarAsync(string avatarUrl);
+        Task<bool> ChangeUsernameAsync(string username);
     }
 }

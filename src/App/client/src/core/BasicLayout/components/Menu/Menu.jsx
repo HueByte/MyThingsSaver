@@ -56,7 +56,12 @@ const DesktopMenu = ({ logout, authContext }) => {
               }
               alt="avatar"
             />
-            <span>{authContext.authState?.username}</span>
+            <abbr
+              title={authContext.authState?.username}
+              className="username ellipsis"
+            >
+              {authContext.authState?.username}
+            </abbr>
           </NavLink>
           <div className="item" onClick={logout}>
             Log out
