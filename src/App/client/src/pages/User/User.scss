@@ -84,13 +84,24 @@
                 border-right: 2px solid theme.$primary;
                 min-width: 200px;
                 max-width: 200px;
+                height: 100%;
 
-                .item:not(:first-child) {
-                    margin-top: 0.5em;
+                .item {
+                    display: flex;
+                    align-items: center;
+
+                    svg {
+                        margin-right: 0.5em;
+                    }
 
                     &:hover {
                         color: theme.$primary;
                     }
+                }
+
+                .item:not(:first-child) {
+                    margin-top: 0.5em;
+
                 }
 
                 .active {

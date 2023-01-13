@@ -18,6 +18,7 @@ const Logout = React.lazy(() => import("../pages/Logout/Logout"));
 const Explorer = React.lazy(() => import("../pages/Explorer/Explorer"));
 const UserPage = React.lazy(() => import("../pages/User/User"));
 const MePage = React.lazy(() => import("../pages/User/pages/Me"));
+const LoginLogsPage = React.lazy(() => import("../pages/User/pages/LoginLogs"));
 const ChangeEmailPage = React.lazy(() =>
   import("../pages/User/pages/ChangeEmail")
 );
@@ -30,11 +31,9 @@ const ChangeUsernamePage = React.lazy(() =>
 const ChangeAvatarPage = React.lazy(() =>
   import("../pages/User/pages/ChangeAvatar")
 );
-
 const ExplorerContent = React.lazy(() =>
   import("../pages/Explorer/ExplorerContent")
 );
-
 const BasicLayout = React.lazy(() =>
   import("../core/BasicLayout/BasicLayout.jsx")
 );
@@ -68,6 +67,7 @@ export const ClientRouter = () => {
           <Route path="email" element={<ChangeEmailPage />} />
           <Route path="username" element={<ChangeUsernamePage />} />
           <Route path="password" element={<ChangePasswordPage />} />
+          <Route path="loginlogs" element={<LoginLogsPage />} />
           <Route path="*" element={<Navigate to="me" replace />} />
         </Route>
 

@@ -5,6 +5,7 @@ import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";
 import DefaultAvatar from "../../assets/DefaultAvatar.png";
 import { AiOutlineUser } from "react-icons/ai";
+import { HiOutlineClipboard } from "react-icons/hi";
 
 const UserPage = () => {
   const authContext = useContext(AuthContext);
@@ -58,11 +59,8 @@ const UserPage = () => {
             <NavLink to="me" activeClassName="active" className="item">
               <AiOutlineUser /> Me
             </NavLink>
-            <NavLink to="temp" activeClassName="active" className="item">
-              <AiOutlineUser /> Login logs
-            </NavLink>
-            <NavLink to="temp" activeClassName="active" className="item">
-              <AiOutlineUser /> About me
+            <NavLink to="loginlogs" activeClassName="active" className="item">
+              <HiOutlineClipboard /> Login logs
             </NavLink>
           </div>
           <div className="content-page">
