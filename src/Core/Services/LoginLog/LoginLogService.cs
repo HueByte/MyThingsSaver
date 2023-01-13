@@ -1,3 +1,5 @@
+using System.Net;
+using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +27,7 @@ namespace Core.Services.LoginLog
         {
             var allQuery = await _loginLogRepository.GetAllAsync();
 
-            return await allQuery.ToListAsync();
+            return await allQuery.OrderByDescending(prop => prop.LoginDate).ToListAsync();
         }
 
         public async Task LogLoginAsync(ApplicationUserModel user, string ipAddress)
@@ -33,9 +35,20 @@ namespace Core.Services.LoginLog
             if (user is null)
                 throw new EndpointException("User cannot be null");
 
-            var geoLocation = await _geolocationService.GetGeolocationAsync(ipAddress);
+            GeolocationResponse? geolocation;
+            if (ipAddress != IPAddress.Loopback.ToString())
+            {
+                geolocation = await _geolocationService.GetGeolocationAsync(ipAddress);
+            }
+            else
+            {
+                geolocation = new()
+                {
+                    City = "Localhost",
+                };
+            }
 
-            if (geoLocation is null)
+            if (geolocation is null)
                 throw new EndpointException("Geolocation cannot be null");
 
             var loginLog = new LoginLogModel
@@ -44,7 +57,7 @@ namespace Core.Services.LoginLog
                 IpAddress = ipAddress,
                 LoginDate = DateTime.UtcNow,
                 Id = Guid.NewGuid().ToString(),
-                Location = $"{geoLocation.City}, {geoLocation.Country}, {geoLocation.RegionName}"
+                Location = $"{geolocation.City} {geolocation.Country} {geolocation.RegionName}"
             };
 
             await _loginLogRepository.AddAsync(loginLog);

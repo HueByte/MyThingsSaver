@@ -40,7 +40,9 @@ const LoginLogsPage = () => {
                 </div>
                 <div className="log-dic">
                   <div className="log-key log-date">Date: </div>
-                  <div className="log-value">{log.loginDate}</div>
+                  <div className="log-value">
+                    {new Date(log.loginDate).toDateString()}
+                  </div>
                 </div>
                 <div className="log-dic">
                   <div className="log-key log-location">Location:</div>
