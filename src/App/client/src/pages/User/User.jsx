@@ -8,6 +8,7 @@ import { AiOutlineUser } from "react-icons/ai";
 
 const UserPage = () => {
   const authContext = useContext(AuthContext);
+
   const colors = [
     { color: "#00fa9a", fontColor: "#000" },
     { color: "#c62368", fontColor: "#FFF" },

@@ -26,8 +26,8 @@ const MePage = () => {
     <>
       {isFetched ? (
         <>
-          <div className="panel user-info">
-            <div className="panel-name">User block</div>
+          <div className="panel">
+            <div className="panel-name">User Information</div>
             <div className="block">
               <span className="key">Created date: </span>
               {new Date(userData.accountCreatedDate).toDateString()}
@@ -59,7 +59,7 @@ const MePage = () => {
               </span>
             </div>
           </div>
-          <div className="panel user-actions">
+          <div className="panel">
             <div className="panel-name">User Actions</div>
             <div className="mts-button action-button">Change Email</div>
             <div className="mts-button action-button">Change Password</div>

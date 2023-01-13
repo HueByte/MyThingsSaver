@@ -6,6 +6,7 @@ import DefaultAvatar from "../../../assets/DefaultAvatar.png";
 import "./ChangeAvatar.scss";
 import { UsersService } from "../../../api";
 import Loader from "../../../components/Loaders/Loader";
+import { errorModal } from "../../../core/Modals";
 
 const ChangeAvatarPage = () => {
   const authContext = useContext(AuthContext);
@@ -19,8 +20,8 @@ const ChangeAvatarPage = () => {
 
   const acceptImage = async () => {
     setIsUpdating(true);
-    let url = avatarInput.current.value;
 
+    let url = avatarInput.current.value;
     let result = await UsersService.postApiUsersAvatar({
       requestBody: {
         avatarUrl: url,
@@ -32,6 +33,8 @@ const ChangeAvatarPage = () => {
         ...authContext.authState,
         avatarUrl: url,
       });
+    } else {
+      errorModal(result.errors);
     }
 
     setAvatarUrl(url);
