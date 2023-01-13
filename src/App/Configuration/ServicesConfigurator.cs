@@ -1,5 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using Core.Interfaces.Repositories;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -123,11 +125,6 @@ namespace MTS.App.Configuration
                         context.Token = context.Request.Cookies["X-Access-Token"];
                         return Task.CompletedTask;
                     },
-                    // OnAuthenticationFailed = context =>
-                    // {
-                    //     Console.WriteLine(context.Exception.GetType() == typeof(SecurityTokenExpiredException));
-                    //     return Task.CompletedTask;
-                    // }
                 };
             });
 
@@ -148,6 +145,7 @@ namespace MTS.App.Configuration
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
             _services.AddScoped<IEntryRepository, EntryRepository>();
             _services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            _services.AddScoped<ILoginLogRepository, LoginLogRepository>();
 
             // guide 
             GuideService _guide = new();
