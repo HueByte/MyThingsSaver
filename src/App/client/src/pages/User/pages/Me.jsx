@@ -29,6 +29,10 @@ const MePage = () => {
           <div className="panel">
             <div className="panel-name">User Information</div>
             <div className="block">
+              <span className="key">Email: </span>
+              {userData.email}
+            </div>
+            <div className="block">
               <span className="key">Created date: </span>
               {new Date(userData.accountCreatedDate).toDateString()}
             </div>

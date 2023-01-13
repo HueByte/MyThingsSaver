@@ -65,7 +65,8 @@ namespace MTS.Core.Services.Authentication
                 AccountCreatedDate = user.AccountCreatedDate,
                 CategoriesCount = categoriesCount,
                 EntriesCount = entriesCount,
-                Roles = roles.ToArray()
+                Roles = roles.ToArray(),
+                Email = user.Email
             };
 
             return userInfo;
