@@ -41,5 +41,13 @@ namespace MTS.App.Controllers
 
             return ApiResponse.Empty();
         }
+
+        [HttpPost("password")]
+        public async Task<IActionResult> SetPassword(ChangePasswordDto userPasswordDto)
+        {
+            _ = await _userInfoService.ChangePasswordAsync(userPasswordDto?.CurrentPassword!, userPasswordDto?.NewPassword!);
+
+            return ApiResponse.Empty();
+        }
     }
 }

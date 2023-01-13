@@ -84,5 +84,19 @@ namespace Core.Services.User
 
             return true;
         }
+
+        public async Task<bool> ChangePasswordAsync(string currentPassword, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+            if (user is null)
+                throw new EndpointException("Couldn't find this user");
+
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            if (!result.Succeeded)
+                throw new EndpointException("Couldn't change password, the current password is incorrect");
+
+            return true;
+        }
     }
 }

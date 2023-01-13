@@ -1,3 +1,4 @@
+using Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 using MTS.App.Extensions;
 using MTS.Common.ApiResonse;
@@ -40,14 +41,14 @@ namespace MTS.App.Controllers
             return ApiResponse.Create(result);
         }
 
-        [HttpPost("changePassword")]
-        [ProducesResponseType(200)]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto user)
-        {
-            await _userService.ChangePasswordAsync(user);
+        // [HttpPost("changePassword")]
+        // [ProducesResponseType(200)]
+        // public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto user)
+        // {
+        //     await _userService.ChangePasswordAsync(user);
 
-            return ApiResponse.Empty();
-        }
+        //     return ApiResponse.Empty();
+        // }
 
         [HttpPost("refreshToken")]
         [ProducesResponseType(typeof(BaseApiResponse<VerifiedUserDto>), 200)]

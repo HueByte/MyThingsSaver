@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MTS.Common.Constants;
@@ -67,23 +68,23 @@ namespace MTS.Core.Services.Authentication
             return result;
         }
 
-        public async Task ChangePasswordAsync(ChangePasswordDto userDTO)
-        {
-            if (userDTO is null)
-                throw new ArgumentException("User model cannot be null");
+        // public async Task ChangePasswordAsync(ChangePasswordDto userDTO)
+        // {
+        //     if (userDTO is null)
+        //         throw new ArgumentException("User model cannot be null");
 
-            if (string.IsNullOrEmpty(userDTO.OldPassword) || string.IsNullOrEmpty(userDTO.NewPassword))
-                throw new Exception("New and old password can't be empty");
+        //     if (string.IsNullOrEmpty(userDTO.CurrentPassword) || string.IsNullOrEmpty(userDTO.NewPassword))
+        //         throw new Exception("New and old password can't be empty");
 
-            var user = await _userManager.FindByNameAsync(userDTO.UserName);
-            if (user is null)
-                throw new Exception("Couldn't find user");
+        //     var user = await _userManager.FindByNameAsync(userDTO.UserName);
+        //     if (user is null)
+        //         throw new Exception("Couldn't find user");
 
-            var result = await _userManager.ChangePasswordAsync(user, userDTO.OldPassword, userDTO.NewPassword);
+        //     var result = await _userManager.ChangePasswordAsync(user, userDTO.OldPassword, userDTO.NewPassword);
 
-            if (!result.Succeeded)
-                throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
-        }
+        //     if (!result.Succeeded)
+        //         throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
+        // }
 
 
         public async Task<VerifiedUserDto> LoginUser(LoginUserDto userDto, string IpAddress)

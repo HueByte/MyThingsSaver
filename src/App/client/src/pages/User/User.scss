@@ -133,12 +133,15 @@
 
                     .input-block {
                         display: flex;
-                        flex-direction: row;
-                        gap: 1em;
-                        align-items: center;
+                        flex-direction: column;
+                        gap: 0.5em;
 
                         .input {
                             flex: 1;
+                        }
+
+                        &:not(:first-child) {
+                            margin-top: 0.5em;
                         }
                     }
 
