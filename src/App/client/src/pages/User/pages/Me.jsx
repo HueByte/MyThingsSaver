@@ -30,31 +30,31 @@ const MePage = () => {
             <div className="panel-name">User Information</div>
             <div className="block">
               <span className="key">Email: </span>
-              {userData.email}
+              {userData?.email ? userData.email : ""}
             </div>
             <div className="block">
               <span className="key">Created date: </span>
-              {new Date(userData.accountCreatedDate).toDateString()}
+              {new Date(userData?.accountCreatedDate).toDateString()}
             </div>
             <div className="block">
               <span className="key">Categories Count: </span>
-              {userData.categoriesCount}
+              {userData?.categoriesCount}
             </div>
             <div className="block">
               <span className="key">Entries Count: </span>
-              {userData.entriesCount}
+              {userData?.entriesCount}
             </div>
             <div className="block">
               <span className="key">Roles: </span>
-              {userData.roles.map((role, index) => {
+              {userData?.roles.map((role, index) => {
                 return <span key={index}>{capitalizeRole(role)} </span>;
               })}
             </div>
             <div className="block">
               <span className="key">Avatar Url: </span>
               <span>
-                {userData.avatarUrl ? (
-                  <a target="_blank" href={userData.avatarUrl}>
+                {userData?.avatarUrl ? (
+                  <a target="_blank" href={userData?.avatarUrl}>
                     Click here
                   </a>
                 ) : (

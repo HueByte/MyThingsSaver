@@ -1,4 +1,5 @@
 using Core.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MTS.App.Extensions;
 using MTS.Common.ApiResonse;
@@ -43,6 +44,7 @@ namespace MTS.App.Controllers
 
         [HttpGet("me")]
         [ProducesResponseType(200)]
+        [Authorize]
         public async Task<IActionResult> GetUserInformation()
         {
             var result = await _userService.GetUserInfoAsync();
@@ -52,6 +54,7 @@ namespace MTS.App.Controllers
 
         [HttpPost("avatar")]
         [ProducesResponseType(200)]
+        [Authorize]
         public async Task<IActionResult> SetUserAvatar(UserAvatarDto userAvatarDto)
         {
             _ = await _userService.ChangeUserAvatarAsync(userAvatarDto?.AvatarUrl!);
@@ -60,6 +63,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("username")]
+        [Authorize]
         public async Task<IActionResult> SetUsername(ChangeUsernameDto userUsernameDto)
         {
             _ = await _userService.ChangeUsernameAsync(userUsernameDto?.Username!);
@@ -68,6 +72,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("password")]
+        [Authorize]
         public async Task<IActionResult> SetPassword(ChangePasswordDto userPasswordDto)
         {
             _ = await _userService.ChangePasswordAsync(userPasswordDto?.CurrentPassword!, userPasswordDto?.NewPassword!);
