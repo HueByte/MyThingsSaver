@@ -66,7 +66,7 @@ namespace MTS.App.Controllers
         [Authorize]
         public async Task<IActionResult> SetUsername(ChangeUsernameDto userUsernameDto)
         {
-            _ = await _userService.ChangeUsernameAsync(userUsernameDto?.Username!);
+            _ = await _userService.ChangeUsernameAsync(userUsernameDto?.Username!, userUsernameDto?.Password!);
 
             return ApiResponse.Empty();
         }
@@ -126,7 +126,7 @@ namespace MTS.App.Controllers
         [HttpPost("email")]
         public async Task<IActionResult> ChangeEmail(ChangeEmailDto emailDto)
         {
-            var result = await _userService.ChangeEmailAsync(emailDto?.Email!);
+            var result = await _userService.ChangeEmailAsync(emailDto?.Email!, emailDto?.Password!);
             BaseApiResponse<object> response = new() { IsSuccess = result };
 
             return ApiResponse.Create(response);

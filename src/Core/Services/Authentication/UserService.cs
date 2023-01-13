@@ -57,12 +57,14 @@ namespace MTS.Core.Services.Authentication
             var categoriesCount = await (await _categoryRepository.GetAllAsync()).CountAsync();
             var entriesCount = await (await _entryRepository.GetAllAsync()).CountAsync();
             var roles = await _userManager.GetRolesAsync(user);
+            var accountSize = await (await _entryRepository.GetAllAsync()).SumAsync(e => e.Size);
 
             UserInfoDto userInfo = new()
             {
                 Username = user.UserName,
                 AvatarUrl = user.AvatarUrl,
                 AccountCreatedDate = user.AccountCreatedDate,
+                AccountSize = accountSize,
                 CategoriesCount = categoriesCount,
                 EntriesCount = entriesCount,
                 Roles = roles.ToArray(),
@@ -88,7 +90,7 @@ namespace MTS.Core.Services.Authentication
             return true;
         }
 
-        public async Task<bool> ChangeUsernameAsync(string username)
+        public async Task<bool> ChangeUsernameAsync(string username, string password)
         {
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
@@ -99,6 +101,10 @@ namespace MTS.Core.Services.Authentication
 
             if (user.UserName == username)
                 return true;
+
+            var passwordVerification = await _userManager.CheckPasswordAsync(user, password);
+            if (!passwordVerification)
+                throw new EndpointException("Wrong password");
 
             var duplicateUser = await _userManager.FindByNameAsync(username);
             if (duplicateUser is not null)
@@ -163,7 +169,7 @@ namespace MTS.Core.Services.Authentication
             return await HandleLogin(user!, userDto!.Password!, IpAddress);
         }
 
-        public async Task<bool> ChangeEmailAsync(string email)
+        public async Task<bool> ChangeEmailAsync(string email, string password)
         {
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
@@ -174,6 +180,10 @@ namespace MTS.Core.Services.Authentication
 
             if (user.Email == email)
                 return true;
+
+            var passwordVerification = await _userManager.CheckPasswordAsync(user, password);
+            if (!passwordVerification)
+                throw new EndpointException("Wrong password");
 
             var duplicateUser = await _userManager.FindByEmailAsync(email);
             if (duplicateUser is not null)

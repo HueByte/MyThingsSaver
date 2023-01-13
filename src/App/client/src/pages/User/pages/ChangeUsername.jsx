@@ -10,11 +10,15 @@ const ChangeUsernamePage = () => {
   const navigate = useNavigate();
   const [isUpdating, setIsUpdating] = useState(false);
   const usernameInput = useRef();
+  const passwordInput = useRef();
 
   const updateUsername = async () => {
     let newUsername = usernameInput.current.value;
+    let password = passwordInput.current.value;
+
     if (
       !newUsername.length > 0 ||
+      !password.length > 0 ||
       newUsername === authContext.authState.username
     ) {
       return;
@@ -23,7 +27,7 @@ const ChangeUsernamePage = () => {
     setIsUpdating(true);
 
     let result = await AuthService.postApiAuthUsername({
-      requestBody: { username: newUsername },
+      requestBody: { username: newUsername, password: password },
     });
 
     if (result.isSuccess) {
@@ -52,6 +56,15 @@ const ChangeUsernamePage = () => {
                 type="text"
                 className="mts-input input"
                 placeholder={authContext.authState.username}
+              />
+            </div>
+            <div className="input-block">
+              <div className="key">Password: </div>
+              <input
+                ref={passwordInput}
+                type="password"
+                className="mts-input input"
+                placeholder="* * * * * * *"
               />
             </div>
             <div className="action-buttons">

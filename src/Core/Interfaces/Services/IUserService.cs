@@ -10,7 +10,7 @@ public interface IUserService
     Task<VerifiedUserDto> LoginUser(LoginUserDto userDTO, string IpAddress);
     Task<UserInfoDto> GetUserInfoAsync();
     Task<bool> ChangeUserAvatarAsync(string avatarUrl);
-    Task<bool> ChangeUsernameAsync(string username);
+    Task<bool> ChangeUsernameAsync(string username, string password);
     Task<bool> ChangePasswordAsync(string currentPassword, string newPassword);
-    Task<bool> ChangeEmailAsync(string email);
+    Task<bool> ChangeEmailAsync(string email, string password);
 }

@@ -9,15 +9,18 @@ const ChangeEmailPage = () => {
   const authContext = useContext(AuthContext);
   const [isUpdating, setIsUpdating] = useState(false);
   const emailInput = useRef();
+  const passwordInput = useRef();
 
   const updateEmail = async () => {
     let newEmail = emailInput.current.value;
-    if (newEmail.length === 0) return;
+    let password = passwordInput.current.value;
+
+    if (newEmail.length === 0 || password.length === 0) return;
 
     setIsUpdating(true);
 
     let result = await AuthService.postApiAuthEmail({
-      requestBody: { email: newEmail },
+      requestBody: { email: newEmail, password: password },
     });
 
     if (result.isSuccess) {
@@ -46,6 +49,16 @@ const ChangeEmailPage = () => {
                 type="text"
                 className="mts-input input"
                 placeholder={authContext.authState?.email}
+                autoComplete="off"
+              />
+            </div>
+            <div className="input-block">
+              <div className="key">Password: </div>
+              <input
+                ref={passwordInput}
+                type="password"
+                className="mts-input input"
+                placeholder="* * * * * * *"
               />
             </div>
             <div className="action-buttons">
