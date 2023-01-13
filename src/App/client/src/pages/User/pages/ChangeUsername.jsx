@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { UsersService } from "../../../api";
+import Loader from "../../../components/Loaders/Loader";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { errorModal } from "../../../core/Modals";
 
@@ -18,7 +19,13 @@ const ChangeUsernamePage = () => {
 
     let newUsername = usernameInput.current.value;
 
-    if (newUsername === authContext.authState.username) return;
+    if (
+      !newUsername.length > 0 ||
+      newUsername === authContext.authState.username
+    ) {
+      setIsUpdating(false);
+      return;
+    }
 
     let result = await UsersService.postApiUsersUsername({
       requestBody: { username: newUsername },
@@ -30,7 +37,7 @@ const ChangeUsernamePage = () => {
         username: newUsername,
       });
     } else {
-      errorModal(result.errors);
+      errorModal(result.errors, 10000);
     }
 
     setIsUpdating(false);
@@ -38,24 +45,32 @@ const ChangeUsernamePage = () => {
   return (
     <>
       <div className="panel">
-        <div className="panel-name">Change Username </div>
-        <div className="input-block">
-          <div className="key">New username: </div>
-          <input
-            id="username-input"
-            type="text"
-            className="mts-input input"
-            placeholder={authContext.authState.username}
-          />
-        </div>
-        <div className="action-buttons">
-          <div className="mts-button item accept" onClick={updateUsername}>
-            Accept
+        {!isUpdating ? (
+          <>
+            <div className="panel-name">Change Username </div>
+            <div className="input-block">
+              <div className="key">New username: </div>
+              <input
+                id="username-input"
+                type="text"
+                className="mts-input input"
+                placeholder={authContext.authState.username}
+              />
+            </div>
+            <div className="action-buttons">
+              <div className="mts-button item accept" onClick={updateUsername}>
+                Accept
+              </div>
+              <NavLink to="user/me" className="mts-button item cancel">
+                Cancel
+              </NavLink>
+            </div>
+          </>
+        ) : (
+          <div style={{ height: "200px" }}>
+            <Loader />
           </div>
-          <NavLink to="user/me" className="mts-button item cancel">
-            Cancel
-          </NavLink>
-        </div>
+        )}
       </div>
     </>
   );
