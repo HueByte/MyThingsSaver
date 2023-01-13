@@ -107,8 +107,11 @@
                     width: 100%;
                     padding: 1em;
                     position: relative;
-                    margin-bottom: 1.5em;
                     font-size: medium;
+
+                    &:not(:first-child) {
+                        margin-top: 1.5em;
+                    }
 
                     .panel-name {
                         font-size: large;

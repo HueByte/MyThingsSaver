@@ -118,6 +118,10 @@ $logo-width: 240px;
           margin-right: 10px;
         }
 
+        &:hover span {
+          color: theme.$primaryLight !important;
+        }
+
         span {
           color: white;
         }
