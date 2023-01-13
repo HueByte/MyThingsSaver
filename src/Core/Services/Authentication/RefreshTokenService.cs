@@ -28,7 +28,6 @@ namespace MTS.Core.Services.Authentication
 
         public RefreshTokenModel CreateRefreshToken(string ipAddress)
         {
-
             var randomSeed = new byte[64];
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomSeed);
@@ -46,18 +45,18 @@ namespace MTS.Core.Services.Authentication
         {
             var user = await GetUserByRefreshToken(token);
 
-            // Fetch matching token
-            var refreshToken = user.RefreshTokens.FirstOrDefault(e => e.Token == token && e.CreatedByIp == ipAddress);
+            // Get matching token
+            var refreshToken = user!.RefreshTokens?.FirstOrDefault(e => e.Token == token && e.CreatedByIp == ipAddress);
 
             if (refreshToken is null || !refreshToken.IsActive)
                 throw new Exception("Token is invalid");
 
             // Get new refresh token and revoke old one
             var newRefreshToken = RotateToken(refreshToken, ipAddress);
-            user.RefreshTokens.Add(newRefreshToken);
+            user!.RefreshTokens?.Add(newRefreshToken);
 
             // Remove old tokens
-            await RemoveOldRefreshTokens(user);
+            RemoveOldRefreshTokens(user);
             await _userManager.UpdateAsync(user);
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -81,7 +80,7 @@ namespace MTS.Core.Services.Authentication
                 throw new Exception("Token is invalid");
 
             var user = await GetUserByRefreshToken(token);
-            var refreshToken = user.RefreshTokens.FirstOrDefault(e => e.Token == token);
+            var refreshToken = user!.RefreshTokens?.FirstOrDefault(e => e.Token == token);
 
             if (refreshToken is null || !refreshToken.IsActive)
                 throw new Exception("Token is invalid");
@@ -96,12 +95,10 @@ namespace MTS.Core.Services.Authentication
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public Task RemoveOldRefreshTokens(ApplicationUserModel user)
+        public void RemoveOldRefreshTokens(ApplicationUserModel user)
         {
             user.RefreshTokens?.RemoveAll(token => !token.IsActive
                                       && token.Created.AddDays(_settings.JWT.RefreshTokenExpireTime) <= DateTime.UtcNow);
-
-            return Task.CompletedTask;
         }
 
         /// <summary>

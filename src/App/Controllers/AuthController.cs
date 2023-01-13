@@ -139,15 +139,15 @@ namespace MTS.App.Controllers
                 Expires = user.AccessTokenExpiration,
             };
 
-            Response.Cookies.Append(CookieNames.RefreshTokenCookie, user.RefreshToken, refreshTokenOptions);
-            Response.Cookies.Append(CookieNames.AccessToken, user.Token, jwtTokenOptions);
+            Response.Cookies.Append(CookieNames.RefreshTokenCookie, user.RefreshToken!, refreshTokenOptions);
+            Response.Cookies.Append(CookieNames.AccessToken, user.Token!, jwtTokenOptions);
         }
 
         private string GetIpAddress()
         {
             // get source ip address for the current request
             if (Request.Headers.ContainsKey("X-Forwarded-For"))
-                return Request.Headers["X-Forwarded-For"];
+                return Request?.Headers["X-Forwarded-For"]!;
             else
                 return HttpContext.Connection!.RemoteIpAddress!.MapToIPv4().ToString();
         }

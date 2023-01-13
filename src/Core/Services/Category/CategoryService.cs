@@ -77,7 +77,7 @@ namespace MTS.Core.Services.Category
                 throw new EndpointException("This category already exists");
 
             CategoryModel parent;
-            string path = _currentUser.UserId;
+            string path = _currentUser?.UserId ?? string.Empty;
             int level = 0;
 
             if (!string.IsNullOrEmpty(categoryInput.CategoryParentId))

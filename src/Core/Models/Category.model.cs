@@ -12,7 +12,7 @@ namespace MTS.Core.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public override string Id { get; set; }
+        public override string Id { get; set; } = default!;
         public string Name { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
         public DateTime LastEditedOnDate { get; set; }
@@ -23,7 +23,7 @@ namespace MTS.Core.Models
         [ForeignKey("UserId")]
         public override string UserId { get; set; } = string.Empty;
         [JsonIgnore]
-        public virtual ApplicationUserModel User { get; set; }
+        public virtual ApplicationUserModel User { get; set; } = default!;
 
         [ForeignKey("ParentCategoryId")]
         public string? ParentCategoryId { get; set; }

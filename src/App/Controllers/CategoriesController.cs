@@ -75,7 +75,7 @@ namespace MTS.App.Controllers
         [ProducesResponseType(200)]
         public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDto category)
         {
-            await _categoryService.RemoveCategoryAsync(category.CategoryId);
+            await _categoryService.RemoveCategoryAsync(category.CategoryId!);
 
             return ApiResponse.Empty();
         }

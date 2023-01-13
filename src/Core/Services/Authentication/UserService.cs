@@ -139,7 +139,7 @@ namespace MTS.Core.Services.Authentication
                 AccountCreatedDate = DateTime.UtcNow
             };
 
-            var result = await _userManager.CreateAsync(user, registerUser?.Password);
+            var result = await _userManager.CreateAsync(user, registerUser!.Password!);
 
             if (!result.Succeeded)
                 throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
@@ -151,25 +151,6 @@ namespace MTS.Core.Services.Authentication
             return result;
         }
 
-        // public async Task ChangePasswordAsync(ChangePasswordDto userDTO)
-        // {
-        //     if (userDTO is null)
-        //         throw new ArgumentException("User model cannot be null");
-
-        //     if (string.IsNullOrEmpty(userDTO.CurrentPassword) || string.IsNullOrEmpty(userDTO.NewPassword))
-        //         throw new Exception("New and old password can't be empty");
-
-        //     var user = await _userManager.FindByNameAsync(userDTO.UserName);
-        //     if (user is null)
-        //         throw new Exception("Couldn't find user");
-
-        //     var result = await _userManager.ChangePasswordAsync(user, userDTO.OldPassword, userDTO.NewPassword);
-
-        //     if (!result.Succeeded)
-        //         throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
-        // }
-
-
         public async Task<VerifiedUserDto> LoginUser(LoginUserDto userDto, string IpAddress)
         {
             if (userDto is null && string.IsNullOrEmpty(IpAddress))
@@ -179,7 +160,7 @@ namespace MTS.Core.Services.Authentication
                                                .Include(e => e.RefreshTokens) // consider .Take(n)
                                                .FirstOrDefaultAsync();
 
-            return await HandleLogin(user!, userDto!.Password, IpAddress);
+            return await HandleLogin(user!, userDto!.Password!, IpAddress);
         }
 
         private async Task<VerifiedUserDto> HandleLogin(ApplicationUserModel user, string password, string ipAddress)
@@ -193,12 +174,13 @@ namespace MTS.Core.Services.Authentication
                 throw new EndpointException("Couldn't log in, check your login or password");
 
             var refreshToken = _refreshTokenService.CreateRefreshToken(ipAddress);
-            user!.RefreshTokens?.Add(refreshToken);
+            user.RefreshTokens ??= new();
+            user.RefreshTokens?.Add(refreshToken);
 
             var roles = await _userManager.GetRolesAsync(user!);
             var token = _jwtAuthentication.GenerateJsonWebToken(user!, roles);
 
-            await _refreshTokenService.RemoveOldRefreshTokens(user);
+            _refreshTokenService.RemoveOldRefreshTokens(user);
 
             // save removal of old refresh tokens
             await _userManager.UpdateAsync(user);
