@@ -50,7 +50,9 @@ const MePage = () => {
               <span className="key">Avatar Url: </span>
               <span>
                 {userData.avatarUrl ? (
-                  <NavLink to={userData.avatarUrl}>Click here</NavLink>
+                  <a target="_blank" href={userData.avatarUrl}>
+                    Click here
+                  </a>
                 ) : (
                   <FaGhost />
                 )}

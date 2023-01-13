@@ -19,20 +19,22 @@ const ChangeAvatarPage = () => {
 
   const acceptImage = async () => {
     setIsUpdating(true);
+    let url = avatarInput.current.value;
 
     let result = await UsersService.postApiUsersAvatar({
       requestBody: {
-        avatarUrl: avatarInput.current.value,
+        avatarUrl: url,
       },
     });
 
     if (result.isSuccess) {
-      let userState = authContext.authState;
-      userState.avatarUrl = avatarInput.current.value;
-
-      authContext.setAuthState(userState);
+      authContext.setAuthState({
+        ...authContext.authState,
+        avatarUrl: url,
+      });
     }
 
+    setAvatarUrl(url);
     setIsUpdating(false);
   };
 
@@ -61,7 +63,9 @@ const ChangeAvatarPage = () => {
           <span className="key">Current Avatar Url: </span>
           <span>
             {authContext.authState.avatarUrl ? (
-              <NavLink to={authContext.authState.avatarUrl}>Click here</NavLink>
+              <a target="_blank" href={authContext.authState.avatarUrl}>
+                Click here
+              </a>
             ) : (
               <FaGhost />
             )}
