@@ -70,7 +70,7 @@ export const ClientRouter = () => {
           <Route path="email" element={<ChangeEmailPage />} />
           <Route path="username" element={<ChangeUsernamePage />} />
           <Route path="password" element={<ChangePasswordPage />} />
-          <Route path="loginlogs/*" element={<LoginLogsPage />}>
+          <Route path="logs/*" element={<LoginLogsPage />}>
             <Route path=":page" element={<LoginLogsPaginatorPage />} />
             <Route path="*" element={<Navigate to="1" replace />} />
           </Route>

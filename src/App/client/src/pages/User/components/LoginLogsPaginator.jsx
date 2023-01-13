@@ -11,7 +11,6 @@ const LoginLogsPaginatorPage = () => {
   const [logs, setLogs] = useState([{}]);
 
   useEffect(() => {
-    console.log("Bonk");
     (async () => {
       let result = await LoginLogService.getApiLoginLogPage({
         page: page,

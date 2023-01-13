@@ -59,7 +59,7 @@ const UserPage = () => {
             <NavLink to="me" activeClassName="active" className="item">
               <AiOutlineUser /> Me
             </NavLink>
-            <NavLink to="loginlogs" activeClassName="active" className="item">
+            <NavLink to="logs" activeClassName="active" className="item">
               <HiOutlineClipboard /> Login logs
             </NavLink>
           </div>
