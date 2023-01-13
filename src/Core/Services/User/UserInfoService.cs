@@ -51,9 +51,11 @@ namespace Core.Services.User
         public async Task<bool> ChangeUserAvatarAsync(string avatarUrl)
         {
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
-
             if (user is null)
                 throw new EndpointException("Couldn't find this user");
+
+            if (user.AvatarUrl == avatarUrl)
+                return true;
 
             user.AvatarUrl = avatarUrl ?? "";
 

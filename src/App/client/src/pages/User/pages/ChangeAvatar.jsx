@@ -22,6 +22,9 @@ const ChangeAvatarPage = () => {
     setIsUpdating(true);
 
     let url = avatarInput.current.value;
+
+    if (url === authContext.authState.avatarUrl) return;
+
     let result = await UsersService.postApiUsersAvatar({
       requestBody: {
         avatarUrl: url,
