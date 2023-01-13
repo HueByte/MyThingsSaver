@@ -19,7 +19,7 @@ const LoginLogsPage = () => {
 
       setTotalPages(totalPages);
 
-      if (page > totalPages) {
+      if (page > totalPages || page <= 0) {
         navigate("1", { replace: true });
       }
 

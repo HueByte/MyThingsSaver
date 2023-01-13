@@ -34,7 +34,7 @@ namespace MTS.Infrastructure.Services.Geolocation
             return null;
         }
 
-        private bool ValidateIPv4(string ipString)
+        private static bool ValidateIPv4(string ipString)
         {
             if (string.IsNullOrWhiteSpace(ipString))
             {
