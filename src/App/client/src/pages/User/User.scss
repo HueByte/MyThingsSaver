@@ -110,6 +110,8 @@
                     padding: 1em;
                     position: relative;
                     font-size: medium;
+                    animation-name: showContent;
+                    animation-duration: 500ms;
 
                     &:not(:first-child) {
                         margin-top: 1.5em;
@@ -176,5 +178,17 @@
                 }
             }
         }
+    }
+}
+
+@keyframes showContent {
+    from {
+        opacity: 0;
+        transform: translate(-10px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
     }
 }
