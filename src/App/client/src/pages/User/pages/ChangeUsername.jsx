@@ -11,22 +11,16 @@ const ChangeUsernamePage = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const usernameInput = useRef();
 
-  useEffect(() => {
-    usernameInput.current = document.getElementById("username-input");
-  }, []);
-
   const updateUsername = async () => {
-    setIsUpdating(true);
-
     let newUsername = usernameInput.current.value;
     if (
       !newUsername.length > 0 ||
       newUsername === authContext.authState.username
     ) {
-      setIsUpdating(false);
       return;
     }
 
+    setIsUpdating(true);
     let result = await AuthService.postApiAuthUsername({
       requestBody: { username: newUsername },
     });
@@ -52,7 +46,7 @@ const ChangeUsernamePage = () => {
             <div className="input-block">
               <div className="key">New username: </div>
               <input
-                id="username-input"
+                ref={usernameInput}
                 type="text"
                 className="mts-input input"
                 placeholder={authContext.authState.username}

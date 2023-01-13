@@ -14,10 +14,6 @@ const ChangeAvatarPage = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const avatarInput = useRef();
 
-  useEffect(() => {
-    avatarInput.current = document.getElementById("avatar-input");
-  }, []);
-
   const acceptImage = async () => {
     let url = avatarInput.current.value;
     if (url === authContext.authState.avatarUrl) return;
@@ -77,7 +73,7 @@ const ChangeAvatarPage = () => {
           </span>
         </div>
         <input
-          id="avatar-input"
+          ref={avatarInput}
           type="text"
           className="mts-input avatar-input"
           placeholder="Place your new avatar url here"

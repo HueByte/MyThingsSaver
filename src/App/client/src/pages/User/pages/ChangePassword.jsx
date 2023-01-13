@@ -13,16 +13,6 @@ const ChangePasswordPage = () => {
   const repeatedPasswordInput = useRef();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    currentPasswordInput.current = document.getElementById(
-      "current-password-input"
-    );
-    newPasswordInput.current = document.getElementById("new-password-input");
-    repeatedPasswordInput.current = document.getElementById(
-      "repeated-password-input"
-    );
-  }, []);
-
   const updatePassword = async () => {
     if (
       currentPasswordInput.length === 0 ||
@@ -65,7 +55,7 @@ const ChangePasswordPage = () => {
             <div className="input-block">
               <div className="key">Current Password: </div>
               <input
-                id="current-password-input"
+                ref={currentPasswordInput}
                 type="password"
                 className="mts-input input"
               />
@@ -73,7 +63,7 @@ const ChangePasswordPage = () => {
             <div className="input-block">
               <div className="key">New Password: </div>
               <input
-                id="new-password-input"
+                ref={newPasswordInput}
                 type="password"
                 className="mts-input input"
               />
@@ -81,7 +71,7 @@ const ChangePasswordPage = () => {
             <div className="input-block">
               <div className="key">Repeat Password: </div>
               <input
-                id="repeated-password-input"
+                ref={repeatedPasswordInput}
                 type="password"
                 className="mts-input input"
               />
