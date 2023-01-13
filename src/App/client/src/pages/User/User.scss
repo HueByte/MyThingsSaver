@@ -175,6 +175,10 @@
                         .item {
                             font-size: medium;
                             margin: 1em 1em 0 0;
+
+                            &:last-child {
+                                margin-right: 0;
+                            }
                         }
 
                         .accept {
@@ -183,7 +187,6 @@
 
                         .cancel {
                             color: theme.$secondary;
-                            margin-right: 0;
                         }
                     }
                 }

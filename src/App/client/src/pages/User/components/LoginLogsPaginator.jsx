@@ -1,0 +1,63 @@
+import { useEffect, useState } from "react";
+import { useOutletContext, useParams } from "react-router";
+import { LoginLogService } from "../../../api";
+import Loader from "../../../components/Loaders/Loader";
+import "../pages/LoginLogs.scss";
+
+const LoginLogsPaginatorPage = () => {
+  const { logsPerPage } = useOutletContext();
+  const { page } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+  const [logs, setLogs] = useState([{}]);
+
+  useEffect(() => {
+    console.log("Bonk");
+    (async () => {
+      let result = await LoginLogService.getApiLoginLogPage({
+        page: page,
+        pageSize: logsPerPage,
+      });
+
+      if (result.isSuccess) {
+        setLogs(result.data);
+      }
+
+      setIsLoading(false);
+    })();
+  }, [page]);
+
+  return (
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          {logs.map((log) => (
+            <div key={log.id} className="log">
+              <div className="log-dic">
+                <div className="log-key log-id">ID: </div>
+                <div className="log-value">{log.id}</div>
+              </div>
+              <div className="log-dic">
+                <div className="log-key log-ip">IP address:</div>
+                <div className="log-value">{log.ipAddress}</div>
+              </div>
+              <div className="log-dic">
+                <div className="log-key log-date">Date: </div>
+                <div className="log-value">
+                  {new Date(log.loginDate).toDateString()}
+                </div>
+              </div>
+              <div className="log-dic">
+                <div className="log-key log-location">Location:</div>
+                <div className="log-value">{log.location}</div>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+    </>
+  );
+};
+
+export default LoginLogsPaginatorPage;

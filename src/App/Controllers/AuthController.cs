@@ -57,7 +57,7 @@ namespace MTS.App.Controllers
         [HttpPost("avatar")]
         [ProducesResponseType(200)]
         [Authorize]
-        public async Task<IActionResult> SetUserAvatar(UserAvatarDto userAvatarDto)
+        public async Task<IActionResult> SetUserAvatar([FromBody] UserAvatarDto userAvatarDto)
         {
             _ = await _userService.ChangeUserAvatarAsync(userAvatarDto?.AvatarUrl!);
 
@@ -66,7 +66,7 @@ namespace MTS.App.Controllers
 
         [HttpPost("username")]
         [Authorize]
-        public async Task<IActionResult> SetUsername(ChangeUsernameDto userUsernameDto)
+        public async Task<IActionResult> SetUsername([FromBody] ChangeUsernameDto userUsernameDto)
         {
             _ = await _userService.ChangeUsernameAsync(userUsernameDto?.Username!, userUsernameDto?.Password!);
 
@@ -75,7 +75,7 @@ namespace MTS.App.Controllers
 
         [HttpPost("password")]
         [Authorize]
-        public async Task<IActionResult> SetPassword(ChangePasswordDto userPasswordDto)
+        public async Task<IActionResult> SetPassword([FromBody] ChangePasswordDto userPasswordDto)
         {
             _ = await _userService.ChangePasswordAsync(userPasswordDto?.CurrentPassword!, userPasswordDto?.NewPassword!);
 

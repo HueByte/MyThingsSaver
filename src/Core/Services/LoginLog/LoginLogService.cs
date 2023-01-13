@@ -23,11 +23,31 @@ namespace Core.Services.LoginLog
             _geolocationService = geolocationService;
         }
 
+        public async Task<int> GetLoginLogsCountAsync()
+        {
+            var allQuery = await _loginLogRepository.GetAllAsync();
+
+            return await allQuery.CountAsync();
+        }
+
         public async Task<List<LoginLogModel>> GetAllLoginLogsAsync()
         {
             var allQuery = await _loginLogRepository.GetAllAsync();
 
-            return await allQuery.OrderByDescending(prop => prop.LoginDate).ToListAsync();
+            return await allQuery.OrderByDescending(prop => prop.LoginDate)
+                .ToListAsync();
+        }
+
+        public async Task<List<LoginLogModel>> GetLoginLogsPaginatedAsync(int page, int pageSize)
+        {
+            var allQuery = await _loginLogRepository.GetAllAsync();
+
+            page = page <= 0 ? 1 : page;
+
+            return await allQuery.OrderByDescending(prop => prop.LoginDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task LogLoginAsync(ApplicationUserModel user, string ipAddress)

@@ -2,22 +2,49 @@ import { useEffect, useState } from "react";
 import { LoginLogService } from "../../../api";
 import "./LoginLogs.scss";
 import Loader from "../../../components/Loaders/Loader";
+import { Outlet, useNavigate, useParams } from "react-router";
+import { NavLink } from "react-router-dom";
 
 const LoginLogsPage = () => {
+  const pageSize = 5;
+  const { page } = useParams();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [logs, setLogs] = useState([{}]);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     (async () => {
-      let result = await LoginLogService.getApiLoginLog();
+      let logsCount = await LoginLogService.getApiLoginLogCount();
+      let totalPages = Math.ceil(logsCount.data / pageSize);
 
-      if (result.isSuccess) {
-        setLogs(result.data);
+      setTotalPages(totalPages);
+
+      if (page > totalPages) {
+        navigate("1", { replace: true });
       }
 
       setIsLoading(false);
     })();
   }, []);
+
+  const renderButtons = () => {
+    let buttons = [];
+
+    for (let index = 0; index < totalPages; index++) {
+      buttons.push(
+        <NavLink
+          to={`${index + 1}`}
+          key={index}
+          className={`mts-button item ${page === index + 1 ? "active" : ""}`}
+        >
+          {index + 1}
+        </NavLink>
+      );
+    }
+
+    return buttons;
+  };
+
   return (
     <>
       {isLoading ? (
@@ -28,29 +55,9 @@ const LoginLogsPage = () => {
         <div className="panel">
           <div className="panel-name">Login logs</div>
           <div className="logs-container">
-            {logs.map((log) => (
-              <div key={log.id} className="log">
-                <div className="log-dic">
-                  <div className="log-key log-id">ID: </div>
-                  <div className="log-value">{log.id}</div>
-                </div>
-                <div className="log-dic">
-                  <div className="log-key log-ip">IP address:</div>
-                  <div className="log-value">{log.ipAddress}</div>
-                </div>
-                <div className="log-dic">
-                  <div className="log-key log-date">Date: </div>
-                  <div className="log-value">
-                    {new Date(log.loginDate).toDateString()}
-                  </div>
-                </div>
-                <div className="log-dic">
-                  <div className="log-key log-location">Location:</div>
-                  <div className="log-value">{log.location}</div>
-                </div>
-              </div>
-            ))}
+            <Outlet context={{ logsPerPage: pageSize }} />
           </div>
+          <div className="action-buttons">{renderButtons()}</div>
         </div>
       )}
     </>

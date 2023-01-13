@@ -19,6 +19,9 @@ const Explorer = React.lazy(() => import("../pages/Explorer/Explorer"));
 const UserPage = React.lazy(() => import("../pages/User/User"));
 const MePage = React.lazy(() => import("../pages/User/pages/Me"));
 const LoginLogsPage = React.lazy(() => import("../pages/User/pages/LoginLogs"));
+const LoginLogsPaginatorPage = React.lazy(() =>
+  import("../pages/User/components/LoginLogsPaginator")
+);
 const ChangeEmailPage = React.lazy(() =>
   import("../pages/User/pages/ChangeEmail")
 );
@@ -67,7 +70,10 @@ export const ClientRouter = () => {
           <Route path="email" element={<ChangeEmailPage />} />
           <Route path="username" element={<ChangeUsernamePage />} />
           <Route path="password" element={<ChangePasswordPage />} />
-          <Route path="loginlogs" element={<LoginLogsPage />} />
+          <Route path="loginlogs/*" element={<LoginLogsPage />}>
+            <Route path=":page" element={<LoginLogsPaginatorPage />} />
+            <Route path="*" element={<Navigate to="1" replace />} />
+          </Route>
           <Route path="*" element={<Navigate to="me" replace />} />
         </Route>
 
