@@ -43,7 +43,7 @@ const Explorer = () => {
         );
 
         setLastUsedPath(result?.path.split("/"));
-        if (result) navigate(`/explore/${result?.id}}`, { replace: true });
+        if (result) navigate(`/explore/${result?.id}`, { replace: true });
       }
     }
 
