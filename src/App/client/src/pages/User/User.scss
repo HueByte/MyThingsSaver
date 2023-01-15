@@ -38,8 +38,8 @@
             }
 
             .avatar {
-                width: 100%;
-                min-height: 200px;
+                width: clamp(250px, 250px, 250px);
+                height: clamp(250px, 250px, 250px);
                 overflow: hidden;
 
                 img {
