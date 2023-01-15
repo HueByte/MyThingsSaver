@@ -10,8 +10,11 @@ build/
 Release/
 Deploy/
 local
-**/api/*
-**/api2/*
+**/api/core
+**/api/models
+**/api/services
+**/api/index.ts
+**/api/swagger.json
 
 # pem
 *.pem

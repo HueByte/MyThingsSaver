@@ -132,8 +132,8 @@ namespace MTS.Core.Entities
                     errors.Add("Incorrect logger time interval");
 
                 // validate connection strings
-                if (string.IsNullOrEmpty(settings.ConnectionStrings?.DatabaseConnectionString) || string.IsNullOrEmpty(settings.ConnectionStrings.SQLiteConnectionString))
-                    errors.Add("Check your database connection strings");
+                // if (string.IsNullOrEmpty(settings.ConnectionStrings?.DatabaseConnectionString) || string.IsNullOrEmpty(settings.ConnectionStrings.SQLiteConnectionString))
+                //     errors.Add("Check your database connection strings");
 
                 // validate JWT
                 if (string.IsNullOrEmpty(settings.JWT?.Key) || settings.JWT.Key.Length < 32)
