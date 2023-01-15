@@ -1,4 +1,5 @@
 @use "../../../styles/theme" as theme;
+@use "../../../styles/variables" as variables;
 
 .panel {
     .logs-container {
@@ -36,4 +37,20 @@
     .active {
         color: theme.$primaryLight;
     }
+}
+
+@media screen and (max-width: variables.$small-resolution) {
+    .panel {
+        .logs-container {
+            .log {
+
+                .log-dic {
+                    margin-top: 0.5em;
+                    flex-direction: column;
+                    gap: 5px;
+                }
+            }
+        }
+    }
+
 }

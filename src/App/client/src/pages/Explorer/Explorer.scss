@@ -318,6 +318,5 @@ $content-column-title-width: 150px;
 @media screen and (max-width: variables.$mobile-resolution) {
   .categories__wrapper {
     height: 100vh;
-    padding-top: variables.$top-menu-height-mobile;
   }
 }

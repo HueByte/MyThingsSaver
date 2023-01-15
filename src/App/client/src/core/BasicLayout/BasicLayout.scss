@@ -33,10 +33,11 @@
     z-index: 5;
   }
 
-  .bottom-wave > svg {
+  .bottom-wave>svg {
     width: Calc(100% + 40px);
     height: 100%;
-    transform: translateY(3px); /* for some reason */
+    transform: translateY(3px);
+    /* for some reason */
     display: inline-block;
   }
 }
@@ -58,4 +59,9 @@
 }
 
 @media screen and (max-width: variables.$mobile-resolution) {
+  .interface__wrapper {
+    .main__wrapper {
+      padding-top: variables.$top-menu-height-mobile;
+    }
+  }
 }
