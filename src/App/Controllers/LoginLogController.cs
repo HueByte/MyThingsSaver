@@ -19,7 +19,7 @@ namespace App.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var logs = await _loginLogService.GetAllLoginLogsAsync();
+            var logs = await _loginLogService.GetAllUserLoginLogsAsync();
 
             return ApiResponse.Data(logs);
         }

@@ -3,9 +3,9 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";
-import DefaultAvatar from "../../assets/DefaultAvatar.png";
-import { AiOutlineUser } from "react-icons/ai";
+import { AiFillFire, AiOutlineUser } from "react-icons/ai";
 import { HiOutlineClipboard } from "react-icons/hi";
+import { Role } from "../../api/Roles";
 
 const UserPage = () => {
   const authContext = useContext(AuthContext);
@@ -30,15 +30,7 @@ const UserPage = () => {
       <div className="user-panel">
         <div className="user-card border-gradient">
           <div className="avatar">
-            <img
-              src={
-                authContext.authState.avatarUrl &&
-                !authContext.authState.avatarUrl.length >= 0
-                  ? authContext.authState.avatarUrl
-                  : DefaultAvatar
-              }
-              alt="avatar"
-            />
+            <img src={authContext.getAvatar()} alt="avatar" />
           </div>
           <abbr
             title={authContext.authState?.username}
@@ -62,6 +54,17 @@ const UserPage = () => {
             <NavLink to="logs" activeClassName="active" className="item">
               <HiOutlineClipboard /> Login logs
             </NavLink>
+            {authContext.isInRole([Role.Admin]) ? (
+              <NavLink
+                to="admin/logs"
+                activeClassName="active"
+                className="item"
+              >
+                <AiFillFire /> Admin logs
+              </NavLink>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="content-page">
             <Outlet />

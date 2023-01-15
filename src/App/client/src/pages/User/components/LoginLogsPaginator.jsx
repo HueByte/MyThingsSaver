@@ -5,33 +5,48 @@ import {
   AiFillCloud,
   AiFillHome,
 } from "react-icons/ai";
-import { useOutletContext, useParams } from "react-router";
-import { LoginLogService } from "../../../api";
+import { useNavigate, useOutletContext, useParams } from "react-router";
+import { AdminService, LoginLogService } from "../../../api";
 import Loader from "../../../components/Loaders/Loader";
 import "../pages/LoginLogs.scss";
 
-const LoginLogsPaginatorPage = () => {
+const LoginLogsPaginatorPage = ({ isAdmin }) => {
   const { logsPerPage } = useOutletContext();
   const { page } = useParams();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [logs, setLogs] = useState([{}]);
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-
-      let result = await LoginLogService.getApiLoginLogPaginated({
-        page: page,
-        pageSize: logsPerPage,
-      });
-
-      if (result.isSuccess) {
-        setLogs(result.data);
-      }
-
+      await fetchLogs();
       setIsLoading(false);
     })();
   }, [page]);
+
+  const fetchLogs = async () => {
+    let result = {};
+    if (isAdmin) {
+      try {
+        result = await AdminService.getApiAdminLoginLogs({
+          page: page,
+          pageSize: logsPerPage,
+        });
+      } catch (err) {
+        navigate("1", { replace: true });
+      }
+    } else {
+      result = await LoginLogService.getApiLoginLogPaginated({
+        page: page,
+        pageSize: logsPerPage,
+      });
+    }
+
+    if (result.isSuccess) {
+      setLogs(result.data);
+    }
+  };
 
   return (
     <>
@@ -43,7 +58,7 @@ const LoginLogsPaginatorPage = () => {
             <div key={log.id} className="log">
               <div className="log-dic">
                 <div className="log-key log-id">
-                  <AiFillBug /> ID:{" "}
+                  <AiFillBug /> ID:
                 </div>
                 <div className="log-value">{log.id}</div>
               </div>

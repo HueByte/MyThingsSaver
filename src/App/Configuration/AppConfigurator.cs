@@ -58,6 +58,17 @@ namespace MTS.App.Configuration
                 else Console.WriteLine("User {0} failed to be assigned to admin role.", user);
             }
 
+            var admins = await userManager.GetUsersInRoleAsync(Role.ADMIN);
+            foreach (var user in admins)
+            {
+                if (adminUsers.Contains(user.UserName)) continue;
+
+                var result = await userManager.RemoveFromRoleAsync(user, Role.ADMIN);
+
+                if (result.Succeeded) Console.WriteLine("User {0} was removed from admin role.", user.UserName);
+                else Console.WriteLine("User {0} failed to be removed from admin role.", user.UserName);
+            }
+
             return webapp;
         }
 

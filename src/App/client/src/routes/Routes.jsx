@@ -70,9 +70,18 @@ export const ClientRouter = () => {
           <Route path="email" element={<ChangeEmailPage />} />
           <Route path="username" element={<ChangeUsernamePage />} />
           <Route path="password" element={<ChangePasswordPage />} />
+
           <Route path="logs/*" element={<LoginLogsPage />}>
             <Route path=":page" element={<LoginLogsPaginatorPage />} />
             <Route path="*" element={<Navigate to="1" replace />} />
+          </Route>
+
+          <Route path="admin/*" element={<LoginLogsPage isAdmin={true} />}>
+            <Route
+              path="logs/:page"
+              element={<LoginLogsPaginatorPage isAdmin={true} />}
+            />
+            <Route path="*" element={<Navigate to="logs/1" replace />} />
           </Route>
           <Route path="*" element={<Navigate to="me" replace />} />
         </Route>

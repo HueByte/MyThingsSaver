@@ -35,7 +35,7 @@ namespace Core.Services.LoginLog
             return await allQuery.CountAsync();
         }
 
-        public async Task<List<LoginLogModel>> GetAllLoginLogsAsync()
+        public async Task<List<LoginLogModel>> GetAllUserLoginLogsAsync()
         {
             var allQuery = await _loginLogRepository.GetAllAsync();
 

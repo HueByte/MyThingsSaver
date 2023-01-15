@@ -1,6 +1,10 @@
 @use "../../styles/theme" as theme;
 @use '../../styles/variables' as variables;
 
+$user-card-width: 250px;
+$content-width: calc(100% - $user-card-width - 1em);
+$content-menu-width: 192px;
+
 .user-panel-container {
     display: flex;
     align-items: center;
@@ -16,11 +20,11 @@
 
         .user-card {
             $border-width: 15px;
-            flex: 1;
             display: flex;
             flex-direction: column;
             height: fit-content;
-            width: clamp(250px, 250px, 250px);
+            min-width: $user-card-width;
+            width: $user-card-width;
             border-radius: $border-width;
             border-width: 3px;
 
@@ -38,7 +42,7 @@
             }
 
             .avatar {
-                width: clamp(250px, 250px, 250px);
+                width: 100%;
                 height: clamp(250px, 250px, 250px);
                 overflow: hidden;
 
@@ -72,19 +76,22 @@
         }
 
         .content {
-            flex: 3;
+            flex: 1;
+            min-width: $content-width;
+            max-width: $content-width;
             background-color: theme.$altBackgroundColor;
             border-radius: 15px;
             display: flex;
             flex-direction: row;
+            margin-bottom: 2em;
 
             .menu {
                 display: flex;
                 flex-direction: column;
                 padding: 1em;
                 border-right: 2px solid theme.$primary;
-                min-width: 192px;
-                max-width: 192px;
+                min-width: $content-menu-width;
+                max-width: $content-menu-width;
                 height: 100%;
 
                 .item {
@@ -113,8 +120,9 @@
             }
 
             .content-page {
-                width: 100%;
-                margin: 1em;
+                min-width: calc(100% - $content-menu-width);
+                max-width: calc(100% - $content-menu-width);
+                padding: 1em;
                 position: relative;
 
                 .panel {
@@ -174,14 +182,12 @@
                         display: flex;
                         flex-direction: row;
                         justify-content: flex-end;
+                        max-width: 100%;
+                        margin-top: 1em;
+                        gap: 1em;
 
                         .item {
                             font-size: medium;
-                            margin: 1em 1em 0 0;
-
-                            &:last-child {
-                                margin-right: 0;
-                            }
                         }
 
                         .accept {
@@ -247,6 +253,8 @@
                 .content-page {
                     margin: 0;
                     padding: 1em;
+                    min-width: 100%;
+                    max-width: 100%;
                 }
             }
         }
@@ -257,7 +265,8 @@
     .user-panel-container {
         .user-panel {
             .content {
-                width: 95%;
+                min-width: 95%;
+                max-width: 95%;
             }
         }
     }

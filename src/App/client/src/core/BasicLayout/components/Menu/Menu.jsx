@@ -4,7 +4,6 @@ import { AuthContext } from "../../../../contexts/AuthContext";
 import "./Menu.scss";
 import "./MobileMenu.scss";
 import logo from "../../../../assets/CloudByteColor.png";
-import DefaultAvatar from "../../../../assets/DefaultAvatar.png";
 import HamburgerMenu from "../../../../components/HamburgerMenu/HamburgerMenu";
 import { Role } from "../../../../api/Roles";
 
@@ -37,7 +36,7 @@ const DesktopMenu = ({ logout, authContext }) => {
           <NavLink to="/explore" activeClassName="active" className="item">
             Explorer
           </NavLink>
-          {authContext.authState?.roles?.find((role) => role == Role.Admin) ? (
+          {authContext.isInRole([Role.Admin]) ? (
             <NavLink to="/Settings" activeClassName="active" className="item">
               Settings
             </NavLink>
@@ -47,15 +46,7 @@ const DesktopMenu = ({ logout, authContext }) => {
         </div>
         <div className="right">
           <NavLink to="/user/me" className="user item">
-            <img
-              src={
-                authContext.authState.avatarUrl &&
-                !authContext.authState.avatarUrl.length >= 0
-                  ? authContext.authState.avatarUrl
-                  : DefaultAvatar
-              }
-              alt="avatar"
-            />
+            <img src={authContext.getAvatar()} alt="avatar" />
             <abbr
               title={authContext.authState?.username}
               className="username ellipsis"
@@ -113,7 +104,7 @@ const MobileMenu = ({ logout, authContext }) => {
         >
           Explorer
         </NavLink>
-        {authContext.authState?.roles?.find((role) => role == Role.Admin) ? (
+        {authContext.isInRole([Role.Admin]) ? (
           <NavLink
             onClick={toggleMenu}
             to="/Settings"

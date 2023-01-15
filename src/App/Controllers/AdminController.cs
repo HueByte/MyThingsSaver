@@ -15,7 +15,7 @@ namespace App.Controllers
             _loginLogService = loginLogService;
         }
 
-        [HttpGet("getLoginLogsCount")]
+        [HttpGet("loginLogsCount")]
         public async Task<IActionResult> GetLoginLogsCount()
         {
             var count = await _loginLogService.GetLoginLogsCountAsync();
