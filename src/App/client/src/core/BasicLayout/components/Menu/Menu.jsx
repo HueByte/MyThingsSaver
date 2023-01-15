@@ -99,6 +99,14 @@ const MobileMenu = ({ logout, authContext }) => {
         </NavLink>
         <NavLink
           onClick={toggleMenu}
+          to="/user/me"
+          activeClassName="active"
+          className="item"
+        >
+          Me
+        </NavLink>
+        <NavLink
+          onClick={toggleMenu}
           to="/explore"
           activeClassName="active"
           className="item"
