@@ -56,7 +56,7 @@ namespace Core.Services.LoginLog
                 throw new EndpointException("User cannot be null");
 
             GeolocationResponse? geolocation;
-            if (ipAddress != IPAddress.Loopback.ToString())
+            if (CheckIfIpAddressIsLocal(ipAddress))
             {
                 geolocation = await _geolocationService.GetGeolocationAsync(ipAddress);
             }
@@ -83,6 +83,15 @@ namespace Core.Services.LoginLog
             await _loginLogRepository.AddAsync(loginLog);
             await _loginLogRepository.SaveChangesAsync();
             _logger.LogInformation("Login log created");
+        }
+
+        private bool CheckIfIpAddressIsLocal(string ipAddress)
+        {
+            return ipAddress == IPAddress.Loopback.ToString()
+                || ipAddress.StartsWith("0")
+                || ipAddress.StartsWith("10")
+                || ipAddress.StartsWith("172")
+                || ipAddress.StartsWith("192");
         }
     }
 }
