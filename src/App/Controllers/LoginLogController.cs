@@ -27,15 +27,15 @@ namespace App.Controllers
         [HttpGet("count")]
         public async Task<IActionResult> GetCount()
         {
-            var count = await _loginLogService.GetLoginLogsCountAsync();
+            var count = await _loginLogService.GetUserLoginLogsCountAsync();
 
             return ApiResponse.ValueType(count);
         }
 
-        [HttpGet("page")]
+        [HttpGet("paginated")]
         public async Task<IActionResult> GetPaginated([FromQuery] int page, [FromQuery] int pageSize)
         {
-            var logs = await _loginLogService.GetLoginLogsPaginatedAsync(page, pageSize);
+            var logs = await _loginLogService.GetUserLoginLogsPaginatedAsync(page, pageSize);
 
             return ApiResponse.Data(logs);
         }

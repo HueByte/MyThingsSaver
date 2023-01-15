@@ -20,7 +20,7 @@ const LoginLogsPaginatorPage = () => {
     (async () => {
       setIsLoading(true);
 
-      let result = await LoginLogService.getApiLoginLogPage({
+      let result = await LoginLogService.getApiLoginLogPaginated({
         page: page,
         pageSize: logsPerPage,
       });

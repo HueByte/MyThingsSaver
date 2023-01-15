@@ -26,7 +26,7 @@ namespace MTS.App.Controllers
             return ApiResponse.Data(data);
         }
 
-        [HttpGet("All")]
+        [HttpGet("all")]
         [ProducesResponseType(typeof(BaseApiResponse<List<CategoryModel>>), 200)]
         public async Task<IActionResult> GetAll()
         {
@@ -35,7 +35,7 @@ namespace MTS.App.Controllers
             return ApiResponse.Data(data);
         }
 
-        [HttpGet("AllRoot")]
+        [HttpGet("allRoot")]
         [ProducesResponseType(typeof(BaseApiResponse<List<CategoryModel>>), 200)]
         public async Task<IActionResult> GetAllRoot()
         {
@@ -44,7 +44,7 @@ namespace MTS.App.Controllers
             return ApiResponse.Data(data);
         }
 
-        [HttpGet("AllSub")]
+        [HttpGet("allSub")]
         [ProducesResponseType(typeof(BaseApiResponse<List<CategoryModel>>), 200)]
         public async Task<IActionResult> GetAllSub([FromQuery] string parentId)
         {
@@ -53,7 +53,7 @@ namespace MTS.App.Controllers
             return ApiResponse.Data(data);
         }
 
-        [HttpGet("WithEntries")]
+        [HttpGet("withEntries")]
         [ProducesResponseType(typeof(BaseApiResponse<CategoryModel>), 200)]
         public async Task<IActionResult> GetCategoryWithEntries([FromQuery] string categoryId)
         {

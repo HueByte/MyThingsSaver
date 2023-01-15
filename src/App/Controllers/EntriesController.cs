@@ -25,7 +25,7 @@ namespace MTS.App.Controllers
             return ApiResponse.Data(data);
         }
 
-        [HttpGet("All")]
+        [HttpGet("all")]
         [ProducesResponseType(typeof(BaseApiResponse<List<EntryModel>>), 200)]
         public async Task<IActionResult> GetAll([FromQuery] string categoryId, bool withContent)
         {
@@ -34,7 +34,7 @@ namespace MTS.App.Controllers
             return ApiResponse.Data(data);
         }
 
-        [HttpGet("Recent")]
+        [HttpGet("recent")]
         [ProducesResponseType(typeof(BaseApiResponse<List<EntryModel>>), 200)]
         public async Task<IActionResult> GetRecent()
         {

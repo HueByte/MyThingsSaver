@@ -25,6 +25,11 @@ namespace Core.Services.LoginLog
 
         public async Task<int> GetLoginLogsCountAsync()
         {
+            return await _loginLogRepository.GetQueryable().CountAsync();
+        }
+
+        public async Task<int> GetUserLoginLogsCountAsync()
+        {
             var allQuery = await _loginLogRepository.GetAllAsync();
 
             return await allQuery.CountAsync();
@@ -40,11 +45,20 @@ namespace Core.Services.LoginLog
 
         public async Task<List<LoginLogModel>> GetLoginLogsPaginatedAsync(int page, int pageSize)
         {
-            var allQuery = await _loginLogRepository.GetAllAsync();
+            return await GetPaginatedLoginLogsAsync(_loginLogRepository.GetQueryable(), page, pageSize);
+        }
 
+        public async Task<List<LoginLogModel>> GetUserLoginLogsPaginatedAsync(int page, int pageSize)
+        {
+
+            return await GetPaginatedLoginLogsAsync(await _loginLogRepository.GetAllAsync(), page, pageSize);
+        }
+
+        private static async Task<List<LoginLogModel>> GetPaginatedLoginLogsAsync(IQueryable<LoginLogModel> query, int page, int pageSize)
+        {
             page = page <= 0 ? 1 : page;
 
-            return await allQuery.OrderByDescending(prop => prop.LoginDate)
+            return await query.OrderByDescending(prop => prop.LoginDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -56,7 +70,7 @@ namespace Core.Services.LoginLog
                 throw new EndpointException("User cannot be null");
 
             GeolocationResponse? geolocation;
-            if (CheckIfIpAddressIsLocal(ipAddress))
+            if (!CheckIfIpAddressIsLocal(ipAddress))
             {
                 geolocation = await _geolocationService.GetGeolocationAsync(ipAddress);
             }
@@ -85,7 +99,7 @@ namespace Core.Services.LoginLog
             _logger.LogInformation("Login log created");
         }
 
-        private bool CheckIfIpAddressIsLocal(string ipAddress)
+        private static bool CheckIfIpAddressIsLocal(string ipAddress)
         {
             return ipAddress == IPAddress.Loopback.ToString()
                 || ipAddress.StartsWith("0")
