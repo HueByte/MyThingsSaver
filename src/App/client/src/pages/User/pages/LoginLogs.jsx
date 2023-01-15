@@ -48,7 +48,7 @@ const LoginLogsPage = ({ isAdmin }) => {
       return;
     }
 
-    navigate(`logs/${newPage}`, { replace: true });
+    navigate(isAdmin ? `logs/${newPage}` : `${newPage}`, { replace: true });
     document.getElementById(`log-page-${newPage}`).scrollIntoView();
   };
 
@@ -61,7 +61,7 @@ const LoginLogsPage = ({ isAdmin }) => {
           id={`log-page-${index + 1}`}
           to={isAdmin ? `logs/${index + 1}` : `${index + 1}`}
           key={index}
-          className={`mts-button item ${page === index + 1 ? "active" : ""}`}
+          className={`mts-button item${page === index + 1 ? "active" : ""}`}
         >
           {index + 1}
         </NavLink>
