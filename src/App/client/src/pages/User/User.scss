@@ -1,31 +1,30 @@
 @use "../../styles/theme" as theme;
 @use '../../styles/variables' as variables;
 
+$user-panel-width: variables.$medium-resolution;
 $user-card-width: 250px;
+$user-card-border-radius: 15px;
 $content-width: calc(100% - $user-card-width - 1em);
 $content-menu-width: 192px;
+$content-page-width: calc(100% - $content-menu-width);
 
 .user-panel-container {
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 100%;
 
     .user-panel {
         display: flex;
         flex-direction: row;
         gap: 1em;
-        width: variables.$medium-resolution;
+        width: $user-panel-width;
         padding-top: 2em;
 
         .user-card {
-            $border-width: 15px;
             display: flex;
             flex-direction: column;
             height: fit-content;
-            min-width: $user-card-width;
-            width: $user-card-width;
-            border-radius: $border-width;
+            width: clamp($user-card-width, $user-card-width, $user-card-width);
+            border-radius: $user-card-border-radius;
             border-width: 3px;
 
             &>* {
@@ -34,11 +33,11 @@ $content-menu-width: 192px;
             }
 
             & div:first-child {
-                border-radius: $border-width $border-width 0 0;
+                border-radius: $user-card-border-radius $user-card-border-radius 0 0;
             }
 
             & div:last-child {
-                border-radius: 0 0 $border-width $border-width;
+                border-radius: 0 0 $user-card-border-radius $user-card-border-radius;
             }
 
             .avatar {
@@ -66,6 +65,7 @@ $content-menu-width: 192px;
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
+                flex-wrap: wrap;
                 gap: 1em;
 
                 .badge {
@@ -76,22 +76,19 @@ $content-menu-width: 192px;
         }
 
         .content {
-            flex: 1;
-            min-width: $content-width;
-            max-width: $content-width;
-            background-color: theme.$altBackgroundColor;
-            border-radius: 15px;
             display: flex;
             flex-direction: row;
+            width: clamp($content-width, $content-width, $content-width);
             margin-bottom: 2em;
+            background-color: theme.$altBackgroundColor;
+            border-radius: 15px;
 
             .menu {
                 display: flex;
                 flex-direction: column;
                 padding: 1em;
                 border-right: 2px solid theme.$primary;
-                min-width: $content-menu-width;
-                max-width: $content-menu-width;
+                width: clamp($content-menu-width, $content-menu-width, $content-menu-width);
                 height: 100%;
 
                 .item {
@@ -120,17 +117,16 @@ $content-menu-width: 192px;
             }
 
             .content-page {
-                min-width: calc(100% - $content-menu-width);
-                max-width: calc(100% - $content-menu-width);
+                width: clamp($content-page-width, $content-page-width, $content-page-width);
                 padding: 1em;
                 position: relative;
 
                 .panel {
-                    border: 1px solid theme.$primary;
-                    border-radius: 10px;
+                    position: relative;
                     width: 100%;
                     padding: 1em;
-                    position: relative;
+                    border: 1px solid theme.$primary;
+                    border-radius: 10px;
                     font-size: medium;
                     animation-name: showContent;
                     animation-duration: 500ms;
@@ -235,15 +231,12 @@ $content-menu-width: 192px;
                 .menu {
                     flex-direction: row;
                     border-right: none;
-                    min-width: 100%;
-                    max-width: 100%;
+                    width: clamp(100%, 100%, 100%);
                     height: 3em;
                     padding: 0.5em;
                     gap: 2em;
 
                     .item {
-                        text-align: center;
-
                         &:not(:first-child) {
                             margin-top: 0;
                         }
@@ -251,10 +244,7 @@ $content-menu-width: 192px;
                 }
 
                 .content-page {
-                    margin: 0;
-                    padding: 1em;
-                    min-width: 100%;
-                    max-width: 100%;
+                    width: clamp(100%, 100%, 100%);
                 }
             }
         }
@@ -265,8 +255,7 @@ $content-menu-width: 192px;
     .user-panel-container {
         .user-panel {
             .content {
-                min-width: 95%;
-                max-width: 95%;
+                width: clamp(95%, 95%, 95%);
             }
         }
     }
