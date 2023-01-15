@@ -10,7 +10,7 @@ const LoginLogsPage = () => {
   const { page } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     (async () => {

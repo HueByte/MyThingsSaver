@@ -18,15 +18,16 @@
             .log-dic {
                 display: flex;
                 flex-direction: row;
+                font-size: 0.9em;
                 gap: 0.5em;
 
                 .log-key {
-                    flex: 1;
+                    flex: 2;
                     color: theme.$primaryLight;
                 }
 
                 .log-value {
-                    flex: 3;
+                    flex: 4;
                 }
             }
         }
