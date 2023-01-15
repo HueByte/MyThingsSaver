@@ -132,6 +132,7 @@ $content-column-title-width: 150px;
       border-radius: 0 15px 15px 0;
       min-width: 50px;
       flex: 9;
+      position: relative;
 
       .content {
         display: flex;

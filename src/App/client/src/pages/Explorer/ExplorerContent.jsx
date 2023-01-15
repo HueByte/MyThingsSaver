@@ -32,17 +32,12 @@ const ExplorerContent = () => {
   // fetch entries once url parameter is retrieved
   useEffect(() => {
     (async () => {
+      setIsLoadingEntries(true);
       await fetchEntries(categoryId);
     })();
   }, [categoryId]);
 
-  useEffect(() => {
-    setIsLoadingEntries(false);
-  }, [currentEntries]);
-
   const fetchEntries = async (categoryId) => {
-    setIsLoadingEntries(true);
-
     let result = await EntriesService.getApiEntriesAll({
       categoryId: categoryId,
       withContent: false,
@@ -50,6 +45,7 @@ const ExplorerContent = () => {
 
     setCurrentEntries(result.data.entries);
     setLastUsedId(() => categoryId);
+    setIsLoadingEntries(false);
   };
 
   const invokeDelete = (entry) => {
@@ -153,11 +149,9 @@ const ExplorerContent = () => {
             />
           </div>
         ) : (
-          <>
-            <div className="empty">
-              <FaGhost />
-            </div>
-          </>
+          <div className="empty">
+            <FaGhost />
+          </div>
         )
       ) : (
         <Loader />

@@ -18,6 +18,8 @@ const LoginLogsPaginatorPage = () => {
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
+
       let result = await LoginLogService.getApiLoginLogPage({
         page: page,
         pageSize: logsPerPage,

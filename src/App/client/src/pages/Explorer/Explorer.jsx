@@ -37,14 +37,19 @@ const Explorer = () => {
     } else {
       let lastPath = localStorage.getItem("lastPath")?.split("/");
 
+      let result = {};
       if (lastPath) {
-        var result = categoryContext.categories.find(
+        result = categoryContext.categories.find(
           (x) => x.id == lastPath[lastPath.length - 1]
         );
-
-        setLastUsedPath(result?.path.split("/"));
-        if (result) navigate(`/explore/${result?.id}`, { replace: true });
+      } else {
+        result = categoryContext.categories.sort(
+          (a, b) => new Date(b.lastEditedOnDate) == new Date(a.lastEditedOnDate)
+        )[0];
       }
+
+      setLastUsedPath(result?.path.split("/"));
+      if (result) navigate(`/explore/${result?.id}`, { replace: true });
     }
 
     setFinishedLoading(true);
