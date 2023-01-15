@@ -204,29 +204,7 @@ namespace MTS.App.Configuration
         {
             _services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "App", Version = "v1" });
-
-                c.AddSecurityDefinition("Cookie", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Cookie,
-                    Description = "Please insert JWT with Bearer into field",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MTS", Version = "v1" });
             });
 
             return this;

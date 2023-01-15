@@ -50,7 +50,7 @@
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition="!Exists('$(SpaRoot)node_modules')">
-    <Message Text="Verifying node environment" />
+    <Message Importance="high" Text="Verifying node environment" />
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
@@ -58,9 +58,13 @@
     <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
   </Target>
-  
+
+  <Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
+    <Exec Command="dotnet swagger tofile --output ./client/src/api/swagger.json $(OutputPath)$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" />
+    <Exec Command="npx openapi --input src/api/swagger.json --output src/api/ --client axios --postfix Service --useOptions --useUnionTypes" WorkingDirectory="$(ProjectDir)/client" />
+  </Target>
+
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)build\**" />
@@ -70,10 +74,5 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </ResolvedFileToPublish>
     </ItemGroup>
-  </Target>
-
-  <Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug' Or $(Configuration)=='Release'">
-    <Exec Command="dotnet swagger tofile --output ./client/src/api/swagger.json $(OutputPath)$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" />
-    <Exec Command="npx openapi --input src/api/swagger.json --output src/api/ --client axios --postfix Service --useOptions --useUnionTypes" WorkingDirectory="$(ProjectDir)/client" />
   </Target>
 </Project>
