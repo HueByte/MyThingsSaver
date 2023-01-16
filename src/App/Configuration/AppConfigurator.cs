@@ -48,21 +48,6 @@ namespace MTS.App.Configuration
                     await roleManager.CreateAsync(new IdentityRole(role));
             }
 
-            var admin = await userManager.FindByNameAsync("admin");
-            if (admin is null)
-            {
-                admin = new()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "admin",
-                    Email = "admin@heaven.org"
-                };
-
-                var result = await userManager.CreateAsync(admin, "Admin12");
-
-                if (result.Succeeded) await userManager.AddToRoleAsync(admin, Role.ADMIN);
-            }
-
             var adminUsers = config.GetSection("Admins")?.Get<string[]>();
 
             if (adminUsers is null || adminUsers.Length <= 0) return webapp;
