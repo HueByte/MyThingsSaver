@@ -1,3 +1,5 @@
+using Core.Entities.Options;
+using Microsoft.Extensions.Options;
 using MTS.App;
 using MTS.App.Configuration;
 using MTS.App.Middlewares;
@@ -8,44 +10,43 @@ using Serilog.Events;
 
 Logo.PrintLogo();
 
-if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, @"logs")))
-    Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, @"logs"));
+var logsPath = Path.Combine(AppContext.BaseDirectory, @"logs");
+if (!Directory.Exists(logsPath))
+    Directory.CreateDirectory(logsPath);
 
 AppSettingsRoot appsettings = AppSettingsRoot.IsCreated
     ? AppSettingsRoot.Load()
     : AppSettingsRoot.Create();
 
-LogEventLevel logLevel = SerilogConfigurator.GetLogEventLevel(appsettings);
-RollingInterval logInterval = SerilogConfigurator.GetRollingInterval(appsettings);
-
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
+
+LogOptions loggerOptions = new();
+config.GetSection(LogOptions.Log).Bind(loggerOptions);
+LogEventLevel logLevel = SerilogConfigurator.GetLogEventLevel(loggerOptions?.LogLevel!);
+RollingInterval logInterval = SerilogConfigurator.GetRollingInterval(loggerOptions?.TimeInterval!);
 
 builder.Host.UseSerilog((ctx, lc) => lc
     .MinimumLevel.Override("Microsoft", logLevel)
     .WriteTo.Async(e => e.Console())
-    .WriteTo.Async(e => e.File(Path.Combine(AppContext.BaseDirectory, "logs/log.txt"), rollingInterval: logInterval)));
+    .WriteTo.Async(e => e.File(Path.Combine(logsPath, "log.txt"), rollingInterval: logInterval)));
 
-builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
-{
-    config.AddJsonFile($"{AppContext.BaseDirectory}/appsettings.json", optional: false, reloadOnChange: true);
-});
-
-builder.Host.ConfigureServices(services =>
-{
-    _ = new ServicesConfigurator(services, appsettings).AddAppSettings()
-                                                      .ConfigureServices()
-                                                      .ConfigureControllersWithViews()
-                                                      .ConfigureDatabase(builder.Environment.IsProduction())
-                                                      .ConfigureSecurity()
-                                                      .ConfigureCors()
-                                                      .ConfigureSwagger()
-                                                      .ConfigureForwardedHeaders()
-                                                      .ConfigureHttpClients()
-                                                      .Build();
-});
+_ = new ServicesConfigurator(builder.Services, config)
+    .AddOptions()
+    .ConfigureServices()
+    .ConfigureControllersWithViews()
+    .ConfigureDatabase(builder.Environment.IsProduction())
+    .ConfigureSecurity()
+    .ConfigureCors()
+    .ConfigureSwagger()
+    .ConfigureForwardedHeaders()
+    .ConfigureHttpClients()
+    .Build();
 
 var app = builder.Build();
+var networkOptions = app.Services.GetRequiredService<IOptions<NetworkOptions>>().Value;
 
+app.EnsureDatabaseFolder();
 await app.MigrateAsync();
 await app.SeedIdentity();
 

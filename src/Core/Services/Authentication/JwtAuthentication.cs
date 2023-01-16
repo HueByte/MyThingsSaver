@@ -4,6 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Core.Entities.Options;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MTS.Core.Entities;
 using MTS.Core.Interfaces.Services;
@@ -13,10 +15,10 @@ namespace MTS.Core.Services.Authentication
 {
     public class JwtAuthentication : IJwtAuthentication
     {
-        private readonly AppSettingsRoot _settings;
-        public JwtAuthentication(AppSettingsRoot configuration)
+        private readonly JWTOptions _jwtOptions;
+        public JwtAuthentication(IOptions<JWTOptions> options)
         {
-            _settings = configuration;
+            _jwtOptions = options.Value;
         }
 
         // TODO: consider email/username choice system configurable
@@ -33,11 +35,11 @@ namespace MTS.Core.Services.Authentication
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JWT.Key));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
             var token = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
-                issuer: _settings.JWT.Issuer,
-                audience: _settings.JWT.Audience,
+                expires: DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenExpireTime),
+                issuer: _jwtOptions.Issuer,
+                audience: _jwtOptions.Audience,
                 claims: claims,
                 signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             );

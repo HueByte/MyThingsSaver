@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using Common.Constants;
+using Core.Entities.Options;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Services.LoginLog;
@@ -26,23 +27,36 @@ namespace MTS.App.Configuration
     public class ServicesConfigurator
     {
         private readonly IServiceCollection _services;
-        private readonly AppSettingsRoot _configuration;
-        public ServicesConfigurator(IServiceCollection services, AppSettingsRoot configuration)
+        private readonly IConfiguration _config;
+        public ServicesConfigurator(IServiceCollection services, IConfiguration config)
         {
             _services = services ?? new ServiceCollection();
-            _configuration = configuration;
+            _config = config;
         }
 
-        public ServicesConfigurator AddAppSettings()
+        public ServicesConfigurator AddOptions()
         {
-            _services.AddSingleton(_configuration);
+            _services.Configure<ConnectionStringsOptions>(options => _config.GetSection(ConnectionStringsOptions.ConnectionStrings).Bind(options));
+            _services.Configure<JWTOptions>(options => _config.GetSection(JWTOptions.JWT).Bind(options));
+            _services.Configure<DatabaseOptions>(options => _config.GetSection(DatabaseOptions.Database).Bind(options));
+            _services.Configure<NetworkOptions>(options => _config.GetSection(NetworkOptions.Network).Bind(options));
+            _services.Configure<LogOptions>(options => _config.GetSection(LogOptions.Log).Bind(options));
 
             return this;
         }
 
         public ServicesConfigurator ConfigureDatabase(bool isProduction)
         {
-            var databaseType = _configuration.Database.Type.ToLower();
+            DatabaseOptions? databaseOptions = _config.GetSection(DatabaseOptions.Database).Get<DatabaseOptions>();
+            ConnectionStringsOptions? connectionStringsOptions = _config.GetSection(ConnectionStringsOptions.ConnectionStrings).Get<ConnectionStringsOptions>();
+
+            if (databaseOptions == null)
+                throw new Exception("Database options cannot be null");
+
+            if (connectionStringsOptions == null)
+                throw new Exception("Connection strings options cannot be null");
+
+            var databaseType = databaseOptions?.Type.ToLower();
 
             if (string.IsNullOrEmpty(databaseType))
                 throw new ArgumentException("Database type cannot be empty");
@@ -51,17 +65,15 @@ namespace MTS.App.Configuration
             {
                 case DatabaseType.MYSQL:
                     if (isProduction)
-                        _services.AddDbContextMysqlProduction(_configuration.ConnectionStrings.DatabaseConnectionString);
+                        _services.AddDbContextMysqlProduction(connectionStringsOptions.DatabaseConnectionString);
                     else
-                        _services.AddDbContextMysqlDebug(_configuration.ConnectionStrings.DatabaseConnectionString);
+                        _services.AddDbContextMysqlDebug(connectionStringsOptions.DatabaseConnectionString);
                     break;
 
                 case DatabaseType.SQLITE:
-                    _services.AddDbContextSqlite(_configuration.ConnectionStrings.SQLiteConnectionString);
-                    break;
-
                 default:
-                    throw new Exception("Invalid database, please provide correct value in appsettings.json");
+                    _services.AddDbContextSqlite(connectionStringsOptions.SQLiteConnectionString);
+                    break;
             }
 
             return this;
@@ -79,6 +91,11 @@ namespace MTS.App.Configuration
 
         public ServicesConfigurator ConfigureSecurity()
         {
+            var jwtOptions = _config.GetSection(JWTOptions.JWT).Get<JWTOptions>();
+
+            if (jwtOptions is null)
+                throw new Exception("JWT options are not configured");
+
             _services.AddIdentity<ApplicationUserModel, IdentityRole>()
                      .AddEntityFrameworkStores<MTSContext>()
                      .AddDefaultTokenProviders();
@@ -115,10 +132,10 @@ namespace MTS.App.Configuration
                     ValidateAudience = true,
                     ValidateIssuer = true,
                     RequireExpirationTime = true,
-                    ValidIssuer = _configuration.JWT.Issuer,
-                    ValidAudience = _configuration.JWT.Audience,
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidAudience = jwtOptions.Audience,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.JWT.Key)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
                     ClockSkew = TimeSpan.Zero
                 };
 
@@ -173,7 +190,11 @@ namespace MTS.App.Configuration
 
         public ServicesConfigurator ConfigureCors()
         {
-            var origins = _configuration.Origins.ToArray();
+            var origins = _config.GetSection("Origins").Get<string[]>();
+
+            if (origins is null)
+                throw new Exception("Origins are not configured");
+
             _services.AddCors(o => o.AddDefaultPolicy(builder =>
                {
                    builder.WithOrigins(origins)
@@ -187,7 +208,12 @@ namespace MTS.App.Configuration
 
         public ServicesConfigurator ConfigureForwardedHeaders()
         {
-            var type = _configuration.Network.Type;
+            var networkOptions = _config.GetSection(NetworkOptions.Network).Get<NetworkOptions>();
+
+            if (networkOptions is null)
+                throw new Exception("Network options are not configured");
+
+            var type = networkOptions.Type.ToLower();
 
             if (type == NetworkType.NGINX)
             {

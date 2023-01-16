@@ -2,10 +2,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.DTO;
+using Core.Entities.Options;
 using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MTS.Common.Constants;
 using MTS.Core.DTO;
 using MTS.Core.Entities;
@@ -25,7 +27,7 @@ namespace MTS.Core.Services.Authentication
         private readonly GuideService _guide;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IEntryRepository _entryRepository;
-        private readonly AppSettingsRoot _settings;
+        private readonly JWTOptions _jwtOptions;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly ICurrentUserService _currentUser;
         private readonly IServiceScopeFactory _serviceScopeFactory;
@@ -36,7 +38,7 @@ namespace MTS.Core.Services.Authentication
                            ICategoryRepository categoryRepository,
                            IEntryRepository entryRepository,
                            GuideService guide,
-                           AppSettingsRoot settings,
+                           IOptions<JWTOptions> jwtOptions,
                            IRefreshTokenService refreshTokenService,
                            IServiceScopeFactory serviceScopeFactory)
         {
@@ -47,7 +49,7 @@ namespace MTS.Core.Services.Authentication
             _categoryRepository = categoryRepository;
             _entryRepository = entryRepository;
             _guide = guide;
-            _settings = settings;
+            _jwtOptions = jwtOptions.Value;
             _refreshTokenService = refreshTokenService;
             _serviceScopeFactory = serviceScopeFactory;
         }
@@ -234,7 +236,7 @@ namespace MTS.Core.Services.Authentication
                 RefreshToken = refreshToken!.Token,
                 RefreshTokenExpiration = refreshToken!.Expires,
                 Token = token,
-                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
+                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenExpireTime),
                 AvatarUrl = user.AvatarUrl,
                 Email = user.Email
             };

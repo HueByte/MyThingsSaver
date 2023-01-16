@@ -1,11 +1,28 @@
+using Core.Entities.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MTS.Infrastructure;
 
 namespace MTS.App.Configuration
 {
     public static class AppConfigurator
     {
+        public static WebApplication EnsureDatabaseFolder(this WebApplication webapp)
+        {
+            using var scope = webapp.Services.CreateScope();
+            var dbOptions = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
+            var path = Path.Combine(AppContext.BaseDirectory, @"save");
+
+            if (dbOptions?.Type == DatabaseType.SQLITE)
+            {
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+            }
+
+            return webapp;
+        }
+
         public static async Task<WebApplication> MigrateAsync(this WebApplication webapp)
         {
             await using var scope = webapp.Services.CreateAsyncScope();

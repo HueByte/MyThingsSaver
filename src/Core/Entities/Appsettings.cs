@@ -1,14 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
 using MTS.Common.Constants;
 
 namespace MTS.Core.Entities
@@ -130,10 +121,6 @@ namespace MTS.Core.Entities
 
                 if (!SerilogConstants.TimeIntervals.Intervals.Contains(settings.Logger?.TimeInterval.ToLower()))
                     errors.Add("Incorrect logger time interval");
-
-                // validate connection strings
-                // if (string.IsNullOrEmpty(settings.ConnectionStrings?.DatabaseConnectionString) || string.IsNullOrEmpty(settings.ConnectionStrings.SQLiteConnectionString))
-                //     errors.Add("Check your database connection strings");
 
                 // validate JWT
                 if (string.IsNullOrEmpty(settings.JWT?.Key) || settings.JWT.Key.Length < 32)
