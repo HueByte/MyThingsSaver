@@ -40,12 +40,13 @@ builder.Host.ConfigureServices(services =>
                                                       .ConfigureCors()
                                                       .ConfigureSwagger()
                                                       .ConfigureForwardedHeaders()
+                                                      .ConfigureHttpClients()
                                                       .Build();
 });
 
 var app = builder.Build();
 
-await app.Migrate();
+await app.MigrateAsync();
 await app.SeedIdentity();
 
 // configue app

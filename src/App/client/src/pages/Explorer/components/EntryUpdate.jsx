@@ -20,7 +20,7 @@ const EntryUpdate = ({
       return;
     }
 
-    await EntriesService.patchApiEntries({
+    let result = await EntriesService.patchApiEntries({
       requestBody: {
         entryId: entryToEdit.id,
         categoryId: entryToEdit.categoryId,
@@ -28,27 +28,16 @@ const EntryUpdate = ({
       },
     });
 
+    if (!result?.isSuccess) {
+      errorModal("Something went wrong while updating entry");
+      return;
+    }
+
     let newEntries = [...entries];
     let index = newEntries.findIndex((obj) => obj.id == entryToEdit.id);
 
     newEntries[index].name = name;
     setEntries(newEntries);
-
-    // await EntriesRepository.UpdateWithoutContent(
-    //   entryToEdit.categoryEntryId,
-    //   name,
-    //   entryToEdit.categoryId
-    // )
-    //   .then(() => {
-    //     let newEntries = [...entries];
-    //     let index = newEntries.findIndex(
-    //       (obj) => obj.categoryEntryId == entryToEdit.categoryEntryId
-    //     );
-
-    //     newEntries[index].categoryEntryName = name;
-    //     setEntries(newEntries);
-    //   })
-    //   .catch(() => errorModal("Something went wrong while updating entry"));
 
     setIsActive(false);
   };
@@ -65,22 +54,22 @@ const EntryUpdate = ({
         <>
           <div className="content">
             <div className="block vertical">
-              <div className="field-name">New entry name</div>
+              <div className="field-name">New name</div>
               <input
                 id="entry-name-input"
                 type="text"
-                className="basic-input field-input"
-                placeholder={entryToEdit ? entryToEdit.categoryEntryName : ""}
+                className="mts-input field-input"
+                placeholder={entryToEdit ? entryToEdit.name : ""}
                 autoComplete="off"
                 onInput={(e) => setName(e.target.value)}
               />
             </div>
           </div>
-          <div className="menu horizontal">
-            <div className="basic-button item" onClick={sendRequest}>
+          <div className="menu horizontal center">
+            <div className="mts-button item" onClick={sendRequest}>
               Update
             </div>
-            <div className="basic-button item" onClick={closeModal}>
+            <div className="mts-button item" onClick={closeModal}>
               Cancel
             </div>
           </div>

@@ -5,7 +5,7 @@
 $logo-width: 240px;
 
 .nav-top {
-  background-color: theme.$Background;
+  background-color: theme.$altBackgroundColor;
   height: 64px;
   width: 100%;
   position: relative;
@@ -13,11 +13,13 @@ $logo-width: 240px;
   z-index: 998;
   display: flex;
   flex-direction: row;
+  border-radius: 0;
+  border-width: 0 0 2px 0;
 
   * {
     font-weight: bold;
     letter-spacing: 0.6px;
-    color: theme.$PassiveAccent !important;
+    color: theme.$textPassive;
   }
 
   .logo {
@@ -26,6 +28,7 @@ $logo-width: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: theme.$altBackgroundColor;
 
     .img {
       width: 60px;
@@ -35,9 +38,8 @@ $logo-width: 240px;
   }
 
   .active {
-    color: theme.$TextAccent !important;
-    background-color: theme.$DarkerBackground !important;
-    border-bottom: 2px solid theme.$Rose !important;
+    color: theme.$textColorLight !important;
+    background-color: theme.$backgroundColor !important;
   }
 
   .content {
@@ -46,6 +48,7 @@ $logo-width: 240px;
     display: flex;
     flex-direction: row;
     position: relative;
+    background-color: theme.$altBackgroundColor;
 
     .left {
       display: flex;
@@ -64,13 +67,12 @@ $logo-width: 240px;
         cursor: pointer;
         font-size: large;
         transition: transitions.$default;
-        color: var(--Grey) !important;
-        border-bottom: 2px solid var(--Shark);
+        color: theme.$textPassive;
         margin-right: 0.5rem;
         max-width: 200px;
 
         &:hover {
-          background-color: var(--Rose);
+          background-color: theme.$primaryDark;
           color: white !important;
         }
       }
@@ -94,21 +96,36 @@ $logo-width: 240px;
         margin-right: 5px;
         height: fit-content;
         width: 120px;
-        color: var(--Grey);
+        color: theme.$textPassive;
         cursor: pointer;
 
         &:hover {
-          color: var(--Rose);
+          color: theme.$primaryDark !important;
         }
       }
 
       .user {
-        color: white !important;
-        cursor: default;
+        cursor: pointer;
         border-radius: 10px;
-        background-color: var(--SharkDarkSub);
+        background-color: theme.$altBackgroundColorLight;
+        display: flex;
+        flex-direction: row;
+        width: 150px;
 
-        &:hover {
+        img {
+          width: 30px;
+          border-radius: 100%;
+          text-align: center;
+          margin-right: 10px;
+        }
+
+        &:hover .username {
+          color: theme.$primaryLight !important;
+        }
+
+        .username {
+          cursor: pointer;
+          text-align: center;
           color: white;
         }
       }

@@ -1,22 +1,24 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using MTS.Infrastructure;
+using Common.Constants;
+using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
+using Core.Services.LoginLog;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MTS.Common.Constants;
 using MTS.Core.Entities;
-using MTS.Core.Interfaces.Repositories;
-using MTS.Core.Interfaces.Services;
-using MTS.Core.Models;
 using MTS.Core.Services.Authentication;
 using MTS.Core.Services.Category;
 using MTS.Core.Services.CurrentUser;
 using MTS.Core.Services.Entry;
 using MTS.Core.Services.Guide;
+using MTS.Infrastructure;
 using MTS.Infrastructure.Repositories;
+using MTS.Infrastructure.Services.Geolocation;
 
 // composition root
 namespace MTS.App.Configuration
@@ -127,12 +129,18 @@ namespace MTS.App.Configuration
                         context.Token = context.Request.Cookies["X-Access-Token"];
                         return Task.CompletedTask;
                     },
-                    // OnAuthenticationFailed = context =>
-                    // {
-                    //     Console.WriteLine(context.Exception.GetType() == typeof(SecurityTokenExpiredException));
-                    //     return Task.CompletedTask;
-                    // }
                 };
+            });
+
+            return this;
+        }
+
+        public ServicesConfigurator ConfigureHttpClients()
+        {
+            _services.AddHttpClient(HttpClientNames.GEO_LOCATION_CLIENT, client =>
+            {
+                client.BaseAddress = new Uri("http://ip-api.com/");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
 
             return this;
@@ -147,11 +155,14 @@ namespace MTS.App.Configuration
             _services.AddScoped<IJwtAuthentication, JwtAuthentication>();
             _services.AddScoped<IUserService, UserService>();
             _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            _services.AddScoped<ILoginLogService, LoginLogService>();
+            _services.AddScoped<IGeolocationService, GeolocationService>();
 
             // repositories
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
             _services.AddScoped<IEntryRepository, EntryRepository>();
             _services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            _services.AddScoped<ILoginLogRepository, LoginLogRepository>();
 
             // guide 
             GuideService _guide = new();
@@ -193,29 +204,7 @@ namespace MTS.App.Configuration
         {
             _services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "App", Version = "v1" });
-
-                c.AddSecurityDefinition("Cookie", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Cookie,
-                    Description = "Please insert JWT with Bearer into field",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MTS", Version = "v1" });
             });
 
             return this;

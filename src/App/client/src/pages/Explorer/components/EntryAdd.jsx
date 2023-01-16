@@ -1,7 +1,5 @@
-import React from "react";
 import { useState } from "react";
 import { EntriesService } from "../../../api";
-// import EntriesRepository from "../../../api/repositories/EntriesRepository";
 import { BasicModal } from "../../../components/BasicModal/BasicModal";
 import { errorModal, warningModal } from "../../../core/Modals";
 
@@ -22,23 +20,17 @@ const EntryAdd = ({ isActive, setIsActive, categoryId, setEntries }) => {
       },
     });
 
+    if (!result?.isSuccess) {
+      errorModal("Something went wrong with adding entry");
+      return;
+    }
+
     let newEntries = await EntriesService.getApiEntriesAll({
       categoryId: categoryId,
       withContent: false,
     });
 
     setEntries(newEntries?.data?.entries);
-
-    // await EntriesRepository.Add(entryName, categoryId)
-    //   .then(async () => {
-    //     await EntriesRepository.GetAll(categoryId)
-    //       .then((result) => setEntries(result?.data?.categoryEntries))
-    //       .catch(() =>
-    //         errorModal("Something went wrong while fetching updated entries")
-    //       );
-    //   })
-    //   .catch(() => errorModal("Something went wrong with adding entry"));
-
     setIsActive(false);
   };
 
@@ -57,17 +49,17 @@ const EntryAdd = ({ isActive, setIsActive, categoryId, setEntries }) => {
               <div className="field-name">Entry name</div>
               <input
                 type="text"
-                className="basic-input field-input"
+                className="mts-input field-input"
                 autoComplete="off"
                 onInput={(e) => setEntryName(e.target.value)}
               />
             </div>
           </div>
-          <div className="menu horizontal">
-            <div className="basic-button item" onClick={sendRequest}>
+          <div className="menu horizontal center">
+            <div className="mts-button item" onClick={sendRequest}>
               Add
             </div>
-            <div className="basic-button item" onClick={closeModal}>
+            <div className="mts-button item" onClick={closeModal}>
               Close
             </div>
           </div>

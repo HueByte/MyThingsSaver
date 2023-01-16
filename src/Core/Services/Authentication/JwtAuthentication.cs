@@ -22,10 +22,13 @@ namespace MTS.Core.Services.Authentication
         // TODO: consider email/username choice system configurable
         public string GenerateJsonWebToken(ApplicationUserModel user, IList<string> roles)
         {
+            if (user is null)
+                throw new ArgumentNullException($"User is null");
+
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.UserName!)
             };
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));

@@ -2,7 +2,7 @@ import "./App.scss";
 import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { ClientRouter } from "./routes/Routes";
-import { AuthProvider } from "./auth/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import Loader from "./components/Loaders/Loader";
 import { Suspense } from "react";
 

@@ -22,7 +22,7 @@
       max-width: 100%;
       padding: 10px;
       margin: variables.$s-margin;
-      background-color: theme.$MainBackground;
+      background-color: theme.$altBackgroundColor;
       border-radius: 5px;
       display: flex;
     }
@@ -33,7 +33,7 @@
     }
 
     .title {
-      color: theme.$SpecialText;
+      color: theme.$primaryLight;
     }
   }
 
@@ -47,5 +47,9 @@
 
   .center {
     justify-content: center;
+  }
+
+  .right {
+    justify-content: flex-end;
   }
 }

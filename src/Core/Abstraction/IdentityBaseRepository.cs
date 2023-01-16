@@ -42,6 +42,12 @@ namespace MTS.Core.Abstraction
             return true;
         }
 
+        public virtual IQueryable<TEntity> GetQueryable()
+        {
+            return _context.Set<TEntity>()
+                .AsQueryable();
+        }
+
         public virtual Task<IQueryable<TEntity>> GetAllAsync()
         {
             return Task.FromResult(_context.Set<TEntity>()

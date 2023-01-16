@@ -2,48 +2,6 @@
 @use "../../styles/transitions" as transitions;
 @use "../../styles/theme" as theme;
 
-.basic-input {
-  background-color: var(--Shark);
-  border: 1px solid var(--Shark);
-  color: white;
-  border-radius: 5px;
-  padding: 10px;
-  transition: 0.5s;
-  -webkit-transition: 0.5s;
-  outline: none;
-  box-sizing: border-box;
-
-  &:hover {
-    border: 1px solid var(--Grey);
-  }
-
-  &:focus {
-    border: 1px solid var(--Rose);
-  }
-}
-
-.basic-button {
-  color: white;
-  padding: 10px;
-  letter-spacing: 1px;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: medium;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  background-size: 100% 200%;
-  background-image: transitions.$linear-gradient-bottom-top;
-  transition: background-position 0.2s ease-in-out, color 0.2s ease-in-out,
-    transform 0.2s ease-in-out;
-
-  &:hover {
-    background-position: 0 100%;
-    color: #fff;
-    border-color: var(--Rose);
-  }
-}
-
 .notifications-component>.notification-container--top-right {
   top: 80px !important;
 }

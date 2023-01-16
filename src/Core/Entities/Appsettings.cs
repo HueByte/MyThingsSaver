@@ -15,13 +15,13 @@ namespace MTS.Core.Entities
 {
     public class AppSettingsRoot
     {
-        public Logger Logger { get; set; }
-        public string AllowedHosts { get; set; }
-        public ConnectionStrings ConnectionStrings { get; set; }
-        public List<string> Origins { get; set; }
-        public JWT JWT { get; set; }
-        public Database Database { get; set; }
-        public Network Network { get; set; }
+        public Logger Logger { get; set; } = default!;
+        public string AllowedHosts { get; set; } = default!;
+        public ConnectionStrings ConnectionStrings { get; set; } = default!;
+        public List<string> Origins { get; set; } = default!;
+        public JWT JWT { get; set; } = default!;
+        public Database Database { get; set; } = default!;
+        public Network Network { get; set; } = default!;
 
         [JsonIgnore]
         public static string FILE_NAME = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
@@ -98,10 +98,10 @@ namespace MTS.Core.Entities
             var readBytes = File.ReadAllBytes(FILE_NAME);
             var config = JsonSerializer.Deserialize<AppSettingsRoot>(readBytes);
 
-            if (!ValidateSettings(config))
+            if (!ValidateSettings(config!))
                 throw new Exception("Config is incorrect");
 
-            return config;
+            return config!;
         }
 
         private static string CreateJwtKey()
@@ -120,41 +120,45 @@ namespace MTS.Core.Entities
         private static bool ValidateSettings(AppSettingsRoot settings)
         {
             List<string> errors = new();
-
-            // validate logger
-            if (!SerilogConstants.LogLevels.Levels.Contains(settings.Logger.LogLevel.ToLower()))
-                errors.Add("Incorrect logger level");
-
-            if (!SerilogConstants.TimeIntervals.Intervals.Contains(settings.Logger.TimeInterval.ToLower()))
-                errors.Add("Incorrect logger time interval");
-
-            // validate connection strings
-            if (string.IsNullOrEmpty(settings.ConnectionStrings.DatabaseConnectionString) || string.IsNullOrEmpty(settings.ConnectionStrings.SQLiteConnectionString))
-                errors.Add("Check your database connection strings");
-
-            // validate JWT
-            if (string.IsNullOrEmpty(settings.JWT.Key) || settings.JWT.Key.Length < 32)
-                errors.Add("Your JWT key is empty or is too short");
-
-            if ((int)settings.JWT.AccessTokenExpireTime <= 0 || (int)settings.JWT.RefreshTokenExpireTime <= 0 || (int)settings.JWT.AccessTokenExpireTime > (int)settings.JWT.RefreshTokenExpireTime)
-                errors.Add("Your expire time values are incorrect, remember that {RefreshTokenexpireTime} should be bigger than {AccessTokenExpireTime}");
-
-            // validate database
-            if (settings.Database.Type.ToLower() != DatabaseType.MYSQL && settings.Database.Type.ToLower() != DatabaseType.SQLITE)
-                errors.Add("Incorrect Database type");
-
-            // validate networking
-            if (settings.Network.Type.ToLower() != NetworkType.NGINX && settings.Network.Type.ToLower() != NetworkType.STANDALONE)
-                errors.Add("Incorrect network type");
-
-            if (string.IsNullOrEmpty(settings.Network.HttpPort) || string.IsNullOrEmpty(settings.Network.HttpsPort))
-                errors.Add("There's something wrong with your ports config");
-
-            if (errors.Count > 0)
+            if (settings == null)
+                errors.Add("Config is empty");
+            else
             {
-                string message = string.Join("\n--- ", errors);
-                Console.WriteLine($"You got some config errors\n--- {message}");
-                throw new Exception("Your config validation failed");
+                // validate logger
+                if (!SerilogConstants.LogLevels.Levels.Contains(settings.Logger?.LogLevel.ToLower()))
+                    errors.Add("Incorrect logger level");
+
+                if (!SerilogConstants.TimeIntervals.Intervals.Contains(settings.Logger?.TimeInterval.ToLower()))
+                    errors.Add("Incorrect logger time interval");
+
+                // validate connection strings
+                // if (string.IsNullOrEmpty(settings.ConnectionStrings?.DatabaseConnectionString) || string.IsNullOrEmpty(settings.ConnectionStrings.SQLiteConnectionString))
+                //     errors.Add("Check your database connection strings");
+
+                // validate JWT
+                if (string.IsNullOrEmpty(settings.JWT?.Key) || settings.JWT.Key.Length < 32)
+                    errors.Add("Your JWT key is empty or is too short");
+
+                if ((double)settings.JWT?.AccessTokenExpireTime! <= 0 || (int)settings.JWT.RefreshTokenExpireTime <= 0 || (double)settings.JWT.AccessTokenExpireTime > (double)settings.JWT.RefreshTokenExpireTime)
+                    errors.Add("Your expire time values are incorrect, remember that {RefreshTokenexpireTime} should be bigger than {AccessTokenExpireTime}");
+
+                // validate database
+                if (settings.Database?.Type.ToLower() != DatabaseType.MYSQL && settings.Database?.Type.ToLower() != DatabaseType.SQLITE)
+                    errors.Add("Incorrect Database type");
+
+                // validate networking
+                if (settings.Network?.Type.ToLower() != NetworkType.NGINX && settings.Network?.Type.ToLower() != NetworkType.STANDALONE)
+                    errors.Add("Incorrect network type");
+
+                if (string.IsNullOrEmpty(settings.Network?.HttpPort) || string.IsNullOrEmpty(settings.Network.HttpsPort))
+                    errors.Add("There's something wrong with your ports config");
+
+                if (errors.Count > 0)
+                {
+                    string message = string.Join("\n--- ", errors);
+                    Console.WriteLine($"You got some config errors\n--- {message}");
+                    throw new Exception("Config validation failed");
+                }
             }
 
             return true;
@@ -163,35 +167,35 @@ namespace MTS.Core.Entities
 
     public class Logger
     {
-        public string LogLevel { get; set; }
-        public string TimeInterval { get; set; }
+        public string LogLevel { get; set; } = default!;
+        public string TimeInterval { get; set; } = default!;
     }
 
     public class ConnectionStrings
     {
-        public string DatabaseConnectionString { get; set; }
-        public string SQLiteConnectionString { get; set; }
+        public string DatabaseConnectionString { get; set; } = default!;
+        public string SQLiteConnectionString { get; set; } = default!;
     }
 
     public class JWT
     {
-        public string Key { get; set; }
-        public string Issuer { get; set; }
-        public string Audience { get; set; }
-        public int AccessTokenExpireTime { get; set; }
-        public int RefreshTokenExpireTime { get; set; }
+        public string Key { get; set; } = default!;
+        public string Issuer { get; set; } = default!;
+        public string Audience { get; set; } = default!;
+        public double AccessTokenExpireTime { get; set; }
+        public double RefreshTokenExpireTime { get; set; }
     }
 
     public class Database
     {
-        public string Type { get; set; }
+        public string Type { get; set; } = default!;
     }
 
     public class Network
     {
-        public string Type { get; set; }
-        public string HttpPort { get; set; }
-        public string HttpsPort { get; set; }
+        public string Type { get; set; } = default!;
+        public string HttpPort { get; set; } = default!;
+        public string HttpsPort { get; set; } = default!;
         public bool UseHttps { get; set; }
         public bool UseHSTS { get; set; }
         public bool HttpsRedirection { get; set; }

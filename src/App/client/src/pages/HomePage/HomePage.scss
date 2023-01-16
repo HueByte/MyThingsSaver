@@ -15,7 +15,7 @@ $entry-height: 200px;
   padding: variables.$l-padding variables.$h-padding;
 
   a:hover {
-    color: theme.$text-color;
+    color: theme.$textColor;
   }
 
   .entry {
@@ -25,7 +25,7 @@ $entry-height: 200px;
     height: $entry-height;
     margin: 1rem;
     cursor: pointer;
-    background-color: theme.$alternate-background-color;
+    background-color: theme.$altBackgroundColor;
     border-radius: 10px;
     transition: 200ms ease-in-out;
     display: flex;
@@ -33,28 +33,28 @@ $entry-height: 200px;
     justify-content: center;
     flex-direction: column;
     padding: variables.$m-padding;
-    color: theme.$text-color;
+    color: theme.$textColor;
 
     &:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 10px theme.$accent2;
+      box-shadow: 0 0 10px theme.$primary;
 
       .name,
       .information .line:first-child {
-        color: theme.$accent2;
+        color: theme.$primary;
       }
     }
 
     .image {
       font-size: xx-large;
-      color: theme.$accent2;
+      color: theme.$primary;
     }
 
     .name {
       font-size: large;
       width: 100%;
       text-align: center;
-      color: theme.$accent;
+      color: theme.$primaryLight;
       padding: 10px;
       font-weight: bold;
       letter-spacing: 0.6px;
@@ -80,7 +80,7 @@ $entry-height: 200px;
         }
 
         &:first-child {
-          color: theme.$accent;
+          color: theme.$primaryLight;
         }
       }
 

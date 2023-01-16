@@ -1,8 +1,3 @@
-import React, { useContext } from "react";
-// import KUTE from "kute.js";
-// import { useEffect } from "react";
-// import { AuthContext } from "../../../auth/AuthContext";
-
 const Wave = () => {
   return (
     <div className="bottom-wave">

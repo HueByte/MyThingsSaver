@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MTS.App.Extensions;
 using MTS.Common.ApiResonse;
 using MTS.Core.DTO;
-using MTS.Core.Interfaces.Services;
-using MTS.Core.Models;
 using MTS.Core.lib;
-// using Newtonsoft.Json.Serialization;
 
 namespace MTS.App.Controllers
 {
@@ -25,25 +22,25 @@ namespace MTS.App.Controllers
         {
             var data = await _entryService.GetEntryAsync(id);
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
-        [HttpGet("All")]
+        [HttpGet("all")]
         [ProducesResponseType(typeof(BaseApiResponse<List<EntryModel>>), 200)]
         public async Task<IActionResult> GetAll([FromQuery] string categoryId, bool withContent)
         {
             var data = await _entryService.GetAllEntriesAsync(categoryId, withContent);
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
-        [HttpGet("Recent")]
+        [HttpGet("recent")]
         [ProducesResponseType(typeof(BaseApiResponse<List<EntryModel>>), 200)]
         public async Task<IActionResult> GetRecent()
         {
             var data = await _entryService.GetRecentAsync();
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
         [HttpPost]
@@ -52,7 +49,7 @@ namespace MTS.App.Controllers
         {
             await _entryService.AddEntryAsync(entry);
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
 
         [HttpPut]
@@ -61,7 +58,7 @@ namespace MTS.App.Controllers
         {
             await _entryService.UpdateEntryAsync(entry);
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
 
         [HttpPatch]
@@ -70,7 +67,7 @@ namespace MTS.App.Controllers
         {
             await _entryService.UpdateEntryWithoutContentAsync(entry);
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
 
         [HttpDelete]
@@ -79,7 +76,7 @@ namespace MTS.App.Controllers
         {
             await _entryService.RemoveEntryAsync(id);
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
     }
 }

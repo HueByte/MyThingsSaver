@@ -12,6 +12,7 @@ namespace MTS.App.Middlewares
         public static IApplicationBuilder UseErrorHandler(this IApplicationBuilder app)
             => app.UseMiddleware<ErrorHandlerMiddleware>();
     }
+
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
@@ -29,15 +30,20 @@ namespace MTS.App.Middlewares
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error Message: ");
-                var result = await GetExceptionResponse(context, ex);
+                var result = await GetExceptionResponse(ex);
 
-                context.Response.StatusCode = (int)HttpStatusCode.OK; // temp
+                if (ex is EndpointException || ex is EndpointExceptionList)
+                    context.Response.StatusCode = (int)HttpStatusCode.OK; // temp
+                else
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
                 context.Response.ContentType = "application/json";
+
                 await context.Response.WriteAsJsonAsync(result);
             }
         }
 
-        public Task<BaseApiResponse<object>> GetExceptionResponse(HttpContext context, Exception exception)
+        public Task<BaseApiResponse<object>> GetExceptionResponse(Exception exception)
         {
             BaseApiResponse<object> errorResult = exception switch
             {

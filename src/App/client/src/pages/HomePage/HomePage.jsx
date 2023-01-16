@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaFolderOpen, FaStickyNote } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { EntriesService } from "../../api";
-// import EntriesRepository from "../../api/repositories/EntriesRepository";
 import Loader from "../../components/Loaders/Loader";
 import { errorModal } from "../../core/Modals";
 import "./HomePage.scss";

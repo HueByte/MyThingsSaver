@@ -31,14 +31,8 @@ $Background: #1b1b1f;
 $DarkerBackground: #131313;
 $MainBackground: #131316;
 
-$background: #001220;
 $element: #000c14;
 $element-light: #001829;
-
-
-$background-color: #001220;
-$alternate-background-color: #000c14;
-$alternate-background-color-light: #051929;
 $accent: #00fa9a;
 $accent2: #c62368;
 $accent3: #fa7268;
@@ -46,19 +40,32 @@ $accent4: #da3f67;
 $accent5: #861657;
 $accent6: #7300ff;
 $accent7: #FFA69E;
-$text-color: #e1e0e0;
-$text-color-light: #FFF;
-$link-color: #FFA69E;
-$link-color-hover: #00fa9a;
 $masthead-color: #00fa9a;
 $masthead-text: #fff;
 $button-color: #263238;
+
+
+$textColor: #e1e0e0;
+$textColorLight: #FFF;
+$textPassive: #4b4b4b;
 $button-text: #fff;
+$linkColor: #FFA69E;
+$linkColorHover: #00fa9a;
+$primary: #c62368;
+$primaryLight: #00fa9a;
+$primaryDark: #861657;
+$secondary: #fa7268;
+$secondaryLight: #FFA69E;
+$secondaryDark: #da3f67;
+$neutralDarker: #7300ff;
+$backgroundColor: #001220;
+$altBackgroundColor: #000c14;
+$altBackgroundColorLight: #051929;
 
 :export {
-    background: $Background;
-    darkerBackground: $DarkerBackground;
-    mainBackground: $MainBackground;
-    passiveAccent: $PassiveAccent;
-    lighterBackground: $LighterBackground;
+    background: $backgroundColor;
+    darkerBackground: $altBackgroundColor;
+    mainBackground: $backgroundColor;
+    passiveAccent: $textPassive;
+    lighterBackground: $altBackgroundColorLight;
 }

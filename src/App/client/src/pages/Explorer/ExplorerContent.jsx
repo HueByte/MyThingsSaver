@@ -32,28 +32,20 @@ const ExplorerContent = () => {
   // fetch entries once url parameter is retrieved
   useEffect(() => {
     (async () => {
+      setIsLoadingEntries(true);
       await fetchEntries(categoryId);
     })();
   }, [categoryId]);
 
-  useEffect(() => {
-    setIsLoadingEntries(false);
-  }, [currentEntries]);
-
   const fetchEntries = async (categoryId) => {
-    setIsLoadingEntries(true);
-
     let result = await EntriesService.getApiEntriesAll({
       categoryId: categoryId,
       withContent: false,
     });
 
-    // let result = await EntriesRepository.GetAll(categoryId).catch((error) =>
-    //   console.error(error)
-    // );
-
     setCurrentEntries(result.data.entries);
     setLastUsedId(() => categoryId);
+    setIsLoadingEntries(false);
   };
 
   const invokeDelete = (entry) => {
@@ -79,7 +71,7 @@ const ExplorerContent = () => {
               <div className="column header-item">Type</div>
               <div className="column actions">
                 <FaPlus
-                  class="icon-action"
+                  className="icon-action"
                   onClick={() => setIsAddActive(true)}
                 />
               </div>
@@ -157,11 +149,9 @@ const ExplorerContent = () => {
             />
           </div>
         ) : (
-          <>
-            <div className="empty">
-              <FaGhost />
-            </div>
-          </>
+          <div className="empty">
+            <FaGhost />
+          </div>
         )
       ) : (
         <Loader />

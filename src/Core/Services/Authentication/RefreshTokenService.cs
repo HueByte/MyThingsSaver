@@ -17,12 +17,10 @@ namespace MTS.Core.Services.Authentication
     public class RefreshTokenService : IRefreshTokenService
     {
         private readonly AppSettingsRoot _settings;
-        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly UserManager<ApplicationUserModel> _userManager;
         private readonly IJwtAuthentication _jwtAuth;
-        public RefreshTokenService(IRefreshTokenRepository refreshTokenRepository, AppSettingsRoot settings, UserManager<ApplicationUserModel> userManager, IJwtAuthentication jwtAuthentication)
+        public RefreshTokenService(AppSettingsRoot settings, UserManager<ApplicationUserModel> userManager, IJwtAuthentication jwtAuthentication)
         {
-            _refreshTokenRepository = refreshTokenRepository;
             _settings = settings;
             _userManager = userManager;
             _jwtAuth = jwtAuthentication;
@@ -30,7 +28,6 @@ namespace MTS.Core.Services.Authentication
 
         public RefreshTokenModel CreateRefreshToken(string ipAddress)
         {
-
             var randomSeed = new byte[64];
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomSeed);
@@ -48,18 +45,18 @@ namespace MTS.Core.Services.Authentication
         {
             var user = await GetUserByRefreshToken(token);
 
-            // Fetch matching token
-            var refreshToken = user.RefreshTokens.FirstOrDefault(e => e.Token == token && e.CreatedByIp == ipAddress);
+            // Get matching token
+            var refreshToken = user!.RefreshTokens?.FirstOrDefault(e => e.Token == token && e.CreatedByIp == ipAddress);
 
             if (refreshToken is null || !refreshToken.IsActive)
-                throw new EndpointException("Token is invalid");
+                throw new Exception("Token is invalid");
 
             // Get new refresh token and revoke old one
             var newRefreshToken = RotateToken(refreshToken, ipAddress);
-            user.RefreshTokens.Add(newRefreshToken);
+            user!.RefreshTokens?.Add(newRefreshToken);
 
             // Remove old tokens
-            await RemoveOldRefreshTokens(user);
+            RemoveOldRefreshTokens(user);
             await _userManager.UpdateAsync(user);
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -72,7 +69,8 @@ namespace MTS.Core.Services.Authentication
                 AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
                 RefreshToken = newRefreshToken.Token,
                 RefreshTokenExpiration = newRefreshToken.Expires,
-                Roles = roles.ToArray()
+                Roles = roles.ToArray(),
+                AvatarUrl = user.AvatarUrl
             };
         }
 
@@ -82,7 +80,7 @@ namespace MTS.Core.Services.Authentication
                 throw new Exception("Token is invalid");
 
             var user = await GetUserByRefreshToken(token);
-            var refreshToken = user.RefreshTokens.FirstOrDefault(e => e.Token == token);
+            var refreshToken = user!.RefreshTokens?.FirstOrDefault(e => e.Token == token);
 
             if (refreshToken is null || !refreshToken.IsActive)
                 throw new Exception("Token is invalid");
@@ -97,12 +95,10 @@ namespace MTS.Core.Services.Authentication
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public Task RemoveOldRefreshTokens(ApplicationUserModel user)
+        public void RemoveOldRefreshTokens(ApplicationUserModel user)
         {
-            user.RefreshTokens.RemoveAll(token => !token.IsActive
+            user.RefreshTokens?.RemoveAll(token => !token.IsActive
                                       && token.Created.AddDays(_settings.JWT.RefreshTokenExpireTime) <= DateTime.UtcNow);
-
-            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -143,7 +139,7 @@ namespace MTS.Core.Services.Authentication
                                                .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));
 
             if (user is null)
-                throw new EndpointException("Token is invalid");
+                throw new Exception("Token is invalid");
 
             return user;
         }

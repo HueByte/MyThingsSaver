@@ -30,20 +30,20 @@ public class EntryService : IEntryService
         _currentUser = currentUser;
     }
 
-    public async Task<EntryModel> GetEntryAsync(string id)
+    public async Task<EntryModel?> GetEntryAsync(string id)
     {
         if (string.IsNullOrEmpty(id))
-            return null;
+            return null!;
 
-        return await _repository.GetAsync(id);
+        return await _repository.GetAsync(id)!;
     }
 
-    public async Task<AllCategoryEntries> GetAllEntriesAsync(string categoryId, bool withContent)
+    public async Task<AllCategoryEntries?> GetAllEntriesAsync(string categoryId, bool withContent)
     {
         AllCategoryEntries entries = new();
 
         if (string.IsNullOrEmpty(_currentUser.UserId) || string.IsNullOrEmpty(categoryId))
-            return null;
+            return null!;
 
         entries.SubCategories = await _categoryService.GetSubCategoriesAsync(categoryId);
 

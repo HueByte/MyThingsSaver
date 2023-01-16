@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
-import { AuthContext } from "../../auth/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import { Outlet, useNavigate, useParams } from "react-router";
 import Loader from "../../components/Loaders/Loader";
 import { CategoryContext } from "../../contexts/CategoryContext";
@@ -37,14 +37,19 @@ const Explorer = () => {
     } else {
       let lastPath = localStorage.getItem("lastPath")?.split("/");
 
+      let result = {};
       if (lastPath) {
-        var result = categoryContext.categories.find(
+        result = categoryContext.categories.find(
           (x) => x.id == lastPath[lastPath.length - 1]
         );
-
-        setLastUsedPath(result?.path.split("/"));
-        if (result) navigate(`/explore/${result?.id}`);
+      } else {
+        result = categoryContext.categories.sort(
+          (a, b) => new Date(b.lastEditedOnDate) == new Date(a.lastEditedOnDate)
+        )[0];
       }
+
+      setLastUsedPath(result?.path.split("/"));
+      if (result) navigate(`/explore/${result?.id}`, { replace: true });
     }
 
     setFinishedLoading(true);
@@ -90,7 +95,9 @@ const Explorer = () => {
     <div className="categories__wrapper">
       <div className="container">
         <div
-          className={`left-menu${isMenuExpanded ? " expand" : ""}`}
+          className={`left-menu${
+            isMenuExpanded ? " expand" : ""
+          }  border-gradient-bottom`}
           id="explorer-menu"
           onContextMenu={() => setContextMenuCategory(null)}
         >
@@ -102,7 +109,6 @@ const Explorer = () => {
             className="draggable"
             draggable="true"
             onDragStart={initial}
-            // onDrag={resize}
             onDragOver={resize}
             onDragEnd={stopDrag}
           ></div>

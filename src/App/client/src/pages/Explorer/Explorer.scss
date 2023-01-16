@@ -25,12 +25,11 @@ $content-column-title-width: 150px;
       width: 16%;
       max-width: 90%;
       position: relative;
-      padding: variables.$s-padding;
-      border-right: 3px solid theme.$MainBackground;
-      border-radius: 15px 0 0 15px;
-      background-color: theme.$Background;
+      background-color: theme.$altBackgroundColor;
       z-index: 15;
       transition: transitions.$fast;
+      border-width: 0 3px 0 0;
+      border-radius: 15px 0 0 15px;
 
       .expander {
         display: grid;
@@ -41,7 +40,7 @@ $content-column-title-width: 150px;
         right: -2em;
         width: 4em;
         height: 4em;
-        background-color: rgba(theme.$SharkDark, 0.7);
+        background-color: rgba(theme.$backgroundColor, 0.7);
         border-radius: 100%;
         z-index: 105 !important;
         cursor: pointer;
@@ -68,6 +67,9 @@ $content-column-title-width: 150px;
         overflow-x: hidden;
         width: 100%;
         height: 100%;
+        background-color: theme.$altBackgroundColor;
+        border-radius: 15px 0 0 15px;
+        padding: variables.$s-padding;
 
         .item {
           border-left: 1px solid theme.$Grey;
@@ -85,12 +87,12 @@ $content-column-title-width: 150px;
           }
 
           &:hover {
-            color: theme.$Rose;
+            color: theme.$primary;
           }
 
           &:first-child {
             border: none;
-            color: theme.$Teal;
+            color: theme.$primaryLight;
             cursor: default;
             margin-left: variables.$s-padding !important;
 
@@ -100,13 +102,13 @@ $content-column-title-width: 150px;
               cursor: pointer;
 
               &:hover {
-                color: theme.$Rose;
+                color: theme.$primary;
               }
             }
           }
 
           &.active {
-            color: theme.$Teal;
+            color: theme.$primaryLight;
           }
         }
 
@@ -126,10 +128,11 @@ $content-column-title-width: 150px;
 
     .content__wrapper {
       padding: variables.$m-padding;
-      background-color: theme.$LighterBackground;
+      background-color: theme.$altBackgroundColorLight;
       border-radius: 0 15px 15px 0;
       min-width: 50px;
       flex: 9;
+      position: relative;
 
       .content {
         display: flex;
@@ -144,19 +147,18 @@ $content-column-title-width: 150px;
           display: grid;
           place-items: center;
           height: 100%;
-          color: theme.$Passive;
+          color: theme.$altBackgroundColor;
         }
 
         .header {
-          background-color: theme.$Background;
+          background-color: theme.$altBackgroundColor;
           margin-bottom: variables.$s-margin;
           position: -webkit-sticky;
           position: sticky;
           top: 0px;
 
-          & > div {
-            margin: variables.$m-padding variables.$s-margin
-              variables.$m-padding variables.$s-margin;
+          &>div {
+            margin: variables.$m-padding variables.$s-margin variables.$m-padding variables.$s-margin;
           }
         }
 
@@ -164,12 +166,12 @@ $content-column-title-width: 150px;
           transition: transitions.$medium;
 
           &:nth-child(odd) {
-            background-color: theme.$Background;
+            background-color: theme.$altBackgroundColor;
           }
 
           &:hover {
-            color: theme.$ReverseTextAccent;
-            background-color: theme.$BrightHoverAccent;
+            color: theme.$primaryDark;
+            background-color: #FFF;
           }
 
           .icon {
@@ -218,7 +220,7 @@ $content-column-title-width: 150px;
               margin-right: variables.$s-margin;
 
               &:hover {
-                color: theme.$Rose;
+                color: theme.$primaryLight;
                 transform: scale(1.1);
                 cursor: pointer;
               }
@@ -291,6 +293,10 @@ $content-column-title-width: 150px;
         .item {
           font-size: larger;
         }
+
+        .item-container {
+          border-radius: 0;
+        }
       }
 
       .content__wrapper {
@@ -312,6 +318,5 @@ $content-column-title-width: 150px;
 @media screen and (max-width: variables.$mobile-resolution) {
   .categories__wrapper {
     height: 100vh;
-    padding-top: variables.$top-menu-height-mobile;
   }
 }

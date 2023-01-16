@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
-import { NavLink, Navigate } from "react-router-dom";
-import { AuthContext } from "../../../../auth/AuthContext";
+import { useContext, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../../../contexts/AuthContext";
 import "./Menu.scss";
 import "./MobileMenu.scss";
 import logo from "../../../../assets/CloudByteColor.png";
@@ -22,7 +22,7 @@ const Menu = () => {
 
 const DesktopMenu = ({ logout, authContext }) => {
   return (
-    <div className="nav-top">
+    <div className="nav-top border-gradient">
       <div className="logo">
         <div className="img">
           <img src={logo} width="60" height="40" alt="CloudByte logo" />
@@ -30,13 +30,13 @@ const DesktopMenu = ({ logout, authContext }) => {
       </div>
       <div className="content">
         <div className="left">
-          <NavLink exact to="/" activeClassName="active" className="item">
+          <NavLink to="/" activeClassName="active" className="item">
             Home
           </NavLink>
           <NavLink to="/explore" activeClassName="active" className="item">
             Explorer
           </NavLink>
-          {authContext.authState?.roles?.find((role) => role == Role.Admin) ? (
+          {authContext.isInRole([Role.Admin]) ? (
             <NavLink to="/Settings" activeClassName="active" className="item">
               Settings
             </NavLink>
@@ -45,7 +45,15 @@ const DesktopMenu = ({ logout, authContext }) => {
           )}
         </div>
         <div className="right">
-          <div className="item user">{authContext.authState?.username}</div>
+          <NavLink to="/user/me" className="user item">
+            <img src={authContext.getAvatar()} alt="avatar" />
+            <abbr
+              title={authContext.authState?.username}
+              className="username ellipsis"
+            >
+              {authContext.authState?.username}
+            </abbr>
+          </NavLink>
           <div className="item" onClick={logout}>
             Log out
           </div>
@@ -74,12 +82,19 @@ const MobileMenu = ({ logout, authContext }) => {
       <div className="menu">
         <NavLink
           onClick={toggleMenu}
-          exact
           to="/"
           activeClassName="active"
           className="item"
         >
           Home
+        </NavLink>
+        <NavLink
+          onClick={toggleMenu}
+          to="/user/me"
+          activeClassName="active"
+          className="item"
+        >
+          Me
         </NavLink>
         <NavLink
           onClick={toggleMenu}
@@ -89,7 +104,7 @@ const MobileMenu = ({ logout, authContext }) => {
         >
           Explorer
         </NavLink>
-        {authContext.authState?.roles?.find((role) => role == Role.Admin) ? (
+        {authContext.isInRole([Role.Admin]) ? (
           <NavLink
             onClick={toggleMenu}
             to="/Settings"

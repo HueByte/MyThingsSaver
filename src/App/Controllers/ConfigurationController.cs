@@ -55,7 +55,7 @@ namespace MTS.App.Controllers
             }
         }
 
-        [HttpGet("GetConfiguration")]
+        [HttpGet("getConfiguration")]
         [Authorize(Roles = Role.ADMIN)]
         public async Task<IActionResult> GetConfig()
         {
@@ -70,7 +70,7 @@ namespace MTS.App.Controllers
                 return Unauthorized();
         }
 
-        [HttpPost("ChangeConfiguration")]
+        [HttpPost("changeConfiguration")]
         [Authorize(Roles = Role.ADMIN)]
         public async Task<IActionResult> ChangeSettings([FromBody] AppSettingsRoot settings)
         {

@@ -1,8 +1,8 @@
 import { object } from "prop-types";
 import React, { createContext, useEffect, useState } from "react";
 import { AuthService } from "../api";
-import { infoModal } from "../core/Modals";
 import "../api/axiosConfig";
+import DefaultAvatar from "../assets/DefaultAvatar.png";
 
 const AuthContext = createContext();
 
@@ -24,6 +24,7 @@ const AuthProvider = ({ children }) => {
 
   const setAuthInfo = (userData) => {
     localStorage.setItem("user", JSON.stringify(userData));
+
     setAuthState(userData);
   };
 
@@ -48,11 +49,24 @@ const AuthProvider = ({ children }) => {
     return true;
   };
 
+  const getAvatar = () => {
+    return authState.avatarUrl && !authState.avatarUrl.length >= 0
+      ? authState.avatarUrl
+      : DefaultAvatar;
+  };
+
+  const isInRole = (roles) => {
+    let isInRole = roles.every((role) => authState.roles.includes(role));
+    return isInRole;
+  };
+
   const value = {
     authState,
     setAuthState: (authInfo) => setAuthInfo(authInfo),
     signout,
     isAuthenticated,
+    isInRole,
+    getAvatar,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

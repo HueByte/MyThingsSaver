@@ -35,17 +35,17 @@ const CategoryAdd = ({ isActive, setIsActive, parentCategory }) => {
               <div className="field-name">Category Name</div>
               <input
                 type="text"
-                className="basic-input field-input"
+                className="mts-input field-input"
                 autoComplete="off"
                 onInput={(e) => setCategoryName(e.target.value)}
               />
             </div>
           </div>
-          <div className="menu horizontal">
-            <div className="basic-button item" onClick={sendRequest}>
+          <div className="menu horizontal center">
+            <div className="mts-button item" onClick={sendRequest}>
               Add
             </div>
-            <div className="basic-button item" onClick={closeModal}>
+            <div className="mts-button item" onClick={closeModal}>
               Close
             </div>
           </div>

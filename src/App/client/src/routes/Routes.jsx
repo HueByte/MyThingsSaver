@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // other
 import PrivateRoute from "./AuthenticatedRoute";
@@ -16,10 +16,27 @@ const Register = React.lazy(() => import("../pages/Authentication/Register"));
 const Entry = React.lazy(() => import("../pages/Entry/Entry"));
 const Logout = React.lazy(() => import("../pages/Logout/Logout"));
 const Explorer = React.lazy(() => import("../pages/Explorer/Explorer"));
+const UserPage = React.lazy(() => import("../pages/User/User"));
+const MePage = React.lazy(() => import("../pages/User/pages/Me"));
+const LoginLogsPage = React.lazy(() => import("../pages/User/pages/LoginLogs"));
+const LoginLogsPaginatorPage = React.lazy(() =>
+  import("../pages/User/components/LoginLogsPaginator")
+);
+const ChangeEmailPage = React.lazy(() =>
+  import("../pages/User/pages/ChangeEmail")
+);
+const ChangePasswordPage = React.lazy(() =>
+  import("../pages/User/pages/ChangePassword")
+);
+const ChangeUsernamePage = React.lazy(() =>
+  import("../pages/User/pages/ChangeUsername")
+);
+const ChangeAvatarPage = React.lazy(() =>
+  import("../pages/User/pages/ChangeAvatar")
+);
 const ExplorerContent = React.lazy(() =>
   import("../pages/Explorer/ExplorerContent")
 );
-
 const BasicLayout = React.lazy(() =>
   import("../core/BasicLayout/BasicLayout.jsx")
 );
@@ -28,6 +45,7 @@ export const ClientRouter = () => {
   return (
     <Routes>
       <Route path="auth/login" element={<Login />} />
+
       <Route path="auth/register" element={<Register />} />
 
       <Route
@@ -38,18 +56,36 @@ export const ClientRouter = () => {
           </PrivateRoute>
         }
       >
-        <Route
-          index
-          element={
-            <PrivateRoute>
-              <HomePage />
-            </PrivateRoute>
-          }
-        />
+        <Route index element={<HomePage />} />
+
         <Route path="explore" element={<Explorer />}>
           <Route path=":categoryId" element={<ExplorerContent />} />
         </Route>
+
         <Route path="entry/:categoryId/:entryId" element={<Entry />} />
+
+        <Route path="user/*" element={<UserPage />}>
+          <Route path="me" element={<MePage />} />
+          <Route path="avatar" element={<ChangeAvatarPage />} />
+          <Route path="email" element={<ChangeEmailPage />} />
+          <Route path="username" element={<ChangeUsernamePage />} />
+          <Route path="password" element={<ChangePasswordPage />} />
+
+          <Route path="logs/*" element={<LoginLogsPage />}>
+            <Route path=":page" element={<LoginLogsPaginatorPage />} />
+            <Route path="*" element={<Navigate to="1" replace />} />
+          </Route>
+
+          <Route path="admin/*" element={<LoginLogsPage isAdmin={true} />}>
+            <Route
+              path="logs/:page"
+              element={<LoginLogsPaginatorPage isAdmin={true} />}
+            />
+            <Route path="*" element={<Navigate to="logs/1" replace />} />
+          </Route>
+          <Route path="*" element={<Navigate to="me" replace />} />
+        </Route>
+
         <Route
           path="/settings"
           element={
@@ -58,8 +94,10 @@ export const ClientRouter = () => {
             </PrivateRoute>
           }
         />
+
         <Route path="*" element={<FOUR_ZERO_FOUR />} />
       </Route>
+
       <Route
         path="logout"
         element={

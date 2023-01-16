@@ -13,7 +13,15 @@ code {
 
 .border-gradient {
   border: double 4px transparent;
-  background-image: linear-gradient(to right, theme.$accent6, theme.$accent2), linear-gradient(to right, theme.$accent6, theme.$accent2);
+  background-image: linear-gradient(to right, theme.$neutralDarker, theme.$primary), linear-gradient(to right, theme.$neutralDarker, theme.$primary);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 10px;
+}
+
+.border-gradient-bottom {
+  border: double 4px transparent;
+  background-image: linear-gradient(to bottom, theme.$neutralDarker, theme.$primary), linear-gradient(to bottom, theme.$neutralDarker, theme.$primary);
   background-origin: border-box;
   background-clip: padding-box, border-box;
   border-radius: 10px;
@@ -22,16 +30,16 @@ code {
 .mts-input {
   padding: 10px;
   border-radius: 5px;
-  background-color: theme.$alternate-background-color-light;
+  background-color: theme.$altBackgroundColorLight;
   border: 1px solid transparent;
   transition: 300ms;
 
   &:hover {
-    border: 1px solid theme.$accent3;
+    border: 1px solid theme.$secondary;
   }
 
   &:focus {
-    border: 1px solid theme.$accent6;
+    border: 1px solid theme.$neutralDarker;
   }
 }
 
@@ -40,7 +48,7 @@ code {
   place-items: center;
   padding: 10px;
   border-radius: 5px;
-  background-color: theme.$alternate-background-color-light;
+  background-color: theme.$altBackgroundColorLight;
   transition: 300ms;
   font-weight: bold;
   font-size: large;
@@ -52,9 +60,9 @@ code {
 }
 
 .gradient-background-l {
-  background-image: linear-gradient(to left, theme.$accent6, theme.$accent7);
+  background-image: linear-gradient(to left, theme.$neutralDarker, theme.$secondaryLight);
 }
 
 .gradient-background-r {
-  background-image: linear-gradient(to right, theme.$accent6, theme.$accent7);
+  background-image: linear-gradient(to right, theme.$neutralDarker, theme.$secondaryLight);
 }

@@ -21,11 +21,16 @@ namespace MTS.Core.Abstraction
         {
             if (entity is null) return false;
 
-            var doesExist = await _context.Set<TEntity>().AnyAsync(entry => entry.Id.Equals(entity.Id));
+            var doesExist = await _context
+                .Set<TEntity>()
+                .AnyAsync(entry => entry.Id.Equals(entity.Id));
 
             if (doesExist) return false;
 
-            await _context.Set<TEntity>().AddAsync(entity);
+            await _context
+                .Set<TEntity>()
+                .AddAsync(entity);
+
             return true;
         }
 
@@ -33,7 +38,10 @@ namespace MTS.Core.Abstraction
         {
             if (entities is null) return false;
 
-            await _context.Set<TEntity>().AddRangeAsync(entities);
+            await _context
+                .Set<TEntity>()
+                .AddRangeAsync(entities);
+
             return true;
         }
 
@@ -44,18 +52,24 @@ namespace MTS.Core.Abstraction
 
         public virtual async Task<TEntity?> GetAsync(TKeyType id)
         {
-            return await _context.Set<TEntity>().FirstOrDefaultAsync(entry => entry.Id.Equals(id));
+            return await _context
+                .Set<TEntity>()
+                .FirstOrDefaultAsync(entry => entry.Id.Equals(id));
         }
 
         public virtual async Task<bool> RemoveAsync(TKeyType id)
         {
             TEntity entity = new() { Id = id };
 
-            var doesExist = await _context.Set<TEntity>().AnyAsync(entry => entry.Id.Equals(entity.Id));
+            var doesExist = await _context
+                .Set<TEntity>()
+                .AnyAsync(entry => entry.Id.Equals(entity.Id));
 
             if (!doesExist) return false;
 
-            _context.Set<TEntity>().Remove(entity);
+            _context
+                .Set<TEntity>()
+                .Remove(entity);
 
             return true;
         }
@@ -64,10 +78,15 @@ namespace MTS.Core.Abstraction
         {
             if (entity is null) return false;
 
-            var doesExist = await _context.Set<TEntity>().AnyAsync(entry => entry.Id.Equals(entity.Id));
+            var doesExist = await _context
+                .Set<TEntity>()
+                .AnyAsync(entry => entry.Id.Equals(entity.Id));
+
             if (!doesExist) return false;
 
-            _context.Set<TEntity>().Remove(entity);
+            _context
+                .Set<TEntity>()
+                .Remove(entity);
 
             return true;
         }
@@ -76,14 +95,18 @@ namespace MTS.Core.Abstraction
         {
             if (entity is null) return Task.CompletedTask;
 
-            _context.Set<TEntity>().Update(entity);
+            _context
+                .Set<TEntity>()
+                .Update(entity);
 
             return Task.CompletedTask;
         }
 
         public virtual Task UpdateRange(IEnumerable<TEntity> entities)
         {
-            _context.Set<TEntity>().UpdateRange(entities);
+            _context
+                .Set<TEntity>()
+                .UpdateRange(entities);
 
             return Task.CompletedTask;
         }

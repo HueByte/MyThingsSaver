@@ -1,4 +1,8 @@
+using Core.DTO;
+using Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using MTS.App.Extensions;
 using MTS.Common.ApiResonse;
 using MTS.Core.DTO;
@@ -22,7 +26,7 @@ namespace MTS.App.Controllers
         {
             var data = await _userService.CreateUser(registerUser);
 
-            return CreateResponse.FromData(data);
+            return ApiResponse.Data(data);
         }
 
         [HttpPost("login")]
@@ -37,16 +41,45 @@ namespace MTS.App.Controllers
                 AttachAuthCookies(result.Data!);
             }
 
-            return CreateResponse.FromBaseApiResponse(result);
+            return ApiResponse.Create(result);
         }
 
-        [HttpPost("changePassword")]
+        [HttpGet("me")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto user)
+        [Authorize]
+        public async Task<IActionResult> GetUserInformation()
         {
-            await _userService.ChangePasswordAsync(user);
+            var result = await _userService.GetUserInfoAsync();
 
-            return CreateResponse.Empty();
+            return ApiResponse.Data(result);
+        }
+
+        [HttpPost("avatar")]
+        [ProducesResponseType(200)]
+        [Authorize]
+        public async Task<IActionResult> SetUserAvatar([FromBody] UserAvatarDto userAvatarDto)
+        {
+            _ = await _userService.ChangeUserAvatarAsync(userAvatarDto?.AvatarUrl!);
+
+            return ApiResponse.Empty();
+        }
+
+        [HttpPost("username")]
+        [Authorize]
+        public async Task<IActionResult> SetUsername([FromBody] ChangeUsernameDto userUsernameDto)
+        {
+            _ = await _userService.ChangeUsernameAsync(userUsernameDto?.Username!, userUsernameDto?.Password!);
+
+            return ApiResponse.Empty();
+        }
+
+        [HttpPost("password")]
+        [Authorize]
+        public async Task<IActionResult> SetPassword([FromBody] ChangePasswordDto userPasswordDto)
+        {
+            _ = await _userService.ChangePasswordAsync(userPasswordDto?.CurrentPassword!, userPasswordDto?.NewPassword!);
+
+            return ApiResponse.Empty();
         }
 
         [HttpPost("refreshToken")]
@@ -63,7 +96,7 @@ namespace MTS.App.Controllers
                 AttachAuthCookies(result.Data!);
             }
 
-            return CreateResponse.FromBaseApiResponse(result);
+            return ApiResponse.Create(result);
         }
 
         [HttpPost("revokeToken")]
@@ -74,7 +107,7 @@ namespace MTS.App.Controllers
 
             await _refreshTokenService.RevokeToken(token!, GetIpAddress());
 
-            return CreateResponse.Empty();
+            return ApiResponse.Empty();
         }
 
         [HttpPost("logout")]
@@ -82,15 +115,29 @@ namespace MTS.App.Controllers
         public async Task<IActionResult> Logout()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
-            await _refreshTokenService.RevokeToken(refreshToken!, GetIpAddress());
+
+            if (refreshToken is not null)
+                await _refreshTokenService.RevokeToken(refreshToken!, GetIpAddress());
 
             Response.Cookies.Delete(CookieNames.RefreshTokenCookie);
             Response.Cookies.Delete(CookieNames.AccessToken);
-            return CreateResponse.Empty();
+
+            return ApiResponse.Empty();
+        }
+
+        [HttpPost("email")]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailDto emailDto)
+        {
+            var result = await _userService.ChangeEmailAsync(emailDto?.Email!, emailDto?.Password!);
+            BaseApiResponse<object> response = new() { IsSuccess = result };
+
+            return ApiResponse.Create(response);
         }
 
         private void AttachAuthCookies(VerifiedUserDto user)
         {
+            if (user is null) return;
+
             var refreshTokenOptions = new CookieOptions
             {
                 HttpOnly = true,
@@ -103,15 +150,15 @@ namespace MTS.App.Controllers
                 Expires = user.AccessTokenExpiration,
             };
 
-            Response.Cookies.Append(CookieNames.RefreshTokenCookie, user.RefreshToken, refreshTokenOptions);
-            Response.Cookies.Append(CookieNames.AccessToken, user.Token, jwtTokenOptions);
+            Response.Cookies.Append(CookieNames.RefreshTokenCookie, user.RefreshToken!, refreshTokenOptions);
+            Response.Cookies.Append(CookieNames.AccessToken, user.Token!, jwtTokenOptions);
         }
 
         private string GetIpAddress()
         {
             // get source ip address for the current request
             if (Request.Headers.ContainsKey("X-Forwarded-For"))
-                return Request.Headers["X-Forwarded-For"];
+                return Request?.Headers["X-Forwarded-For"]!;
             else
                 return HttpContext.Connection!.RemoteIpAddress!.MapToIPv4().ToString();
         }

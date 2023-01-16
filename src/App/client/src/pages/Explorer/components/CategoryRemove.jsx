@@ -36,10 +36,10 @@ const CategoryRemove = ({ isActive, setIsActive, category }) => {
             </div>
           </div>
           <div className="menu horizontal center">
-            <div className="basic-button item" onClick={sendRequest}>
+            <div className="mts-button item" onClick={sendRequest}>
               Yes
             </div>
-            <div className="basic-button item" onClick={closeModal}>
+            <div className="mts-button item" onClick={closeModal}>
               No
             </div>
           </div>

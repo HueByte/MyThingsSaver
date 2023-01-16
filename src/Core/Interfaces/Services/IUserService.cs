@@ -1,7 +1,6 @@
-using System.Threading.Tasks;
+using Core.DTO;
 using Microsoft.AspNetCore.Identity;
 using MTS.Core.DTO;
-using MTS.Core.Entities;
 
 namespace MTS.Core.Interfaces.Services;
 
@@ -9,5 +8,9 @@ public interface IUserService
 {
     Task<IdentityResult> CreateUser(RegisterDto registerUser);
     Task<VerifiedUserDto> LoginUser(LoginUserDto userDTO, string IpAddress);
-    Task ChangePasswordAsync(ChangePasswordDto user);
+    Task<UserInfoDto> GetUserInfoAsync();
+    Task<bool> ChangeUserAvatarAsync(string avatarUrl);
+    Task<bool> ChangeUsernameAsync(string username, string password);
+    Task<bool> ChangePasswordAsync(string currentPassword, string newPassword);
+    Task<bool> ChangeEmailAsync(string email, string password);
 }

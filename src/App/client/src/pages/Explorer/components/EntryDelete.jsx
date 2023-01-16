@@ -16,22 +16,10 @@ const EntryDelete = ({
 
     let newEntries = entries;
     newEntries = newEntries.filter((entry) => {
-      return entry.categoryEntryId !== entryToDelete.categoryEntryId;
+      return entry.id !== entryToDelete.id;
     });
 
     setEntries(newEntries);
-
-    // await EntriesRepository.Delete(entryToDelete.categoryEntryId)
-    //   .then(async () => {
-    //     let newEntries = entries;
-    //     newEntries = newEntries.filter((entry) => {
-    //       return entry.categoryEntryId !== entryToDelete.categoryEntryId;
-    //     });
-
-    //     setEntries(newEntries);
-    //     successModal("Successfully removed entry");
-    //   })
-    //   .catch(() => errorModal("Removing entry failed"));
 
     setIsActive(false);
   };
@@ -57,10 +45,10 @@ const EntryDelete = ({
             </div>
           </div>
           <div className="menu horizontal center">
-            <div className="basic-button item" onClick={sendRequest}>
+            <div className="mts-button item" onClick={sendRequest}>
               Yes
             </div>
-            <div className="basic-button item" onClick={closeModal}>
+            <div className="mts-button item" onClick={closeModal}>
               No
             </div>
           </div>

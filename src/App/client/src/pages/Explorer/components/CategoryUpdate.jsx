@@ -24,14 +24,10 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
       category.parentCategoryId,
       categoryName
     );
-    debugger;
-    console.log(result);
 
-    if (!result.isSuccess) {
-      warningModal(result.errors.join(".\n"));
+    if (!result?.isSuccess) {
+      warningModal(result.errors?.join(".\n"));
     }
-
-    console.log("yeet");
 
     setIsActive(false);
   };
@@ -51,7 +47,7 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
               <div className="field-name">Category new name</div>
               <input
                 type="text"
-                className="basic-input field-input"
+                className="mts-input field-input"
                 autoComplete="off"
                 defaultValue={category.name}
                 onInput={(e) => setCategoryName(e.target.value)}
@@ -59,10 +55,10 @@ const CategoryUpdate = ({ isActive, setIsActive, category }) => {
             </div>
           </div>
           <div className="menu horizontal">
-            <div className="basic-button item" onClick={sendRequest}>
+            <div className="mts-button item" onClick={sendRequest}>
               Update
             </div>
-            <div className="basic-button item" onClick={closeModal}>
+            <div className="mts-button item" onClick={closeModal}>
               Close
             </div>
           </div>
