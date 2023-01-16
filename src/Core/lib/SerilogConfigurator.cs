@@ -8,7 +8,7 @@ namespace MTS.Core.lib
 {
     public static class SerilogConfigurator
     {
-        public static LogEventLevel GetLogEventLevel(string setting)
+        public static LogEventLevel GetLogEventLevel(string? setting)
         {
             if (string.IsNullOrEmpty(setting)) return LogEventLevel.Warning;
 
@@ -24,7 +24,7 @@ namespace MTS.Core.lib
             };
         }
 
-        public static RollingInterval GetRollingInterval(string setting)
+        public static RollingInterval GetRollingInterval(string? setting)
         {
             if (string.IsNullOrEmpty(setting)) return RollingInterval.Day;
 

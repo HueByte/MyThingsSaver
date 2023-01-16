@@ -14,17 +14,13 @@ var logsPath = Path.Combine(AppContext.BaseDirectory, @"logs");
 if (!Directory.Exists(logsPath))
     Directory.CreateDirectory(logsPath);
 
-AppSettingsRoot appsettings = AppSettingsRoot.IsCreated
-    ? AppSettingsRoot.Load()
-    : AppSettingsRoot.Create();
-
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
 LogOptions loggerOptions = new();
 config.GetSection(LogOptions.Log).Bind(loggerOptions);
-LogEventLevel logLevel = SerilogConfigurator.GetLogEventLevel(loggerOptions?.LogLevel!);
-RollingInterval logInterval = SerilogConfigurator.GetRollingInterval(loggerOptions?.TimeInterval!);
+LogEventLevel logLevel = SerilogConfigurator.GetLogEventLevel(loggerOptions.LogLevel);
+RollingInterval logInterval = SerilogConfigurator.GetRollingInterval(loggerOptions.TimeInterval);
 
 builder.Host.UseSerilog((ctx, lc) => lc
     .MinimumLevel.Override("Microsoft", logLevel)
@@ -50,26 +46,18 @@ app.EnsureDatabaseFolder();
 await app.MigrateAsync();
 await app.SeedIdentity();
 
-// configue app
-app.UseErrorHandler();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 else
 {
-    bool doUseHSTS = appsettings.Network.UseHSTS;
-    bool doHttpsRedirect = appsettings.Network.HttpsRedirection;
-
-    if (doUseHSTS)
-        app.UseHsts();
-
-    if (doHttpsRedirect)
-        app.UseHttpsRedirection();
+    if (networkOptions.UseHSTS) app.UseHsts();
+    if (networkOptions.HttpsRedirection) app.UseHttpsRedirection();
 }
 
+app.UseErrorHandler();
 app.UseCors();
 app.UseForwardedHeaders();
 app.UseRouting();
