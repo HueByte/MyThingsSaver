@@ -60,7 +60,7 @@ namespace Core.Services.LoginLog
                 .ToListAsync();
         }
 
-        public async Task LogLoginAsync(ApplicationUserModel user, string ipAddress)
+        public async Task AddLoginLogAsync(ApplicationUserModel user, string ipAddress)
         {
             if (user is null)
                 throw new EndpointException("User cannot be null");

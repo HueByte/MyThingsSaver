@@ -247,7 +247,7 @@ namespace MTS.Core.Services.Authentication
                 await using var scope = _serviceScopeFactory.CreateAsyncScope();
                 var loginLogService = scope.ServiceProvider.GetRequiredService<ILoginLogService>();
 
-                await loginLogService.LogLoginAsync(user, ipAddress);
+                await loginLogService.AddLoginLogAsync(user, ipAddress);
             });
         }
 
