@@ -63,7 +63,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> AddCategory([FromBody] CategoryDto category)
         {
             await _categoryService.AddCategoryAsync(category);
@@ -72,7 +72,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpDelete]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> RemoveCategoryAsync([FromBody] CategoryDto category)
         {
             await _categoryService.RemoveCategoryAsync(category.CategoryId!);
@@ -81,7 +81,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> UpdateCategory([FromBody] CategoryDto category)
         {
             await _categoryService.UpdateCategoryAsync(category);

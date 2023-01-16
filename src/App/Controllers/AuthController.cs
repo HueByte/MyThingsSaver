@@ -1,6 +1,7 @@
 using Core.DTO;
 using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using MTS.App.Extensions;
@@ -21,7 +22,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("register")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<IdentityResult>), 200)]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterDto registerUser)
         {
             var data = await _userService.CreateUser(registerUser);
@@ -45,7 +46,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpGet("me")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<UserInfoDto>), 200)]
         [Authorize]
         public async Task<IActionResult> GetUserInformation()
         {
@@ -55,7 +56,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("avatar")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         [Authorize]
         public async Task<IActionResult> SetUserAvatar([FromBody] UserAvatarDto userAvatarDto)
         {
@@ -65,6 +66,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("username")]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         [Authorize]
         public async Task<IActionResult> SetUsername([FromBody] ChangeUsernameDto userUsernameDto)
         {
@@ -74,6 +76,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("password")]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         [Authorize]
         public async Task<IActionResult> SetPassword([FromBody] ChangePasswordDto userPasswordDto)
         {
@@ -100,7 +103,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("revokeToken")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> RevokeToken([FromBody] string bodyToken)
         {
             var token = bodyToken ?? Request.Cookies[CookieNames.RefreshTokenCookie];
@@ -111,7 +114,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("logout")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> Logout()
         {
             var refreshToken = Request.Cookies[CookieNames.RefreshTokenCookie];
@@ -126,6 +129,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost("email")]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> ChangeEmail(ChangeEmailDto emailDto)
         {
             var result = await _userService.ChangeEmailAsync(emailDto?.Email!, emailDto?.Password!);
