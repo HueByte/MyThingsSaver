@@ -59,7 +59,7 @@ namespace MTS.App.Configuration
             var databaseType = databaseOptions?.Type.ToLower();
 
             if (string.IsNullOrEmpty(databaseType))
-                throw new ArgumentException("Database type cannot be empty");
+                throw new Exception("Database type cannot be empty");
 
             switch (databaseType)
             {

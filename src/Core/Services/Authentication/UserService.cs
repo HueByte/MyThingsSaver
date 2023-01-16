@@ -125,7 +125,7 @@ namespace MTS.Core.Services.Authentication
         public async Task<bool> ChangePasswordAsync(string currentPassword, string newPassword)
         {
             if (string.IsNullOrEmpty(currentPassword) || string.IsNullOrEmpty(newPassword))
-                throw new Exception("New and old password can't be empty");
+                throw new HandledException("New and old password can't be empty");
 
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
@@ -142,7 +142,7 @@ namespace MTS.Core.Services.Authentication
         public async Task<IdentityResult> CreateUser(RegisterDto registerUser)
         {
             if (registerUser is null)
-                throw new ArgumentException("RegisterUser model cannot be null");
+                throw new HandledException("Register User model cannot be empty");
 
             var user = new ApplicationUserModel()
             {
@@ -167,7 +167,7 @@ namespace MTS.Core.Services.Authentication
         public async Task<VerifiedUserDto> LoginUser(LoginUserDto userDto, string IpAddress)
         {
             if (userDto is null && string.IsNullOrEmpty(IpAddress))
-                throw new ArgumentException("User model and Ip address cannot be empty");
+                throw new HandledException("User model and Ip address cannot be empty");
 
             var user = await _userManager.Users.Where(u => u.UserName == userDto!.Username)
                                                .Include(e => e.RefreshTokens) // consider .Take(n)

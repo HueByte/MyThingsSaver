@@ -25,7 +25,7 @@ namespace MTS.Core.Services.Authentication
         public string GenerateJsonWebToken(ApplicationUserModel user, IList<string> roles)
         {
             if (user is null)
-                throw new ArgumentNullException($"User is null");
+                throw new HandledException($"User is empty");
 
             var claims = new List<Claim>()
             {
