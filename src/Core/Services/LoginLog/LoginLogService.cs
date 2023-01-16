@@ -30,16 +30,12 @@ namespace Core.Services.LoginLog
 
         public async Task<int> GetUserLoginLogsCountAsync()
         {
-            var allQuery = await _loginLogRepository.GetAllAsync();
-
-            return await allQuery.CountAsync();
+            return await _loginLogRepository.GetAllAsync().CountAsync();
         }
 
         public async Task<List<LoginLogModel>> GetAllUserLoginLogsAsync()
         {
-            var allQuery = await _loginLogRepository.GetAllAsync();
-
-            return await allQuery.OrderByDescending(prop => prop.LoginDate)
+            return await _loginLogRepository.GetAllAsync().OrderByDescending(prop => prop.LoginDate)
                 .ToListAsync();
         }
 
@@ -51,7 +47,7 @@ namespace Core.Services.LoginLog
         public async Task<List<LoginLogModel>> GetUserLoginLogsPaginatedAsync(int page, int pageSize)
         {
 
-            return await GetPaginatedLoginLogsAsync(await _loginLogRepository.GetAllAsync(), page, pageSize);
+            return await GetPaginatedLoginLogsAsync(_loginLogRepository.GetAllAsync(), page, pageSize);
         }
 
         private static async Task<List<LoginLogModel>> GetPaginatedLoginLogsAsync(IQueryable<LoginLogModel> query, int page, int pageSize)

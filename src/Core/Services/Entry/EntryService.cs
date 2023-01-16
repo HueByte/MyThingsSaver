@@ -47,8 +47,7 @@ public class EntryService : IEntryService
 
         entries.SubCategories = await _categoryService.GetSubCategoriesAsync(categoryId);
 
-        var entriesQuery = await _repository.GetAllAsync();
-        entriesQuery = entriesQuery.Where(entry => entry.CategoryId == categoryId);
+        var entriesQuery = _repository.GetAllAsync().Where(entry => entry.CategoryId == categoryId);
 
         if (!withContent)
         {
@@ -158,9 +157,7 @@ public class EntryService : IEntryService
 
     public async Task<List<EntryModel>> GetRecentAsync()
     {
-        var entriesQuery = await _repository.GetAllAsync();
-
-        var entries = await entriesQuery
+        var entries = await _repository.GetAllAsync()
             .Include(x => x.Category)
             .Select(x => new EntryModel
             {

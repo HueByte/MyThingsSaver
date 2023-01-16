@@ -45,9 +45,9 @@ namespace MTS.Core.Abstraction
             return true;
         }
 
-        public virtual Task<IQueryable<TEntity>> GetAllAsync()
+        public virtual IQueryable<TEntity> GetAllAsync()
         {
-            return Task.FromResult(_context.Set<TEntity>().AsQueryable());
+            return _context.Set<TEntity>().AsQueryable();
         }
 
         public virtual async Task<TEntity?> GetAsync(TKeyType id)

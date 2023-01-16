@@ -48,11 +48,11 @@ namespace MTS.Core.Abstraction
                 .AsQueryable();
         }
 
-        public virtual Task<IQueryable<TEntity>> GetAllAsync()
+        public virtual IQueryable<TEntity> GetAllAsync()
         {
-            return Task.FromResult(_context.Set<TEntity>()
+            return _context.Set<TEntity>()
                 .Where(cat => cat.UserId == _currentUser.UserId)
-                .AsQueryable());
+                .AsQueryable();
         }
 
         public virtual async Task<TEntity?> GetAsync(TKeyType id)
