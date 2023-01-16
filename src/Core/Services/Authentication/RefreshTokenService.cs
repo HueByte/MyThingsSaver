@@ -134,7 +134,7 @@ namespace MTS.Core.Services.Authentication
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        /// <exception cref="EndpointException"></exception>
+        /// <exception cref="HandledException"></exception>
         private async Task<ApplicationUserModel> GetUserByRefreshToken(string token)
         {
             var user = await _userManager.Users.Include(e => e.RefreshTokens)

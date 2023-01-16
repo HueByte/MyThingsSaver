@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace MTS.Core.Entities
 {
-    public class EndpointExceptionList : Exception
+    public class HandledExceptionList : Exception
     {
         public List<string> ExceptionMessages { get; set; }
-        public EndpointExceptionList(List<string> exceptionMessages)
+        public HandledExceptionList(List<string> exceptionMessages)
         {
             ExceptionMessages = exceptionMessages;
         }
     }
 
-    public class EndpointException : Exception
+    public class HandledException : Exception
     {
-        public EndpointException(string ExceptionMessage) : base(ExceptionMessage) { }
+        public HandledException(string ExceptionMessage) : base(ExceptionMessage) { }
     }
 }

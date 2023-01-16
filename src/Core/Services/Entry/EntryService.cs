@@ -74,11 +74,11 @@ public class EntryService : IEntryService
     public async Task AddEntryAsync(EntryDTO entryInput)
     {
         if (string.IsNullOrWhiteSpace(entryInput.EntryName))
-            throw new EndpointException("Entry name cannot be empty");
+            throw new HandledException("Entry name cannot be empty");
 
         var category = await _categoryService.GetCategoryAsync(entryInput.CategoryId);
         if (category is null)
-            throw new EndpointException("Couldn't find that category");
+            throw new HandledException("Couldn't find that category");
 
         category.LastEditedOnDate = DateTime.UtcNow;
 
@@ -103,15 +103,15 @@ public class EntryService : IEntryService
     public async Task RemoveEntryAsync(string id)
     {
         if (string.IsNullOrWhiteSpace(id))
-            throw new EndpointException("ID cannot be empty");
+            throw new HandledException("ID cannot be empty");
 
         var entry = await _repository.GetAsync(id);
         if (entry is null)
-            throw new EndpointException("Couldn't find that entry");
+            throw new HandledException("Couldn't find that entry");
 
         var category = await _categoryService.GetCategoryAsync(entry.CategoryId);
         if (category is null)
-            throw new EndpointException("Couldn't find that category");
+            throw new HandledException("Couldn't find that category");
 
         category.LastEditedOnDate = DateTime.UtcNow;
 
@@ -123,11 +123,11 @@ public class EntryService : IEntryService
     public async Task UpdateEntryAsync(EntryDTO entryInput)
     {
         if (string.IsNullOrWhiteSpace(entryInput.EntryId))
-            throw new EndpointException("ID cannot be empty");
+            throw new HandledException("ID cannot be empty");
 
         var entry = await _repository.GetAsync(entryInput.EntryId);
         if (entry is null)
-            throw new EndpointException("Couldn't find that entry");
+            throw new HandledException("Couldn't find that entry");
 
         entry.Name = entryInput.EntryName.Trim();
         entry.Content = entryInput.Content;
@@ -141,11 +141,11 @@ public class EntryService : IEntryService
     public async Task UpdateEntryWithoutContentAsync(EntryDTO entryInput)
     {
         if (string.IsNullOrWhiteSpace(entryInput.EntryId))
-            throw new EndpointException("ID cannot be empty");
+            throw new HandledException("ID cannot be empty");
 
         var entry = await _repository.GetAsync(entryInput.EntryId);
         if (entry is null)
-            throw new EndpointException("Couldn't find that entry");
+            throw new HandledException("Couldn't find that entry");
 
         entry.Name = entryInput.EntryName.Trim();
         entry.CategoryId = entryInput.CategoryId;

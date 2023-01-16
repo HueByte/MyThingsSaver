@@ -59,7 +59,7 @@ namespace MTS.Core.Services.Authentication
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
 
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
             var categoriesCount = await _categoryRepository.GetAllAsync().CountAsync();
             var entriesCount = await _entryRepository.GetAllAsync().CountAsync();
@@ -85,7 +85,7 @@ namespace MTS.Core.Services.Authentication
         {
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
             if (user.AvatarUrl == avatarUrl)
                 return true;
@@ -101,21 +101,21 @@ namespace MTS.Core.Services.Authentication
         {
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
             if (string.IsNullOrEmpty(username))
-                throw new EndpointException("Username cannot be empty");
+                throw new HandledException("Username cannot be empty");
 
             if (user.UserName == username)
                 return true;
 
             var passwordVerification = await _userManager.CheckPasswordAsync(user, password);
             if (!passwordVerification)
-                throw new EndpointException("Wrong password");
+                throw new HandledException("Wrong password");
 
             var duplicateUser = await _userManager.FindByNameAsync(username);
             if (duplicateUser is not null)
-                throw new EndpointException("This username is already taken");
+                throw new HandledException("This username is already taken");
 
             await _userManager.SetUserNameAsync(user, username);
 
@@ -129,12 +129,12 @@ namespace MTS.Core.Services.Authentication
 
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
 
             if (!result.Succeeded)
-                throw new EndpointException("Couldn't change password, the current password is incorrect");
+                throw new HandledException("Couldn't change password, the current password is incorrect");
 
             return true;
         }
@@ -155,7 +155,7 @@ namespace MTS.Core.Services.Authentication
             var result = await _userManager.CreateAsync(user, registerUser!.Password!);
 
             if (!result.Succeeded)
-                throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
+                throw new HandledExceptionList(result.Errors.Select(errors => errors.Description).ToList());
 
             // seed data
             await _userManager.AddToRoleAsync(user, Role.USER);
@@ -180,26 +180,26 @@ namespace MTS.Core.Services.Authentication
         {
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
             if (string.IsNullOrEmpty(email))
-                throw new EndpointException("Email cannot be empty");
+                throw new HandledException("Email cannot be empty");
 
             if (user.Email == email)
                 return true;
 
             var passwordVerification = await _userManager.CheckPasswordAsync(user, password);
             if (!passwordVerification)
-                throw new EndpointException("Wrong password");
+                throw new HandledException("Wrong password");
 
             var duplicateUser = await _userManager.FindByEmailAsync(email);
             if (duplicateUser is not null)
-                throw new EndpointException("This email is already taken");
+                throw new HandledException("This email is already taken");
 
             var result = await _userManager.ChangeEmailAsync(user, email, "");
 
             if (!result.Succeeded)
-                throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
+                throw new HandledExceptionList(result.Errors.Select(errors => errors.Description).ToList());
 
             return result.Succeeded;
         }
@@ -207,12 +207,12 @@ namespace MTS.Core.Services.Authentication
         private async Task<VerifiedUserDto> HandleLogin(ApplicationUserModel user, string password, string ipAddress)
         {
             if (user is null)
-                throw new EndpointException("Couldn't log in, check your login or password"); // Couldn't find user
+                throw new HandledException("Couldn't log in, check your login or password"); // Couldn't find user
 
             // Validate credentials 
             var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
             if (!result.Succeeded)
-                throw new EndpointException("Couldn't log in, check your login or password");
+                throw new HandledException("Couldn't log in, check your login or password");
 
             var refreshToken = _refreshTokenService.CreateRefreshToken(ipAddress);
             user.RefreshTokens ??= new();

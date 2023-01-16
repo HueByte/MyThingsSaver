@@ -42,7 +42,7 @@ namespace MTS.Core.Services.Category
         public async Task<List<CategoryModel>> GetRootCategoriesAsync()
         {
             if (string.IsNullOrWhiteSpace(_currentUser.UserId))
-                throw new EndpointException("Owner ID cannot be empty");
+                throw new HandledException("Owner ID cannot be empty");
 
             return await _repository.GetAllAsync()
                 .Where(cat => cat.Level == 0)
@@ -52,7 +52,7 @@ namespace MTS.Core.Services.Category
         public async Task<List<CategoryModel>> GetSubCategoriesAsync(string parentId)
         {
             if (string.IsNullOrWhiteSpace(parentId) && string.IsNullOrWhiteSpace(_currentUser.UserId))
-                throw new EndpointException("Parent ID and Owner ID cannot be empty");
+                throw new HandledException("Parent ID and Owner ID cannot be empty");
 
             return await _repository.GetAllAsync()
                 .Where(category => category.ParentCategoryId == parentId)
@@ -63,14 +63,14 @@ namespace MTS.Core.Services.Category
         public async Task AddCategoryAsync(CategoryDto categoryInput)
         {
             if (string.IsNullOrWhiteSpace(categoryInput.Name))
-                throw new EndpointException("Name cannot be empty");
+                throw new HandledException("Name cannot be empty");
 
             var exists = await _repository.GetAllAsync().AnyAsync(cat =>
                 cat.Name == categoryInput.Name
                 && cat.ParentCategoryId == categoryInput.CategoryParentId);
 
             if (exists)
-                throw new EndpointException("This category already exists");
+                throw new HandledException("This category already exists");
 
             CategoryModel parent;
             string path = _currentUser?.UserId ?? string.Empty;
@@ -81,7 +81,7 @@ namespace MTS.Core.Services.Category
                 parent = await GetCategoryAsync(categoryInput.CategoryParentId);
 
                 if (parent is null)
-                    throw new EndpointException("This parent category doesn't exist");
+                    throw new HandledException("This parent category doesn't exist");
 
                 path = parent.Path;
                 level = parent.Level + 1;
@@ -107,7 +107,7 @@ namespace MTS.Core.Services.Category
         public async Task UpdateCategoryAsync(CategoryDto categoryInput)
         {
             if (string.IsNullOrWhiteSpace(categoryInput.Name))
-                throw new EndpointException("Name cannot be empty");
+                throw new HandledException("Name cannot be empty");
 
             // check if under parent the same category name already exists
             if (!string.IsNullOrEmpty(categoryInput.CategoryParentId))
@@ -117,7 +117,7 @@ namespace MTS.Core.Services.Category
                         && entry.Name == categoryInput.Name);
 
                 if (isNameDuplicate)
-                    throw new EndpointException("Couldn't update that category, this name is already being used");
+                    throw new HandledException("Couldn't update that category, this name is already being used");
             }
 
             // check if this category exists
@@ -126,7 +126,7 @@ namespace MTS.Core.Services.Category
                 && cat.ParentCategoryId == categoryInput.CategoryParentId);
 
             if (category is null)
-                throw new EndpointException("Couldn't update that category");
+                throw new HandledException("Couldn't update that category");
 
             category.Name = categoryInput.Name;
             category.LastEditedOnDate = DateTime.UtcNow;
@@ -138,11 +138,11 @@ namespace MTS.Core.Services.Category
         public async Task RemoveCategoryAsync(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new EndpointException("Name cannot be empty");
+                throw new HandledException("Name cannot be empty");
 
             var category = await _repository.GetAsync(id);
             if (category is null)
-                throw new EndpointException("Couldn't find that category");
+                throw new HandledException("Couldn't find that category");
 
             await _repository.RemoveAsync(category);
             await _repository.SaveChangesAsync();
@@ -151,7 +151,7 @@ namespace MTS.Core.Services.Category
         public async Task<CategoryModel> GetCategoryWithEntriesAsync(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new EndpointException("Category ID cannot be empty");
+                throw new HandledException("Category ID cannot be empty");
 
             var categoryWithEntries = await _repository.GetAllAsync()
                 .Include(cat => cat.Entries.OrderByDescending(e => e.LastUpdatedOn))

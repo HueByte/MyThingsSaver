@@ -63,7 +63,7 @@ namespace Core.Services.LoginLog
         public async Task AddLoginLogAsync(ApplicationUserModel user, string ipAddress)
         {
             if (user is null)
-                throw new EndpointException("User cannot be null");
+                throw new HandledException("User cannot be null");
 
             GeolocationResponse? geolocation;
             if (!CheckIfIpAddressIsLocal(ipAddress))
@@ -79,7 +79,7 @@ namespace Core.Services.LoginLog
             }
 
             if (geolocation is null)
-                throw new EndpointException("Geolocation cannot be null");
+                throw new HandledException("Geolocation cannot be null");
 
             var loginLog = new LoginLogModel
             {
