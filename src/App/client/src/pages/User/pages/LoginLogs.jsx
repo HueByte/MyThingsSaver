@@ -20,9 +20,10 @@ const LoginLogsPage = ({ isAdmin }) => {
     })();
   }, [isAdmin]);
 
+  // executed after the count is fetched
   useEffect(() => {
     if (isLoading) return;
-    if (page > totalPages || page <= 0) changePage(page);
+    if (page > totalPages || page <= 0) changePage();
     else document.getElementById(`log-page-${page}`)?.scrollIntoView();
   }, [page, isLoading]);
 
