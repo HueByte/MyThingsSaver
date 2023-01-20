@@ -97,10 +97,10 @@ export const ClientRouter = () => {
               <Route path="*" element={<Navigate to="1" replace />} />
             </Route>
             <Route path="usermanagement" element={<UserManagementPage />} />
-            {/* <Route
+            <Route
               path="*"
               element={<Navigate to="usermanagement" replace />}
-            /> */}
+            />
           </Route>
 
           <Route path="*" element={<Navigate to="user/me" replace />} />
