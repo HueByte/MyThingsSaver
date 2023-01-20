@@ -83,11 +83,12 @@ namespace MTS.Core.Services.Authentication
             return userInfo;
         }
 
-        public async Task<List<ManagementUserDto>> GetManagementUsers()
+        public Task<List<ManagementUserDto>> GetManagementUsers()
         {
-            var users = await _userManager.Users
+            return _userManager.Users
                 .Include(u => u.UserRoles)!
                 .ThenInclude(e => e.Role)
+                .OrderBy(u => u.NormalizedUserName)
                 .Select(user => new ManagementUserDto()
                 {
                     Id = user.Id,
@@ -98,8 +99,6 @@ namespace MTS.Core.Services.Authentication
                     AccountSize = user.Entries!.Sum(e => e.Size)
                 })
                 .ToListAsync();
-
-            return users;
         }
 
         public async Task<bool> ChangeUserAvatarAsync(string avatarUrl)

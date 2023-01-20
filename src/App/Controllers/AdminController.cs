@@ -12,9 +12,20 @@ namespace App.Controllers
     public class AdminController : BaseApiController
     {
         private readonly ILoginLogService _loginLogService;
-        public AdminController(ILoginLogService loginLogService)
+        private readonly IUserService _userService;
+        public AdminController(ILoginLogService loginLogService, IUserService userService)
         {
             _loginLogService = loginLogService;
+            _userService = userService;
+        }
+
+        [HttpGet("managementUsers")]
+        [ProducesResponseType(typeof(BaseApiResponse<List<ManagementUserDto>>), 200)]
+        public async Task<IActionResult> GetManagementUsers()
+        {
+            var users = await _userService.GetManagementUsers();
+
+            return ApiResponse.Data(users);
         }
 
         [HttpGet("loginLogsCount")]

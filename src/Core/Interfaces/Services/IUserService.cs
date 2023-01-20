@@ -9,6 +9,7 @@ public interface IUserService
     Task<IdentityResult> CreateUser(RegisterDto registerUser);
     Task<VerifiedUserDto> LoginUser(LoginUserDto userDTO, string IpAddress);
     Task<UserInfoDto> GetUserInfoAsync();
+    Task<List<ManagementUserDto>> GetManagementUsers();
     Task<bool> ChangeUserAvatarAsync(string avatarUrl);
     Task<bool> ChangeUsernameAsync(string username, string password);
     Task<bool> ChangePasswordAsync(string currentPassword, string newPassword);
