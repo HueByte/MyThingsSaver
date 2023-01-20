@@ -1,9 +1,7 @@
-const UserMangaementPage = () => {
-  return (
-    <div>
-      <h1>User Management</h1>
-    </div>
-  );
+import { useEffect } from "react";
+
+const UserManagementPage = () => {
+  return <div>Hello</div>;
 };
 
-export default UserMangaementPage;
+export default UserManagementPage;

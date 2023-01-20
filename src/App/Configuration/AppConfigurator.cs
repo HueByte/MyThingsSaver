@@ -57,17 +57,22 @@ namespace MTS.App.Configuration
 
         private static async Task CreateAdmins(string[]? adminUsers, UserManager<ApplicationUserModel> userManager)
         {
-            if (adminUsers is null || adminUsers.Length <= 0) return;
-
-            foreach (var user in adminUsers)
+            if (adminUsers is not null && adminUsers.Length > 0)
             {
-                var result = await AssignAdminRole(userManager, user);
+                foreach (var user in adminUsers)
+                {
+                    var result = await AssignAdminRole(userManager, user);
 
-                if (result) Console.WriteLine("User {0} was assigned to admin role.", user);
-                else Console.WriteLine("User {0} failed to be assigned to admin role.", user);
+                    if (result) Console.WriteLine("User {0} was assigned to admin role.", user);
+                    else Console.WriteLine("User {0} failed to be assigned to admin role.", user);
+                }
             }
 
             var admins = await userManager.GetUsersInRoleAsync(Role.ADMIN);
+            adminUsers = adminUsers is null || adminUsers.Length == 0
+                ? Array.Empty<string>()
+                : adminUsers;
+
             foreach (var user in admins)
             {
                 if (adminUsers.Contains(user.UserName)) continue;

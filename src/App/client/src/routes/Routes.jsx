@@ -22,7 +22,7 @@ const LoginLogsPage = React.lazy(() => import("../pages/User/pages/LoginLogs"));
 const LoginLogsPaginatorPage = React.lazy(() =>
   import("../pages/User/components/LoginLogsPaginator")
 );
-const UserMangaementPage = React.lazy(() =>
+const UserManagementPage = React.lazy(() =>
   import("../pages/User/pages/UserManagement")
 );
 const ChangeEmailPage = React.lazy(() =>
@@ -54,7 +54,7 @@ export const ClientRouter = () => {
       <Route
         path="/"
         element={
-          <PrivateRoute>
+          <PrivateRoute roles={[Role.Admin]} source="BasicLayout">
             <BasicLayout />
           </PrivateRoute>
         }
@@ -81,7 +81,14 @@ export const ClientRouter = () => {
             <Route path="*" element={<Navigate to="me" replace />} />
           </Route>
 
-          <Route path="admin/*" element={<Outlet isAdmin={true} />}>
+          <Route
+            path="admin/*"
+            element={
+              <PrivateRoute roles={[Role.Admin]} source="AdminPage">
+                <Outlet isAdmin={true} />
+              </PrivateRoute>
+            }
+          >
             <Route path="logs/*" element={<LoginLogsPage isAdmin={true} />}>
               <Route
                 path=":page"
@@ -89,11 +96,11 @@ export const ClientRouter = () => {
               />
               <Route path="*" element={<Navigate to="1" replace />} />
             </Route>
-            <Route path="usermanagement" component={<UserMangaementPage />} />
-            <Route
+            <Route path="usermanagement" element={<UserManagementPage />} />
+            {/* <Route
               path="*"
               element={<Navigate to="usermanagement" replace />}
-            />
+            /> */}
           </Route>
 
           <Route path="*" element={<Navigate to="user/me" replace />} />
