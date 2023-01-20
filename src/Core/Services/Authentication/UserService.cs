@@ -32,15 +32,15 @@ namespace MTS.Core.Services.Authentication
         private readonly ICurrentUserService _currentUser;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         public UserService(UserManager<ApplicationUserModel> userManager,
-                           SignInManager<ApplicationUserModel> signInManager,
-                           ICurrentUserService currentUser,
-                           IJwtAuthentication jwtAuthentication,
-                           ICategoryRepository categoryRepository,
-                           IEntryRepository entryRepository,
-                           GuideService guide,
-                           IOptions<JWTOptions> jwtOptions,
-                           IRefreshTokenService refreshTokenService,
-                           IServiceScopeFactory serviceScopeFactory)
+            SignInManager<ApplicationUserModel> signInManager,
+            ICurrentUserService currentUser,
+            IJwtAuthentication jwtAuthentication,
+            ICategoryRepository categoryRepository,
+            IEntryRepository entryRepository,
+            GuideService guide,
+            IOptions<JWTOptions> jwtOptions,
+            IRefreshTokenService refreshTokenService,
+            IServiceScopeFactory serviceScopeFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -56,14 +56,16 @@ namespace MTS.Core.Services.Authentication
 
         public async Task<UserInfoDto> GetUserInfoAsync()
         {
-            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+            var user = await _userManager.Users
+                .Include(e => e.UserRoles)
+                .ThenInclude(e => e.Role)
+                .FirstOrDefaultAsync(en => en.Id == _currentUser.UserId);
 
             if (user is null)
                 throw new HandledException("Couldn't find this user");
 
             var categoriesCount = await _categoryRepository.GetAllAsync().CountAsync();
             var entriesCount = await _entryRepository.GetAllAsync().CountAsync();
-            var roles = await _userManager.GetRolesAsync(user);
             var accountSize = await _entryRepository.GetAllAsync().SumAsync(e => e.Size);
 
             UserInfoDto userInfo = new()
@@ -74,11 +76,30 @@ namespace MTS.Core.Services.Authentication
                 AccountSize = accountSize,
                 CategoriesCount = categoriesCount,
                 EntriesCount = entriesCount,
-                Roles = roles.ToArray(),
+                Roles = user.UserRoles.Select(e => e.Role.Name).ToArray()!,
                 Email = user.Email
             };
 
             return userInfo;
+        }
+
+        public async Task<List<ManagementUserDto>> GetManagementUsers()
+        {
+            var users = await _userManager.Users
+                .Include(u => u.UserRoles)!
+                .ThenInclude(e => e.Role)
+                .Select(user => new ManagementUserDto()
+                {
+                    Id = user.Id,
+                    Username = user.UserName,
+                    AvatarUrl = user.AvatarUrl,
+                    AccountCreatedDate = user.AccountCreatedDate,
+                    Roles = user.UserRoles!.Select(ur => ur.Role.Name).ToArray()!,
+                    AccountSize = user.Entries!.Sum(e => e.Size)
+                })
+                .ToListAsync();
+
+            return users;
         }
 
         public async Task<bool> ChangeUserAvatarAsync(string avatarUrl)
@@ -170,8 +191,10 @@ namespace MTS.Core.Services.Authentication
                 throw new HandledException("User model and Ip address cannot be empty");
 
             var user = await _userManager.Users.Where(u => u.UserName == userDto!.Username)
-                                               .Include(e => e.RefreshTokens) // consider .Take(n)
-                                               .FirstOrDefaultAsync();
+                                                .Include(e => e.UserRoles)
+                                                .ThenInclude(e => e.Role)
+                                                .Include(e => e.RefreshTokens) // consider .Take(n)
+                                                .FirstOrDefaultAsync();
 
             return await HandleLogin(user!, userDto!.Password!, IpAddress);
         }
@@ -218,8 +241,8 @@ namespace MTS.Core.Services.Authentication
             user.RefreshTokens ??= new();
             user.RefreshTokens?.Add(refreshToken);
 
-            var roles = await _userManager.GetRolesAsync(user!);
-            var token = _jwtAuthentication.GenerateJsonWebToken(user!, roles);
+            var roles = user.UserRoles.Select(e => e.Role.Name).ToList();
+            var token = _jwtAuthentication.GenerateJsonWebToken(user!, roles!);
 
             _refreshTokenService.RemoveOldRefreshTokens(user);
 
@@ -232,7 +255,7 @@ namespace MTS.Core.Services.Authentication
             return new VerifiedUserDto()
             {
                 Username = user!.UserName,
-                Roles = roles.ToArray(),
+                Roles = roles?.ToArray()!,
                 RefreshToken = refreshToken!.Token,
                 RefreshTokenExpiration = refreshToken!.Expires,
                 Token = token,

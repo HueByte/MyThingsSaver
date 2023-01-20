@@ -37,7 +37,7 @@ namespace MTS.App.Configuration
         {
             await using var scope = webapp.Services.CreateAsyncScope();
             var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleModel>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUserModel>>();
 
             string[] roles = { Role.USER, Role.ADMIN };
@@ -45,7 +45,7 @@ namespace MTS.App.Configuration
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    await roleManager.CreateAsync(new RoleModel() { Name = role });
             }
 
             var adminUsers = config.GetSection("Admins")?.Get<string[]>();

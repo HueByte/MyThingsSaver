@@ -96,7 +96,7 @@ namespace MTS.App.Configuration
             if (jwtOptions is null)
                 throw new Exception("JWT options are not configured");
 
-            _services.AddIdentity<ApplicationUserModel, IdentityRole>()
+            _services.AddIdentity<ApplicationUserModel, RoleModel>()
                      .AddEntityFrameworkStores<MTSContext>()
                      .AddDefaultTokenProviders();
 

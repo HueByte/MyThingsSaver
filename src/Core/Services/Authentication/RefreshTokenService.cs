@@ -61,8 +61,8 @@ namespace MTS.Core.Services.Authentication
             RemoveOldRefreshTokens(user);
             await _userManager.UpdateAsync(user);
 
-            var roles = await _userManager.GetRolesAsync(user);
-            var jwtToken = _jwtAuth.GenerateJsonWebToken(user, roles);
+            var roles = user.UserRoles.Select(e => e.Role.Name).ToList();
+            var jwtToken = _jwtAuth.GenerateJsonWebToken(user, roles!);
 
             return new VerifiedUserDto
             {
@@ -71,7 +71,7 @@ namespace MTS.Core.Services.Authentication
                 AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenExpireTime),
                 RefreshToken = newRefreshToken.Token,
                 RefreshTokenExpiration = newRefreshToken.Expires,
-                Roles = roles.ToArray(),
+                Roles = roles?.ToArray()!,
                 AvatarUrl = user.AvatarUrl
             };
         }
@@ -137,8 +137,11 @@ namespace MTS.Core.Services.Authentication
         /// <exception cref="HandledException"></exception>
         private async Task<ApplicationUserModel> GetUserByRefreshToken(string token)
         {
-            var user = await _userManager.Users.Include(e => e.RefreshTokens)
-                                               .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));
+            var user = await _userManager.Users
+                .Include(e => e.RefreshTokens)
+                .Include(e => e.UserRoles)
+                .ThenInclude(e => e.Role)
+                .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));
 
             if (user is null)
                 throw new Exception("Token is invalid");

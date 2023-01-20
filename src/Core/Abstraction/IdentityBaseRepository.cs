@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MTS.Core.Models;
@@ -12,7 +13,9 @@ namespace MTS.Core.Abstraction
     public class IdentityBaseRepository<TKeyType, TEntity, TContext> : IIdentityRepository<TKeyType, TEntity>
         where TKeyType : IConvertible
         where TEntity : IdentityDbModel<TKeyType, string>, new()
-        where TContext : IdentityDbContext<ApplicationUserModel>, new()
+        where TContext : IdentityDbContext<ApplicationUserModel, RoleModel, string,
+            IdentityUserClaim<string>, UserRoleModel, IdentityUserLogin<string>,
+            IdentityRoleClaim<string>, IdentityUserToken<string>>, new()
     {
         protected internal readonly TContext _context;
         private readonly ICurrentUserService _currentUser;
