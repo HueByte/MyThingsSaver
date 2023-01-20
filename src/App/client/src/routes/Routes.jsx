@@ -54,7 +54,7 @@ export const ClientRouter = () => {
       <Route
         path="/"
         element={
-          <PrivateRoute roles={[Role.Admin]} source="BasicLayout">
+          <PrivateRoute source="BasicLayout">
             <BasicLayout />
           </PrivateRoute>
         }

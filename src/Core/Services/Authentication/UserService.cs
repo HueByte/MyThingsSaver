@@ -7,6 +7,7 @@ using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MTS.Common.Constants;
 using MTS.Core.DTO;
@@ -271,8 +272,16 @@ namespace MTS.Core.Services.Authentication
             {
                 await using var scope = _serviceScopeFactory.CreateAsyncScope();
                 var loginLogService = scope.ServiceProvider.GetRequiredService<ILoginLogService>();
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<object>>();
 
-                await loginLogService.AddLoginLogAsync(user, ipAddress);
+                try
+                {
+                    await loginLogService.AddLoginLogAsync(user, ipAddress);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Failed to log a login");
+                }
             });
         }
 

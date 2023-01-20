@@ -1,5 +1,4 @@
-import to from "kute.js/src/interface/to";
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -8,11 +7,12 @@ export const PrivateRoute = ({ roles, source, children }) => {
   const authContext = useContext(AuthContext);
 
   if (!authContext.isAuthenticated()) {
+    console.log("q");
     return <Navigate to="/auth/login" replace />;
   }
 
   if (!authContext.isInRole(roles)) {
-    return <Navigate to={-1} replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;
