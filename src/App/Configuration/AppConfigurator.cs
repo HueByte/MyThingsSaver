@@ -50,7 +50,14 @@ namespace MTS.App.Configuration
 
             var adminUsers = config.GetSection("Admins")?.Get<string[]>();
 
-            if (adminUsers is null || adminUsers.Length <= 0) return webapp;
+            await CreateAdmins(adminUsers, userManager);
+
+            return webapp;
+        }
+
+        private static async Task CreateAdmins(string[]? adminUsers, UserManager<ApplicationUserModel> userManager)
+        {
+            if (adminUsers is null || adminUsers.Length <= 0) return;
 
             foreach (var user in adminUsers)
             {
@@ -70,8 +77,6 @@ namespace MTS.App.Configuration
                 if (result.Succeeded) Console.WriteLine("User {0} was removed from admin role.", user.UserName);
                 else Console.WriteLine("User {0} failed to be removed from admin role.", user.UserName);
             }
-
-            return webapp;
         }
 
         private static async Task<bool> AssignAdminRole(UserManager<ApplicationUserModel> userManager, string username)

@@ -1,3 +1,4 @@
+using Core.DTO;
 using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ namespace App.Controllers
 
 
         [HttpGet("loginLogs")]
-        [ProducesResponseType(typeof(BaseApiResponse<List<LoginLogModel>>), 200)]
+        [ProducesResponseType(typeof(BaseApiResponse<List<LoginLogsDto>>), 200)]
         public async Task<IActionResult> GetLoginLogsPaginated([FromQuery] int page, [FromQuery] int pageSize)
         {
             var logs = await _loginLogService.GetLoginLogsPaginatedAsync(page, pageSize);

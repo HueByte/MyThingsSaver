@@ -1,4 +1,5 @@
 using System.Net;
+using Core.DTO;
 using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
@@ -23,38 +24,50 @@ namespace Core.Services.LoginLog
             _geolocationService = geolocationService;
         }
 
-        public async Task<int> GetLoginLogsCountAsync()
+        public Task<int> GetLoginLogsCountAsync()
         {
-            return await _loginLogRepository.GetQueryable().CountAsync();
+            return _loginLogRepository.GetQueryable().CountAsync();
         }
 
-        public async Task<int> GetUserLoginLogsCountAsync()
+        public Task<int> GetUserLoginLogsCountAsync()
         {
-            return await _loginLogRepository.GetAllAsync().CountAsync();
+            return _loginLogRepository.GetAllAsync().CountAsync();
         }
 
-        public async Task<List<LoginLogModel>> GetAllUserLoginLogsAsync()
+        public Task<List<LoginLogModel>> GetAllUserLoginLogsAsync()
         {
-            return await _loginLogRepository.GetAllAsync().OrderByDescending(prop => prop.LoginDate)
+            return _loginLogRepository.GetAllAsync().OrderByDescending(prop => prop.LoginDate)
                 .ToListAsync();
         }
 
-        public async Task<List<LoginLogModel>> GetLoginLogsPaginatedAsync(int page, int pageSize)
+        public Task<List<LoginLogsDto>> GetLoginLogsPaginatedAsync(int page, int pageSize)
         {
-            return await GetPaginatedLoginLogsAsync(_loginLogRepository.GetQueryable(), page, pageSize);
+            page = GetPage(page);
+
+            return _loginLogRepository
+                .GetQueryable()
+                .Include(prop => prop.User)
+                .OrderByDescending(prop => prop.LoginDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(entity => new LoginLogsDto()
+                {
+                    Id = entity.Id,
+                    LoginDate = entity.LoginDate,
+                    IpAddress = entity.IpAddress,
+                    Location = entity.Location,
+                    UserId = entity.UserId,
+                    UserName = entity.User.UserName,
+                })
+                .ToListAsync();
         }
 
-        public async Task<List<LoginLogModel>> GetUserLoginLogsPaginatedAsync(int page, int pageSize)
+        public Task<List<LoginLogModel>> GetUserLoginLogsPaginatedAsync(int page, int pageSize)
         {
+            page = GetPage(page);
 
-            return await GetPaginatedLoginLogsAsync(_loginLogRepository.GetAllAsync(), page, pageSize);
-        }
-
-        private static async Task<List<LoginLogModel>> GetPaginatedLoginLogsAsync(IQueryable<LoginLogModel> query, int page, int pageSize)
-        {
-            page = page <= 0 ? 1 : page;
-
-            return await query.OrderByDescending(prop => prop.LoginDate)
+            return _loginLogRepository.GetAllAsync()
+                .OrderByDescending(prop => prop.LoginDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -94,6 +107,8 @@ namespace Core.Services.LoginLog
             await _loginLogRepository.SaveChangesAsync();
             _logger.LogInformation("Login log created");
         }
+
+        private static int GetPage(int page) => page <= 0 ? 1 : page;
 
         private static bool CheckIfIpAddressIsLocal(string ipAddress)
         {
