@@ -86,12 +86,13 @@ namespace MTS.Core.Services.Authentication
         public Task<List<ManagementUserDto>> GetManagementUsers()
         {
             return _userManager.Users
-                .Include(u => u.UserRoles)!
+                .Include(u => u.UserRoles)
                 .ThenInclude(e => e.Role)
                 .OrderBy(u => u.NormalizedUserName)
                 .Select(user => new ManagementUserDto()
                 {
                     Id = user.Id,
+                    Email = user.Email,
                     Username = user.UserName,
                     AvatarUrl = user.AvatarUrl,
                     AccountCreatedDate = user.AccountCreatedDate,
