@@ -42,7 +42,7 @@ const MePage = () => {
             </div>
             <div className="block">
               <span className="key">Created date: </span>
-              {new Date(userData?.accountCreatedDate).toLocaleString()}
+              {new Date(userData?.accountCreatedDate + "Z").toLocaleString()}
             </div>
             <div className="block">
               <span className="key">Categories Count: </span>

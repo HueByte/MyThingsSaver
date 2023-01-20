@@ -15,31 +15,34 @@ const LoginLogsPage = ({ isAdmin }) => {
 
   useEffect(() => {
     (async () => {
-      let logsCount = {};
-
-      if (isAdmin) {
-        logsCount = await AdminService.getApiAdminLoginLogsCount();
-      } else {
-        logsCount = await LoginLogService.getApiLoginLogCount();
-      }
-
-      let totalPages = Math.ceil(logsCount?.data / pageSize);
-
-      setTotalPages(totalPages);
-
-      if (page > totalPages || page <= 0) {
-        navigate("1", { replace: true });
-      }
-
+      await fetchLogsCount();
       setIsLoading(false);
     })();
-  }, []);
+  }, [isAdmin]);
 
   useEffect(() => {
     if (page > totalPages || page <= 0) {
       navigate("1", { replace: true });
     }
   }, [page]);
+
+  const fetchLogsCount = async () => {
+    let logsCount = {};
+
+    if (isAdmin) {
+      logsCount = await AdminService.getApiAdminLoginLogsCount();
+    } else {
+      logsCount = await LoginLogService.getApiLoginLogCount();
+    }
+
+    let totalPages = Math.ceil(logsCount?.data / pageSize);
+
+    setTotalPages(totalPages);
+
+    if (page > totalPages || page <= 0) {
+      navigate("1", { replace: true });
+    }
+  };
 
   const changePage = (direction) => {
     let newPage = parseInt(page) + direction;
@@ -48,7 +51,7 @@ const LoginLogsPage = ({ isAdmin }) => {
       return;
     }
 
-    navigate(isAdmin ? `logs/${newPage}` : `${newPage}`, { replace: true });
+    navigate(isAdmin ? `logs/${newPage}` : `${newPage}`);
     document.getElementById(`log-page-${newPage}`).scrollIntoView();
   };
 
