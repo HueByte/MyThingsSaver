@@ -40,7 +40,7 @@ const ChangeUsernamePage = () => {
     }
 
     setIsUpdating(false);
-    navigate("/user/me");
+    navigate("/account/user/me");
   };
 
   return (
@@ -71,7 +71,7 @@ const ChangeUsernamePage = () => {
               <div className="mts-button item accept" onClick={updateUsername}>
                 Accept
               </div>
-              <NavLink to="user/me" className="mts-button item cancel">
+              <NavLink to="/account/user/me" className="mts-button item cancel">
                 Cancel
               </NavLink>
             </div>

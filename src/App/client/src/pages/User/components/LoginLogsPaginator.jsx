@@ -12,6 +12,7 @@ import { AdminService, LoginLogService } from "../../../api";
 import { Role } from "../../../api/Roles";
 import Loader from "../../../components/Loaders/Loader";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { errorModal } from "../../../core/Modals";
 import "../pages/LoginLogs.scss";
 
 const LoginLogsPaginatorPage = ({ isAdmin }) => {
@@ -39,7 +40,8 @@ const LoginLogsPaginatorPage = ({ isAdmin }) => {
           pageSize: logsPerPage,
         });
       } catch (err) {
-        navigate("1", { replace: true });
+        errorModal("Something went wrong while fetching the logs");
+        navigate("/account/user/me", { replace: true });
       }
     } else {
       result = await LoginLogService.getApiLoginLogPaginated({

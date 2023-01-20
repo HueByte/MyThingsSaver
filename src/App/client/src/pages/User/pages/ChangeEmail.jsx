@@ -65,7 +65,7 @@ const ChangeEmailPage = () => {
               <div className="mts-button item accept" onClick={updateEmail}>
                 Accept
               </div>
-              <NavLink to="user/me" className="mts-button item cancel">
+              <NavLink to="/account/user/me" className="mts-button item cancel">
                 Cancel
               </NavLink>
             </div>

@@ -21,19 +21,16 @@ const LoginLogsPage = ({ isAdmin }) => {
   }, [isAdmin]);
 
   useEffect(() => {
-    if (page > totalPages || page <= 0) {
-      navigate("1", { replace: true });
-    }
-  }, [page]);
+    if (isLoading) return;
+    if (page > totalPages || page <= 0) changePage(page);
+    else document.getElementById(`log-page-${page}`)?.scrollIntoView();
+  }, [page, isLoading]);
 
   const fetchLogsCount = async () => {
     let logsCount = {};
 
-    if (isAdmin) {
-      logsCount = await AdminService.getApiAdminLoginLogsCount();
-    } else {
-      logsCount = await LoginLogService.getApiLoginLogCount();
-    }
+    if (isAdmin) logsCount = await AdminService.getApiAdminLoginLogsCount();
+    else logsCount = await LoginLogService.getApiLoginLogCount();
 
     let totalPages = Math.ceil(logsCount?.data / pageSize);
 
@@ -44,14 +41,19 @@ const LoginLogsPage = ({ isAdmin }) => {
     }
   };
 
-  const changePage = (direction) => {
+  const changePage = (direction = 0) => {
     let newPage = parseInt(page) + direction;
 
     if (newPage > totalPages || newPage < 1) {
       return;
     }
 
-    navigate(isAdmin ? `logs/${newPage}` : `${newPage}`);
+    navigate(
+      isAdmin
+        ? `/account/admin/logs/${newPage}`
+        : `/account/user/logs/${newPage}`
+    );
+
     document.getElementById(`log-page-${newPage}`).scrollIntoView();
   };
 
@@ -62,7 +64,7 @@ const LoginLogsPage = ({ isAdmin }) => {
       buttons.push(
         <NavLink
           id={`log-page-${index + 1}`}
-          to={isAdmin ? `logs/${index + 1}` : `${index + 1}`}
+          to={isAdmin ? `${index + 1}` : `${index + 1}`}
           key={index}
           className={`mts-button item${page === index + 1 ? "active" : ""}`}
         >

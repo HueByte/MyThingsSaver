@@ -45,7 +45,7 @@ const DesktopMenu = ({ logout, authContext }) => {
           )}
         </div>
         <div className="right">
-          <NavLink to="/user/me" className="user item">
+          <NavLink to="/account/user/me" className="user item">
             <img src={authContext.getAvatar()} alt="avatar" />
             <abbr
               title={authContext.authState?.username}
@@ -90,7 +90,7 @@ const MobileMenu = ({ logout, authContext }) => {
         </NavLink>
         <NavLink
           onClick={toggleMenu}
-          to="/user/me"
+          to="/account/user/me"
           activeClassName="active"
           className="item"
         >
