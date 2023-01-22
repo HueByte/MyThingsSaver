@@ -191,11 +191,12 @@ namespace MTS.Core.Services.Authentication
             if (userDto is null && string.IsNullOrEmpty(IpAddress))
                 throw new HandledException("User model and Ip address cannot be empty");
 
-            var user = await _userManager.Users.Where(u => u.UserName == userDto!.Username)
-                                                .Include(e => e.UserRoles)
-                                                .ThenInclude(e => e.Role)
-                                                .Include(e => e.RefreshTokens) // consider .Take(n)
-                                                .FirstOrDefaultAsync();
+            var user = await _userManager.Users
+                .Where(u => u.UserName == userDto!.Username)
+                .Include(e => e.UserRoles)
+                .ThenInclude(e => e.Role)
+                .Include(e => e.RefreshTokens) // consider .Take(n)
+                .FirstOrDefaultAsync();
 
             return await HandleLogin(user!, userDto!.Password!, IpAddress);
         }

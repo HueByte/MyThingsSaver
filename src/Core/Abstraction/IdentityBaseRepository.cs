@@ -29,11 +29,14 @@ namespace MTS.Core.Abstraction
         {
             if (entity is null) return false;
 
-            var doesExist = await _context.Set<TEntity>().AnyAsync(entry => entry.Id.Equals(entity.Id) && entry.UserId.Equals(_currentUser.UserId));
+            var doesExist = await _context.Set<TEntity>()
+                .AnyAsync(entry => entry.Id.Equals(entity.Id) && entry.UserId.Equals(_currentUser.UserId));
 
             if (doesExist) return false;
 
-            await _context.Set<TEntity>().AddAsync(entity);
+            await _context.Set<TEntity>()
+                .AddAsync(entity);
+
             return true;
         }
 
@@ -41,7 +44,9 @@ namespace MTS.Core.Abstraction
         {
             if (entities is null) return false;
 
-            await _context.Set<TEntity>().AddRangeAsync(entities);
+            await _context.Set<TEntity>()
+                .AddRangeAsync(entities);
+
             return true;
         }
 

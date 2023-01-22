@@ -50,9 +50,9 @@ namespace MTS.Core.Abstraction
             return _context.Set<TEntity>().AsQueryable();
         }
 
-        public virtual async Task<TEntity?> GetAsync(TKeyType id)
+        public virtual Task<TEntity?> GetAsync(TKeyType id)
         {
-            return await _context
+            return _context
                 .Set<TEntity>()
                 .FirstOrDefaultAsync(entry => entry.Id.Equals(id));
         }
@@ -111,9 +111,9 @@ namespace MTS.Core.Abstraction
             return Task.CompletedTask;
         }
 
-        public virtual async Task SaveChangesAsync()
+        public virtual Task SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
     }
 
