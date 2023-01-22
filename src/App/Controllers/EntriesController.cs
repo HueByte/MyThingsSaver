@@ -44,7 +44,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> Add([FromBody] EntryDTO entry)
         {
             await _entryService.AddEntryAsync(entry);
@@ -53,7 +53,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> Update([FromBody] EntryDTO entry)
         {
             await _entryService.UpdateEntryAsync(entry);
@@ -62,7 +62,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPatch]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> UpdateWithoutContent([FromBody] EntryDTO entry)
         {
             await _entryService.UpdateEntryWithoutContentAsync(entry);
@@ -71,7 +71,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpDelete]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> Delete([FromQuery] string id)
         {
             await _entryService.RemoveEntryAsync(id);

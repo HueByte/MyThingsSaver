@@ -5,7 +5,7 @@ namespace MTS.Core.Abstraction
         where TEntity : DbModel<Tkey>
     {
         Task<TEntity?> GetAsync(Tkey id);
-        Task<IQueryable<TEntity>> GetAllAsync();
+        IQueryable<TEntity> GetAllAsync();
         Task<bool> AddAsync(TEntity? entity);
         Task<bool> AddRangeAsync(IEnumerable<TEntity> entities);
         Task<bool> RemoveAsync(Tkey id);

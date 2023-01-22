@@ -36,16 +36,16 @@ const DesktopMenu = ({ logout, authContext }) => {
           <NavLink to="/explore" activeClassName="active" className="item">
             Explorer
           </NavLink>
-          {authContext.isInRole([Role.Admin]) ? (
+          {/* {authContext.isInRole([Role.Admin]) ? (
             <NavLink to="/Settings" activeClassName="active" className="item">
               Settings
             </NavLink>
           ) : (
             <></>
-          )}
+          )} */}
         </div>
         <div className="right">
-          <NavLink to="/user/me" className="user item">
+          <NavLink to="/account/user/me" className="user item">
             <img src={authContext.getAvatar()} alt="avatar" />
             <abbr
               title={authContext.authState?.username}
@@ -90,7 +90,7 @@ const MobileMenu = ({ logout, authContext }) => {
         </NavLink>
         <NavLink
           onClick={toggleMenu}
-          to="/user/me"
+          to="/account/user/me"
           activeClassName="active"
           className="item"
         >
@@ -104,7 +104,7 @@ const MobileMenu = ({ logout, authContext }) => {
         >
           Explorer
         </NavLink>
-        {authContext.isInRole([Role.Admin]) ? (
+        {/* {authContext.isInRole([Role.Admin]) ? (
           <NavLink
             onClick={toggleMenu}
             to="/Settings"
@@ -115,7 +115,7 @@ const MobileMenu = ({ logout, authContext }) => {
           </NavLink>
         ) : (
           <></>
-        )}
+        )} */}
         <div className="item" onClick={logout}>
           Log out
         </div>

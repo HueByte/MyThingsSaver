@@ -13,8 +13,6 @@ const Logout = () => {
     })();
   }, []);
 
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
   return <>{redirect ? <Navigate to="/auth/login" /> : <>logging out...</>}</>;
 };
 

@@ -30,9 +30,9 @@ namespace MTS.App.Middlewares
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error Message: ");
-                var result = await GetExceptionResponse(ex);
+                var result = GetExceptionResponse(ex);
 
-                if (ex is EndpointException || ex is EndpointExceptionList)
+                if (ex is HandledException || ex is HandledExceptionList)
                     context.Response.StatusCode = (int)HttpStatusCode.OK; // temp
                 else
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -43,17 +43,17 @@ namespace MTS.App.Middlewares
             }
         }
 
-        public Task<BaseApiResponse<object>> GetExceptionResponse(Exception exception)
+        public BaseApiResponse<object> GetExceptionResponse(Exception exception)
         {
             BaseApiResponse<object> errorResult = exception switch
             {
-                EndpointException => new()
+                HandledException => new()
                 {
                     Data = default,
                     Errors = new List<string>() { exception.Message }!,
                     IsSuccess = false
                 },
-                EndpointExceptionList list => new()
+                HandledExceptionList list => new()
                 {
                     Data = default,
                     Errors = list!.ExceptionMessages!,
@@ -67,7 +67,7 @@ namespace MTS.App.Middlewares
                 },
             };
 
-            return Task.FromResult(errorResult);
+            return errorResult;
         }
     }
 }

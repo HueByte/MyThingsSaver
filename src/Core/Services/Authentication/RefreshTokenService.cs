@@ -3,9 +3,11 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Core.Entities.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.Extensions.Options;
 using MTS.Core.DTO;
 using MTS.Core.Entities;
 using MTS.Core.Interfaces.Repositories;
@@ -16,12 +18,12 @@ namespace MTS.Core.Services.Authentication
 {
     public class RefreshTokenService : IRefreshTokenService
     {
-        private readonly AppSettingsRoot _settings;
+        private readonly JWTOptions _jwtOptions;
         private readonly UserManager<ApplicationUserModel> _userManager;
         private readonly IJwtAuthentication _jwtAuth;
-        public RefreshTokenService(AppSettingsRoot settings, UserManager<ApplicationUserModel> userManager, IJwtAuthentication jwtAuthentication)
+        public RefreshTokenService(IOptions<JWTOptions> jwtOptions, UserManager<ApplicationUserModel> userManager, IJwtAuthentication jwtAuthentication)
         {
-            _settings = settings;
+            _jwtOptions = jwtOptions.Value;
             _userManager = userManager;
             _jwtAuth = jwtAuthentication;
         }
@@ -35,7 +37,7 @@ namespace MTS.Core.Services.Authentication
             return new RefreshTokenModel
             {
                 Token = Convert.ToBase64String(randomSeed),
-                Expires = DateTime.UtcNow.AddMinutes(_settings.JWT.RefreshTokenExpireTime),
+                Expires = DateTime.UtcNow.AddMinutes(_jwtOptions.RefreshTokenExpireTime),
                 Created = DateTime.UtcNow,
                 CreatedByIp = ipAddress
             };
@@ -59,17 +61,17 @@ namespace MTS.Core.Services.Authentication
             RemoveOldRefreshTokens(user);
             await _userManager.UpdateAsync(user);
 
-            var roles = await _userManager.GetRolesAsync(user);
-            var jwtToken = _jwtAuth.GenerateJsonWebToken(user, roles);
+            var roles = user.UserRoles.Select(e => e.Role.Name).ToList();
+            var jwtToken = _jwtAuth.GenerateJsonWebToken(user, roles!);
 
             return new VerifiedUserDto
             {
                 Username = user.UserName,
                 Token = jwtToken,
-                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
+                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenExpireTime),
                 RefreshToken = newRefreshToken.Token,
                 RefreshTokenExpiration = newRefreshToken.Expires,
-                Roles = roles.ToArray(),
+                Roles = roles?.ToArray()!,
                 AvatarUrl = user.AvatarUrl
             };
         }
@@ -98,7 +100,7 @@ namespace MTS.Core.Services.Authentication
         public void RemoveOldRefreshTokens(ApplicationUserModel user)
         {
             user.RefreshTokens?.RemoveAll(token => !token.IsActive
-                                      && token.Created.AddDays(_settings.JWT.RefreshTokenExpireTime) <= DateTime.UtcNow);
+                                      && token.Created.AddDays(_jwtOptions.RefreshTokenExpireTime) <= DateTime.UtcNow);
         }
 
         /// <summary>
@@ -132,11 +134,14 @@ namespace MTS.Core.Services.Authentication
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        /// <exception cref="EndpointException"></exception>
+        /// <exception cref="HandledException"></exception>
         private async Task<ApplicationUserModel> GetUserByRefreshToken(string token)
         {
-            var user = await _userManager.Users.Include(e => e.RefreshTokens)
-                                               .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));
+            var user = await _userManager.Users
+                .Include(e => e.RefreshTokens)
+                .Include(e => e.UserRoles)
+                .ThenInclude(e => e.Role)
+                .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));
 
             if (user is null)
                 throw new Exception("Token is invalid");

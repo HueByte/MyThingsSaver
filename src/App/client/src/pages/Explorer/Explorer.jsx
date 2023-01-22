@@ -44,7 +44,8 @@ const Explorer = () => {
         );
       } else {
         result = categoryContext.categories.sort(
-          (a, b) => new Date(b.lastEditedOnDate) == new Date(a.lastEditedOnDate)
+          (a, b) =>
+            new Date(b.lastEditedOnDate + "Z") == new Date(a.lastEditedOnDate)
         )[0];
       }
 

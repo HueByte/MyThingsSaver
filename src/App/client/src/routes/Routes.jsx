@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
 // other
 import PrivateRoute from "./AuthenticatedRoute";
@@ -16,11 +16,14 @@ const Register = React.lazy(() => import("../pages/Authentication/Register"));
 const Entry = React.lazy(() => import("../pages/Entry/Entry"));
 const Logout = React.lazy(() => import("../pages/Logout/Logout"));
 const Explorer = React.lazy(() => import("../pages/Explorer/Explorer"));
-const UserPage = React.lazy(() => import("../pages/User/User"));
+const Account = React.lazy(() => import("../pages/User/Account"));
 const MePage = React.lazy(() => import("../pages/User/pages/Me"));
 const LoginLogsPage = React.lazy(() => import("../pages/User/pages/LoginLogs"));
 const LoginLogsPaginatorPage = React.lazy(() =>
   import("../pages/User/components/LoginLogsPaginator")
+);
+const UserManagementPage = React.lazy(() =>
+  import("../pages/User/pages/UserManagement")
 );
 const ChangeEmailPage = React.lazy(() =>
   import("../pages/User/pages/ChangeEmail")
@@ -51,7 +54,7 @@ export const ClientRouter = () => {
       <Route
         path="/"
         element={
-          <PrivateRoute>
+          <PrivateRoute source="BasicLayout">
             <BasicLayout />
           </PrivateRoute>
         }
@@ -64,26 +67,43 @@ export const ClientRouter = () => {
 
         <Route path="entry/:categoryId/:entryId" element={<Entry />} />
 
-        <Route path="user/*" element={<UserPage />}>
-          <Route path="me" element={<MePage />} />
-          <Route path="avatar" element={<ChangeAvatarPage />} />
-          <Route path="email" element={<ChangeEmailPage />} />
-          <Route path="username" element={<ChangeUsernamePage />} />
-          <Route path="password" element={<ChangePasswordPage />} />
-
-          <Route path="logs/*" element={<LoginLogsPage />}>
-            <Route path=":page" element={<LoginLogsPaginatorPage />} />
-            <Route path="*" element={<Navigate to="1" replace />} />
+        <Route path="account/*" element={<Account />}>
+          <Route path="user/*" element={<Outlet />}>
+            <Route path="me" element={<MePage />} />
+            <Route path="avatar" element={<ChangeAvatarPage />} />
+            <Route path="email" element={<ChangeEmailPage />} />
+            <Route path="username" element={<ChangeUsernamePage />} />
+            <Route path="password" element={<ChangePasswordPage />} />
+            <Route path="logs/*" element={<LoginLogsPage />}>
+              <Route path=":page" element={<LoginLogsPaginatorPage />} />
+              <Route path="*" element={<Navigate to="1" replace />} />
+            </Route>
+            <Route path="*" element={<Navigate to="me" replace />} />
           </Route>
 
-          <Route path="admin/*" element={<LoginLogsPage isAdmin={true} />}>
+          <Route
+            path="admin/*"
+            element={
+              <PrivateRoute roles={[Role.Admin]} source="AdminPage">
+                <Outlet isAdmin={true} />
+              </PrivateRoute>
+            }
+          >
+            <Route path="logs/*" element={<LoginLogsPage isAdmin={true} />}>
+              <Route
+                path=":page"
+                element={<LoginLogsPaginatorPage isAdmin={true} />}
+              />
+              <Route path="*" element={<Navigate to="1" replace />} />
+            </Route>
+            <Route path="usermanagement" element={<UserManagementPage />} />
             <Route
-              path="logs/:page"
-              element={<LoginLogsPaginatorPage isAdmin={true} />}
+              path="*"
+              element={<Navigate to="usermanagement" replace />}
             />
-            <Route path="*" element={<Navigate to="logs/1" replace />} />
           </Route>
-          <Route path="*" element={<Navigate to="me" replace />} />
+
+          <Route path="*" element={<Navigate to="user/me" replace />} />
         </Route>
 
         <Route

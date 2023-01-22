@@ -56,6 +56,8 @@ const AuthProvider = ({ children }) => {
   };
 
   const isInRole = (roles) => {
+    if (roles === undefined || roles.length == 0) return true;
+
     let isInRole = roles.every((role) => authState.roles.includes(role));
     return isInRole;
   };

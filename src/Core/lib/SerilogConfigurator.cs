@@ -8,9 +8,11 @@ namespace MTS.Core.lib
 {
     public static class SerilogConfigurator
     {
-        public static LogEventLevel GetLogEventLevel(AppSettingsRoot settings)
+        public static LogEventLevel GetLogEventLevel(string? setting)
         {
-            return settings.Logger.LogLevel.ToLower() switch
+            if (string.IsNullOrEmpty(setting)) return LogEventLevel.Warning;
+
+            return setting.ToLower() switch
             {
                 SerilogConstants.LogLevels.Verbose => LogEventLevel.Verbose,
                 SerilogConstants.LogLevels.Debug => LogEventLevel.Debug,
@@ -22,9 +24,11 @@ namespace MTS.Core.lib
             };
         }
 
-        public static RollingInterval GetRollingInterval(AppSettingsRoot settings)
+        public static RollingInterval GetRollingInterval(string? setting)
         {
-            return settings.Logger.TimeInterval.ToLower() switch
+            if (string.IsNullOrEmpty(setting)) return RollingInterval.Day;
+
+            return setting.ToLower() switch
             {
                 SerilogConstants.TimeIntervals.Minute => RollingInterval.Minute,
                 SerilogConstants.TimeIntervals.Hour => RollingInterval.Hour,

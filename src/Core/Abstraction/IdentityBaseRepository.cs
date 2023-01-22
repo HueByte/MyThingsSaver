@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MTS.Core.Models;
@@ -12,7 +13,9 @@ namespace MTS.Core.Abstraction
     public class IdentityBaseRepository<TKeyType, TEntity, TContext> : IIdentityRepository<TKeyType, TEntity>
         where TKeyType : IConvertible
         where TEntity : IdentityDbModel<TKeyType, string>, new()
-        where TContext : IdentityDbContext<ApplicationUserModel>, new()
+        where TContext : IdentityDbContext<ApplicationUserModel, RoleModel, string,
+            IdentityUserClaim<string>, UserRoleModel, IdentityUserLogin<string>,
+            IdentityRoleClaim<string>, IdentityUserToken<string>>, new()
     {
         protected internal readonly TContext _context;
         private readonly ICurrentUserService _currentUser;
@@ -26,11 +29,14 @@ namespace MTS.Core.Abstraction
         {
             if (entity is null) return false;
 
-            var doesExist = await _context.Set<TEntity>().AnyAsync(entry => entry.Id.Equals(entity.Id) && entry.UserId.Equals(_currentUser.UserId));
+            var doesExist = await _context.Set<TEntity>()
+                .AnyAsync(entry => entry.Id.Equals(entity.Id) && entry.UserId.Equals(_currentUser.UserId));
 
             if (doesExist) return false;
 
-            await _context.Set<TEntity>().AddAsync(entity);
+            await _context.Set<TEntity>()
+                .AddAsync(entity);
+
             return true;
         }
 
@@ -38,7 +44,9 @@ namespace MTS.Core.Abstraction
         {
             if (entities is null) return false;
 
-            await _context.Set<TEntity>().AddRangeAsync(entities);
+            await _context.Set<TEntity>()
+                .AddRangeAsync(entities);
+
             return true;
         }
 
@@ -48,11 +56,11 @@ namespace MTS.Core.Abstraction
                 .AsQueryable();
         }
 
-        public virtual Task<IQueryable<TEntity>> GetAllAsync()
+        public virtual IQueryable<TEntity> GetAllAsync()
         {
-            return Task.FromResult(_context.Set<TEntity>()
+            return _context.Set<TEntity>()
                 .Where(cat => cat.UserId == _currentUser.UserId)
-                .AsQueryable());
+                .AsQueryable();
         }
 
         public virtual async Task<TEntity?> GetAsync(TKeyType id)

@@ -43,7 +43,7 @@ const ChangePasswordPage = () => {
     }
 
     setIsUpdating(false);
-    if (result.isSuccess) navigate("/user/me");
+    if (result.isSuccess) navigate("/account/user/me");
   };
 
   return (
@@ -80,7 +80,7 @@ const ChangePasswordPage = () => {
               <div className="mts-button item accept" onClick={updatePassword}>
                 Accept
               </div>
-              <NavLink to="user/me" className="mts-button item cancel">
+              <NavLink to="/account/user/me" className="mts-button item cancel">
                 Cancel
               </NavLink>
             </div>

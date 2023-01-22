@@ -2,10 +2,13 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.DTO;
+using Core.Entities.Options;
 using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MTS.Common.Constants;
 using MTS.Core.DTO;
 using MTS.Core.Entities;
@@ -25,20 +28,20 @@ namespace MTS.Core.Services.Authentication
         private readonly GuideService _guide;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IEntryRepository _entryRepository;
-        private readonly AppSettingsRoot _settings;
+        private readonly JWTOptions _jwtOptions;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly ICurrentUserService _currentUser;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         public UserService(UserManager<ApplicationUserModel> userManager,
-                           SignInManager<ApplicationUserModel> signInManager,
-                           ICurrentUserService currentUser,
-                           IJwtAuthentication jwtAuthentication,
-                           ICategoryRepository categoryRepository,
-                           IEntryRepository entryRepository,
-                           GuideService guide,
-                           AppSettingsRoot settings,
-                           IRefreshTokenService refreshTokenService,
-                           IServiceScopeFactory serviceScopeFactory)
+            SignInManager<ApplicationUserModel> signInManager,
+            ICurrentUserService currentUser,
+            IJwtAuthentication jwtAuthentication,
+            ICategoryRepository categoryRepository,
+            IEntryRepository entryRepository,
+            GuideService guide,
+            IOptions<JWTOptions> jwtOptions,
+            IRefreshTokenService refreshTokenService,
+            IServiceScopeFactory serviceScopeFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -47,22 +50,24 @@ namespace MTS.Core.Services.Authentication
             _categoryRepository = categoryRepository;
             _entryRepository = entryRepository;
             _guide = guide;
-            _settings = settings;
+            _jwtOptions = jwtOptions.Value;
             _refreshTokenService = refreshTokenService;
             _serviceScopeFactory = serviceScopeFactory;
         }
 
         public async Task<UserInfoDto> GetUserInfoAsync()
         {
-            var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
+            var user = await _userManager.Users
+                .Include(e => e.UserRoles)
+                .ThenInclude(e => e.Role)
+                .FirstOrDefaultAsync(en => en.Id == _currentUser.UserId);
 
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
-            var categoriesCount = await (await _categoryRepository.GetAllAsync()).CountAsync();
-            var entriesCount = await (await _entryRepository.GetAllAsync()).CountAsync();
-            var roles = await _userManager.GetRolesAsync(user);
-            var accountSize = await (await _entryRepository.GetAllAsync()).SumAsync(e => e.Size);
+            var categoriesCount = await _categoryRepository.GetAllAsync().CountAsync();
+            var entriesCount = await _entryRepository.GetAllAsync().CountAsync();
+            var accountSize = await _entryRepository.GetAllAsync().SumAsync(e => e.Size);
 
             UserInfoDto userInfo = new()
             {
@@ -72,18 +77,37 @@ namespace MTS.Core.Services.Authentication
                 AccountSize = accountSize,
                 CategoriesCount = categoriesCount,
                 EntriesCount = entriesCount,
-                Roles = roles.ToArray(),
+                Roles = user.UserRoles.Select(e => e.Role.Name).ToArray()!,
                 Email = user.Email
             };
 
             return userInfo;
         }
 
+        public Task<List<ManagementUserDto>> GetManagementUsers()
+        {
+            return _userManager.Users
+                .Include(u => u.UserRoles)
+                .ThenInclude(e => e.Role)
+                .OrderBy(u => u.NormalizedUserName)
+                .Select(user => new ManagementUserDto()
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Username = user.UserName,
+                    AvatarUrl = user.AvatarUrl,
+                    AccountCreatedDate = user.AccountCreatedDate,
+                    Roles = user.UserRoles!.Select(ur => ur.Role.Name).ToArray()!,
+                    AccountSize = user.Entries!.Sum(e => e.Size)
+                })
+                .ToListAsync();
+        }
+
         public async Task<bool> ChangeUserAvatarAsync(string avatarUrl)
         {
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
             if (user.AvatarUrl == avatarUrl)
                 return true;
@@ -99,21 +123,21 @@ namespace MTS.Core.Services.Authentication
         {
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
             if (string.IsNullOrEmpty(username))
-                throw new EndpointException("Username cannot be empty");
+                throw new HandledException("Username cannot be empty");
 
             if (user.UserName == username)
                 return true;
 
             var passwordVerification = await _userManager.CheckPasswordAsync(user, password);
             if (!passwordVerification)
-                throw new EndpointException("Wrong password");
+                throw new HandledException("Wrong password");
 
             var duplicateUser = await _userManager.FindByNameAsync(username);
             if (duplicateUser is not null)
-                throw new EndpointException("This username is already taken");
+                throw new HandledException("This username is already taken");
 
             await _userManager.SetUserNameAsync(user, username);
 
@@ -123,16 +147,16 @@ namespace MTS.Core.Services.Authentication
         public async Task<bool> ChangePasswordAsync(string currentPassword, string newPassword)
         {
             if (string.IsNullOrEmpty(currentPassword) || string.IsNullOrEmpty(newPassword))
-                throw new Exception("New and old password can't be empty");
+                throw new HandledException("New and old password can't be empty");
 
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
 
             if (!result.Succeeded)
-                throw new EndpointException("Couldn't change password, the current password is incorrect");
+                throw new HandledException("Couldn't change password, the current password is incorrect");
 
             return true;
         }
@@ -140,7 +164,7 @@ namespace MTS.Core.Services.Authentication
         public async Task<IdentityResult> CreateUser(RegisterDto registerUser)
         {
             if (registerUser is null)
-                throw new ArgumentException("RegisterUser model cannot be null");
+                throw new HandledException("Register User model cannot be empty");
 
             var user = new ApplicationUserModel()
             {
@@ -153,7 +177,7 @@ namespace MTS.Core.Services.Authentication
             var result = await _userManager.CreateAsync(user, registerUser!.Password!);
 
             if (!result.Succeeded)
-                throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
+                throw new HandledExceptionList(result.Errors.Select(errors => errors.Description).ToList());
 
             // seed data
             await _userManager.AddToRoleAsync(user, Role.USER);
@@ -165,11 +189,14 @@ namespace MTS.Core.Services.Authentication
         public async Task<VerifiedUserDto> LoginUser(LoginUserDto userDto, string IpAddress)
         {
             if (userDto is null && string.IsNullOrEmpty(IpAddress))
-                throw new ArgumentException("User model and Ip address cannot be empty");
+                throw new HandledException("User model and Ip address cannot be empty");
 
-            var user = await _userManager.Users.Where(u => u.UserName == userDto!.Username)
-                                               .Include(e => e.RefreshTokens) // consider .Take(n)
-                                               .FirstOrDefaultAsync();
+            var user = await _userManager.Users
+                .Where(u => u.UserName == userDto!.Username)
+                .Include(e => e.UserRoles)
+                .ThenInclude(e => e.Role)
+                .Include(e => e.RefreshTokens) // consider .Take(n)
+                .FirstOrDefaultAsync();
 
             return await HandleLogin(user!, userDto!.Password!, IpAddress);
         }
@@ -178,26 +205,26 @@ namespace MTS.Core.Services.Authentication
         {
             var user = await _userManager.FindByIdAsync(_currentUser?.UserId!);
             if (user is null)
-                throw new EndpointException("Couldn't find this user");
+                throw new HandledException("Couldn't find this user");
 
             if (string.IsNullOrEmpty(email))
-                throw new EndpointException("Email cannot be empty");
+                throw new HandledException("Email cannot be empty");
 
             if (user.Email == email)
                 return true;
 
             var passwordVerification = await _userManager.CheckPasswordAsync(user, password);
             if (!passwordVerification)
-                throw new EndpointException("Wrong password");
+                throw new HandledException("Wrong password");
 
             var duplicateUser = await _userManager.FindByEmailAsync(email);
             if (duplicateUser is not null)
-                throw new EndpointException("This email is already taken");
+                throw new HandledException("This email is already taken");
 
             var result = await _userManager.ChangeEmailAsync(user, email, "");
 
             if (!result.Succeeded)
-                throw new EndpointExceptionList(result.Errors.Select(errors => errors.Description).ToList());
+                throw new HandledExceptionList(result.Errors.Select(errors => errors.Description).ToList());
 
             return result.Succeeded;
         }
@@ -205,19 +232,19 @@ namespace MTS.Core.Services.Authentication
         private async Task<VerifiedUserDto> HandleLogin(ApplicationUserModel user, string password, string ipAddress)
         {
             if (user is null)
-                throw new EndpointException("Couldn't log in, check your login or password"); // Couldn't find user
+                throw new HandledException("Couldn't log in, check your login or password"); // Couldn't find user
 
             // Validate credentials 
             var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
             if (!result.Succeeded)
-                throw new EndpointException("Couldn't log in, check your login or password");
+                throw new HandledException("Couldn't log in, check your login or password");
 
             var refreshToken = _refreshTokenService.CreateRefreshToken(ipAddress);
             user.RefreshTokens ??= new();
             user.RefreshTokens?.Add(refreshToken);
 
-            var roles = await _userManager.GetRolesAsync(user!);
-            var token = _jwtAuthentication.GenerateJsonWebToken(user!, roles);
+            var roles = user.UserRoles.Select(e => e.Role.Name).ToList();
+            var token = _jwtAuthentication.GenerateJsonWebToken(user!, roles!);
 
             _refreshTokenService.RemoveOldRefreshTokens(user);
 
@@ -230,11 +257,11 @@ namespace MTS.Core.Services.Authentication
             return new VerifiedUserDto()
             {
                 Username = user!.UserName,
-                Roles = roles.ToArray(),
+                Roles = roles?.ToArray()!,
                 RefreshToken = refreshToken!.Token,
                 RefreshTokenExpiration = refreshToken!.Expires,
                 Token = token,
-                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_settings.JWT.AccessTokenExpireTime),
+                AccessTokenExpiration = DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenExpireTime),
                 AvatarUrl = user.AvatarUrl,
                 Email = user.Email
             };
@@ -246,8 +273,16 @@ namespace MTS.Core.Services.Authentication
             {
                 await using var scope = _serviceScopeFactory.CreateAsyncScope();
                 var loginLogService = scope.ServiceProvider.GetRequiredService<ILoginLogService>();
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<object>>();
 
-                await loginLogService.LogLoginAsync(user, ipAddress);
+                try
+                {
+                    await loginLogService.AddLoginLogAsync(user, ipAddress);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Failed to log a login");
+                }
             });
         }
 

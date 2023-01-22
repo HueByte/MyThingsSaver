@@ -3,11 +3,11 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";
-import { AiFillFire, AiOutlineUser } from "react-icons/ai";
+import { AiFillCloud, AiFillFire, AiOutlineUser } from "react-icons/ai";
 import { HiOutlineClipboard } from "react-icons/hi";
 import { Role } from "../../api/Roles";
 
-const UserPage = () => {
+const AccountPage = () => {
   const authContext = useContext(AuthContext);
 
   const colors = [
@@ -48,20 +48,29 @@ const UserPage = () => {
         </div>
         <div className="content">
           <div className="menu">
-            <NavLink to="me" activeClassName="active" className="item">
+            <NavLink to="user/me" activeClassName="active" className="item">
               <AiOutlineUser /> Me
             </NavLink>
-            <NavLink to="logs" activeClassName="active" className="item">
+            <NavLink to="user/logs" activeClassName="active" className="item">
               <HiOutlineClipboard /> Login logs
             </NavLink>
             {authContext.isInRole([Role.Admin]) ? (
-              <NavLink
-                to="admin/logs"
-                activeClassName="active"
-                className="item"
-              >
-                <AiFillFire /> Admin logs
-              </NavLink>
+              <>
+                <NavLink
+                  to="admin/logs"
+                  activeClassName="active"
+                  className="item"
+                >
+                  <AiFillFire /> Admin logs
+                </NavLink>
+                <NavLink
+                  to="admin/usermanagement"
+                  activeClassName="active"
+                  className="item"
+                >
+                  <AiFillCloud /> Users
+                </NavLink>
+              </>
             ) : (
               <></>
             )}
@@ -75,4 +84,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default AccountPage;
