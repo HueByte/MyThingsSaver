@@ -12,6 +12,9 @@ const TestingPage = React.lazy(() =>
 );
 const Settings = React.lazy(() => import("../pages/Settings/Settings"));
 const Login = React.lazy(() => import("../pages/Authentication/Login"));
+const LegalNoticePage = React.lazy(() =>
+  import("../pages/Policies/LegalNotice")
+);
 const Register = React.lazy(() => import("../pages/Authentication/Register"));
 const Entry = React.lazy(() => import("../pages/Entry/Entry"));
 const Logout = React.lazy(() => import("../pages/Logout/Logout"));
@@ -50,6 +53,8 @@ export const ClientRouter = () => {
       <Route path="auth/login" element={<Login />} />
 
       <Route path="auth/register" element={<Register />} />
+
+      <Route path="LegalNotice" element={<LegalNoticePage />} />
 
       <Route
         path="/"

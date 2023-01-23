@@ -1,0 +1,34 @@
+@use "../../styles/theme" as theme;
+
+.legal-notice-container {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    padding: 2em;
+    gap: 2em;
+
+    .legal-notice {
+        width: 1024px;
+        padding: 2em;
+        border-radius: 15px;
+        background-color: theme.$altBackgroundColor;
+    }
+
+    .nav-button {
+        width: 200px;
+        color: white;
+
+        &:hover {
+            color: white;
+        }
+    }
+}
+
+.wmde-markdown {
+    font-family: 'Fira Mono', monospace;
+    background-color: theme.$altBackgroundColor;
+}

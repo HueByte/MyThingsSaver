@@ -7,7 +7,6 @@ export const PrivateRoute = ({ roles, source, children }) => {
   const authContext = useContext(AuthContext);
 
   if (!authContext.isAuthenticated()) {
-    console.log("q");
     return <Navigate to="/auth/login" replace />;
   }
 

@@ -102,6 +102,14 @@
                     }
                 }
             }
+
+            .legal {
+                color: theme.$primaryLight;
+                width: 100%;
+                line-height: 1.5em;
+                display: flex;
+                font-size: small;
+            }
         }
 
         .loading-overlay {
@@ -109,7 +117,7 @@
             height: 100%;
             position: absolute;
             z-index: 999;
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(theme.$backgroundColorLight, 0.5);
         }
 
         .wave {

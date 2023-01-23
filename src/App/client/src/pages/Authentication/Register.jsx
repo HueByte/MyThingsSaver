@@ -15,6 +15,7 @@ import { AuthService } from "../../api/services/AuthService";
 const Register = () => {
   const authContext = useContext(AuthContext);
   const [isWorking, setIsWorking] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const email = useRef();
   const username = useRef();
   const password = useRef();
@@ -38,6 +39,12 @@ const Register = () => {
       password.current.value.length === 0
     ) {
       warningModal("Please fill all of the fields");
+      setIsWorking(false);
+      return;
+    }
+
+    if (!agreed) {
+      warningModal("You must agree to the Legal Notice");
       setIsWorking(false);
       return;
     }
@@ -93,6 +100,20 @@ const Register = () => {
           className="mts-input"
           placeholder="password"
         />
+      </div>
+      <div className="legal">
+        <label className="switch-s switch">
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={() => setAgreed(!agreed)}
+          />
+          <span class="slider"></span>
+        </label>
+        <div>
+          I have read and agree to the{" "}
+          <NavLink to="/LegalNotice">Legal Notice</NavLink>
+        </div>
       </div>
       <div
         className="mts-button gradient-background-r full-button"
