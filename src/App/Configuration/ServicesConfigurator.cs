@@ -11,12 +11,12 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MTS.Core.Entities;
 using MTS.Core.Services.Authentication;
 using MTS.Core.Services.Category;
 using MTS.Core.Services.CurrentUser;
 using MTS.Core.Services.Entry;
 using MTS.Core.Services.Guide;
+using MTS.Core.Services.LegalNotice;
 using MTS.Infrastructure;
 using MTS.Infrastructure.Repositories;
 using MTS.Infrastructure.Services.Geolocation;
@@ -165,7 +165,7 @@ namespace MTS.App.Configuration
 
         public ServicesConfigurator ConfigureServices()
         {
-            // services
+            // Services
             _services.AddScoped<ICategoryService, CategoryService>();
             _services.AddScoped<IEntryService, EntryService>();
             _services.AddScoped<ICurrentUserService, CurrentUserService>();
@@ -175,15 +175,19 @@ namespace MTS.App.Configuration
             _services.AddScoped<ILoginLogService, LoginLogService>();
             _services.AddScoped<IGeolocationService, GeolocationService>();
 
-            // repositories
+            // Repositories
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
             _services.AddScoped<IEntryRepository, EntryRepository>();
             _services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             _services.AddScoped<ILoginLogRepository, LoginLogRepository>();
 
-            // guide 
+            // Guide 
             GuideService _guide = new();
             _services.AddSingleton(_guide);
+
+            // Privacy policy
+            LegalNoticeService _privacyPolicy = new();
+            _services.AddSingleton(_privacyPolicy);
 
             return this;
         }
