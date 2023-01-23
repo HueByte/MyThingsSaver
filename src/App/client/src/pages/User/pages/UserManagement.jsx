@@ -61,13 +61,15 @@ const UserManagementPage = () => {
                   >
                     {user.email ?? "No Email"}
                   </abbr>
-                  <div className="account-detail account-size">
-                    {getSize(user.accountSize)}
-                  </div>
                   <div className="account-detail">
                     {new Date(
                       user.accountCreatedDate + "Z"
                     ).toLocaleDateString()}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="account-detail account-size">
+                    {getSize(user.accountSize)}
                   </div>
                 </div>
                 <div className="row">
