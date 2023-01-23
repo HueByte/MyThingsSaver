@@ -25,6 +25,12 @@ namespace MTS.Core.lib
             return Create(result);
         }
 
+        public static IActionResult Property<T>(T data)
+        {
+            BaseApiResponse<T> result = new(data);
+            return Create(result);
+        }
+
         public static IActionResult Create<T>(BaseApiResponse<T> result)
         {
             return new OkObjectResult(result);
