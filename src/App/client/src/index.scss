@@ -71,20 +71,22 @@ $switch-base-width: 60px;
 $switch-base-height: 30px;
 
 .switch-s {
-  width: $switch-base-width / 1.5;
-  height: $switch-base-height / 1.5;
+  $width: $switch-base-width / 1.5;
+  $height: $switch-base-height / 1.5;
+  width: clamp($width, $width, $width);
+  height: clamp($height, $height, $height);
 
   .slider {
-    border-radius: $switch-base-height / 1.5;
+    border-radius: $height;
 
     &::before {
-      border-radius: $switch-base-height / 1.5;
-      transform: translateX(-$switch-base-height / 1.5);
+      border-radius: $height;
+      transform: translateX(-$height);
     }
   }
 
   input:checked+.slider:before {
-    transform: translateX($switch-base-height / 1.5);
+    transform: translateX($height);
     background-color: theme.$primaryLight;
   }
 
@@ -119,6 +121,7 @@ $switch-base-height: 30px;
 .switch {
   margin-right: 1em;
   position: relative;
+  flex-shrink: 0;
 
   .slider {
     position: absolute;

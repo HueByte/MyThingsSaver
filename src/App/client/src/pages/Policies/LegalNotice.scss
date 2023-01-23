@@ -1,4 +1,7 @@
 @use "../../styles/theme" as theme;
+@use "../../styles/variables" as variables;
+
+$border-radius: 15px;
 
 .legal-notice-container {
     display: flex;
@@ -6,15 +9,16 @@
     justify-items: center;
     align-items: center;
     overflow-y: auto;
+    overflow-x: hidden;
     width: 100%;
     height: 100%;
     padding: 2em;
     gap: 2em;
 
     .legal-notice {
-        width: 1024px;
-        padding: 2em;
-        border-radius: 15px;
+        width: variables.$medium-resolution;
+        padding: 1px;
+        border-radius: $border-radius;
         background-color: theme.$altBackgroundColor;
     }
 
@@ -31,4 +35,29 @@
 .wmde-markdown {
     font-family: 'Fira Mono', monospace;
     background-color: theme.$altBackgroundColor;
+    border-radius: $border-radius;
+    padding: 1em;
+}
+
+@media screen and (max-width: variables.$medium-resolution) {
+    .legal-notice-container {
+        .legal-notice {
+            width: 90vw;
+        }
+    }
+}
+
+@media screen and (max-width: variables.$small-resolution) {
+    .legal-notice-container {
+        padding: 1em 0;
+
+        .legal-notice {
+            width: 100%;
+            border-radius: 0;
+        }
+    }
+
+    .wmde-markdown {
+        border-radius: 0;
+    }
 }

@@ -25,7 +25,7 @@ const LegalNoticePage = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="legal-notice">
+        <div className="legal-notice border-gradient">
           <MEDitor.Markdown source={legalNotice} />
         </div>
       )}
