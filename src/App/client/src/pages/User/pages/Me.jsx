@@ -38,29 +38,33 @@ const MePage = () => {
             <div className="panel-name">User Information</div>
             <div className="block">
               <span className="key">Email: </span>
-              {userData?.email ? userData.email : ""}
+              <span> {userData?.email ? userData.email : ""}</span>
             </div>
             <div className="block">
               <span className="key">Created date: </span>
-              {new Date(userData?.accountCreatedDate + "Z").toLocaleString()}
+              <span>
+                {new Date(userData?.accountCreatedDate + "Z").toLocaleString()}
+              </span>
             </div>
             <div className="block">
               <span className="key">Categories Count: </span>
-              {userData?.categoriesCount}
+              <span>{userData?.categoriesCount}</span>
             </div>
             <div className="block">
               <span className="key">Entries Count: </span>
-              {userData?.entriesCount}
+              <span>{userData?.entriesCount}</span>
             </div>
             <div className="block">
               <span className="key">Account Size: </span>
-              {getSize(userData?.accountSize)}
+              <span>{getSize(userData?.accountSize)}</span>
             </div>
             <div className="block">
               <span className="key">Roles: </span>
-              {userData?.roles.map((role, index) => {
-                return <span key={index}>{capitalizeRole(role)} </span>;
-              })}
+              <span>
+                {userData?.roles.map((role, index) => {
+                  return <span key={index}>{capitalizeRole(role)} </span>;
+                })}
+              </span>
             </div>
             <div className="block">
               <span className="key">Avatar Url: </span>
