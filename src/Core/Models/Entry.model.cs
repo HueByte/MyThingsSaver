@@ -15,14 +15,14 @@ namespace MTS.Core.Models
         public DateTime CreatedOn { get; set; }
         public DateTime LastUpdatedOn { get; set; }
         public string? Content { get; set; }
-        public byte[]? Image { get; set; }
         public int Size { get; set; }
 
-        [ForeignKey("Id")]
+        public int? PublicEntryId { get; set; }
+        public virtual PublicEntryModel? PublicEntry { get; set; }
+
         public string CategoryId { get; set; } = string.Empty;
         public CategoryModel? Category { get; set; }
 
-        [ForeignKey("Id")]
         public override string UserId { get; set; } = string.Empty;
         [JsonIgnore]
         public virtual ApplicationUserModel? User { get; set; }

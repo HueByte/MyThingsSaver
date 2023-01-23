@@ -308,7 +308,6 @@ namespace MTS.Core.Services.Authentication
                 Size = _guide.WELCOME_SIZE,
                 CreatedOn = DateTime.UtcNow,
                 LastUpdatedOn = DateTime.UtcNow,
-                Image = null,
                 UserId = user.Id,
                 Id = Guid.NewGuid().ToString()
             };
@@ -321,7 +320,6 @@ namespace MTS.Core.Services.Authentication
                 Size = _guide.GUIDE_SIZE,
                 CreatedOn = DateTime.UtcNow,
                 LastUpdatedOn = DateTime.UtcNow,
-                Image = null,
                 UserId = user.Id,
                 Id = Guid.NewGuid().ToString()
             };

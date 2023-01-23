@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using MTS.App;
 using MTS.App.Configuration;
 using MTS.App.Middlewares;
-using MTS.Core.Entities;
 using MTS.Core.lib;
 using Serilog;
 using Serilog.Events;

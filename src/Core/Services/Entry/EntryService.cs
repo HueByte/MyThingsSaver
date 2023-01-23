@@ -56,7 +56,6 @@ public class EntryService : IEntryService
                 CreatedOn = entry.CreatedOn,
                 Id = entry.Id,
                 Name = entry.Name,
-                Image = entry.Image,
                 UserId = entry.UserId,
                 Size = entry.Size,
                 LastUpdatedOn = entry.LastUpdatedOn,
@@ -90,7 +89,6 @@ public class EntryService : IEntryService
             Size = default,
             CreatedOn = DateTime.UtcNow,
             LastUpdatedOn = DateTime.UtcNow,
-            Image = entryInput.Image,
             UserId = _currentUser.UserId,
             Id = Guid.NewGuid().ToString()
         };

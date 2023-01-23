@@ -20,12 +20,10 @@ namespace MTS.Core.Models
         public byte Level { get; set; }
         public virtual ICollection<EntryModel>? Entries { get; set; }
 
-        [ForeignKey("UserId")]
         public override string UserId { get; set; } = string.Empty;
         [JsonIgnore]
         public virtual ApplicationUserModel User { get; set; } = default!;
 
-        [ForeignKey("ParentCategoryId")]
         public string? ParentCategoryId { get; set; }
         public virtual CategoryModel? ParentCategory { get; set; }
         public virtual ICollection<CategoryModel>? ChildCategories { get; set; }

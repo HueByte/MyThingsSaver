@@ -29,16 +29,10 @@ namespace MTS.Infrastructure
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<EntryModel>()
-                .HasOne(c => c.Category)
-                .WithMany(c => c.Entries)
-                .HasForeignKey(c => c.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<CategoryModel>()
-                .HasOne(c => c.ParentCategory)
-                .WithMany(c => c.ChildCategories)
-                .HasForeignKey(c => c.ParentCategoryId)
+            builder.Entity<ApplicationUserModel>()
+                .HasMany(c => c.PublicEntries)
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ApplicationUserModel>()
@@ -46,6 +40,24 @@ namespace MTS.Infrastructure
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
                 .IsRequired();
+
+            builder.Entity<EntryModel>()
+                .HasOne(c => c.Category)
+                .WithMany(c => c.Entries)
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<EntryModel>()
+                .HasOne(c => c.PublicEntry)
+                .WithOne(c => c.Entry)
+                .HasForeignKey<PublicEntryModel>(c => c.EntryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CategoryModel>()
+                .HasOne(c => c.ParentCategory)
+                .WithMany(c => c.ChildCategories)
+                .HasForeignKey(c => c.ParentCategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<RoleModel>()
                 .HasMany(e => e.UserRoles)
@@ -56,5 +68,6 @@ namespace MTS.Infrastructure
 
         public DbSet<CategoryModel> Categories { get; set; }
         public DbSet<EntryModel> Entries { get; set; }
+        public DbSet<PublicEntryModel> PublicEntries { get; set; }
     }
 }
