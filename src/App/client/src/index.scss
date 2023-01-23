@@ -66,3 +66,80 @@ code {
 .gradient-background-r {
   background-image: linear-gradient(to right, theme.$neutralDarker, theme.$secondaryLight);
 }
+
+$switch-base-width: 60px;
+$switch-base-height: 30px;
+
+.switch-s {
+  width: $switch-base-width / 1.5;
+  height: $switch-base-height / 1.5;
+
+  .slider {
+    border-radius: $switch-base-height / 1.5;
+
+    &::before {
+      border-radius: $switch-base-height / 1.5;
+      transform: translateX(-$switch-base-height / 1.5);
+    }
+  }
+
+  input:checked+.slider:before {
+    transform: translateX($switch-base-height / 1.5);
+    background-color: theme.$primaryLight;
+  }
+
+  input:checked+.slider {
+    box-shadow: 0 0 0 2px theme.$primaryLight, 0 0 8px theme.$primaryLight;
+  }
+}
+
+.switch-m {
+  width: clamp($switch-base-width, $switch-base-width, $switch-base-width);
+  height: clamp($switch-base-height, $switch-base-height, $switch-base-height);
+
+  .slider {
+    border-radius: $switch-base-height;
+
+    &::before {
+      border-radius: $switch-base-height;
+      transform: translateX(-$switch-base-height);
+    }
+  }
+
+  input:checked+.slider:before {
+    transform: translateX($switch-base-height);
+    background-color: theme.$primaryLight;
+  }
+
+  input:checked+.slider {
+    box-shadow: 0 0 0 2px theme.$primaryLight, 0 0 8px theme.$primaryLight;
+  }
+}
+
+.switch {
+  margin-right: 1em;
+  position: relative;
+
+  .slider {
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 0 2px theme.$textPassive, 0 0 4px theme.$textPassive;
+    cursor: pointer;
+    border: 4px solid transparent;
+    overflow: hidden;
+    transition: 0.2s;
+
+    &::before {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 100%;
+      background-color: theme.$textPassive;
+      transition: 0.2s;
+    }
+  }
+
+  input {
+    display: none;
+  }
+}
