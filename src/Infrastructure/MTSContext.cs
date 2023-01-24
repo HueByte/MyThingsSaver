@@ -53,6 +53,12 @@ namespace MTS.Infrastructure
                 .HasForeignKey<PublicEntryModel>(c => c.EntryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<PublicEntryModel>()
+                .HasOne(c => c.Entry)
+                .WithOne(c => c.PublicEntry)
+                .HasForeignKey<EntryModel>(e => e.PublicEntryId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             builder.Entity<CategoryModel>()
                 .HasOne(c => c.ParentCategory)
                 .WithMany(c => c.ChildCategories)

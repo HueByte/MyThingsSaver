@@ -3,6 +3,7 @@ using System;
 using MTS.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MTS.Infrastructure.Migrations
 {
     [DbContext(typeof(MTSContext))]
-    partial class MTSContextModelSnapshot : ModelSnapshot
+    [Migration("20230124000132_PublicEntityUrl")]
+    partial class PublicEntityUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.2");
@@ -163,9 +166,6 @@ namespace MTS.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("PublicEntryId")
-                        .IsUnique();
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Entries");
@@ -216,6 +216,9 @@ namespace MTS.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EntryId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -413,11 +416,6 @@ namespace MTS.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MTS.Core.Models.PublicEntryModel", "PublicEntry")
-                        .WithOne("Entry")
-                        .HasForeignKey("MTS.Core.Models.EntryModel", "PublicEntryId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("MTS.Core.Models.ApplicationUserModel", "User")
                         .WithMany("Entries")
                         .HasForeignKey("UserId")
@@ -425,8 +423,6 @@ namespace MTS.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-
-                    b.Navigation("PublicEntry");
 
                     b.Navigation("User");
                 });
@@ -444,11 +440,19 @@ namespace MTS.Infrastructure.Migrations
 
             modelBuilder.Entity("MTS.Core.Models.PublicEntryModel", b =>
                 {
+                    b.HasOne("MTS.Core.Models.EntryModel", "Entry")
+                        .WithOne("PublicEntry")
+                        .HasForeignKey("MTS.Core.Models.PublicEntryModel", "EntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MTS.Core.Models.ApplicationUserModel", "User")
                         .WithMany("PublicEntries")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Entry");
 
                     b.Navigation("User");
                 });
@@ -537,10 +541,9 @@ namespace MTS.Infrastructure.Migrations
                     b.Navigation("Entries");
                 });
 
-            modelBuilder.Entity("MTS.Core.Models.PublicEntryModel", b =>
+            modelBuilder.Entity("MTS.Core.Models.EntryModel", b =>
                 {
-                    b.Navigation("Entry")
-                        .IsRequired();
+                    b.Navigation("PublicEntry");
                 });
 
             modelBuilder.Entity("MTS.Core.Models.RoleModel", b =>

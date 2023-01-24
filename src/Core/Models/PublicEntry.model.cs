@@ -9,6 +9,7 @@ namespace MTS.Core.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
+        public string PublicUrl { get; set; } = default!;
         public string EntryId { get; set; } = default!;
         public virtual EntryModel Entry { get; set; } = default!;
         public virtual ApplicationUserModel User { get; set; } = default!;

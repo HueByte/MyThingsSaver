@@ -1,3 +1,5 @@
+using System.Formats.Asn1;
+using Core.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MTS.App.Extensions;
@@ -11,9 +13,11 @@ namespace MTS.App.Controllers
     public class EntriesController : BaseApiController
     {
         private readonly IEntryService _entryService;
-        public EntriesController(IEntryService entryService)
+        private readonly IPublicEntryService _publicEntryService;
+        public EntriesController(IEntryService entryService, IPublicEntryService publicEntryService)
         {
             _entryService = entryService;
+            _publicEntryService = publicEntryService;
         }
 
         [HttpGet]
@@ -68,6 +72,14 @@ namespace MTS.App.Controllers
             await _entryService.UpdateEntryWithoutContentAsync(entry);
 
             return ApiResponse.Empty();
+        }
+
+        [HttpPatch("makePublic")]
+        public async Task<IActionResult> MakePublic([FromBody] UpdatePublicEntryDto entry)
+        {
+            var result = await _publicEntryService.TogglePublicEntryAsync(entry.TargetId);
+
+            return ApiResponse.ValueType(result);
         }
 
         [HttpDelete]

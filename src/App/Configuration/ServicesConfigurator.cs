@@ -4,6 +4,7 @@ using Common.Constants;
 using Core.Entities.Options;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Core.Services.Entry;
 using Core.Services.LoginLog;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MTS.Core.Interfaces.Repositories;
 using MTS.Core.Services.Authentication;
 using MTS.Core.Services.Category;
 using MTS.Core.Services.CurrentUser;
@@ -174,12 +176,14 @@ namespace MTS.App.Configuration
             _services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             _services.AddScoped<ILoginLogService, LoginLogService>();
             _services.AddScoped<IGeolocationService, GeolocationService>();
+            _services.AddScoped<IPublicEntryService, PublicEntryService>();
 
             // Repositories
             _services.AddScoped<ICategoryRepository, CategoryRepository>();
             _services.AddScoped<IEntryRepository, EntryRepository>();
             _services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             _services.AddScoped<ILoginLogRepository, LoginLogRepository>();
+            _services.AddScoped<IPublicEntryRepository, PublicEntryRepository>();
 
             // Guide 
             GuideService _guide = new();
