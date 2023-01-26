@@ -8,5 +8,6 @@ namespace Core.DTO
         public string? Content { get; set; }
         public int Size { get; set; }
         public string Owner { get; set; } = string.Empty;
+        public string? OwnerAvatar { get; set; } = string.Empty;
     }
 }

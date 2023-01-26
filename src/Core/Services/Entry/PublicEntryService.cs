@@ -42,6 +42,7 @@ namespace Core.Services.Entry
                     CreatedOn = e.CreatedOn,
                     LastUpdatedOn = e.LastUpdatedOn,
                     Owner = e.User!.UserName!,
+                    OwnerAvatar = e.User!.AvatarUrl,
                     Size = e.Size
                 })
                 .FirstOrDefaultAsync();
