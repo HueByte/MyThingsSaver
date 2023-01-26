@@ -74,14 +74,6 @@ namespace MTS.App.Controllers
             return ApiResponse.Empty();
         }
 
-        [HttpPatch("makePublic")]
-        public async Task<IActionResult> MakePublic([FromBody] UpdatePublicEntryDto entry)
-        {
-            var result = await _publicEntryService.TogglePublicEntryAsync(entry.TargetId);
-
-            return ApiResponse.ValueType(result);
-        }
-
         [HttpDelete]
         [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> Delete([FromQuery] string id)
@@ -89,6 +81,22 @@ namespace MTS.App.Controllers
             await _entryService.RemoveEntryAsync(id);
 
             return ApiResponse.Empty();
+        }
+
+        [HttpPatch("makePublic")]
+        public async Task<IActionResult> MakePublic([FromBody] UpdatePublicEntryDto entry)
+        {
+            var result = await _publicEntryService.TogglePublicEntryAsync(entry.TargetId);
+
+            return ApiResponse.Data(result);
+        }
+
+        [HttpGet("public")]
+        public async Task<IActionResult> MakePublic([FromQuery] string url)
+        {
+            var result = await _publicEntryService.GetPublicEntryAsync(url);
+
+            return ApiResponse.Data(result);
         }
     }
 }

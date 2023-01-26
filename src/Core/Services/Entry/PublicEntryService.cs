@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Core.DTO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MTS.Core.DTO;
@@ -21,31 +22,59 @@ namespace Core.Services.Entry
             _entryRepository = entryRepository;
         }
 
-        public async Task<bool> TogglePublicEntryAsync(string targetId)
+        public async Task<PublicEntryDto?> GetPublicEntryAsync(string publicUrl)
         {
+            var publicEntry = await _publicEntryRepository
+                .GetQueryable()
+                .FirstOrDefaultAsync(x => x.PublicUrl == publicUrl);
+
+            if (publicEntry is null)
+                return null!;
+
+            var entry = await _entryRepository
+                .GetQueryable()
+                .Include(e => e.User)
+                .Where(e => e.Id == publicEntry.EntryId)
+                .Select(e => new PublicEntryDto
+                {
+                    Title = e.Name,
+                    Content = e.Content,
+                    CreatedOn = e.CreatedOn,
+                    LastUpdatedOn = e.LastUpdatedOn,
+                    Owner = e.User!.UserName!,
+                    Size = e.Size
+                })
+                .FirstOrDefaultAsync();
+
+            return entry;
+        }
+
+        public async Task<string> TogglePublicEntryAsync(string targetId)
+        {
+            string? result = null;
+
             if (string.IsNullOrEmpty(targetId))
-                return false;
+                return result!;
 
             var entry = await _entryRepository.GetAsync(targetId);
             if (entry is null)
-                return false;
+                return result!;
 
-            // Is public
             if (IsPublicEntry(entry))
             {
                 await MakePrivateAsync(entry);
             }
             else
             {
-                await MakePublicAsync(entry);
+                result = await MakePublicAsync(entry);
             }
 
             await _entryRepository.SaveChangesAsync();
 
-            return true;
+            return result!;
         }
 
-        private async Task MakePublicAsync(EntryModel entry)
+        private async Task<string> MakePublicAsync(EntryModel entry)
         {
             entry.PublicEntry = new()
             {
@@ -55,6 +84,8 @@ namespace Core.Services.Entry
             };
 
             await _entryRepository.UpdateAsync(entry);
+
+            return entry.PublicEntry.PublicUrl;
         }
 
         private async Task MakePrivateAsync(EntryModel entry)
