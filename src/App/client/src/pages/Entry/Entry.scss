@@ -122,12 +122,6 @@ $read-width: 724px;
   }
 }
 
-@media screen and (max-width: variables.$medium-resolution) {
-  .entry__container {
-    padding: variables.$m-margin;
-  }
-}
-
 @media screen and (max-width: variables.$small-resolution) {
   .entry__container {
     .content__container {
@@ -150,7 +144,6 @@ $read-width: 724px;
 @media screen and (max-width: variables.$mobile-resolution) {
   .entry__container {
     padding: 0;
-    padding-top: calc(variables.$top-menu-height-mobile + 10px);
 
     .top-info {
       border-radius: 0;
