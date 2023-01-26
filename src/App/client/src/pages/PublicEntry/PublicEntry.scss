@@ -1,0 +1,107 @@
+@use "../../styles/theme" as theme;
+@use "../../styles/variables" as variables;
+
+$border-radius: 15px;
+$user-card-width: 250px;
+$user-card-border-radius: 15px;
+
+.public-entry-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+    padding: 2em;
+    gap: 2em;
+
+    .owner {
+        display: flex;
+        flex-direction: column;
+        height: fit-content;
+        width: clamp($user-card-width, $user-card-width, $user-card-width);
+        border-radius: $user-card-border-radius;
+        border-width: 3px;
+        background-color: theme.$altBackgroundColor;
+        padding: 10px;
+        flex-shrink: 0;
+
+        .avatar {
+            width: 100%;
+            height: clamp($user-card-width, $user-card-width, $user-card-width);
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 100%;
+                border: 2px solid #FFF;
+            }
+        }
+
+        .prop {
+            display: flex;
+            flex-direction: row;
+            gap: 1ch;
+
+            .key {
+                flex: 1 0 100px;
+            }
+
+            .value {
+                flex: 2 0;
+            }
+        }
+    }
+
+    .public-entry {
+        width: variables.$read-width;
+        padding: 1px;
+        border-radius: $border-radius;
+        background-color: theme.$altBackgroundColor;
+        height: fit-content;
+    }
+}
+
+.wmde-markdown {
+    font-family: 'Fira Mono', monospace;
+    background-color: theme.$altBackgroundColor;
+    border-radius: $border-radius;
+    padding: 1em;
+}
+
+@media screen and (max-width: variables.$medium-resolution) {
+    .public-entry-container {
+        flex-direction: column;
+        justify-content: unset;
+
+        .owner {
+            flex-direction: row;
+            height: clamp(100px, 100px, 100px);
+
+            .avatar {
+                width: clamp(100px, 100px, 100px);
+                height: clamp(100px, 100px, 100px);
+            }
+        }
+
+        .public-entry {
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: variables.$small-resolution) {
+    .public-entry-container {
+        padding: 1em 0;
+
+        .public-entry {
+            border-radius: 0;
+        }
+    }
+
+    .wmde-markdown {
+        border-radius: 0;
+    }
+}

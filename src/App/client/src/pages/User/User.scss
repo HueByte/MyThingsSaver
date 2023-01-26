@@ -42,7 +42,7 @@ $content-page-width: calc(100% - $content-menu-width);
 
             .avatar {
                 width: 100%;
-                height: clamp(250px, 250px, 250px);
+                height: clamp($user-card-width, $user-card-width, $user-card-width);
                 overflow: hidden;
 
                 img {
