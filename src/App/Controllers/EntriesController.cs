@@ -9,7 +9,6 @@ using MTS.Core.lib;
 
 namespace MTS.App.Controllers
 {
-    [Authorize]
     public class EntriesController : BaseApiController
     {
         private readonly IEntryService _entryService;
@@ -21,6 +20,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(typeof(BaseApiResponse<EntryModel>), 200)]
         public async Task<IActionResult> Get([FromQuery] string id)
         {
@@ -30,6 +30,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpGet("all")]
+        [Authorize]
         [ProducesResponseType(typeof(BaseApiResponse<List<EntryModel>>), 200)]
         public async Task<IActionResult> GetAll([FromQuery] string categoryId, bool withContent)
         {
@@ -39,6 +40,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpGet("recent")]
+        [Authorize]
         [ProducesResponseType(typeof(BaseApiResponse<List<EntryModel>>), 200)]
         public async Task<IActionResult> GetRecent()
         {
@@ -48,6 +50,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> Add([FromBody] EntryDTO entry)
         {
@@ -57,6 +60,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> Update([FromBody] EntryDTO entry)
         {
@@ -66,6 +70,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPatch]
+        [Authorize]
         [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> UpdateWithoutContent([FromBody] EntryDTO entry)
         {
@@ -75,6 +80,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         [ProducesResponseType(typeof(BaseApiResponse<object>), 200)]
         public async Task<IActionResult> Delete([FromQuery] string id)
         {
@@ -84,6 +90,7 @@ namespace MTS.App.Controllers
         }
 
         [HttpPatch("makePublic")]
+        [Authorize]
         public async Task<IActionResult> MakePublic([FromBody] UpdatePublicEntryDto entry)
         {
             var result = await _publicEntryService.TogglePublicEntryAsync(entry.TargetId);

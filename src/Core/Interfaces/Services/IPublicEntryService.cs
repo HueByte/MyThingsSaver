@@ -1,6 +1,4 @@
 using Core.DTO;
-using MTS.Core.DTO;
-using MTS.Core.Models;
 
 namespace MTS.Core.Interfaces.Services
 {

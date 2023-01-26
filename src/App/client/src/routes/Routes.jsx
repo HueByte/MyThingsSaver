@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
 // other
 import PrivateRoute from "./AuthenticatedRoute";
 import { Role } from "../api/Roles";
+import { AuthContext } from "../contexts/AuthContext";
 
 // elements/pages
 const HomePage = React.lazy(() => import("../pages/HomePage/HomePage"));
@@ -11,6 +12,9 @@ const TestingPage = React.lazy(() =>
   import("../pages/TestingPage/TestingPage")
 );
 const Settings = React.lazy(() => import("../pages/Settings/Settings"));
+const PublicEntryPage = React.lazy(() =>
+  import("../pages/PublicEntry/PublicEntry")
+);
 const Login = React.lazy(() => import("../pages/Authentication/Login"));
 const LegalNoticePage = React.lazy(() =>
   import("../pages/Policies/LegalNotice")
@@ -48,6 +52,8 @@ const BasicLayout = React.lazy(() =>
 );
 
 export const ClientRouter = () => {
+  const authContext = useContext(AuthContext);
+
   return (
     <Routes>
       <Route path="auth/login" element={<Login />} />
@@ -55,6 +61,12 @@ export const ClientRouter = () => {
       <Route path="auth/register" element={<Register />} />
 
       <Route path="LegalNotice" element={<LegalNoticePage />} />
+
+      {!authContext.isAuthenticated() ? (
+        <Route path="public/:link" element={<PublicEntryPage />} />
+      ) : (
+        <></>
+      )}
 
       <Route
         path="/"
@@ -120,17 +132,12 @@ export const ClientRouter = () => {
           }
         />
 
+        <Route path="public/:link" element={<PublicEntryPage />} />
+
+        <Route path="logout" element={<Logout />} />
+
         <Route path="*" element={<FOUR_ZERO_FOUR />} />
       </Route>
-
-      <Route
-        path="logout"
-        element={
-          <PrivateRoute>
-            <Logout />
-          </PrivateRoute>
-        }
-      />
     </Routes>
   );
 };
