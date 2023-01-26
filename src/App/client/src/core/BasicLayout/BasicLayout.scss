@@ -4,19 +4,13 @@
   display: flex;
   flex-flow: column wrap;
   align-items: stretch;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  height: clamp(100vh, 100vh, 100vh);
+  width: 100%;
 
   .main__wrapper {
     width: 100%;
-    left: 0;
-    position: absolute;
-    top: variables.$top-menu-height;
-    height: Calc(100% - variables.$top-menu-height);
-    overflow: hidden;
+    height: calc(100% - variables.$top-menu-height);
+    overflow-x: hidden;
     overflow-y: auto;
     transition: 1s ease-in-out;
     z-index: 10;
@@ -37,7 +31,6 @@
     width: Calc(100% + 40px);
     height: 100%;
     transform: translateY(3px);
-    /* for some reason */
     display: inline-block;
   }
 }
@@ -45,15 +38,11 @@
 @media screen and (max-width: variables.$small-resolution) {
   .interface__wrapper {
     position: relative;
-    width: 100%;
-    min-height: 100vh;
+    flex-wrap: nowrap;
 
     .main__wrapper {
+      height: 100%;
       width: 100%;
-      display: block;
-      position: static;
-      height: auto;
-      margin-top: 0;
     }
   }
 }

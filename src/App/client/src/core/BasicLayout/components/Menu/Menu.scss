@@ -5,16 +5,16 @@
 $logo-width: 240px;
 
 .nav-top {
-  background-color: theme.$altBackgroundColor;
-  height: 64px;
+  height: variables.$top-menu-height-mobile;
   width: 100%;
-  position: relative;
+  position: sticky;
   top: 0;
   z-index: 998;
   display: flex;
   flex-direction: row;
   border-radius: 0;
   border-width: 0 0 2px 0;
+  background-color: theme.$altBackgroundColor;
 
   * {
     font-weight: bold;

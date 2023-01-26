@@ -5,7 +5,6 @@ import "./Menu.scss";
 import "./MobileMenu.scss";
 import logo from "../../../../assets/CloudByteColor.png";
 import HamburgerMenu from "../../../../components/HamburgerMenu/HamburgerMenu";
-import { Role } from "../../../../api/Roles";
 
 const Menu = () => {
   const authContext = useContext(AuthContext);

@@ -33,35 +33,17 @@
     html,
     body,
     #root {
-      height: 100vh;
+      min-height: 100vh;
       width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin: 0;
-      padding: 0;
       overflow: hidden;
       color: white;
       font-family: 'Fira Mono', monospace;
+      border: 0;
+      margin: 0;
     }
 
     html {
       background-color: #001220;
-    }
-
-    /* This seems like better solution after all for phones */
-    @media screen and (max-width: 768px) {
-      html {
-        overflow-y: auto;
-      }
-
-      body,
-      #root {
-        min-height: 100vh;
-        height: unset;
-        position: relative;
-        overflow-y: auto;
-      }
     }
 
     .loader {
