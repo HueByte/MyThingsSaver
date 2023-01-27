@@ -4,6 +4,10 @@
 .wmde-markdown {
     font-family: 'Fira Mono', monospace;
     background-color: theme.$altBackgroundColor;
+
+    img {
+        background-color: theme.$altBackgroundColor;
+    }
 }
 
 @media screen and (max-width: variables.$small-resolution) {

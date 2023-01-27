@@ -235,11 +235,13 @@ $content-page-width: calc(100% - $content-menu-width);
                     justify-content: center;
                     border-right: none;
                     width: clamp(100%, 100%, 100%);
-                    min-height: 3em;
+                    overflow-y: auto;
                     padding: 0.5em;
                     gap: 2em;
 
                     .item {
+                        flex-shrink: 0;
+
                         &:not(:first-child) {
                             margin-top: 0;
                         }
@@ -266,10 +268,6 @@ $content-page-width: calc(100% - $content-menu-width);
         .user-panel {
             .content {
                 width: clamp(95%, 95%, 95%);
-
-                .menu {
-                    flex-wrap: wrap;
-                }
             }
         }
     }

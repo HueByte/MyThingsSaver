@@ -33,6 +33,7 @@ const Entry = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [isMobileEdit, setIsMobileEdit] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
   const entryToDelete = useRef();
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const Entry = () => {
       }
 
       setEntry(result.data);
+      setIsPublic(result.data.publicEntryId);
       setName(result.data.name);
       setEditValue(result.data.content);
       checkEntrySize(result.data.content.length);
@@ -59,6 +61,18 @@ const Entry = () => {
         )} KB, using preview might affect your performance.`,
         10000
       );
+    }
+  };
+
+  const togglePublic = async () => {
+    if (entry) {
+      let result = await EntriesService.patchApiEntriesMakePublic({
+        requestBody: {
+          targetId: entryId,
+        },
+      });
+
+      setIsPublic(result.data ? true : false);
     }
   };
 
@@ -136,6 +150,17 @@ const Entry = () => {
                       onChange={handleChange}
                       autoComplete="off"
                     />
+                  </div>
+                  <div className="switch-box">
+                    <label>Is Public?</label>
+                    <label className="switch-s switch">
+                      <input
+                        type="checkbox"
+                        checked={isPublic}
+                        onChange={togglePublic}
+                      />
+                      <span class="slider"></span>
+                    </label>
                   </div>
                   <MEDitor
                     value={editValue}

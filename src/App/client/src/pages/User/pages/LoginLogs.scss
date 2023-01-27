@@ -1,19 +1,21 @@
 @use "../../../styles/theme" as theme;
 @use "../../../styles/variables" as variables;
 
-$logs-heigh: 500px;
+$log-heigh: 130px;
+$logs-container-heigh: calc(5 * 130px);
 
 .panel {
     .logs-container {
         display: flex;
         flex-direction: column;
-        min-height: calc($logs-heigh);
+        min-height: calc($logs-container-heigh);
 
         .log {
             display: flex;
             flex-direction: column;
             justify-content: center;
             padding: 0.5em;
+            min-height: 130px;
 
             &:not(:last-child) {
                 border-bottom: 1px solid theme.$primary;
@@ -73,6 +75,8 @@ $logs-heigh: 500px;
 @media screen and (max-width: variables.$small-resolution) {
     .panel {
         .logs-container {
+            min-height: auto;
+
             .log {
                 .log-dic {
                     margin-top: 0.5em;
