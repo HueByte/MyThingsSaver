@@ -83,7 +83,9 @@ const PublicEntryPage = () => {
           </div>
           <div className="element">
             <div className="public-entry border-gradient">
-              <MEDitor.Markdown source={entry.content} />
+              <div className="content">
+                <MEDitor.Markdown source={entry.content} />
+              </div>
             </div>
           </div>
           <div className="element"></div>

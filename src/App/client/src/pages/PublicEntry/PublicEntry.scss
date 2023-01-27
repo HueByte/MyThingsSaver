@@ -7,6 +7,8 @@ $user-card-border-radius: 15px;
 $container-gap: 2em;
 $container-padding: 2em;
 $offset: 2em;
+$entry-padding: 2em;
+$entry-width: calc(variables.$read-width + $entry-padding);
 
 .public-entry-container {
     display: flex;
@@ -90,11 +92,17 @@ $offset: 2em;
     }
 
     .public-entry {
-        width: variables.$read-width;
-        padding: 1px;
+        width: $entry-width;
         border-radius: $border-radius;
         background-color: theme.$altBackgroundColor;
         height: fit-content;
+
+        .content {
+            border-radius: $border-radius;
+            background-color: theme.$altBackgroundColor;
+            padding: $entry-padding;
+            width: 100%;
+        }
     }
 }
 
@@ -108,7 +116,7 @@ $offset: 2em;
 $avatar-width: 60px;
 $owner-height: 100px;
 $prop-width: 120px;
-$query-break: calc($user-card-width + $container-gap + variables.$read-width + $container-padding + $offset);
+$query-break: calc($user-card-width + $container-gap + $entry-width + $container-padding + $offset);
 
 @media screen and (max-width: $query-break) {
     .public-entry-container {
@@ -150,6 +158,10 @@ $query-break: calc($user-card-width + $container-gap + variables.$read-width + $
 
         .public-entry {
             width: 100%;
+
+            .content {
+                padding: 10px;
+            }
         }
     }
 }
@@ -176,7 +188,6 @@ $query-break: calc($user-card-width + $container-gap + variables.$read-width + $
 
 @media screen and (max-width: variables.$mobile-resolution) {
     .public-entry-container {
-
         .owner {
             font-size: small;
 
