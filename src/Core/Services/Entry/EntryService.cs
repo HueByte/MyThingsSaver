@@ -35,7 +35,10 @@ public class EntryService : IEntryService
         if (string.IsNullOrEmpty(id))
             return null!;
 
-        return await _repository.GetAsync(id)!;
+        return await _repository
+            .GetAllAsync()
+            .Include(e => e.PublicEntry)
+            .FirstOrDefaultAsync(e => e.Id == id);
     }
 
     public async Task<AllCategoryEntries?> GetAllEntriesAsync(string categoryId, bool withContent)
@@ -47,7 +50,9 @@ public class EntryService : IEntryService
 
         entries.SubCategories = await _categoryService.GetSubCategoriesAsync(categoryId);
 
-        var entriesQuery = _repository.GetAllAsync().Where(entry => entry.CategoryId == categoryId);
+        var entriesQuery = _repository
+            .GetAllAsync()
+            .Where(entry => entry.CategoryId == categoryId);
 
         if (!withContent)
         {

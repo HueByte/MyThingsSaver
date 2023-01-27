@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Navigate, useParams } from "react-router";
 import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
 import "./Entry.scss";
-import "./Markdown-overrides.scss";
 import { successModal, warningModal } from "../../core/Modals";
 import { BasicModal } from "../../components/BasicModal/BasicModal";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import { DropdownItem, DropdownButton } from "../../components/Dropdown";
 import { FaRegStickyNote } from "react-icons/fa";
 import { EntriesService } from "../../api";
+import { NavLink } from "react-router-dom";
 
 const sendUpdateCallback = async (entryId, newName, data) => {
   await EntriesService.putApiEntries({
@@ -25,7 +25,6 @@ const performAutosave = AwesomeDebouncePromise(sendUpdateCallback, 2000);
 
 const Entry = () => {
   const { categoryId, entryId } = useParams();
-
   const [entry, setEntry] = useState();
   const [name, setName] = useState();
   const [editValue, setEditValue] = useState();
@@ -34,6 +33,7 @@ const Entry = () => {
   const [isMobileEdit, setIsMobileEdit] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
+  const [publicUrl, setPublicUrl] = useState();
   const entryToDelete = useRef();
 
   useEffect(() => {
@@ -49,6 +49,7 @@ const Entry = () => {
       setIsPublic(result.data.publicEntryId);
       setName(result.data.name);
       setEditValue(result.data.content);
+      setPublicUrl(result.data.publicEntry?.publicUrl);
       checkEntrySize(result.data.content.length);
     })();
   }, []);
@@ -73,6 +74,7 @@ const Entry = () => {
       });
 
       setIsPublic(result.data ? true : false);
+      setPublicUrl(result.data);
     }
   };
 
@@ -107,6 +109,13 @@ const Entry = () => {
 
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
+  const copyLink = () => {
+    navigator.clipboard.writeText(
+      `${window.location.protocol}//${window.location.hostname}:${window.location.port}/public/${publicUrl}`
+    );
+    successModal("Copied link to clipboard");
+  };
+
   if (shouldRedirect) return <Navigate to={`/explore/${categoryId}`} />;
   return (
     <div className="entry__container">
@@ -134,6 +143,11 @@ const Entry = () => {
                 <DropdownItem onClick={() => invokeDeleteModal(entry)}>
                   Delete
                 </DropdownItem>
+                {isPublic ? (
+                  <DropdownItem onClick={copyLink}>Copy Link</DropdownItem>
+                ) : (
+                  <></>
+                )}
               </DropdownButton>
             </div>
           </div>
@@ -162,6 +176,18 @@ const Entry = () => {
                       <span class="slider"></span>
                     </label>
                   </div>
+                  {isPublic ? (
+                    <div className="switch-box">
+                      <label>
+                        Public Link:{" "}
+                        <NavLink to={`/public/${publicUrl}`}>
+                          {publicUrl}
+                        </NavLink>
+                      </label>
+                    </div>
+                  ) : (
+                    <> </>
+                  )}
                   <MEDitor
                     value={editValue}
                     onChange={autoSave}

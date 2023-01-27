@@ -18,15 +18,6 @@ $read-width: 724px;
     margin: 15px;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: theme.$primaryLight;
-  }
-
   .top-info {
     width: 100%;
     height: variables.$entry-info-height;
@@ -132,20 +123,17 @@ $read-width: 724px;
 
 @media screen and (max-width: variables.$small-resolution) {
   .entry__container {
+    .top-info {
+      margin-bottom: 0;
+      border-bottom: 2px solid theme.$primaryLight;
+      border-radius: 0;
+    }
+
     .content__container {
+      margin-top: 0;
+      border-radius: 0;
       padding: variables.$m-margin;
     }
-  }
-
-  .entry__container .basic-info-right {
-    display: none;
-  }
-
-  .entry__container .basic-info-mobile-menu {
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 }
 
