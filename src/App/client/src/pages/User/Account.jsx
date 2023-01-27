@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import { AiFillCloud, AiFillFire, AiOutlineUser } from "react-icons/ai";
 import { HiOutlineClipboard } from "react-icons/hi";
 import { Role } from "../../api/Roles";
+import { capitalizeRole } from "../../core/Lib";
 
 const AccountPage = () => {
   const authContext = useContext(AuthContext);
@@ -19,10 +20,6 @@ const AccountPage = () => {
   const getRoleStyle = () => {
     let colorSet = colors[Math.floor(Math.random() * colors.length)];
     return { backgroundColor: colorSet.color, color: colorSet.fontColor };
-  };
-
-  const capitalizeRole = (role) => {
-    return role.charAt(0).toUpperCase() + role.slice(1);
   };
 
   return (

@@ -3,6 +3,7 @@ import { FaFolderOpen, FaStickyNote } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { EntriesService } from "../../api";
 import Loader from "../../components/Loaders/Loader";
+import { getSize } from "../../core/Lib";
 import { errorModal } from "../../core/Modals";
 import "./HomePage.scss";
 
@@ -60,7 +61,7 @@ const HomePage = () => {
                   <div className="line">
                     <div className="item">Size:</div>
                     <div className="item">
-                      <div>{entry.size} B</div>
+                      <div>{getSize(entry.size)}</div>
                     </div>
                   </div>
                 </div>

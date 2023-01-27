@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
 import DefaultAvatar from "../../assets/DefaultAvatar.png";
+import { getSize } from "../../core/Lib";
 
 const PublicEntryPage = () => {
   const { link } = useParams();
@@ -17,7 +18,6 @@ const PublicEntryPage = () => {
 
       setEntry(result.data);
       setIsLoading(false);
-      console.log(result);
     })();
   }, []);
 
@@ -39,7 +39,7 @@ const PublicEntryPage = () => {
                 </div>
                 <div className="prop">
                   <div className="key">Size: </div>
-                  <div className="value">{entry.size} KB</div>
+                  <div className="value">{getSize(entry.size)}</div>
                 </div>
                 <div className="prop">
                   <div className="key">Title: </div>

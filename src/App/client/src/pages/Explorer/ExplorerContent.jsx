@@ -16,6 +16,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { EntriesService } from "../../api";
+import { getSize } from "../../core/Lib";
 
 const ExplorerContent = () => {
   const [lastUsedId, setLastUsedId] = useOutletContext();
@@ -99,7 +100,7 @@ const ExplorerContent = () => {
                     <div className="column date">
                       {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
                     </div>
-                    <div className="column size">{entry.size} B</div>
+                    <div className="column size">{getSize(entry.size)}</div>
                     <div className="column size">md</div>
                     <div className="column actions">
                       <FaPenSquare

@@ -3,6 +3,7 @@ import { FaGhost } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { AuthService } from "../../../api";
 import Loader from "../../../components/Loaders/Loader";
+import { capitalizeRole, getSize } from "../../../core/Lib";
 import "../User.scss";
 
 const MePage = () => {
@@ -17,18 +18,6 @@ const MePage = () => {
       setIsFetched(true);
     })();
   }, []);
-
-  const capitalizeRole = (role) => {
-    return role.charAt(0).toUpperCase() + role.slice(1);
-  };
-
-  const getSize = (size) => {
-    if (size < 1024) return size + " B";
-    else if (size < 1024 * 1024) return (size / 1024).toFixed(2) + " KB";
-    else if (size < 1024 * 1024 * 1024)
-      return (size / 1024 / 1024).toFixed(2) + " MB";
-    else return (size / 1024 / 1024 / 1024).toFixed(2) + " GB";
-  };
 
   return (
     <>
