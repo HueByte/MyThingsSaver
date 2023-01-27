@@ -12,20 +12,29 @@ $user-card-border-radius: 15px;
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
-    height: 100%;
     padding: 2em;
     gap: 2em;
+
+    .element {
+        flex: 1 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .element-owner {
+        justify-content: flex-end;
+    }
 
     .owner {
         display: flex;
         flex-direction: column;
-        height: fit-content;
         width: clamp($user-card-width, $user-card-width, $user-card-width);
+        height: fit-content;
         border-radius: $user-card-border-radius;
         border-width: 3px;
         background-color: theme.$altBackgroundColor;
         padding: 10px;
-        flex-shrink: 0;
+        gap: 1em;
 
         .avatar {
             width: 100%;
@@ -40,17 +49,25 @@ $user-card-border-radius: 15px;
             }
         }
 
-        .prop {
+        .items {
             display: flex;
-            flex-direction: row;
-            gap: 1ch;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 0.5em;
 
-            .key {
-                flex: 1 0 100px;
-            }
+            .prop {
+                display: flex;
+                flex-direction: row;
+                gap: 1ch;
 
-            .value {
-                flex: 2 0;
+                .key {
+                    color: theme.$secondaryLight;
+                    flex: 1 0;
+                }
+
+                .value {
+                    flex: 1 0;
+                }
             }
         }
     }
@@ -66,7 +83,7 @@ $user-card-border-radius: 15px;
 
 .wmde-markdown {
     font-family: 'Fira Mono', monospace;
-    background-color: theme.$altBackgroundColor;
+    background-color: theme.$altBackgroundColor !important;
     border-radius: $border-radius;
     padding: 1em;
 }
@@ -79,11 +96,34 @@ $user-card-border-radius: 15px;
         .owner {
             flex-direction: row;
             height: clamp(100px, 100px, 100px);
+            width: 100%;
+            align-items: center;
 
             .avatar {
-                width: clamp(100px, 100px, 100px);
-                height: clamp(100px, 100px, 100px);
+                flex: 0 0 80px;
+                height: clamp(100%, 100%, 100%);
             }
+
+            .items {
+                height: 100%;
+                width: calc(100% - 80px - 2em);
+                flex-wrap: wrap;
+                justify-content: center;
+
+                .prop {
+                    flex-direction: column;
+                    width: 100px;
+
+                    .value {
+                        width: 100px;
+                    }
+                }
+            }
+        }
+
+        .element-owner {
+            justify-content: flex-start;
+            flex: 0 0 100%;
         }
 
         .public-entry {
@@ -95,9 +135,14 @@ $user-card-border-radius: 15px;
 @media screen and (max-width: variables.$small-resolution) {
     .public-entry-container {
         padding: 1em 0;
+        gap: 0;
 
         .public-entry {
             border-radius: 0;
+        }
+
+        .desk {
+            display: none !important;
         }
     }
 

@@ -27,34 +27,45 @@ const PublicEntryPage = () => {
         <Loader />
       ) : (
         <>
-          <div className="owner">
-            <div className="avatar">
-              <img src={entry.AvatarUrl ?? DefaultAvatar} alt="avatar" />
-            </div>
-            <div className="prop ellipsis">
-              <div className="key">Author: </div>
-              <div className="value">{entry.owner}</div>
-            </div>
-            <div className="prop ellipsis">
-              <div className="key">Size: </div>
-              <div className="value">{entry.size}</div>
-            </div>
-            <div className="prop ellipsis">
-              <div className="key">Title: </div>
-              <div className="value">{entry.title}</div>
-            </div>
-            <div className="prop ellipsis">
-              <div className="key">Created: </div>
-              <div className="value">{entry.createdOn}</div>
-            </div>
-            <div className="prop ellipsis">
-              <div className="key">Updated: </div>
-              <div className="value">{entry.lastUpdatedOn}</div>
+          <div className="element element-owner">
+            <div className="owner">
+              <div className="avatar">
+                <img src={entry.AvatarUrl ?? DefaultAvatar} alt="avatar" />
+              </div>
+              <div className="items">
+                <div className="prop">
+                  <div className="key">Author: </div>
+                  <div className="value ellipsis">{entry.owner}</div>
+                </div>
+                <div className="prop">
+                  <div className="key">Size: </div>
+                  <div className="value">{entry.size} KB</div>
+                </div>
+                <div className="prop">
+                  <div className="key">Title: </div>
+                  <div className="value">{entry.title}</div>
+                </div>
+                <div className="prop desk">
+                  <div className="key">Created: </div>
+                  <div className="value">
+                    {new Date(entry.createdOn + "Z").toLocaleDateString()}
+                  </div>
+                </div>
+                <div className="prop desk">
+                  <div className="key">Updated: </div>
+                  <div className="value">
+                    {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="public-entry border-gradient">
-            <MEDitor.Markdown source={entry.content} />
+          <div className="element">
+            <div className="public-entry border-gradient">
+              <MEDitor.Markdown source={entry.content} />
+            </div>
           </div>
+          <div className="element"></div>
         </>
       )}
     </div>
