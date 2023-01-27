@@ -251,6 +251,7 @@ $content-page-width: calc(100% - $content-menu-width);
 
                     .panel {
                         .block {
+                            margin-bottom: 0.5em;
                             flex-direction: column;
                         }
                     }

@@ -33,14 +33,18 @@ const PublicEntryPage = () => {
           <div className="element element-owner">
             <div className="owner">
               <div className="avatar">
-                <img src={entry.AvatarUrl ?? DefaultAvatar} alt="avatar" />
+                <img src={entry.ownerAvatar ?? DefaultAvatar} alt="avatar" />
               </div>
               <div className="items">
                 <div className="prop">
                   <div className="key">
                     <FaFire /> Author{" "}
                   </div>
-                  <div className="value ellipsis">{entry.owner}</div>
+                  <div className="value ellipsis">
+                    <abbr title={entry.owner}>
+                      <span>{entry.owner}</span>
+                    </abbr>
+                  </div>
                 </div>
                 <div className="prop">
                   <div className="key">
@@ -52,7 +56,11 @@ const PublicEntryPage = () => {
                   <div className="key">
                     <AiFillRightCircle /> Title{" "}
                   </div>
-                  <div className="value">{entry.title}</div>
+                  <div className="value ellipsis">
+                    <abbr title={entry.title}>
+                      <span>{entry.title}</span>
+                    </abbr>
+                  </div>
                 </div>
                 <div className="prop desk">
                   <div className="key">
