@@ -6,6 +6,9 @@ import Loader from "../../components/Loaders/Loader";
 import MEDitor from "@uiw/react-md-editor";
 import DefaultAvatar from "../../assets/DefaultAvatar.png";
 import { getSize } from "../../core/Lib";
+import { FaFire, FaGhost } from "react-icons/fa";
+import { AiFillCloud, AiFillRightCircle } from "react-icons/ai";
+import { MdDateRange } from "react-icons/md";
 
 const PublicEntryPage = () => {
   const { link } = useParams();
@@ -25,7 +28,7 @@ const PublicEntryPage = () => {
     <div className="public-entry-container">
       {isLoading ? (
         <Loader />
-      ) : (
+      ) : entry ? (
         <>
           <div className="element element-owner">
             <div className="owner">
@@ -34,25 +37,35 @@ const PublicEntryPage = () => {
               </div>
               <div className="items">
                 <div className="prop">
-                  <div className="key">Author: </div>
+                  <div className="key">
+                    <FaFire /> Author{" "}
+                  </div>
                   <div className="value ellipsis">{entry.owner}</div>
                 </div>
                 <div className="prop">
-                  <div className="key">Size: </div>
+                  <div className="key">
+                    <AiFillCloud /> Size{""}
+                  </div>
                   <div className="value">{getSize(entry.size)}</div>
                 </div>
                 <div className="prop">
-                  <div className="key">Title: </div>
+                  <div className="key">
+                    <AiFillRightCircle /> Title{" "}
+                  </div>
                   <div className="value">{entry.title}</div>
                 </div>
                 <div className="prop desk">
-                  <div className="key">Created: </div>
+                  <div className="key">
+                    <MdDateRange /> Created{" "}
+                  </div>
                   <div className="value">
                     {new Date(entry.createdOn + "Z").toLocaleDateString()}
                   </div>
                 </div>
                 <div className="prop desk">
-                  <div className="key">Updated: </div>
+                  <div className="key">
+                    <MdDateRange /> Updated{" "}
+                  </div>
                   <div className="value">
                     {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
                   </div>
@@ -67,6 +80,15 @@ const PublicEntryPage = () => {
           </div>
           <div className="element"></div>
         </>
+      ) : (
+        <div className="not-found">
+          <div className="item">
+            <div> Entry not found </div>
+            <div>
+              <FaGhost />
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

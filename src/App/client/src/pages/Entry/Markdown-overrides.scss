@@ -1,6 +1,13 @@
+@use "../../styles/variables" as variables;
 @use "../../styles/theme" as theme;
 
 .wmde-markdown {
     font-family: 'Fira Mono', monospace;
     background-color: theme.$altBackgroundColor;
+}
+
+@media screen and (max-width: variables.$small-resolution) {
+    .wmde-markdown {
+        overflow-x: auto;
+    }
 }
