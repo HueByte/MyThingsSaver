@@ -7,6 +7,7 @@ import { AiFillCloud, AiFillFire, AiOutlineUser } from "react-icons/ai";
 import { HiOutlineClipboard } from "react-icons/hi";
 import { Role } from "../../api/Roles";
 import { capitalizeRole } from "../../core/Lib";
+import Menu from "../../core/BasicLayout/components/Menu/Menu";
 
 const AccountPage = () => {
   const authContext = useContext(AuthContext);
@@ -24,9 +25,9 @@ const AccountPage = () => {
 
   return (
     <div className="user-panel-container flex justify-center">
-      <div className="user-panel flex w-[1024px] flex-row gap-6 pt-12">
-        <div className="user-card border-gradient border-1 flex h-fit w-[250px] flex-col">
-          <div className="avatar h-[250px] w-full overflow-hidden rounded-t-xl">
+      <div className="flex w-[1024] flex-row gap-6 pt-6 lg:mb-4 lg:w-full lg:flex-col lg:items-center md:mb-0">
+        <div className="border-gradient border-1 flex h-fit w-[250px] flex-col border-2 lg:mb-4">
+          <div className="h-[250px] w-full overflow-hidden rounded-t-xl bg-altBackgroundColor p-2">
             <img
               src={authContext.getAvatar()}
               alt="avatar"
@@ -35,15 +36,15 @@ const AccountPage = () => {
           </div>
           <abbr
             title={authContext.authState?.username}
-            className="username ellipsis bold text-center text-4xl font-bold tracking-wide"
+            className="bold truncate bg-altBackgroundColor p-2 text-center text-3xl font-bold tracking-wide"
           >
             {authContext.authState?.username}
           </abbr>
-          <div className="badges flex flex-row flex-wrap justify-center gap-4 rounded-b-xl">
+          <div className="flex flex-row flex-wrap justify-center gap-4 rounded-b-xl bg-altBackgroundColor p-2">
             {authContext.authState.roles?.map((role, index) => (
               <div
                 key={index}
-                className="badge rounded px-2 py-1"
+                className="rounded px-2 py-1"
                 style={getRoleStyle()}
               >
                 {capitalizeRole(role)}
@@ -51,49 +52,64 @@ const AccountPage = () => {
             ))}
           </div>
         </div>
-        <div className="content mb-8 flex flex-row rounded-xl bg-altBackgroundColor">
-          <div className="menu flex h-full flex-col border-r-2 border-primary p-4">
-            <NavLink
-              to="user/me"
-              activeClassName="active"
-              className="item flex items-center rounded bg-backgroundColor p-2 hover:text-primary"
-            >
-              <AiOutlineUser /> <span>Me</span>
-            </NavLink>
-            <NavLink
-              to="user/logs"
-              activeClassName="active"
-              className="item flex items-center rounded bg-backgroundColor p-2 hover:text-primary"
-            >
-              <HiOutlineClipboard /> <span>Login logs</span>
-            </NavLink>
-            {authContext.isInRole([Role.Admin]) ? (
-              <>
-                <NavLink
-                  to="admin/logs"
-                  activeClassName="active"
-                  className="item flex items-center rounded bg-backgroundColor p-2 hover:text-primary"
-                >
-                  <AiFillFire /> <span>Admin logs</span>
-                </NavLink>
-                <NavLink
-                  to="admin/usermanagement"
-                  activeClassName="active"
-                  className="item flex items-center rounded bg-backgroundColor p-2 hover:text-primary"
-                >
-                  <AiFillCloud /> <span>Users</span>
-                </NavLink>
-              </>
-            ) : (
-              <></>
-            )}
+        <div className="mb-8 flex flex-1 flex-row rounded-xl bg-altBackgroundColor shadow-lg shadow-primary lg:w-3/4 lg:flex-col lg:overflow-hidden md:mb-0 md:w-full md:rounded-none md:pb-8">
+          <div className="gap flex h-full w-[192px] flex-col gap-2 border-r-2 border-primary p-4 lg:w-full lg:flex-row lg:justify-center lg:border-r-0">
+            <MenuOptions authContext={authContext} />
           </div>
-          <div className="content-page relative w-full p-4">
+          <div className="relative w-[560px] flex-1 p-4 lg:w-full">
             <Outlet />
           </div>
         </div>
       </div>
     </div>
+  );
+};
+
+const MenuOptions = ({ authContext }) => {
+  const options = [
+    {
+      text: "Me",
+      icon: <AiOutlineUser className="mr-2 lg:mr-0" />,
+      path: "user/me",
+      roles: [Role.User],
+    },
+    {
+      text: "Login logs",
+      icon: <HiOutlineClipboard className="mr-2 lg:mr-0" />,
+      path: "user/logs",
+      roles: [Role.User],
+    },
+    {
+      text: "Admin logs",
+      icon: <AiFillFire className="mr-2 lg:mr-0" />,
+      path: "admin/logs",
+      roles: [Role.User, Role.Admin],
+    },
+    {
+      text: "Users",
+      icon: <AiFillCloud className="mr-2 lg:mr-0" />,
+      path: "admin/usermanagement",
+      roles: [Role.User, Role.Admin],
+    },
+  ];
+
+  return (
+    <>
+      {options.map((option, index) => {
+        if (!authContext.isInRole(option.roles)) return <></>;
+        return (
+          <NavLink
+            key={index}
+            to={option.path}
+            activeClassName="active"
+            className="item flex items-center rounded bg-backgroundColor p-2 hover:text-primary lg:text-3xl"
+          >
+            {option.icon}
+            <span className="lg:hidden">{option.text}</span>
+          </NavLink>
+        );
+      })}
+    </>
   );
 };
 

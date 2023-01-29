@@ -68,7 +68,7 @@ const ExplorerContent = () => {
     <>
       {!isLoadingEntries ? (
         currentEntries ? (
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="relative overflow-x-auto rounded-lg shadow-md">
             <table class="w-full border-collapse text-left text-sm text-textColor">
               <thead class="bg-altBackgroundColor text-base uppercase text-neutralDarker">
                 <tr>
