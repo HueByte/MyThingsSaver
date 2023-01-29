@@ -12,6 +12,7 @@ $entry-height: 200px;
   max-width: 1920px;
   margin: auto;
   padding: variables.$l-padding variables.$h-padding;
+  gap: 2em;
 
   a:hover {
     color: theme.$textColor;
@@ -22,7 +23,7 @@ $entry-height: 200px;
     min-width: $entry-width;
     max-width: $entry-width;
     height: $entry-height;
-    margin: 1rem;
+    line-height: 1.3;
     cursor: pointer;
     background-color: theme.$altBackgroundColor;
     border-radius: 10px;
