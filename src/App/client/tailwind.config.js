@@ -5,7 +5,7 @@ module.exports = {
     extend: {},
     colors: {
       element: "#000c14",
-      "element-light": "#001829",
+      elementLight: "#001829",
       accent: "#00fa9a",
       accent2: "#c62368",
       accent3: "#fa7268",
@@ -13,9 +13,6 @@ module.exports = {
       accent5: "#861657",
       accent6: "#7300ff",
       accent7: "#FFA69E",
-      "masthead-color": "#00fa9a",
-      "masthead-text": "#fff",
-      "button-color": "#263238",
       textColor: "#e1e0e0",
       textColorLight: "#FFF",
       textPassive: "#4b4b4b",

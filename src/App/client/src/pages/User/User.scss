@@ -268,6 +268,21 @@ $content-page-width: calc(100% - $content-menu-width);
         .user-panel {
             .content {
                 width: clamp(95%, 95%, 95%);
+
+                .menu {
+                    justify-content: center;
+
+                    .item {
+                        svg {
+                            margin-right: 0;
+                            font-size: 32px;
+                        }
+
+                        span {
+                            display: none;
+                        }
+                    }
+                }
             }
         }
     }

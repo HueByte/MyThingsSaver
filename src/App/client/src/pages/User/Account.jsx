@@ -46,10 +46,10 @@ const AccountPage = () => {
         <div className="content">
           <div className="menu">
             <NavLink to="user/me" activeClassName="active" className="item">
-              <AiOutlineUser /> Me
+              <AiOutlineUser /> <span>Me</span>
             </NavLink>
             <NavLink to="user/logs" activeClassName="active" className="item">
-              <HiOutlineClipboard /> Login logs
+              <HiOutlineClipboard /> <span>Login logs</span>
             </NavLink>
             {authContext.isInRole([Role.Admin]) ? (
               <>
@@ -58,14 +58,14 @@ const AccountPage = () => {
                   activeClassName="active"
                   className="item"
                 >
-                  <AiFillFire /> Admin logs
+                  <AiFillFire /> <span>Admin logs</span>
                 </NavLink>
                 <NavLink
                   to="admin/usermanagement"
                   activeClassName="active"
                   className="item"
                 >
-                  <AiFillCloud /> Users
+                  <AiFillCloud /> <span>Users</span>
                 </NavLink>
               </>
             ) : (
