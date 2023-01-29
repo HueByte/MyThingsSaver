@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useOutletContext, useParams } from "react-router";
+import { useNavigate, useOutletContext, useParams } from "react-router";
 import { NavLink } from "react-router-dom";
 // import EntriesRepository from "../../api/repositories/EntriesRepository";
 import Loader from "../../components/Loaders/Loader";
@@ -19,6 +19,7 @@ import { EntriesService } from "../../api";
 import { getSize } from "../../core/Lib";
 
 const ExplorerContent = () => {
+  const navigate = useNavigate();
   const [lastUsedId, setLastUsedId] = useOutletContext();
   const [isLoadingEntries, setIsLoadingEntries] = useState(true);
   const [currentEntries, setCurrentEntries] = useState([]);
@@ -59,12 +60,80 @@ const ExplorerContent = () => {
     setIsEditActive(true);
   };
 
+  const nav = (e) => {
+    navigate(e);
+  };
+
   return (
     <>
       {!isLoadingEntries ? (
         currentEntries ? (
-          <div className="content">
-            <div className="row header">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-textColor border-collapse">
+              <thead class="text-accent4 text-base uppercase bg-altBackgroundColor">
+                <tr>
+                  <th scope="col" class="px-6 py-3">
+                    Title
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Date
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Size
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Type
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentEntries.map((entry) => {
+                  return (
+                    <tr
+                      scope="row"
+                      className="px-6 py-4 font-medium whitespace-nowrap even:bg-altBackgroundColor cursor-pointer transition duration-300 hover:bg-neutralDarker"
+                      onClick={() => nav(`/entry/${lastUsedId}/${entry.id}`)}
+                    >
+                      <th className="px-6 py-4" key={entry.Id}>
+                        <FaStickyNote className="mr-2" />
+                        {entry.name}
+                      </th>
+                      <td className="px-6 py-4">
+                        {new Date(
+                          entry.lastUpdatedOn + "Z"
+                        ).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4">{getSize(entry.size)}</td>
+                      <td className="px-6 py-4">md</td>
+                      <td className="px-6 py-4">
+                        <FaPenSquare
+                          className="mr-2 hover:text-accent"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            invokeEdit(entry);
+                          }}
+                        />
+
+                        <FaTimes
+                          className="hover:text-accent"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            invokeDelete(entry);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            {/* <div className="row header">
               <div className="space"></div>
               <div className="column header-item title">Title</div>
               <div className="column header-item">Date</div>
@@ -124,7 +193,7 @@ const ExplorerContent = () => {
               <div className="empty">
                 <FaGhost />
               </div>
-            )}
+            )} */}
 
             <EntryAdd
               isActive={isAddActive}
