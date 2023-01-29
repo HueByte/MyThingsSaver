@@ -94,7 +94,7 @@ const Explorer = () => {
 
   return (
     <div className="categories__wrapper">
-      <div className="container">
+      <div className="explorer-container">
         <div
           className={`left-menu${
             isMenuExpanded ? " expand" : ""

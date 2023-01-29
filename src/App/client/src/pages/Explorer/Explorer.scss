@@ -14,7 +14,7 @@ $content-column-title-width: 150px;
   width: 100%;
   height: 100%;
 
-  .container {
+  .explorer-container {
     display: flex;
     flex-direction: row;
     width: variables.$medium-resolution;
@@ -133,113 +133,6 @@ $content-column-title-width: 150px;
       min-width: 50px;
       flex: 9;
       position: relative;
-
-      .content {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding-right: variables.$s-padding;
-
-        .empty {
-          font-size: 64px;
-          display: grid;
-          place-items: center;
-          height: 100%;
-          color: theme.$altBackgroundColor;
-        }
-
-        .header {
-          background-color: theme.$altBackgroundColor;
-          margin-bottom: variables.$s-margin;
-          position: -webkit-sticky;
-          position: sticky;
-          top: 0px;
-
-          &>div {
-            margin: variables.$m-padding variables.$s-margin variables.$m-padding variables.$s-margin;
-          }
-        }
-
-        .item {
-          transition: transitions.$medium;
-
-          &:nth-child(odd) {
-            background-color: theme.$altBackgroundColor;
-          }
-
-          &:hover {
-            color: theme.$primaryDark;
-            background-color: #FFF;
-          }
-
-          .icon {
-            display: grid;
-            place-items: center;
-          }
-        }
-
-        .space {
-          width: 16px;
-          min-width: 16px;
-          margin: 0 variables.$s-margin 0 variables.$s-margin;
-        }
-
-        .column {
-          margin: 0 variables.$s-margin 0 variables.$s-margin;
-          min-width: $content-column-width;
-          width: $content-column-width;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .row {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          overflow: hidden;
-          white-space: nowrap;
-          border-radius: 5px;
-          margin-bottom: variables.$s-margin;
-          color: white;
-          min-height: $content-item-height;
-
-          .title {
-            min-width: $content-column-title-width;
-            width: $content-column-title-width;
-          }
-
-          .actions {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            flex: 1 1;
-
-            svg {
-              margin-right: variables.$s-margin;
-
-              &:hover {
-                color: theme.$primaryLight;
-                transform: scale(1.1);
-                cursor: pointer;
-              }
-            }
-          }
-        }
-
-        @keyframes onload {
-          0% {
-            transform: translate(-20px);
-            opacity: 0;
-          }
-
-          100% {
-            transform: translate(0px);
-            opacity: 1;
-          }
-        }
-      }
     }
 
     .expand {
@@ -250,22 +143,8 @@ $content-column-title-width: 150px;
 
 @media screen and (max-width: variables.$medium-resolution) {
   .categories__wrapper {
-    .container {
+    .explorer-container {
       width: variables.$small-resolution;
-
-      .content__wrapper {
-        .content {
-          .row {
-            .actions {
-              justify-content: flex-start;
-
-              i {
-                margin-left: variables.$s-margin;
-              }
-            }
-          }
-        }
-      }
     }
   }
 }
@@ -274,7 +153,7 @@ $content-column-title-width: 150px;
   .categories__wrapper {
     height: calc(100vh - variables.$top-menu-height-mobile);
 
-    .container {
+    .explorer-container {
       width: 100%;
       height: 100%;
 
@@ -301,15 +180,6 @@ $content-column-title-width: 150px;
 
       .content__wrapper {
         border-radius: 0;
-
-        .content {
-          overflow-x: scroll;
-
-          .row {
-            width: max-content;
-            overflow: visible;
-          }
-        }
       }
     }
   }
@@ -317,6 +187,6 @@ $content-column-title-width: 150px;
 
 @media screen and (max-width: variables.$mobile-resolution) {
   .categories__wrapper {
-    height: 100vh;
+    height: 100%;
   }
 }
