@@ -112,7 +112,6 @@ const ExplorerContent = () => {
                         <FaPenSquare
                           className="mr-2 hover:text-accent"
                           onClick={(e) => {
-                            e.preventDefault();
                             e.stopPropagation();
                             invokeEdit(entry);
                           }}
@@ -121,7 +120,6 @@ const ExplorerContent = () => {
                         <FaTimes
                           className="hover:text-accent"
                           onClick={(e) => {
-                            e.preventDefault();
                             e.stopPropagation();
                             invokeDelete(entry);
                           }}
@@ -132,68 +130,6 @@ const ExplorerContent = () => {
                 })}
               </tbody>
             </table>
-
-            {/* <div className="row header">
-              <div className="space"></div>
-              <div className="column header-item title">Title</div>
-              <div className="column header-item">Date</div>
-              <div className="column header-item">Size</div>
-              <div className="column header-item">Type</div>
-              <div className="column actions">
-                <FaPlus
-                  className="icon-action"
-                  onClick={() => setIsAddActive(true)}
-                />
-              </div>
-            </div>
-            {currentEntries.length > 0 ? (
-              currentEntries.map((entry) => {
-                return (
-                  <NavLink
-                    key={entry.id}
-                    className="row item"
-                    to={`/entry/${lastUsedId}/${entry.id}`}
-                  >
-                    <div className="space icon">
-                      <FaStickyNote />
-                    </div>
-                    <div className="column title ellipsis">
-                      <abbr
-                        title={entry.name}
-                        className="ellipsis"
-                        style={{ cursor: "pointer" }}
-                      >
-                        {entry.name}
-                      </abbr>
-                    </div>
-                    <div className="column date">
-                      {new Date(entry.lastUpdatedOn + "Z").toLocaleDateString()}
-                    </div>
-                    <div className="column size">{getSize(entry.size)}</div>
-                    <div className="column size">md</div>
-                    <div className="column actions">
-                      <FaPenSquare
-                        onClick={(e) => {
-                          e.preventDefault();
-                          invokeEdit(entry);
-                        }}
-                      />
-
-                      <FaTimes
-                        onClick={(e) => {
-                          e.preventDefault();
-                          invokeDelete(entry);
-                        }}
-                      />
-                    </div>
-                  </NavLink>
-                );
-              })
-            ) : (
-              <div className="empty">
-                <FaGhost />
-              </div>
-            )} */}
 
             <EntryAdd
               isActive={isAddActive}
