@@ -69,8 +69,8 @@ const ExplorerContent = () => {
       {!isLoadingEntries ? (
         currentEntries ? (
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left text-textColor border-collapse">
-              <thead class="text-accent4 text-base uppercase bg-altBackgroundColor">
+            <table class="w-full border-collapse text-left text-sm text-textColor">
+              <thead class="bg-altBackgroundColor text-base uppercase text-neutralDarker">
                 <tr>
                   <th scope="col" class="px-6 py-3">
                     Title
@@ -94,7 +94,7 @@ const ExplorerContent = () => {
                   return (
                     <tr
                       scope="row"
-                      className="px-6 py-4 font-medium whitespace-nowrap even:bg-altBackgroundColor cursor-pointer transition duration-300 hover:bg-neutralDarker"
+                      className="cursor-pointer whitespace-nowrap px-6 py-4 font-medium transition duration-300 even:bg-altBackgroundColor hover:bg-neutralDarker"
                       onClick={() => nav(`/entry/${lastUsedId}/${entry.id}`)}
                     >
                       <th className="px-6 py-4" key={entry.Id}>

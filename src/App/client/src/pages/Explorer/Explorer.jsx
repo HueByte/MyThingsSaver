@@ -93,12 +93,12 @@ const Explorer = () => {
   };
 
   return (
-    <div className="categories__wrapper">
-      <div className="explorer-container">
+    <div className="categories__wrapper flex items-center justify-center w-full h-full">
+      <div className="explorer-container shadow-lg shadow-primaryDark flex flex-row w-[1024px] h-[800px] rounded-xl">
         <div
-          className={`left-menu${
+          className={`relative w-1/6 max-w-[90%] bg-altBackgroundColor z-20 left-menu${
             isMenuExpanded ? " expand" : ""
-          }  border-gradient-bottom`}
+          } border-gradient-bottom `}
           id="explorer-menu"
           onContextMenu={() => setContextMenuCategory(null)}
         >
@@ -113,7 +113,7 @@ const Explorer = () => {
             onDragOver={resize}
             onDragEnd={stopDrag}
           ></div>
-          <div className="item-container">
+          <div className="item-container flex flex-col overflow-auto overflow-x-hidden w-full h-full bg-altBackgroundColor p-2">
             <div className="item ellipsis">{auth.authState?.username}</div>
             {finishedLoading ? (
               <>
