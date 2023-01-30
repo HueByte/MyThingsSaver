@@ -12,15 +12,6 @@ code {
   font-family: 'Fira Mono', monospace;
 }
 
-abbr[title] {
-  text-decoration: none;
-}
-
-svg {
-  display: inline;
-  vertical-align: baseline;
-}
-
 .border-gradient {
   border: double 4px transparent;
   background-image: linear-gradient(to right, theme.$neutralDarker, theme.$primary), linear-gradient(to right, theme.$neutralDarker, theme.$primary);

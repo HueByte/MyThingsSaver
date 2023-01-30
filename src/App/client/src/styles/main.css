@@ -3,12 +3,20 @@
 @tailwind utilities;
 
 /* for tailwind */
-@layer utilities {
+@layer base {
   a,
   a:link,
   a:visited,
   a:active {
     @apply text-linkColor no-underline transition duration-200 hover:text-linkColorHover;
+  }
+
+  abbr[title] {
+    @apply no-underline;
+  }
+
+  svg {
+    @apply inline align-baseline;
   }
 }
 
