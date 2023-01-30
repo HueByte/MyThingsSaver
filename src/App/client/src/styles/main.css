@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* for tailwind */
+@layer utilities {
+  a,
+  a:link,
+  a:visited,
+  a:active {
+    @apply text-linkColor no-underline transition duration-200 hover:text-linkColorHover;
+  }
+}
+
+@layer components {
+  .mts-btn-primary {
+    @apply grid transform place-items-center rounded-md bg-altBackgroundColorLight p-3 text-lg font-bold text-textColor duration-300 hover:scale-110 hover:cursor-pointer;
+  }
+}

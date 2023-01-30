@@ -88,19 +88,6 @@ abbr {
   text-decoration: none;
 }
 
-a,
-a:link,
-a:visited,
-a:active {
-  text-decoration: none;
-  color: theme.$linkColor;
-  transition: 200ms;
-
-  &:hover {
-    color: theme.$linkColorHover;
-  }
-}
-
 input,
 label,
 select,

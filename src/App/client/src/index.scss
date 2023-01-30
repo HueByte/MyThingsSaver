@@ -1,8 +1,6 @@
 @use "styles/theme" as theme;
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
+// in future migrate it with tailwind main.css
 body {
   font-smooth: auto;
   -webkit-font-smoothing: subpixel-antialiased;
