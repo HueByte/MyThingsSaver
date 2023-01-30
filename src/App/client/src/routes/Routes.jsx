@@ -84,6 +84,15 @@ export const ClientRouter = () => {
 
         <Route path="entry/:categoryId/:entryId" element={<Entry />} />
 
+        <Route
+          path="testing"
+          element={
+            <PrivateRoute roles={[Role.Admin]}>
+              <TestingPage />
+            </PrivateRoute>
+          }
+        />
+
         <Route path="account/*" element={<Account />}>
           <Route path="user/*" element={<Outlet />}>
             <Route path="me" element={<MePage />} />
@@ -126,7 +135,7 @@ export const ClientRouter = () => {
         <Route
           path="/settings"
           element={
-            <PrivateRoute roles={Role.Admin}>
+            <PrivateRoute roles={[Role.Admin]}>
               <Settings />
             </PrivateRoute>
           }

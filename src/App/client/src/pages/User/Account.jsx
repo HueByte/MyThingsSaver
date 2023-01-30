@@ -52,7 +52,7 @@ const AccountPage = () => {
             ))}
           </div>
         </div>
-        <div className="mb-8 flex flex-1 flex-row rounded-xl bg-altBackgroundColor shadow-lg shadow-primary lg:w-3/4 lg:flex-col lg:overflow-hidden md:mb-0 md:w-full md:rounded-none md:pb-8">
+        <div className="mb-8 flex flex-1 flex-row rounded-xl bg-altBackgroundColor shadow-md shadow-secondaryDark lg:w-3/4 lg:flex-col lg:overflow-hidden md:mb-0 md:w-full md:rounded-none md:pb-8">
           <div className="gap flex h-full w-[192px] flex-col gap-2 border-r-2 border-primary p-4 lg:w-full lg:flex-row lg:justify-center lg:border-r-0">
             <MenuOptions authContext={authContext} />
           </div>

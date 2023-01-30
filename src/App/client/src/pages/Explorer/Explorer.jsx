@@ -141,7 +141,7 @@ const Explorer = () => {
             )}
           </div>
         </div>
-        <div className="content__wrapper overflow-y-auto">
+        <div className="content__wrapper flex flex-col justify-between">
           <Outlet context={[lastUsedId, setLastUsedId]} />
         </div>
       </div>
