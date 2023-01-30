@@ -1,5 +1,8 @@
 @use "../../styles/theme" as theme;
 @use '../../styles/variables' as variables;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 $user-panel-width: variables.$medium-resolution;
 $user-card-width: 250px;
@@ -8,49 +11,43 @@ $content-width: calc(100% - $user-card-width - 1em);
 $content-menu-width: 192px;
 $content-page-width: calc(100% - $content-menu-width);
 
+@layer components {
+    .panel {
+        @apply relative w-full p-4 pt-6 bg-backgroundColor rounded-xl
+    }
+
+    .panel-name {
+        @apply absolute top-[-10px] left-6 text-accent7 bg-altBackgroundColor rounded-lg px-2 text-lg
+    }
+
+    .panel-block-test {
+        @apply flex p-2 gap-1
+    }
+
+    .panel-block-key {
+        @apply text-primaryLight
+    }
+
+    .input-block {
+        @apply flex flex-col gap-1
+    }
+
+    .action-buttons {
+        @apply flex flex-row justify-end gap-4 mt-2 max-w-full
+    }
+}
+
 .user-panel-container {
     .active {
         color: theme.$primaryLight;
     }
 
     .panel {
-        position: relative;
-        width: 100%;
-        padding: 1em;
-        border: 1px solid theme.$primary;
-        border-radius: 10px;
-        font-size: medium;
-        animation-name: showContent;
-        animation-duration: 500ms;
-
         &:not(:first-child) {
             margin-top: 1.5em;
         }
 
-        .panel-name {
-            font-size: large;
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            background-color: theme.$altBackgroundColor;
-            padding: 0 5px;
-        }
-
-        .block {
-            display: flex;
-            padding: 5px;
-            gap: 0.5em;
-
-            .key {
-                color: theme.$primaryLight;
-            }
-        }
-
         .input-block {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5em;
-
             .input {
                 flex: 1;
             }
@@ -69,13 +66,6 @@ $content-page-width: calc(100% - $content-menu-width);
         }
 
         .action-buttons {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            max-width: 100%;
-            margin-top: 1em;
-            gap: 1em;
-
             .item {
                 font-size: medium;
             }

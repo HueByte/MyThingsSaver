@@ -73,7 +73,7 @@ const ExplorerContent = () => {
               <table class="w-full border-collapse text-left text-sm text-textColor">
                 <thead class="bg-altBackgroundColor text-base uppercase text-neutralDarker">
                   <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class=" px-6 py-3">
                       Title
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -98,7 +98,10 @@ const ExplorerContent = () => {
                         className="cursor-pointer whitespace-nowrap px-6 py-4 font-medium transition duration-300 even:bg-altBackgroundColor hover:bg-neutralDarker"
                         onClick={() => nav(`/entry/${lastUsedId}/${entry.id}`)}
                       >
-                        <th className="px-6 py-4" key={entry.Id}>
+                        <th
+                          className="flex flex-row items-center px-6 py-4"
+                          key={entry.Id}
+                        >
                           <FaStickyNote className="mr-2" />
                           {entry.name}
                         </th>
@@ -109,7 +112,7 @@ const ExplorerContent = () => {
                         </td>
                         <td className="px-6 py-4">{getSize(entry.size)}</td>
                         <td className="px-6 py-4">md</td>
-                        <td className="px-6 py-4">
+                        <td className="flex flex-row items-center px-6 py-4">
                           <FaPenSquare
                             className="mr-2 hover:text-accent"
                             onClick={(e) => {
