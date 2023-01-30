@@ -25,7 +25,7 @@ const AccountPage = () => {
 
   return (
     <div className="user-panel-container flex justify-center">
-      <div className="flex w-[1024] flex-row gap-6 pt-6 lg:mb-4 lg:w-full lg:flex-col lg:items-center md:mb-0">
+      <div className="flex w-[1024px] flex-row gap-6 pt-6 lg:mb-4 lg:w-full lg:flex-col lg:items-center md:mb-0">
         <div className="border-gradient border-1 flex h-fit w-[250px] flex-col border-2 lg:mb-4">
           <div className="h-[250px] w-full overflow-hidden rounded-t-xl bg-altBackgroundColor p-2">
             <img
@@ -52,11 +52,11 @@ const AccountPage = () => {
             ))}
           </div>
         </div>
-        <div className="mb-8 flex flex-1 flex-row rounded-xl bg-altBackgroundColor shadow-md shadow-secondaryDark lg:w-3/4 lg:flex-col lg:overflow-hidden md:mb-0 md:w-full md:rounded-none md:pb-8">
+        <div className="mb-8 flex w-[calc(1024px_-_250px)] flex-1 flex-row rounded-xl bg-altBackgroundColor shadow-md shadow-secondaryDark lg:w-3/4 lg:flex-col lg:overflow-hidden md:mb-0 md:w-full md:rounded-none md:pb-8">
           <div className="gap flex h-full w-[192px] flex-col gap-2 border-r-2 border-primary p-4 lg:w-full lg:flex-row lg:justify-center lg:border-r-0">
             <MenuOptions authContext={authContext} />
           </div>
-          <div className="relative w-[560px] flex-1 p-4 lg:w-full">
+          <div className="w-[calc(100%_-_192px)] flex-1 p-4 lg:w-full">
             <Outlet />
           </div>
         </div>
