@@ -119,7 +119,7 @@ const Entry = () => {
   return (
     <>
       {entry ? (
-        <div className="animate__fadeIn animate__animated mx-auto flex min-h-full w-[1024px] flex-col items-center gap-6 p-4 lg:w-5/6 md:h-full md:w-full md:gap-0 md:p-0 md:pt-4">
+        <div className="animate__fadeIn animate__animated mx-auto flex min-h-full w-[1024px] flex-col items-center gap-6 p-4 lg:w-5/6 md:w-full md:gap-0 md:p-0 md:pt-4">
           <div className="mts-border-gradient-r h-16 w-full border-2 md:rounded-none">
             <div className="relative flex h-full w-full flex-row items-center gap-8 rounded-xl bg-altBackgroundColor p-2">
               <div className="grid place-items-center text-4xl text-neutralDarker">
