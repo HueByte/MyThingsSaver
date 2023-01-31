@@ -52,6 +52,7 @@ $switch-base-height: 30px;
   $height: $switch-base-height / 1.5;
   width: clamp($width, $width, $width);
   height: clamp($height, $height, $height);
+  display: inline-block;
 
   .slider {
     border-radius: $height;

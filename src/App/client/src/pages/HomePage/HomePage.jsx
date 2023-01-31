@@ -26,17 +26,17 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="m-auto h-full w-full max-w-[1920px] px-32 py-16 lg:px-8">
+      <div className="m-auto h-full w-full max-w-[1920px] px-32 py-16 lg:px-8 ">
         {isFetching ? (
           <Loader />
         ) : (
           <>
             {entries.length > 0 ? (
-              <div className="flex flex-row flex-wrap justify-center gap-8 pb-4">
+              <div className="animate__fadeIn animate__animated flex flex-row flex-wrap justify-center gap-8 pb-4">
                 {entries.map((entry, index) => (
                   <NavLink
                     to={`/entry/${entry.category.id}/${entry.id}`}
-                    className="animate__fadeInRight animate__animated mts-border-gradient-r h-[220px] w-[300px] shadow-xl shadow-element transition duration-300 hover:scale-105 hover:text-accent7 hover:shadow-accent5 sm:h-24"
+                    className="mts-border-gradient-r h-[220px] w-[300px] shadow-xl shadow-element transition duration-300 hover:scale-105 hover:text-accent7 hover:shadow-accent5 sm:h-24"
                     key={index}
                   >
                     <div className="h-full w-full rounded-lg bg-altBackgroundColor p-4 sm:flex sm:flex-row sm:items-center sm:gap-2">

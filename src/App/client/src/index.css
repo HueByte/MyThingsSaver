@@ -23,11 +23,11 @@
   }
 
   .mts-bg-gradient-l {
-    @apply bg-gradient-to-r from-neutralDarker to-secondaryLight;
+    @apply bg-gradient-to-l from-neutralDarker to-secondaryLight;
   }
 
   .mts-bg-gradient-r {
-    @apply bg-gradient-to-l from-neutralDarker to-secondaryLight;
+    @apply bg-gradient-to-r from-neutralDarker to-secondaryLight;
   }
 
   .mts-border-gradient-r {
@@ -39,7 +39,7 @@
   }
 
   .mts-text-gradient {
-    @apply bg-gradient-to-r from-accent4 to-accent7 bg-clip-text text-8xl font-extrabold text-transparent;
+    @apply bg-gradient-to-r from-accent4 to-accent7 bg-clip-text font-extrabold text-transparent;
   }
 
   .panel {

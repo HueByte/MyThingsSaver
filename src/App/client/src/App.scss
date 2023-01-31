@@ -59,7 +59,31 @@
   h4,
   h5,
   h6 {
-    color: theme.$primaryLight;
+    background-image: linear-gradient(45deg, theme.$secondaryLight, theme.$primaryDark);
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+  }
+
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:focus,
+  a:active {
+    color: theme.$linkColor;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+      color: theme.$linkColorHover;
+    }
+  }
+
+  table {
+    overflow-x: auto;
   }
 }
 

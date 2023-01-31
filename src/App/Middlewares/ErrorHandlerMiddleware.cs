@@ -29,7 +29,6 @@ namespace MTS.App.Middlewares
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error Message: ");
                 var result = GetExceptionResponse(ex);
 
                 if (ex is HandledException || ex is HandledExceptionList)
