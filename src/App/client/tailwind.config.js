@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
+      transparent: "transparent",
       element: "#000c14",
       elementLight: "#001829",
       accent: "#00fa9a",
@@ -45,5 +46,10 @@ module.exports = {
       // => @media (max-width: 639px) { ... }
     },
   },
-  plugins: ["tailwindcss ,autoprefixer", "postcss-import", "postcss-nested"],
+  plugins: [
+    "tailwindcss",
+    "autoprefixer",
+    "postcss-import",
+    "tailwindcss/nesting",
+  ],
 };

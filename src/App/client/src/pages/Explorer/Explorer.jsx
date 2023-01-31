@@ -98,7 +98,7 @@ const Explorer = () => {
         <div
           className={`relative z-20 w-1/6 max-w-[90%] bg-altBackgroundColor left-menu${
             isMenuExpanded ? " expand" : ""
-          } border-gradient-bottom `}
+          } mts-border-gradient-b `}
           id="explorer-menu"
           onContextMenu={() => setContextMenuCategory(null)}
         >

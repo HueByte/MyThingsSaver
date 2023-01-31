@@ -5,7 +5,7 @@ import Loader from "../../components/Loaders/Loader.jsx";
 const AuthTemplate = ({ children, isWorking = false }) => {
   return (
     <div className="auth__wrapper">
-      <div className="auth-container border-gradient">
+      <div className="auth-container mts-border-gradient-r">
         {isWorking ? (
           <div className="loading-overlay">
             <Loader />

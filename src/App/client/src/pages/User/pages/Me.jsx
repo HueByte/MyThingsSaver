@@ -70,27 +70,21 @@ const MePage = () => {
           </div>
           <div className="panel">
             <div className="panel-name">User Actions</div>
-            <NavLink
-              to="/account/user/avatar"
-              className="mts-btn-primary text-textColor"
-            >
+            <NavLink to="/account/user/avatar" className="mts-btn-primary">
               Change Avatar
             </NavLink>
-            <NavLink
-              to="/account/user/email"
-              className="mts-btn-primary mt-2 text-textColor"
-            >
+            <NavLink to="/account/user/email" className="mts-btn-primary mt-2">
               Change Email
             </NavLink>
             <NavLink
               to="/account/user/username"
-              className="mts-btn-primary mt-2 text-textColor"
+              className="mts-btn-primary mt-2"
             >
               Change Username
             </NavLink>
             <NavLink
               to="/account/user/password"
-              className="mts-btn-primary mt-2 text-textColor"
+              className="mts-btn-primary mt-2"
             >
               Change Password
             </NavLink>

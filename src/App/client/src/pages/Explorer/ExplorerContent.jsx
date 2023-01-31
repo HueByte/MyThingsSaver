@@ -160,7 +160,7 @@ const ExplorerContent = () => {
             </div>
             <div
               onClick={() => setIsAddActive(true)}
-              className="mts-button gradient-background-r m-4 w-32 self-end"
+              className="mts-btn-primary mts-bg-gradient-r m-4 w-32 self-end"
             >
               <FaPlus />
             </div>

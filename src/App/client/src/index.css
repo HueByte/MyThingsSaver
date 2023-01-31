@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* for tailwind */
+@layer base {
+  a {
+    @apply text-linkColor no-underline transition duration-200 hover:text-linkColorHover;
+  }
+
+  abbr[title] {
+    @apply no-underline;
+  }
+
+  svg {
+    @apply inline align-baseline;
+  }
+}
+
+@layer components {
+  .mts-btn-primary {
+    @apply grid transform place-items-center rounded-md bg-altBackgroundColorLight p-3 text-lg font-bold text-textColor duration-300 hover:scale-110 hover:cursor-pointer;
+  }
+
+  .mts-bg-gradient-l {
+    @apply bg-gradient-to-r from-neutralDarker to-secondaryLight;
+  }
+
+  .mts-bg-gradient-r {
+    @apply bg-gradient-to-l from-neutralDarker to-secondaryLight;
+  }
+
+  .mts-border-gradient-r {
+    @apply rounded-xl border-4 border-transparent bg-gradient-to-r from-neutralDarker to-primary bg-clip-border bg-origin-border;
+  }
+
+  .mts-border-gradient-b {
+    @apply border-b-4 border-transparent bg-gradient-to-b from-neutralDarker to-primary bg-clip-border bg-origin-border;
+  }
+
+  .panel {
+    @apply relative w-full rounded-xl bg-backgroundColor p-4 pt-6;
+  }
+
+  .panel-name {
+    @apply absolute top-[-10px] left-6 rounded-lg bg-altBackgroundColor px-2 text-lg text-accent7;
+  }
+
+  .panel-block-test {
+    @apply flex gap-1 p-2;
+  }
+
+  .panel-block-key {
+    @apply text-primaryLight;
+  }
+
+  .input-block {
+    @apply flex flex-col gap-1;
+  }
+
+  .action-buttons {
+    @apply mt-2 flex max-w-full flex-row justify-end gap-4;
+  }
+}
+
+@layer utilities {
+}

@@ -1,4 +1,4 @@
-@use "styles/theme" as theme;
+@use "theme" as theme;
 
 // in future migrate it with tailwind main.css
 body {
@@ -10,22 +10,6 @@ body {
 
 code {
   font-family: 'Fira Mono', monospace;
-}
-
-.border-gradient {
-  border: double 4px transparent;
-  background-image: linear-gradient(to right, theme.$neutralDarker, theme.$primary), linear-gradient(to right, theme.$neutralDarker, theme.$primary);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 10px;
-}
-
-.border-gradient-bottom {
-  border: double 4px transparent;
-  background-image: linear-gradient(to bottom, theme.$neutralDarker, theme.$primary), linear-gradient(to bottom, theme.$neutralDarker, theme.$primary);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 10px;
 }
 
 .mts-input {
@@ -58,14 +42,6 @@ code {
     cursor: pointer;
     transform: scale(1.1);
   }
-}
-
-.gradient-background-l {
-  background-image: linear-gradient(to left, theme.$neutralDarker, theme.$secondaryLight);
-}
-
-.gradient-background-r {
-  background-image: linear-gradient(to right, theme.$neutralDarker, theme.$secondaryLight);
 }
 
 $switch-base-width: 60px;

@@ -116,7 +116,7 @@ const Register = () => {
         </div>
       </div>
       <div
-        className="mts-button gradient-background-r full-button"
+        className="mts-button mts-bg-gradient-r full-button"
         onKeyDown={handleEnter}
         onClick={() => setIsWorking(true)}
       >
@@ -124,7 +124,7 @@ const Register = () => {
       </div>
       <NavLink
         to="/auth/login"
-        className="mts-button gradient-background-r full-button"
+        className="mts-button mts-bg-gradient-r full-button"
       >
         Sign in
       </NavLink>
