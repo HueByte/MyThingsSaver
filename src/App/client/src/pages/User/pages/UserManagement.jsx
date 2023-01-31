@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import { AdminService } from "../../../api";
 import Loader from "../../../components/Loaders/Loader";
 import { AuthContext } from "../../../contexts/AuthContext";
-import "./UserManagement.scss";
 import DefaultAvatar from "../../../assets/DefaultAvatar.png";
 import { getSize } from "../../../core/Lib";
 
@@ -31,56 +30,64 @@ const UserManagementPage = () => {
   };
 
   return (
-    <div className="user-management-container">
+    <div className="flex flex-col gap-4">
       {isLoading ? (
         <div>
           <Loader />
         </div>
       ) : (
         <>
-          <input type="text" placeholder="Search user" className="mts-input" />
-          <div className="users">
+          <input
+            type="text"
+            placeholder="Search user"
+            className="mts-input mx-2"
+          />
+          <div className="flex h-[calc(10rem_*_4)] flex-col gap-2 overflow-y-auto px-2 md:overflow-y-visible">
             {users?.map((user) => (
-              <div key={user.id} className="user">
-                <div className="avatar">
-                  <img src={user.avatarUrl ?? DefaultAvatar} alt="avatar" />
+              <div
+                key={user.id}
+                className="flex h-40 w-full flex-row items-center gap-4 rounded-xl bg-backgroundColor p-4 transition duration-300 hover:cursor-pointer hover:bg-backgroundColorLight"
+              >
+                <div className="h-24 w-24">
+                  <img
+                    src={user.avatarUrl ?? DefaultAvatar}
+                    alt="avatar"
+                    className="h-full w-full rounded-full"
+                  />
                 </div>
-                <div className="user-info">
-                  <div className="row">
-                    <div className="username">{user.username}</div>
+                <div className="flex flex-1 flex-col gap-1">
+                  <div className="mts-text-gradient text-xl">
+                    {user.username}
                   </div>
-                  <div className="row">
-                    <abbr
-                      title={user.email ?? "No Email"}
-                      className="account-detail-long ellipsis"
-                    >
-                      {user.email ?? "No Email"}
-                    </abbr>
-                    <div className="account-detail">
+                  <div className="flex flex-row justify-between">
+                    <div>{user.email ?? "No Email"}</div>
+                    <div>
                       {new Date(
                         user.accountCreatedDate + "Z"
                       ).toLocaleDateString()}
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="account-detail account-size">
-                      {getSize(user.accountSize)}
-                    </div>
+                  <div className="text-accent7">
+                    {getSize(user.accountSize)}
                   </div>
-                  <div className="row">
-                    <div className="badges">
-                      {user.roles?.length ? (
-                        user.roles?.map((role) => (
-                          <div className="badge" style={getRoleStyle()}>
-                            {role}
-                          </div>
-                        ))
-                      ) : (
-                        <div className="badge" style={getRoleStyle()}>
-                          None
+                  <div className="flex flex-row gap-2 font-bold">
+                    {user.roles?.length ? (
+                      user.roles?.map((role) => (
+                        <div
+                          className="grid place-items-center rounded-md p-1"
+                          style={getRoleStyle()}
+                        >
+                          {role}
                         </div>
-                      )}
-                    </div>
+                      ))
+                    ) : (
+                      <div
+                        className="grid place-items-center rounded-md p-1"
+                        style={getRoleStyle()}
+                      >
+                        None
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

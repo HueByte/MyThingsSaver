@@ -36,7 +36,7 @@ const HomePage = () => {
                 {entries.map((entry, index) => (
                   <NavLink
                     to={`/entry/${entry.category.id}/${entry.id}`}
-                    className="mts-border-gradient-r h-[220px] w-[300px] shadow-xl shadow-element transition duration-300 hover:scale-105 hover:text-accent7 hover:shadow-accent5"
+                    className="animate__fadeInRight animate__animated mts-border-gradient-r h-[220px] w-[300px] shadow-xl shadow-element transition duration-300 hover:scale-105 hover:text-accent7 hover:shadow-accent5"
                     key={index}
                   >
                     <div className="h-full w-full rounded-lg bg-altBackgroundColor p-4">
