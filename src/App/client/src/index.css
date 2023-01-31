@@ -38,6 +38,10 @@
     @apply border-b-4 border-transparent bg-gradient-to-b from-neutralDarker to-primary bg-clip-border bg-origin-border;
   }
 
+  .mts-text-gradient {
+    @apply bg-gradient-to-r from-accent4 to-accent7 bg-clip-text text-8xl font-extrabold text-transparent;
+  }
+
   .panel {
     @apply relative w-full rounded-xl bg-backgroundColor p-4 pt-6;
   }
