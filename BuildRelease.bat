@@ -20,22 +20,22 @@ dotnet publish -c Release /p:DebugType=None /p:DebugSymbols=false -r linux-arm -
 
 echo ==== Building Windows x64 ====
 cd %app%
-dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true --self-contained true --output %root%Release/Windowsx64
+dotnet publish -c Release /p:DebugType=None /p:DebugSymbols=false -r win-x64 -p:PublishSingleFile=true --self-contained true --output %root%Release/Windowsx64
 
 
 echo ==== Building Windows x32 ====
 cd %app%
-dotnet publish -c Release -r win-x86 -p:PublishSingleFile=true --self-contained true --output %root%Release/Windowsx86
+dotnet publish -c Release /p:DebugType=None /p:DebugSymbols=false -r win-x86 -p:PublishSingleFile=true --self-contained true --output %root%Release/Windowsx86
 
 
 echo ==== Building Linux x64 Standalone ====
 cd %app%
-dotnet publish -c Release -r linux-x64 -p:PublishSingleFile=true --self-contained true -o %root%Release/Linux64_Standalone
+dotnet publish -c Release /p:DebugType=None /p:DebugSymbols=false -r linux-x64 -p:PublishSingleFile=true --self-contained true -o %root%Release/Linux64_Standalone
 
 
 echo ==== Building MacOS x64 ====
 cd %app%
-dotnet publish -c Release -r osx-x64 -p:PublishSingleFile=true --self-contained true -o %root%Release/MacOSx64
+dotnet publish -c Release /p:DebugType=None /p:DebugSymbols=false -r osx-x64 -p:PublishSingleFile=true --self-contained true -o %root%Release/MacOSx64
 
 
 echo ==== Cleaning build files ====
