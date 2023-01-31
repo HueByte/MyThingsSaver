@@ -39,6 +39,7 @@ namespace MTS.App.Configuration
             var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleModel>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUserModel>>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
             string[] roles = { Role.USER, Role.ADMIN };
 
@@ -50,12 +51,12 @@ namespace MTS.App.Configuration
 
             var adminUsers = config.GetSection("Admins")?.Get<string[]>();
 
-            await CreateAdmins(adminUsers, userManager);
+            await CreateAdmins(adminUsers, userManager, logger);
 
             return webapp;
         }
 
-        private static async Task CreateAdmins(string[]? adminUsers, UserManager<ApplicationUserModel> userManager)
+        private static async Task CreateAdmins(string[]? adminUsers, UserManager<ApplicationUserModel> userManager, ILogger logger)
         {
             if (adminUsers is not null && adminUsers.Length > 0)
             {
@@ -63,8 +64,8 @@ namespace MTS.App.Configuration
                 {
                     var result = await AssignAdminRole(userManager, user);
 
-                    if (result) Console.WriteLine("User {0} was assigned to admin role.", user);
-                    else Console.WriteLine("User {0} failed to be assigned to admin role.", user);
+                    if (result) logger.LogInformation("User {user} was assigned to admin role.", user);
+                    else logger.LogInformation("User {user} failed to be assigned to admin role.", user);
                 }
             }
 
@@ -79,8 +80,8 @@ namespace MTS.App.Configuration
 
                 var result = await userManager.RemoveFromRoleAsync(user, Role.ADMIN);
 
-                if (result.Succeeded) Console.WriteLine("User {0} was removed from admin role.", user.UserName);
-                else Console.WriteLine("User {0} failed to be removed from admin role.", user.UserName);
+                if (result.Succeeded) logger.LogInformation("User {username} was removed from admin role.", user.UserName);
+                else logger.LogInformation("User {username} failed to be removed from admin role.", user.UserName);
             }
         }
 
