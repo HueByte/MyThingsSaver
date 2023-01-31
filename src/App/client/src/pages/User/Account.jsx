@@ -26,7 +26,7 @@ const AccountPage = () => {
   return (
     <div className="user-panel-container flex justify-center">
       <div className="flex w-[1024px] flex-row gap-6 pt-6 lg:mb-4 lg:w-full lg:flex-col lg:items-center md:mb-0">
-        <div className="mts-border-gradient-r border-1 flex h-fit w-[250px] flex-col border-2 lg:mb-4">
+        <div className="mts-border-gradient-r border-1 flex h-fit w-[250px] shrink-0 flex-col border-2 lg:mb-4">
           <div className="h-[250px] w-full overflow-hidden rounded-t-xl bg-altBackgroundColor p-2">
             <img
               src={authContext.getAvatar()}

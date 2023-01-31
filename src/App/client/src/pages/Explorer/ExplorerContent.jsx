@@ -86,6 +86,9 @@ const ExplorerContent = () => {
                       Type
                     </th>
                     <th scope="col" class="px-6 py-3">
+                      Public
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                       Action
                     </th>
                   </tr>
@@ -112,6 +115,9 @@ const ExplorerContent = () => {
                         </td>
                         <td className="px-6 py-4">{getSize(entry.size)}</td>
                         <td className="px-6 py-4">md</td>
+                        <td className="px-6 py-4">
+                          {entry.publicEntryId ? "Yes" : "No"}
+                        </td>
                         <td className="flex flex-row items-center px-6 py-4">
                           <FaPenSquare
                             className="mr-2 hover:text-accent"

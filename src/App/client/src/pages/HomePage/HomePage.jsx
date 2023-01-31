@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FaFolderOpen, FaGhost, FaStickyNote } from "react-icons/fa";
+import { AiFillCloud } from "react-icons/ai";
+import { FaGhost, FaStickyNote } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { EntriesService } from "../../api";
 import Loader from "../../components/Loaders/Loader";
@@ -25,22 +26,22 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="m-auto flex h-full w-full max-w-[1920px] flex-row flex-wrap justify-center gap-8 px-32 py-16 lg:px-8">
+      <div className="m-auto h-full w-full max-w-[1920px] px-32 py-16 lg:px-8">
         {isFetching ? (
           <Loader />
         ) : (
           <>
             {entries.length > 0 ? (
-              entries.map((entry, index) => (
-                <NavLink
-                  to={`/entry/${entry.category.id}/${entry.id}`}
-                  className="entry"
-                  key={index}
-                >
-                  <div className="mts-border-gradient-r h-[200px] w-[250px] shadow-xl shadow-element transition duration-300 hover:text-accent7 hover:shadow-accent5">
-                    <div className="h-full w-full rounded-lg bg-altBackgroundColor p-2">
-                      <div className="text-2xl">
-                        <FaStickyNote />
+              <div className="flex flex-row flex-wrap justify-center gap-8 pb-4">
+                {entries.map((entry, index) => (
+                  <NavLink
+                    to={`/entry/${entry.category.id}/${entry.id}`}
+                    className="mts-border-gradient-r h-[220px] w-[300px] shadow-xl shadow-element transition duration-300 hover:scale-105 hover:text-accent7 hover:shadow-accent5"
+                    key={index}
+                  >
+                    <div className="h-full w-full rounded-lg bg-altBackgroundColor p-4">
+                      <div className="text-3xl">
+                        <AiFillCloud />
                       </div>
                       <div className="mts-text-gradient truncate text-lg font-bold">
                         {entry.name}
@@ -51,9 +52,10 @@ const HomePage = () => {
                           <div>Edited on</div>
                           <div>Created on</div>
                           <div>Size</div>
+                          <div>Public</div>
                         </div>
-                        <div className="flex flex-1 flex-col">
-                          <div>{entry.category.name}</div>
+                        <div className="flex w-1/2 flex-1 flex-col">
+                          <div className="truncate">{entry.category.name}</div>
                           <div>
                             {new Date(
                               entry.lastUpdatedOn + "Z"
@@ -65,12 +67,13 @@ const HomePage = () => {
                             ).toLocaleDateString()}
                           </div>
                           <div>{getSize(entry.size)}</div>
+                          <div>{entry.publicEntryId ? "Yes" : "No"}</div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </NavLink>
-              ))
+                  </NavLink>
+                ))}
+              </div>
             ) : (
               <div className="grid h-full w-full place-items-center">
                 <div className="text-4x4 flex flex-col items-center gap-4 text-4xl">
