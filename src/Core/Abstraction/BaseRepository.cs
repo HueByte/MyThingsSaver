@@ -27,9 +27,9 @@ namespace MTS.Core.Abstraction
 
             if (doesExist) return false;
 
-            await _context
+            _context
                 .Set<TEntity>()
-                .AddAsync(entity);
+                .Add(entity);
 
             return true;
         }

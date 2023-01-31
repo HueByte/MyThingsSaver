@@ -15,7 +15,7 @@ dotnet build
 
 echo ==== Building Linux ARM x86 ====
 cd %app%
-dotnet publish -c Release -r linux-arm -p:PublishSingleFile=true --self-contained true -o %root%Release/Linux86-Arm
+dotnet publish -c Release /p:DebugType=None /p:DebugSymbols=false -r linux-arm -p:PublishSingleFile=true --self-contained true -o %root%Release/Linux86-Arm
 
 
 echo ==== Building Windows x64 ====
