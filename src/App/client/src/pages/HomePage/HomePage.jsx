@@ -36,17 +36,17 @@ const HomePage = () => {
                 {entries.map((entry, index) => (
                   <NavLink
                     to={`/entry/${entry.category.id}/${entry.id}`}
-                    className="animate__fadeInRight animate__animated mts-border-gradient-r h-[220px] w-[300px] shadow-xl shadow-element transition duration-300 hover:scale-105 hover:text-accent7 hover:shadow-accent5"
+                    className="animate__fadeInRight animate__animated mts-border-gradient-r h-[220px] w-[300px] shadow-xl shadow-element transition duration-300 hover:scale-105 hover:text-accent7 hover:shadow-accent5 sm:h-24"
                     key={index}
                   >
-                    <div className="h-full w-full rounded-lg bg-altBackgroundColor p-4">
+                    <div className="h-full w-full rounded-lg bg-altBackgroundColor p-4 sm:flex sm:flex-row sm:items-center sm:gap-2">
                       <div className="text-3xl">
                         <AiFillCloud />
                       </div>
                       <div className="mts-text-gradient truncate text-lg font-bold">
                         {entry.name}
                       </div>
-                      <div className="flex w-full flex-row gap-1 text-textColor">
+                      <div className="flex w-full flex-row gap-1 text-textColor sm:hidden">
                         <div className="flex flex-1 flex-col">
                           <div>Category</div>
                           <div>Edited on</div>
