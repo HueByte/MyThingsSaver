@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
+      transparent: "transparent",
       element: "#000c14",
       elementLight: "#001829",
       accent: "#00fa9a",
@@ -31,6 +32,24 @@ module.exports = {
       altBackgroundColor: "#000c14",
       altBackgroundColorLight: "#051929",
     },
+    screens: {
+      xl: { max: "1279px" },
+      // => @media (max-width: 1279px) { ... }
+
+      lg: { max: "1023px" },
+      // => @media (max-width: 1023px) { ... }
+
+      md: { max: "767px" },
+      // => @media (max-width: 767px) { ... }
+
+      sm: { max: "639px" },
+      // => @media (max-width: 639px) { ... }
+    },
   },
-  plugins: ["tailwindcss ,autoprefixer"],
+  plugins: [
+    "tailwindcss",
+    "autoprefixer",
+    "postcss-import",
+    "tailwindcss/nesting",
+  ],
 };

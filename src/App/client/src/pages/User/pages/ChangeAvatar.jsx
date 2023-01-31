@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { FaGhost } from "react-icons/fa";
 import DefaultAvatar from "../../../assets/DefaultAvatar.png";
-import "./ChangeAvatar.scss";
 import { AuthService } from "../../../api";
 import Loader from "../../../components/Loaders/Loader";
 import { errorModal } from "../../../core/Modals";
@@ -48,7 +47,7 @@ const ChangeAvatarPage = () => {
     <>
       <div className="panel">
         <div className="panel-name">Avatar</div>
-        <div className="avatar-preview">
+        <div className="relative mb-4 flex h-[200px] items-center justify-center">
           {isUpdating ? (
             <Loader />
           ) : (
@@ -57,6 +56,7 @@ const ChangeAvatarPage = () => {
                 avatarUrl && !avatarUrl.length >= 0 ? avatarUrl : DefaultAvatar
               }
               alt="avatar"
+              className="h-[200px] w-[200px] rounded-full"
             />
           )}
         </div>
@@ -75,7 +75,7 @@ const ChangeAvatarPage = () => {
         <input
           ref={avatarInput}
           type="text"
-          className="mts-input avatar-input"
+          className="mts-input mt-4 w-full"
           placeholder="Place your new avatar url here"
         />
         <div className="action-buttons">

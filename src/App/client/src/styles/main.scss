@@ -1,8 +1,6 @@
-@use "styles/theme" as theme;
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@use "theme" as theme;
 
+// in future migrate it with tailwind main.css
 body {
   font-smooth: auto;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -12,31 +10,6 @@ body {
 
 code {
   font-family: 'Fira Mono', monospace;
-}
-
-abbr[title] {
-  text-decoration: none;
-}
-
-svg {
-  display: inline;
-  vertical-align: baseline;
-}
-
-.border-gradient {
-  border: double 4px transparent;
-  background-image: linear-gradient(to right, theme.$neutralDarker, theme.$primary), linear-gradient(to right, theme.$neutralDarker, theme.$primary);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 10px;
-}
-
-.border-gradient-bottom {
-  border: double 4px transparent;
-  background-image: linear-gradient(to bottom, theme.$neutralDarker, theme.$primary), linear-gradient(to bottom, theme.$neutralDarker, theme.$primary);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 10px;
 }
 
 .mts-input {
@@ -71,14 +44,6 @@ svg {
   }
 }
 
-.gradient-background-l {
-  background-image: linear-gradient(to left, theme.$neutralDarker, theme.$secondaryLight);
-}
-
-.gradient-background-r {
-  background-image: linear-gradient(to right, theme.$neutralDarker, theme.$secondaryLight);
-}
-
 $switch-base-width: 60px;
 $switch-base-height: 30px;
 
@@ -87,6 +52,7 @@ $switch-base-height: 30px;
   $height: $switch-base-height / 1.5;
   width: clamp($width, $width, $width);
   height: clamp($height, $height, $height);
+  display: inline-block;
 
   .slider {
     border-radius: $height;

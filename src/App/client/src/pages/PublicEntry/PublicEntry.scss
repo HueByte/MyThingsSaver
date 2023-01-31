@@ -50,7 +50,6 @@ $entry-width: calc(variables.$read-width + $entry-padding);
         width: clamp($user-card-width, $user-card-width, $user-card-width);
         height: fit-content;
         border-radius: $user-card-border-radius;
-        border-width: 3px;
         background-color: theme.$altBackgroundColor;
         padding: 10px;
         gap: 1em;
@@ -168,8 +167,12 @@ $query-break: calc($user-card-width + $container-gap + $entry-width + $container
 
 @media screen and (max-width: variables.$small-resolution) {
     .public-entry-container {
-        padding: 1em 0;
+        padding: 0;
         gap: 0;
+
+        .owner {
+            border-radius: 0;
+        }
 
         .public-entry {
             border-radius: 0;

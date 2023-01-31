@@ -16,7 +16,7 @@ const Item = ({ category, recentPath, setCurrentContextItem }) => {
     <>
       <NavLink
         to={`/explore/${category.id}`}
-        className="item ellipsis"
+        className="item w-full truncate"
         style={determineDepth(category)}
         onContextMenu={(e) => {
           e.stopPropagation();
@@ -26,6 +26,7 @@ const Item = ({ category, recentPath, setCurrentContextItem }) => {
         {category.childCategories ? (
           showChilds ? (
             <FaAngleDown
+              className="inline"
               onClick={(e) => {
                 e.preventDefault();
                 setShowChilds(!showChilds);
@@ -33,6 +34,7 @@ const Item = ({ category, recentPath, setCurrentContextItem }) => {
             />
           ) : (
             <FaAngleRight
+              className="inline"
               onClick={(e) => {
                 e.preventDefault();
                 setShowChilds(!showChilds);

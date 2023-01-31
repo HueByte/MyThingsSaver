@@ -93,12 +93,12 @@ const Explorer = () => {
   };
 
   return (
-    <div className="categories__wrapper">
-      <div className="explorer-container">
+    <div className="categories__wrapper animate__fadeIn animate__animated flex h-full w-full items-center justify-center">
+      <div className="explorer-container flex h-[800px] w-[1024px] flex-row rounded-xl shadow-lg shadow-element">
         <div
-          className={`left-menu${
+          className={`relative z-20 w-1/6 max-w-[90%] bg-altBackgroundColor left-menu${
             isMenuExpanded ? " expand" : ""
-          }  border-gradient-bottom`}
+          } mts-border-gradient-b `}
           id="explorer-menu"
           onContextMenu={() => setContextMenuCategory(null)}
         >
@@ -113,8 +113,8 @@ const Explorer = () => {
             onDragOver={resize}
             onDragEnd={stopDrag}
           ></div>
-          <div className="item-container">
-            <div className="item ellipsis">{auth.authState?.username}</div>
+          <div className="item-container flex h-full w-full flex-col overflow-auto overflow-x-hidden bg-altBackgroundColor p-2">
+            <div className="item truncate">{auth.authState?.username}</div>
             {finishedLoading ? (
               <>
                 {categoryContext.categories ? (
@@ -141,7 +141,7 @@ const Explorer = () => {
             )}
           </div>
         </div>
-        <div className="content__wrapper">
+        <div className="content__wrapper flex flex-col justify-between">
           <Outlet context={[lastUsedId, setLastUsedId]} />
         </div>
       </div>

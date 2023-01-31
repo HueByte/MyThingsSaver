@@ -64,7 +64,8 @@ public class EntryService : IEntryService
                 UserId = entry.UserId,
                 Size = entry.Size,
                 LastUpdatedOn = entry.LastUpdatedOn,
-                CategoryId = entry.CategoryId
+                CategoryId = entry.CategoryId,
+                PublicEntryId = entry.PublicEntryId,
             });
         }
 
@@ -169,7 +170,8 @@ public class EntryService : IEntryService
                 Size = x.Size,
                 CreatedOn = x.CreatedOn,
                 LastUpdatedOn = x.LastUpdatedOn,
-                Category = x.Category
+                Category = x.Category,
+                PublicEntryId = x.PublicEntryId
             })
             .OrderByDescending(entry => entry.LastUpdatedOn)
             .Take(15)

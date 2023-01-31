@@ -113,10 +113,10 @@ namespace Core.Services.LoginLog
         private static bool CheckIfIpAddressIsLocal(string ipAddress)
         {
             return ipAddress == IPAddress.Loopback.ToString()
-                || ipAddress.StartsWith("0")
-                || ipAddress.StartsWith("10")
-                || ipAddress.StartsWith("172")
-                || ipAddress.StartsWith("192");
+                || ipAddress.StartsWith("0.")
+                || ipAddress.StartsWith("10.")
+                || ipAddress.StartsWith("172.")
+                || ipAddress.StartsWith("192.");
         }
     }
 }

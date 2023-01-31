@@ -6,6 +6,7 @@ using MTS.App.Middlewares;
 using MTS.Core.lib;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 
 Logo.PrintLogo();
 
@@ -18,12 +19,19 @@ var config = builder.Configuration;
 
 LogOptions loggerOptions = new();
 config.GetSection(LogOptions.Log).Bind(loggerOptions);
+
 LogEventLevel logLevel = SerilogConfigurator.GetLogEventLevel(loggerOptions.LogLevel);
+LogEventLevel logLevelSystem = SerilogConfigurator.GetLogEventLevel(loggerOptions.SystemLevel);
+LogEventLevel logLevelAspNetCore = SerilogConfigurator.GetLogEventLevel(loggerOptions.AspNetCoreLevel);
+LogEventLevel logLevelDatabase = SerilogConfigurator.GetLogEventLevel(loggerOptions.DatabaseLevel);
+
 RollingInterval logInterval = SerilogConfigurator.GetRollingInterval(loggerOptions.TimeInterval);
 
 builder.Host.UseSerilog((ctx, lc) => lc
-    .MinimumLevel.Override("Microsoft", logLevel)
-    .WriteTo.Async(e => e.Console())
+    .MinimumLevel.Override("System", logLevelSystem)
+    .MinimumLevel.Override("Microsoft.AspNetCore", logLevelAspNetCore)
+    .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", logLevelDatabase)
+    .WriteTo.Async(e => e.Console(theme: AnsiConsoleTheme.Code))
     .WriteTo.Async(e => e.File(Path.Combine(logsPath, "log.txt"), rollingInterval: logInterval)));
 
 _ = new ServicesConfigurator(builder.Services, config)
@@ -63,6 +71,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
+if (logLevelAspNetCore > LogEventLevel.Information) app.UseSerilogRequestLogging();
 app.UseStaticFiles(new StaticFileOptions()
 {
     OnPrepareResponse = ctx =>

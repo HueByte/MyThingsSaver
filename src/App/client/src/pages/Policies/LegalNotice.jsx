@@ -18,14 +18,17 @@ const LegalNoticePage = () => {
   }, []);
 
   return (
-    <div className="legal-notice-container">
-      <NavLink to="/" className="mts-button gradient-background-r nav-button">
+    <div className="legal-notice-container flex h-full w-full flex-col items-center justify-center gap-8 overflow-y-auto overflow-x-hidden p-8 md:px-0 md:py-4">
+      <NavLink
+        to="/"
+        className="mts-btn-primary mts-bg-gradient-r w-[200px] hover:text-textColor"
+      >
         Go back
       </NavLink>
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="legal-notice border-gradient">
+        <div className="legal-notice mts-bg-gradient-r w-[1024px] rounded-2xl bg-altBackgroundColor p-1 lg:w-[100%] lg:rounded-none">
           <MEDitor.Markdown source={legalNotice} />
         </div>
       )}

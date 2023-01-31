@@ -75,7 +75,7 @@ const Login = () => {
         />
       </div>
       <div
-        className="mts-button gradient-background-r full-button"
+        className="mts-button mts-bg-gradient-r full-button"
         onClick={() => setIsWorking(true)}
       >
         Continue

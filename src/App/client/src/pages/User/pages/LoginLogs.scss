@@ -28,6 +28,9 @@ $logs-container-heigh: calc(5 * 130px);
                 gap: 0.5em;
 
                 .log-key {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 0.5em;
                     flex: 2;
                     color: theme.$primaryLight;
                 }

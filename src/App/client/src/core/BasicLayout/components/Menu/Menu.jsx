@@ -21,7 +21,7 @@ const Menu = () => {
 
 const DesktopMenu = ({ logout, authContext }) => {
   return (
-    <div className="nav-top border-gradient">
+    <div className="nav-top mts-border-gradient-r">
       <div className="logo">
         <div className="img">
           <img src={logo} width="60" height="40" alt="CloudByte logo" />
