@@ -1,7 +1,6 @@
 import { object } from "prop-types";
 import React, { createContext, useEffect, useState } from "react";
 import { AuthService } from "../api";
-import "../api/axiosConfig";
 import DefaultAvatar from "../assets/DefaultAvatar.png";
 
 const AuthContext = createContext();

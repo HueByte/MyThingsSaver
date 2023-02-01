@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MTS.Common.ApiResonse;
+using MTS.Core.Entities;
 
 namespace MTS.Core.lib
 {
@@ -19,7 +20,7 @@ namespace MTS.Core.lib
 
         public static IActionResult ValueType<T>(T data) where T : struct
         {
-            if (!typeof(T).IsPrimitive) throw new Exception($"{data.GetType()} is not primitive data type");
+            if (!typeof(T).IsPrimitive) throw new HandledException($"{data.GetType()} is not primitive data type");
 
             BaseApiResponse<T> result = new(data);
             return Create(result);

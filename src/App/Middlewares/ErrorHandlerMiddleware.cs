@@ -32,7 +32,7 @@ namespace MTS.App.Middlewares
                 var result = GetExceptionResponse(ex);
 
                 if (ex is HandledException || ex is HandledExceptionList)
-                    context.Response.StatusCode = (int)HttpStatusCode.OK; // temp
+                    context.Response.StatusCode = (int)HttpStatusCode.OK;
                 else
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 

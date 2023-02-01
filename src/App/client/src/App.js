@@ -5,6 +5,7 @@ import { ClientRouter } from "./routes/Routes";
 import { AuthProvider } from "./contexts/AuthContext";
 import Loader from "./components/Loaders/Loader";
 import { Suspense } from "react";
+import "./api/axiosConfig";
 
 // notifications
 import { ReactNotifications } from "react-notifications-component";

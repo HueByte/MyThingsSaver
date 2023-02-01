@@ -46,16 +46,17 @@ namespace MTS.Core.Services.Authentication
         public async Task<VerifiedUserDto> RefreshToken(string token, string ipAddress)
         {
             var user = await GetUserByRefreshToken(token);
+            user.RefreshTokens ??= new();
 
             // Get matching token
-            var refreshToken = user!.RefreshTokens?.FirstOrDefault(e => e.Token == token && e.CreatedByIp == ipAddress);
+            var oldRefreshToken = user.RefreshTokens.FirstOrDefault(e => e.Token == token && e.CreatedByIp == ipAddress);
 
-            if (refreshToken is null || !refreshToken.IsActive)
-                throw new Exception("Token is invalid");
+            if (oldRefreshToken is null || !oldRefreshToken.IsActive)
+                throw new HandledException("Token is invalid");
 
             // Get new refresh token and revoke old one
-            var newRefreshToken = RotateToken(refreshToken, ipAddress);
-            user!.RefreshTokens?.Add(newRefreshToken);
+            var newRefreshToken = RotateToken(oldRefreshToken, ipAddress);
+            user.RefreshTokens.Add(newRefreshToken);
 
             // Remove old tokens
             RemoveOldRefreshTokens(user);
@@ -79,13 +80,13 @@ namespace MTS.Core.Services.Authentication
         public async Task RevokeToken(string token, string ipAddress)
         {
             if (string.IsNullOrEmpty(token))
-                throw new Exception("Token is invalid");
+                throw new HandledException("Token is invalid");
 
             var user = await GetUserByRefreshToken(token);
-            var refreshToken = user!.RefreshTokens?.FirstOrDefault(e => e.Token == token);
+            var refreshToken = user.RefreshTokens?.FirstOrDefault(e => e.Token == token);
 
             if (refreshToken is null || !refreshToken.IsActive)
-                throw new Exception("Token is invalid");
+                throw new HandledException("Token is invalid");
 
             RevokeRefreshToken(refreshToken, ipAddress);
 
@@ -99,8 +100,10 @@ namespace MTS.Core.Services.Authentication
         /// <returns></returns>
         public void RemoveOldRefreshTokens(ApplicationUserModel user)
         {
-            user.RefreshTokens?.RemoveAll(token => !token.IsActive
-                                      && token.Created.AddDays(_jwtOptions.RefreshTokenExpireTime) <= DateTime.UtcNow);
+            user.RefreshTokens!
+                .RemoveAll(token =>
+                    !token.IsActive
+                    && token.Created.AddDays(_jwtOptions.RefreshTokenExpireTime) <= DateTime.UtcNow);
         }
 
         /// <summary>
@@ -119,13 +122,13 @@ namespace MTS.Core.Services.Authentication
         /// <summary>
         /// Expires old refresh token and returns a new one
         /// </summary>
-        /// <param name="token"></param>
+        /// <param name="oldToken"></param>
         /// <param name="ipAddress"></param>
         /// <returns></returns>
-        private RefreshTokenModel RotateToken(RefreshTokenModel token, string ipAddress)
+        private RefreshTokenModel RotateToken(RefreshTokenModel oldToken, string ipAddress)
         {
             var newRefreshToken = CreateRefreshToken(ipAddress);
-            RevokeRefreshToken(token, ipAddress, "Rotated Token");
+            RevokeRefreshToken(oldToken, ipAddress, "Rotated Token");
             return newRefreshToken;
         }
 
@@ -144,7 +147,7 @@ namespace MTS.Core.Services.Authentication
                 .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));
 
             if (user is null)
-                throw new Exception("Token is invalid");
+                throw new HandledException("Token is invalid");
 
             return user;
         }
