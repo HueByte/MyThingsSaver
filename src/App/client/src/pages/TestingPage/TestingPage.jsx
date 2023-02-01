@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 import KUTE from "kute.js";
+import MEDitor from "@uiw/react-md-editor";
+import { FaRegStickyNote } from "react-icons/fa";
 
 const TestingPage = () => {
+  const isEditing = false;
+
   return (
     <>
-      <div id="parent" className="mx-auto mt-32 flex w-[1000px] bg-accent2">
-        <div className="w-[200px] bg-accent">bonk</div>
-        <div className="w-[calc(1000px_-_200px)] flex-1 bg-accent4">
-          <div className="w-[2000px] max-w-full bg-accent6">Q</div>
+      <div className="mx-auto flex min-h-full w-[1024px] flex-col items-center gap-6 p-4">
+        <div className="h-16 w-full bg-accent4">top</div>
+        <div className="h-full w-full bg-accent2 p-8">
+          <div className="h-[100px] min-h-[600px]">Content</div>
         </div>
       </div>
     </>

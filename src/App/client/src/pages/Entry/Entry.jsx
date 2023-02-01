@@ -112,6 +112,7 @@ const Entry = () => {
     navigator.clipboard.writeText(
       `${window.location.protocol}//${window.location.hostname}:${window.location.port}/public/${publicUrl}`
     );
+
     successModal("Copied link to clipboard");
   };
 

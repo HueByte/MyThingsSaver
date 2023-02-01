@@ -12,15 +12,13 @@ const TestingPage = React.lazy(() =>
   import("../pages/TestingPage/TestingPage")
 );
 const Settings = React.lazy(() => import("../pages/Settings/Settings"));
-const PublicEntryPage = React.lazy(() =>
-  import("../pages/PublicEntry/PublicEntry")
-);
 const Login = React.lazy(() => import("../pages/Authentication/Login"));
 const LegalNoticePage = React.lazy(() =>
   import("../pages/Policies/LegalNotice")
 );
 const Register = React.lazy(() => import("../pages/Authentication/Register"));
 const Entry = React.lazy(() => import("../pages/Entry/Entry"));
+const PublicEntryPage = React.lazy(() => import("../pages/Entry/PublicEntry"));
 const Logout = React.lazy(() => import("../pages/Logout/Logout"));
 const Explorer = React.lazy(() => import("../pages/Explorer/Explorer"));
 const Account = React.lazy(() => import("../pages/User/Account"));
@@ -63,7 +61,10 @@ export const ClientRouter = () => {
       <Route path="LegalNotice" element={<LegalNoticePage />} />
 
       {!authContext.isAuthenticated() ? (
-        <Route path="public/:link" element={<PublicEntryPage />} />
+        <Route
+          path="public/:link"
+          element={<PublicEntryPage isLogged={false} />}
+        />
       ) : (
         <></>
       )}
