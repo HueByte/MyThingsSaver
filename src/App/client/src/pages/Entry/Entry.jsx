@@ -146,7 +146,7 @@ const Entry = () => {
               </div>
             </div>
           </div>
-          <div className="mb-4 min-h-[700px] w-full rounded-xl bg-altBackgroundColor px-4 pt-8 pb-16 shadow-lg shadow-element lg:w-full md:h-[calc(100%_-_4rem)] md:rounded-none">
+          <div className="mb-4 h-fit min-h-[700px] w-full rounded-xl bg-altBackgroundColor px-4 pt-8 pb-16 shadow-lg shadow-element lg:w-full md:rounded-none">
             {isEditing ? (
               <div className="flex w-full flex-col gap-4">
                 <div
