@@ -32,7 +32,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .MinimumLevel.Override("Microsoft.AspNetCore", logLevelAspNetCore)
     .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", logLevelDatabase)
     .WriteTo.Async(e => e.Console(theme: AnsiConsoleTheme.Code))
-    .WriteTo.Async(e => e.File(Path.Combine(logsPath, "log.txt"), rollingInterval: logInterval)));
+    .WriteTo.Async(e => e.File(Path.Combine(logsPath, "mts.log"), rollingInterval: logInterval)));
 
 _ = new ServicesConfigurator(builder.Services, config)
     .AddOptions()
