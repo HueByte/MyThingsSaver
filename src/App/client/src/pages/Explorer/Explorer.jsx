@@ -94,7 +94,7 @@ const Explorer = () => {
 
   return (
     <div className="categories__wrapper animate__fadeIn animate__animated flex h-full w-full items-center justify-center">
-      <div className="explorer-container flex h-[800px] w-[1024px] flex-row rounded-xl shadow-lg shadow-element">
+      <div className="explorer-container flex h-[90%] max-h-[800px] w-[1024px] flex-row rounded-xl shadow-lg shadow-element">
         <div
           className={`relative z-20 w-1/6 max-w-[90%] bg-altBackgroundColor left-menu${
             isMenuExpanded ? " expand" : ""
