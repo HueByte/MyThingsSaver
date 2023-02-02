@@ -27,13 +27,12 @@ function errorHandler(error: { response: { status: any; data: any; }; config: Ax
         if (status == 401) {
             let result: ApiResponse = error.response.data;
 
-            if (result.errors?.length > 0) {
-
+            if (result && result.errors?.length > 0) {
                 redirectToLogout();
                 return Promise.resolve(error.response.data);
             }
 
-            return AuthService.postApiAuthRefreshToken().then((result) => {
+            return AuthService.postApiAuthRefreshToken().then(result => {
                 // retry request if refresh token succeeded
                 if (result?.isSuccess) return axios.request(error.config);
 

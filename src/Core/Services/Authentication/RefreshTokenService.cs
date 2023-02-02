@@ -49,7 +49,7 @@ namespace MTS.Core.Services.Authentication
             user.RefreshTokens ??= new();
 
             // Get matching token
-            var oldRefreshToken = user.RefreshTokens.FirstOrDefault(e => e.Token == token && e.CreatedByIp == ipAddress);
+            var oldRefreshToken = user.RefreshTokens.FirstOrDefault(e => e.Token == token);
 
             if (oldRefreshToken is null || !oldRefreshToken.IsActive)
                 throw new TokenException("Token was not found or is not active");
