@@ -25,14 +25,14 @@ namespace Core.Services.Entry
         public async Task<PublicEntryDto?> GetPublicEntryAsync(string publicUrl)
         {
             var publicEntry = await _publicEntryRepository
-                .GetQueryable()
+                .AsQueryable()
                 .FirstOrDefaultAsync(x => x.PublicUrl == publicUrl);
 
             if (publicEntry is null)
                 return null!;
 
             var entry = await _entryRepository
-                .GetQueryable()
+                .AsQueryable()
                 .Include(e => e.User)
                 .Where(e => e.Id == publicEntry.EntryId)
                 .Select(e => new PublicEntryDto
@@ -92,7 +92,7 @@ namespace Core.Services.Entry
         private async Task MakePrivateAsync(EntryModel entry)
         {
             var publicEntry = await _publicEntryRepository
-                .GetQueryable()
+                .AsQueryable()
                 .FirstOrDefaultAsync(x => x.Id == entry.PublicEntryId);
 
             if (publicEntry is null)

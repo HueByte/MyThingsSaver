@@ -51,13 +51,13 @@ namespace MTS.Core.Abstraction
             return true;
         }
 
-        public virtual IQueryable<TEntity> GetQueryable()
+        public virtual IQueryable<TEntity> AsQueryable()
         {
             return _context.Set<TEntity>()
                 .AsQueryable();
         }
 
-        public virtual IQueryable<TEntity> GetAllAsync()
+        public virtual IQueryable<TEntity> AsIdentityQueryable()
         {
             return _context.Set<TEntity>()
                 .Where(cat => cat.UserId == _currentUser.UserId)

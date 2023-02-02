@@ -9,6 +9,6 @@ namespace MTS.Core.Abstraction
         where Tkey : IConvertible
         where TEntity : IdentityDbModel<Tkey, string>
     {
-        IQueryable<TEntity> GetQueryable();
+        IQueryable<TEntity> AsIdentityQueryable();
     }
 }

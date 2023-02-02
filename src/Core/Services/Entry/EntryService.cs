@@ -36,7 +36,7 @@ public class EntryService : IEntryService
             return null!;
 
         return await _repository
-            .GetAllAsync()
+            .AsIdentityQueryable()
             .Include(e => e.PublicEntry)
             .FirstOrDefaultAsync(e => e.Id == id);
     }
@@ -51,7 +51,7 @@ public class EntryService : IEntryService
         entries.SubCategories = await _categoryService.GetSubCategoriesAsync(categoryId);
 
         var entriesQuery = _repository
-            .GetAllAsync()
+            .AsIdentityQueryable()
             .Where(entry => entry.CategoryId == categoryId);
 
         if (!withContent)
@@ -161,7 +161,7 @@ public class EntryService : IEntryService
 
     public async Task<List<EntryModel>> GetRecentAsync()
     {
-        var entries = await _repository.GetAllAsync()
+        var entries = await _repository.AsIdentityQueryable()
             .Include(x => x.Category)
             .Select(x => new EntryModel
             {

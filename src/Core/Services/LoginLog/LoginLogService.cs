@@ -26,17 +26,17 @@ namespace Core.Services.LoginLog
 
         public Task<int> GetLoginLogsCountAsync()
         {
-            return _loginLogRepository.GetQueryable().CountAsync();
+            return _loginLogRepository.AsQueryable().CountAsync();
         }
 
         public Task<int> GetUserLoginLogsCountAsync()
         {
-            return _loginLogRepository.GetAllAsync().CountAsync();
+            return _loginLogRepository.AsIdentityQueryable().CountAsync();
         }
 
         public Task<List<LoginLogModel>> GetAllUserLoginLogsAsync()
         {
-            return _loginLogRepository.GetAllAsync().OrderByDescending(prop => prop.LoginDate)
+            return _loginLogRepository.AsIdentityQueryable().OrderByDescending(prop => prop.LoginDate)
                 .ToListAsync();
         }
 
@@ -45,7 +45,7 @@ namespace Core.Services.LoginLog
             page = GetPage(page);
 
             return _loginLogRepository
-                .GetQueryable()
+                .AsQueryable()
                 .Include(prop => prop.User)
                 .OrderByDescending(prop => prop.LoginDate)
                 .Skip((page - 1) * pageSize)
@@ -66,7 +66,7 @@ namespace Core.Services.LoginLog
         {
             page = GetPage(page);
 
-            return _loginLogRepository.GetAllAsync()
+            return _loginLogRepository.AsIdentityQueryable()
                 .OrderByDescending(prop => prop.LoginDate)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)

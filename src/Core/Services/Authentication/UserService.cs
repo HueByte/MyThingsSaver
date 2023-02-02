@@ -65,9 +65,9 @@ namespace MTS.Core.Services.Authentication
             if (user is null)
                 throw new HandledException("Couldn't find this user");
 
-            var categoriesCount = await _categoryRepository.GetAllAsync().CountAsync();
-            var entriesCount = await _entryRepository.GetAllAsync().CountAsync();
-            var accountSize = await _entryRepository.GetAllAsync().SumAsync(e => e.Size);
+            var categoriesCount = await _categoryRepository.AsIdentityQueryable().CountAsync();
+            var entriesCount = await _entryRepository.AsIdentityQueryable().CountAsync();
+            var accountSize = await _entryRepository.AsIdentityQueryable().SumAsync(e => e.Size);
 
             UserInfoDto userInfo = new()
             {

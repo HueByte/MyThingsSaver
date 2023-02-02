@@ -34,7 +34,7 @@ namespace MTS.Core.Services.Category
 
         public async Task<List<CategoryModel>> GetAllCategoriesAsync()
         {
-            return await _repository.GetAllAsync()
+            return await _repository.AsIdentityQueryable()
                 .OrderByDescending(cat => cat.LastEditedOnDate)
                 .ToListAsync();
         }
@@ -44,7 +44,7 @@ namespace MTS.Core.Services.Category
             if (string.IsNullOrWhiteSpace(_currentUser.UserId))
                 throw new HandledException("Owner ID cannot be empty");
 
-            return await _repository.GetAllAsync()
+            return await _repository.AsIdentityQueryable()
                 .Where(cat => cat.Level == 0)
                 .ToListAsync();
         }
@@ -54,7 +54,7 @@ namespace MTS.Core.Services.Category
             if (string.IsNullOrWhiteSpace(parentId) && string.IsNullOrWhiteSpace(_currentUser.UserId))
                 throw new HandledException("Parent ID and Owner ID cannot be empty");
 
-            return await _repository.GetAllAsync()
+            return await _repository.AsIdentityQueryable()
                 .Where(category => category.ParentCategoryId == parentId)
                 .OrderByDescending(cat => cat.LastEditedOnDate)
                 .ToListAsync();
@@ -65,7 +65,7 @@ namespace MTS.Core.Services.Category
             if (string.IsNullOrWhiteSpace(categoryInput.Name))
                 throw new HandledException("Name cannot be empty");
 
-            var exists = await _repository.GetAllAsync().AnyAsync(cat =>
+            var exists = await _repository.AsIdentityQueryable().AnyAsync(cat =>
                 cat.Name == categoryInput.Name
                 && cat.ParentCategoryId == categoryInput.CategoryParentId);
 
@@ -112,7 +112,7 @@ namespace MTS.Core.Services.Category
             // check if under parent the same category name already exists
             if (!string.IsNullOrEmpty(categoryInput.CategoryParentId))
             {
-                var isNameDuplicate = await _repository.GetAllAsync().AnyAsync(entry =>
+                var isNameDuplicate = await _repository.AsIdentityQueryable().AnyAsync(entry =>
                         entry.ParentCategoryId == categoryInput.CategoryParentId
                         && entry.Name == categoryInput.Name);
 
@@ -121,7 +121,7 @@ namespace MTS.Core.Services.Category
             }
 
             // check if this category exists
-            var category = await _repository.GetAllAsync().FirstOrDefaultAsync(cat =>
+            var category = await _repository.AsIdentityQueryable().FirstOrDefaultAsync(cat =>
                 cat.Id == categoryInput.CategoryId
                 && cat.ParentCategoryId == categoryInput.CategoryParentId);
 
@@ -153,7 +153,7 @@ namespace MTS.Core.Services.Category
             if (string.IsNullOrWhiteSpace(id))
                 throw new HandledException("Category ID cannot be empty");
 
-            var categoryWithEntries = await _repository.GetAllAsync()
+            var categoryWithEntries = await _repository.AsIdentityQueryable()
                 .Include(cat => cat.Entries.OrderByDescending(e => e.LastUpdatedOn))
                 .FirstOrDefaultAsync(cat => cat.Id == id);
 
