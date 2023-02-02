@@ -4,7 +4,6 @@ import { errorModal } from '../core/Modals';
 import { AuthService } from './services/AuthService';
 
 const axiosApiInstance = axios.create();
-
 axios.interceptors.response.use(
     (Response) => responseHandler(Response),
     (Error) => errorHandler(Error)
@@ -14,15 +13,8 @@ function responseHandler(response: AxiosResponse) {
     let result: ApiResponse = response.data;
 
     if (response.status == 200 && !result.isSuccess) {
-        if (result) {
-            if (result.errors.length > 0 && result.errors.find(err => err === "Token is invalid")) {
-                redirectToLogout();
-                return response;
-            }
-
-            errorModal(result.errors.join("\n"), 10000);
-            return response;
-        }
+        errorModal(result?.errors.join("\n"), 10000);
+        return response;
     }
 
     return response;
@@ -33,8 +25,17 @@ function errorHandler(error: { response: { status: any; data: any; }; config: Ax
         const status = error.response?.status;
 
         if (status == 401) {
+            let result: ApiResponse = error.response.data;
+
+            if (result.errors?.length > 0) {
+
+                redirectToLogout();
+                return Promise.resolve(error.response.data);
+            }
+
             return AuthService.postApiAuthRefreshToken().then((result) => {
-                if (result) return axios.request(error.config); // retry
+                // retry request if refresh token succeeded
+                if (result?.isSuccess) return axios.request(error.config);
 
                 // logout if refresh token failed
                 redirectToLogout();

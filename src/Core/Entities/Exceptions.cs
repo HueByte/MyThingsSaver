@@ -16,4 +16,9 @@ namespace MTS.Core.Entities
     {
         public HandledException(string ExceptionMessage) : base(ExceptionMessage) { }
     }
+
+    public class TokenException : Exception
+    {
+        public TokenException(string ExceptionMessage) : base(ExceptionMessage) { }
+    }
 }

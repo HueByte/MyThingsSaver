@@ -144,10 +144,17 @@ export const ClientRouter = () => {
 
         <Route path="public/:link" element={<PublicEntryPage />} />
 
-        <Route path="logout" element={<Logout />} />
-
         <Route path="*" element={<FOUR_ZERO_FOUR />} />
       </Route>
+
+      <Route
+        path="logout"
+        element={
+          <PrivateRoute source="BasicLayout">
+            <Logout />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };

@@ -31,10 +31,13 @@ namespace MTS.App.Middlewares
             {
                 var result = GetExceptionResponse(ex);
 
-                if (ex is HandledException || ex is HandledExceptionList)
-                    context.Response.StatusCode = (int)HttpStatusCode.OK;
-                else
-                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.Response.StatusCode = ex switch
+                {
+                    HandledException => (int)HttpStatusCode.OK,
+                    HandledExceptionList => (int)HttpStatusCode.OK,
+                    TokenException => (int)HttpStatusCode.Unauthorized,
+                    _ => (int)HttpStatusCode.BadRequest
+                };
 
                 context.Response.ContentType = "application/json";
 
@@ -56,6 +59,12 @@ namespace MTS.App.Middlewares
                 {
                     Data = default,
                     Errors = list!.ExceptionMessages!,
+                    IsSuccess = false
+                },
+                TokenException => new()
+                {
+                    Data = default,
+                    Errors = new List<string>() { exception.Message }!,
                     IsSuccess = false
                 },
                 _ => new()

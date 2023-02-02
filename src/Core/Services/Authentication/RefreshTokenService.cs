@@ -52,7 +52,7 @@ namespace MTS.Core.Services.Authentication
             var oldRefreshToken = user.RefreshTokens.FirstOrDefault(e => e.Token == token && e.CreatedByIp == ipAddress);
 
             if (oldRefreshToken is null || !oldRefreshToken.IsActive)
-                throw new HandledException("Token is invalid");
+                throw new TokenException("Token was not found or is not active");
 
             // Get new refresh token and revoke old one
             var newRefreshToken = RotateToken(oldRefreshToken, ipAddress);
@@ -80,13 +80,13 @@ namespace MTS.Core.Services.Authentication
         public async Task RevokeToken(string token, string ipAddress)
         {
             if (string.IsNullOrEmpty(token))
-                throw new HandledException("Token is invalid");
+                throw new TokenException("Revoking token was empty");
 
             var user = await GetUserByRefreshToken(token);
             var refreshToken = user.RefreshTokens?.FirstOrDefault(e => e.Token == token);
 
             if (refreshToken is null || !refreshToken.IsActive)
-                throw new HandledException("Token is invalid");
+                throw new TokenException("Token is invalid");
 
             RevokeRefreshToken(refreshToken, ipAddress);
 
@@ -137,7 +137,7 @@ namespace MTS.Core.Services.Authentication
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        /// <exception cref="HandledException"></exception>
+        /// <exception cref="TokenException"></exception>
         private async Task<ApplicationUserModel> GetUserByRefreshToken(string token)
         {
             var user = await _userManager.Users
@@ -147,7 +147,7 @@ namespace MTS.Core.Services.Authentication
                 .SingleOrDefaultAsync(user => user.RefreshTokens.Any(t => t.Token == token));
 
             if (user is null)
-                throw new HandledException("Token is invalid");
+                throw new TokenException("Token is invalid");
 
             return user;
         }
