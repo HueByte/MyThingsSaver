@@ -26,7 +26,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="m-auto h-full w-full max-w-[1920px] px-32 py-16 lg:px-8 ">
+      <div className="m-auto h-full w-full max-w-[1920px] px-32 py-16 lg:px-8">
         {isFetching ? (
           <Loader />
         ) : (

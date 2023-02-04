@@ -27,7 +27,9 @@ LogEventLevel logLevelDatabase = SerilogConfigurator.GetLogEventLevel(loggerOpti
 
 RollingInterval logInterval = SerilogConfigurator.GetRollingInterval(loggerOptions.TimeInterval);
 
+builder.Logging.ClearProviders();
 builder.Host.UseSerilog((ctx, lc) => lc
+    .Enrich.FromLogContext()
     .MinimumLevel.Override("System", logLevelSystem)
     .MinimumLevel.Override("Microsoft.AspNetCore", logLevelAspNetCore)
     .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", logLevelDatabase)
@@ -71,7 +73,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
-if (logLevelAspNetCore > LogEventLevel.Information) app.UseSerilogRequestLogging();
+app.UseSerilogRequestLogging();
 app.UseStaticFiles(new StaticFileOptions()
 {
     OnPrepareResponse = ctx =>

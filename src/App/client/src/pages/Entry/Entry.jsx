@@ -9,6 +9,7 @@ import { DropdownItem, DropdownButton } from "../../components/Dropdown";
 import { FaRegStickyNote } from "react-icons/fa";
 import { EntriesService } from "../../api";
 import { NavLink } from "react-router-dom";
+import { getSize } from "../../core/Lib";
 
 const sendUpdateCallback = async (entryId, newName, data) => {
   await EntriesService.putApiEntries({
@@ -49,15 +50,15 @@ const Entry = () => {
       setName(result.data.name);
       setEditValue(result.data.content);
       setPublicUrl(result.data.publicEntry?.publicUrl);
-      checkEntrySize(result.data.content.length);
+      checkEntrySize(result.data.size);
     })();
   }, []);
 
   const checkEntrySize = (length) => {
     if (length / 1024 > 100) {
       warningModal(
-        `Your entry has size of ${Math.floor(
-          length / 1024
+        `Your entry has size of ${getSize(
+          length
         )} KB, using preview might affect your performance.`,
         10000
       );

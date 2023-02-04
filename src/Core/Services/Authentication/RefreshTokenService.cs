@@ -1,16 +1,10 @@
-using System;
-using System.Linq;
-using System.Net;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 using Core.Entities.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Options;
 using MTS.Core.DTO;
 using MTS.Core.Entities;
-using MTS.Core.Interfaces.Repositories;
 using MTS.Core.Interfaces.Services;
 using MTS.Core.Models;
 

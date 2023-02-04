@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Text;
 
 namespace MTS.Core.Services.Guide
@@ -18,8 +16,8 @@ namespace MTS.Core.Services.Guide
         {
             WELCOME = File.ReadAllText(Path.Combine(FolderPath, "Welcome.md"));
             GUIDE = File.ReadAllText(Path.Combine(FolderPath, "Guide.md"));
-            WELCOME_SIZE = ASCIIEncoding.Unicode.GetByteCount(WELCOME);
-            GUIDE_SIZE = ASCIIEncoding.Unicode.GetByteCount(GUIDE);
+            WELCOME_SIZE = Encoding.UTF8.GetByteCount(WELCOME);
+            GUIDE_SIZE = Encoding.UTF8.GetByteCount(GUIDE);
         }
     }
 }
