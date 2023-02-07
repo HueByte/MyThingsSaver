@@ -1,13 +1,25 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { responseInterceptor } from 'http-proxy-middleware';
 import { errorModal } from '../core/Modals';
 import { AuthService } from './services/AuthService';
 
 const axiosApiInstance = axios.create();
+
 axios.interceptors.response.use(
     (Response) => responseHandler(Response),
     (Error) => errorHandler(Error)
 )
+
+let isRefreshing = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any) => {
+    failedQueue.forEach(prom => {
+        if (error) prom.reject(error);
+        else prom.resolve();
+    });
+
+    failedQueue = [];
+};
 
 function responseHandler(response: AxiosResponse) {
     let result: ApiResponse = response.data;
@@ -21,34 +33,50 @@ function responseHandler(response: AxiosResponse) {
 }
 
 function errorHandler(error: { response: { status: any; data: any; }; config: AxiosRequestConfig<any>; }): Promise<any> {
-    if (axios.isAxiosError(error)) {
-        const status = error.response?.status;
 
-        if (status == 401) {
-            let result: ApiResponse = error.response.data;
+    const originalRequest = error.config;
 
-            if (result && result.errors?.length > 0) {
-                redirectToLogout();
-                return Promise.resolve(error.response.data);
-            }
+    if (error.response.status === 401) {
 
-            return AuthService.postApiAuthRefreshToken().then(result => {
-                // retry request if refresh token succeeded
-                if (result?.isSuccess) return axios.request(error.config);
-
-                // logout if refresh token failed
-                redirectToLogout();
-                return;
-            });
+        // add to queue to resolve after refresh token succeeded
+        if (isRefreshing) {
+            return new Promise(
+                (resolve, reject) => {
+                    failedQueue.push({ resolve, reject });
+                })
+                .then(result => {
+                    return axios(originalRequest);
+                })
+                .catch(err => {
+                    return Promise.reject(err);
+                });
         }
-        else if (status == 400) {
-            let result: ApiResponse = error.response?.data;
 
-            if (result) {
-                errorModal(result.errors.join("\n"), 10000);
-                return Promise.resolve(error.response.data);
-            }
-        }
+        isRefreshing = true;
+
+        // attempt to refresh token
+        return new Promise((resolve, reject) => {
+            AuthService.postApiAuthRefreshToken()
+                .then(result => {
+                    if (result?.isSuccess) {
+                        // retry request if refresh token succeeded
+                        processQueue(null);
+                        resolve(axios(error.config));
+                    }
+                    else {
+                        // logout if refresh token failed
+                        redirectToLogout();
+                        reject(error);
+                    }
+                })
+                .catch(err => {
+                    processQueue(err);
+                    return reject(err);
+                })
+                .then(() => {
+                    isRefreshing = false;
+                });
+        });
     }
 
     return Promise.reject(error);
@@ -65,3 +93,4 @@ interface ApiResponse {
     errors: string[];
     isSuccess: boolean;
 }
+

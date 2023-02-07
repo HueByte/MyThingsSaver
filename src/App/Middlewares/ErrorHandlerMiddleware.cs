@@ -21,7 +21,7 @@ namespace MTS.App.Middlewares
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, ILogger<ErrorHandlerMiddleware> logger)
+        public async Task InvokeAsync(HttpContext context)
         {
             try
             {
