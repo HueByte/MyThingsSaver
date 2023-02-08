@@ -13,7 +13,7 @@
   }
 
   svg {
-    @apply inline align-baseline;
+    @apply inline align-middle;
   }
 }
 
