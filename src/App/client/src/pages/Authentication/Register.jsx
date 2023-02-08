@@ -64,7 +64,7 @@ const Register = () => {
         10000
       );
     } else {
-      errorModal(result.errors.join(".\n"), 20000);
+      return;
     }
 
     setIsWorking(false);

@@ -41,7 +41,7 @@ const Login = () => {
       },
     });
 
-    if (!result.isSuccess) errorModal(result.errors.join(".\n"), 20000);
+    if (!result.isSuccess) return;
     else authContext.setAuthState(result.data);
 
     setIsWorking(false);
