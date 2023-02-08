@@ -8,6 +8,9 @@
 Introducing a sleek and user-friendly app with a modern design, perfect for saving all your important information in an organized and visually appealing manner.<br /> With a robust Markdown editor, you can effortlessly jot down notes, create lists, manage tasks and share it with others!
 </br>
 
+<img style="border-radius: 15px" src="https://github.com/HueByte/MyThingsSaver/blob/dev/git/assets/homepage.png" />
+<img style="border-radius: 15px" src="https://github.com/HueByte/MyThingsSaver/blob/dev/git/assets/entry.png" />
+
 # `🌀 Start`
 
 ### System
