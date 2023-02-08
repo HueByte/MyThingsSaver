@@ -14,6 +14,7 @@ const HomePage = () => {
   useEffect(() => {
     (async () => {
       let result = await EntriesService.getApiEntriesRecent();
+
       if (result.isSuccess) {
         setEntries(result.data);
       } else {

@@ -6,7 +6,13 @@ import Loader from "../../components/Loaders/Loader";
 import DefaultAvatar from "../../assets/DefaultAvatar.png";
 import { getSize } from "../../core/Lib";
 import { FaFire } from "react-icons/fa";
-import { AiFillCloud, AiFillLike, AiFillRightCircle } from "react-icons/ai";
+import {
+  AiFillCaretLeft,
+  AiFillCloud,
+  AiFillLike,
+  AiFillRightCircle,
+  AiFillSave,
+} from "react-icons/ai";
 import { MdDateRange } from "react-icons/md";
 
 const PublicEntryPage = ({ isLogged = true }) => {
@@ -85,28 +91,26 @@ const PublicEntryPage = ({ isLogged = true }) => {
             <div className="mb-4 h-fit min-h-[700px] w-[1024px] min-w-[calc(1024px_-_250px_-_4rem)] rounded-xl bg-altBackgroundColor p-8 pb-16 shadow-lg shadow-element lg:w-full lg:min-w-full md:rounded-none">
               <div className="mx-auto w-full max-w-[724px]">
                 <div className="actions mb-4 flex w-full flex-row gap-4">
-                  <div className="mts-btn-primary w-36">
+                  <div className="mts-btn-primary grid w-36 place-items-center">
                     <div>
                       <span>
-                        <AiFillLike />
+                        <AiFillCaretLeft />
                       </span>
                       <span className="md:hidden"> Back</span>
                     </div>
                   </div>
-                  <div className="mts-btn-primary w-36">
+                  <div className="mts-btn-primary grid w-36 place-items-center">
                     <div>
-                      <span>
-                        <AiFillLike />
-                      </span>
+                      <AiFillLike />
                       <span className="md:hidden"> Like it</span>
                     </div>
                   </div>
-                  <div className="mts-btn-primary w-36">
+                  <div className="mts-btn-primary grid w-36 place-items-center">
                     <div>
                       <span>
-                        <AiFillLike />
+                        <AiFillSave />
                       </span>
-                      <span className="md:hidden"> Temp</span>
+                      <span className="md:hidden"> Save</span>
                     </div>
                   </div>
                 </div>

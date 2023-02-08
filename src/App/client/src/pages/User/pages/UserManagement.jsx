@@ -42,26 +42,26 @@ const UserManagementPage = () => {
             placeholder="Search user"
             className="mts-input mx-2"
           />
-          <div className="flex h-[calc(10rem_*_4)] flex-col gap-2 overflow-y-auto px-2 md:overflow-y-visible">
+          <div className="flex h-[calc(10rem_*_4)] flex-col gap-2 overflow-y-auto px-2 md:h-fit">
             {users?.map((user) => (
               <div
                 key={user.id}
                 className="flex h-40 w-full flex-row items-center gap-4 rounded-xl bg-backgroundColor p-4 transition duration-300 hover:cursor-pointer hover:bg-backgroundColorLight"
               >
-                <div className="h-24 w-24">
+                <div className="h-24 w-24 flex-shrink-0">
                   <img
                     src={user.avatarUrl ?? DefaultAvatar}
                     alt="avatar"
                     className="h-full w-full rounded-full"
                   />
                 </div>
-                <div className="flex flex-1 flex-col gap-1">
+                <div className="flex flex-1 flex-col gap-1 truncate">
                   <div className="mts-text-gradient text-xl">
                     {user.username}
                   </div>
                   <div className="flex flex-row justify-between">
-                    <div>{user.email ?? "No Email"}</div>
-                    <div>
+                    <div className="truncate">{user.email ?? "No Email"}</div>
+                    <div className="sm:hidden">
                       {new Date(
                         user.accountCreatedDate + "Z"
                       ).toLocaleDateString()}
