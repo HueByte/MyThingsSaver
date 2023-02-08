@@ -4,6 +4,13 @@
    </a>
 </p>
 
+# Disclaimer
+Currently working on a new release (v2)<br>
+Things left to finish:
+- Public entries
+- Admin user management
+- Quality of Life updates
+
 # `👾 My Things Saver`
 Introducing a sleek and user-friendly app with a modern design, perfect for saving all your important information in an organized and visually appealing manner.<br /> With a robust Markdown editor, you can effortlessly jot down notes, create lists, manage tasks and share it with others!
 </br>
