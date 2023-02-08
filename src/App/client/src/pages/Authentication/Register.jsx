@@ -63,8 +63,6 @@ const Register = () => {
         `You can now log in. User ${username.current.value} created!`,
         10000
       );
-    } else {
-      return;
     }
 
     setIsWorking(false);

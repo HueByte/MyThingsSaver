@@ -41,8 +41,7 @@ const Login = () => {
       },
     });
 
-    if (!result.isSuccess) return;
-    else authContext.setAuthState(result.data);
+    if (result.isSuccess) authContext.setAuthState(result.data);
 
     setIsWorking(false);
   };
