@@ -6,6 +6,13 @@ namespace MTS.Core.lib
 {
     public static class ApiResponse
     {
+        public static IActionResult Error(List<string> errors)
+        {
+            BaseApiResponse<object> result = new(default, errors, false);
+
+            return new OkObjectResult(result);
+        }
+
         public static IActionResult Empty()
         {
             BaseApiResponse<object> result = new(default, null!, true);

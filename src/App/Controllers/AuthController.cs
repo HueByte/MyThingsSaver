@@ -3,11 +3,14 @@ using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 using MTS.App.Extensions;
 using MTS.Common.ApiResonse;
 using MTS.Core.DTO;
+using MTS.Core.Entities;
 using MTS.Core.lib;
+using MTS.Core.Services.CurrentUser;
 
 namespace MTS.App.Controllers
 {
@@ -15,10 +18,12 @@ namespace MTS.App.Controllers
     {
         private readonly IUserService _userService;
         private readonly IRefreshTokenService _refreshTokenService;
-        public AuthController(IUserService userService, IRefreshTokenService refreshTokenService)
+        private readonly ICurrentUserService _currentUser;
+        public AuthController(IUserService userService, IRefreshTokenService refreshTokenService, ICurrentUserService currentUser)
         {
             _userService = userService;
             _refreshTokenService = refreshTokenService;
+            _currentUser = currentUser;
         }
 
         [HttpPost("register")]
@@ -50,7 +55,29 @@ namespace MTS.App.Controllers
         [Authorize]
         public async Task<IActionResult> GetUserInformation()
         {
-            var result = await _userService.GetUserInfoAsync();
+            var result = await _userService.GetUserInfoByIdAsync(_currentUser.UserId);
+
+            return ApiResponse.Data(result);
+        }
+
+        [HttpGet("user")]
+        [Authorize(Roles = Role.ADMIN)]
+        public async Task<IActionResult> GetUserInformation([FromQuery] string userId = "", [FromQuery] string email = "", [FromQuery] string username = "")
+        {
+            UserInfoDto? result;
+            if (string.IsNullOrEmpty(userId))
+            {
+                result = await _userService.GetUserInfoByIdAsync(userId);
+            }
+            else if (string.IsNullOrEmpty(email))
+            {
+                result = await _userService.GetUserInfoByEmailAsync(email);
+            }
+            else if (string.IsNullOrEmpty(username))
+            {
+                result = await _userService.GetUserInfoByUsernameAsync(username);
+            }
+            else throw new HandledException("No user id, email or username provided");
 
             return ApiResponse.Data(result);
         }

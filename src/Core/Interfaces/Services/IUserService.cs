@@ -9,7 +9,9 @@ public interface IUserService
     Task<List<ManagementUserDto>> SearchUserAsync(string query);
     Task<IdentityResult> CreateUser(RegisterDto registerUser);
     Task<VerifiedUserDto> LoginUser(LoginUserDto userDTO, string IpAddress);
-    Task<UserInfoDto> GetUserInfoAsync();
+    Task<UserInfoDto> GetUserInfoByEmailAsync(string email);
+    Task<UserInfoDto> GetUserInfoByUsernameAsync(string username);
+    Task<UserInfoDto> GetUserInfoByIdAsync(string id);
     Task<List<ManagementUserDto>> GetManagementUsers();
     Task<bool> ChangeUserAvatarAsync(string avatarUrl);
     Task<bool> ChangeUsernameAsync(string username, string password);

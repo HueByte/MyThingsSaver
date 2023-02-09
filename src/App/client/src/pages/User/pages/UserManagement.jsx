@@ -4,6 +4,7 @@ import Loader from "../../../components/Loaders/Loader";
 import DefaultAvatar from "../../../assets/DefaultAvatar.png";
 import { getSize } from "../../../core/Lib";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
+import { NavLink } from "react-router-dom";
 
 const sendUserGetCallback = async (prompt) => {
   let result = [{}];
@@ -65,9 +66,10 @@ const UserManagementPage = () => {
               </div>
             ) : (
               users?.map((user) => (
-                <div
+                <NavLink
+                  to={`/account/admin/usermod/${user.username}`}
                   key={user.id}
-                  className="flex h-40 w-full flex-row items-center gap-4 rounded-xl bg-backgroundColor p-4 transition duration-300 hover:cursor-pointer hover:bg-backgroundColorLight"
+                  className="flex h-40 w-full flex-row items-center gap-4 rounded-xl bg-backgroundColor p-4 text-textColor transition duration-300 hover:cursor-pointer hover:bg-backgroundColorLight hover:text-textColor"
                 >
                   <div className="h-24 w-24 flex-shrink-0">
                     <img
@@ -111,7 +113,7 @@ const UserManagementPage = () => {
                       )}
                     </div>
                   </div>
-                </div>
+                </NavLink>
               ))
             )}
           </div>
@@ -123,9 +125,14 @@ const UserManagementPage = () => {
 
 const UserSearchInput = ({ setUsers, loading }) => {
   const [userPrompt, setUserPrompt] = useState();
+  const [isInit, setIsInit] = useState(true);
   const [isUserPromptLoading, setIsUserPromptLoading] = useState(false);
 
+  useEffect(() => setIsInit(false), []);
+
   useEffect(() => {
+    if (isInit) return;
+
     (async () => {
       loading(true);
 

@@ -1,4 +1,5 @@
 using System;
+using System.Formats.Asn1;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.DTO;
@@ -79,13 +80,38 @@ namespace MTS.Core.Services.Authentication
                 .ToListAsync();
         }
 
-        public async Task<UserInfoDto> GetUserInfoAsync()
+        public async Task<UserInfoDto> GetUserInfoByUsernameAsync(string username)
+        {
+            var user = await _userManager.Users
+                .Include(e => e.UserRoles)
+                .ThenInclude(e => e.Role)
+                .FirstOrDefaultAsync(en => en.UserName == username);
+
+            return await GetUserInfoAsync(user);
+        }
+
+        public async Task<UserInfoDto> GetUserInfoByEmailAsync(string email)
+        {
+            var user = await _userManager.Users
+                .Include(e => e.UserRoles)
+                .ThenInclude(e => e.Role)
+                .FirstOrDefaultAsync(en => en.Email == email);
+
+            return await GetUserInfoAsync(user);
+        }
+
+        public async Task<UserInfoDto> GetUserInfoByIdAsync(string? id)
         {
             var user = await _userManager.Users
                 .Include(e => e.UserRoles)
                 .ThenInclude(e => e.Role)
                 .FirstOrDefaultAsync(en => en.Id == _currentUser.UserId);
 
+            return await GetUserInfoAsync(user);
+        }
+
+        private async Task<UserInfoDto> GetUserInfoAsync(ApplicationUserModel? user)
+        {
             if (user is null)
                 throw new HandledException("Couldn't find this user");
 

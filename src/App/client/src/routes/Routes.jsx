@@ -11,6 +11,9 @@ const HomePage = React.lazy(() => import("../pages/HomePage/HomePage"));
 const TestingPage = React.lazy(() =>
   import("../pages/TestingPage/TestingPage")
 );
+const UserModerationPage = React.lazy(() =>
+  import("../pages/User/pages/UserModeration")
+);
 const Settings = React.lazy(() => import("../pages/Settings/Settings"));
 const Login = React.lazy(() => import("../pages/Authentication/Login"));
 const LegalNoticePage = React.lazy(() =>
@@ -128,6 +131,7 @@ export const ClientRouter = () => {
               path="*"
               element={<Navigate to="usermanagement" replace />}
             />
+            <Route path="usermod/:username" element={<UserModerationPage />} />
           </Route>
 
           <Route path="*" element={<Navigate to="user/me" replace />} />
