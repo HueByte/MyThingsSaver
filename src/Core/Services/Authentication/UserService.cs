@@ -55,6 +55,30 @@ namespace MTS.Core.Services.Authentication
             _serviceScopeFactory = serviceScopeFactory;
         }
 
+        public Task<List<ManagementUserDto>> SearchUserAsync(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query)) return GetManagementUsers();
+
+            query = query.ToLower();
+
+            return _userManager.Users
+                .Where(user => user.UserName.ToLower().Contains(query) || user.Email.ToLower().Contains(query))
+                .Include(u => u.UserRoles)
+                .ThenInclude(e => e.Role)
+                .OrderBy(u => u.NormalizedUserName)
+                .Select(user => new ManagementUserDto()
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Username = user.UserName,
+                    AvatarUrl = user.AvatarUrl,
+                    AccountCreatedDate = user.AccountCreatedDate,
+                    Roles = user.UserRoles!.Select(ur => ur.Role.Name).ToArray()!,
+                    AccountSize = user.Entries!.Sum(e => e.Size)
+                })
+                .ToListAsync();
+        }
+
         public async Task<UserInfoDto> GetUserInfoAsync()
         {
             var user = await _userManager.Users

@@ -6,6 +6,7 @@ namespace MTS.Core.Interfaces.Services;
 
 public interface IUserService
 {
+    Task<List<ManagementUserDto>> SearchUserAsync(string query);
     Task<IdentityResult> CreateUser(RegisterDto registerUser);
     Task<VerifiedUserDto> LoginUser(LoginUserDto userDTO, string IpAddress);
     Task<UserInfoDto> GetUserInfoAsync();

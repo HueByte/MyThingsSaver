@@ -1,5 +1,5 @@
 import { object } from "prop-types";
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { AuthService } from "../api";
 import DefaultAvatar from "../assets/DefaultAvatar.png";
 
@@ -34,7 +34,6 @@ const AuthProvider = ({ children }) => {
 
     localStorage.clear();
     setAuthState(null);
-    window.location.reload();
   };
 
   const isAuthenticated = () => {

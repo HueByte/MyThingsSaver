@@ -46,5 +46,13 @@ namespace App.Controllers
 
             return ApiResponse.Data(logs);
         }
+
+        [HttpGet("SearchUser")]
+        public async Task<IActionResult> SearchUser([FromQuery] string prompt)
+        {
+            var users = await _userService.SearchUserAsync(prompt);
+
+            return ApiResponse.Data(users);
+        }
     }
 }
