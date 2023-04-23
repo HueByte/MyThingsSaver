@@ -67,7 +67,11 @@ const PublicEntryPage = ({ isLogged = true }) => {
                 <div className="h-[246px] w-[246px] lg:mr-2 lg:h-[64px] lg:w-[64px]">
                   <img
                     className="h-full w-full rounded-full"
-                    src={entry.ownerAvatar ?? DefaultAvatar}
+                    src={
+                      entry.ownerAvatar || entry.ownerAvatar.length > 0
+                        ? entry.ownerAvatar
+                        : DefaultAvatar
+                    }
                     alt="avatar"
                   />
                 </div>
