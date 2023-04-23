@@ -44,8 +44,12 @@ const DesktopMenu = ({ logout, authContext }) => {
           )} */}
         </div>
         <div className="right">
-          <NavLink to="/account/user/me" className="user item">
-            <img src={authContext.getAvatar()} alt="avatar" />
+          <NavLink to="/account/user/me" className="user item my-2">
+            <img
+              src={authContext.getAvatar()}
+              className="h-fit max-h-full"
+              alt="avatar"
+            />
             <abbr
               title={authContext.authState?.username}
               className="username ellipsis"
