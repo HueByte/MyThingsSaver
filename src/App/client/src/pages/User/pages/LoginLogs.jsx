@@ -67,7 +67,9 @@ const LoginLogsPage = ({ isAdmin }) => {
           id={`log-page-${index + 1}`}
           to={isAdmin ? `${index + 1}` : `${index + 1}`}
           key={index}
-          className={`mts-button item${page === index + 1 ? "active" : ""}`}
+          className={`mts-button min-w-[42px] font-medium max-w-fit${
+            page === index + 1 ? "active" : ""
+          }`}
         >
           {index + 1}
         </NavLink>
@@ -84,23 +86,25 @@ const LoginLogsPage = ({ isAdmin }) => {
           <Loader />
         </div>
       ) : (
-        <div className="panel">
-          <div className="panel-name">Login logs</div>
-          <div className="logs-container">
-            <Outlet
-              context={{
-                logsPerPage: pageSize,
-              }}
-            />
+        <>
+          <div className="panel h-[85%] flex-1">
+            <div className="panel-name">Login logs</div>
+            <div className="logs-container h-full max-h-full">
+              <Outlet
+                context={{
+                  logsPerPage: pageSize,
+                }}
+              />
+            </div>
           </div>
-          <div className="logs-buttons-container">
+          <div className="mb-1 flex h-10 flex-row gap-2">
             <div
               className="mts-button direction-button"
               onClick={() => changePage(-1)}
             >
               <AiFillCaretLeft />
             </div>
-            <div className="logs-buttons">{renderButtons()}</div>
+            <div className="flex h-10 flex-row gap-2">{renderButtons()}</div>
             <div
               className="mts-button direction-button"
               onClick={() => changePage(1)}
@@ -108,7 +112,7 @@ const LoginLogsPage = ({ isAdmin }) => {
               <AiFillCaretRight />
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

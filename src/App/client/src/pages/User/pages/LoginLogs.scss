@@ -1,93 +1,66 @@
 @use "../../../styles/theme" as theme;
 @use "../../../styles/variables" as variables;
 
-$log-heigh: 130px;
-$logs-container-heigh: calc(5 * 130px);
+$log-heigh: 140px;
+$logs-container-heigh: 100%;
 
 .panel {
-    .logs-container {
-        display: flex;
-        flex-direction: column;
-        min-height: calc($logs-container-heigh);
+  .logs-container {
+    display: flex;
+    flex-direction: column;
+    min-height: calc($logs-container-heigh);
+    overflow-y: auto;
+    gap: 1em;
 
-        .log {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0.5em;
-            min-height: 130px;
+    .log {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.5em;
+      min-height: 130px;
 
-            &:not(:last-child) {
-                border-bottom: 1px solid theme.$primary;
-            }
+      &:not(:last-child) {
+        border-bottom: 1px solid theme.$primary;
+      }
 
-            .log-dic {
-                display: flex;
-                flex-direction: row;
-                font-size: 0.9em;
-                gap: 0.5em;
-
-                .log-key {
-                    display: flex;
-                    flex-direction: row;
-                    gap: 0.5em;
-                    flex: 2;
-                    color: theme.$primaryLight;
-                }
-
-                .log-value {
-                    flex: 4;
-                }
-            }
-        }
-    }
-
-    .logs-buttons-container {
-        width: 100%;
+      .log-dic {
         display: flex;
         flex-direction: row;
-        gap: 1em;
+        font-size: 0.9em;
+        gap: 0.5em;
 
-        .direction-button {
-            flex: 0 0 40px;
-            height: fit-content;
+        .log-key {
+          display: flex;
+          flex-direction: row;
+          gap: 0.5em;
+          flex: 2;
+          color: theme.$primaryLight;
         }
 
-        .logs-buttons {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            width: 80%;
-            gap: 1em;
-            padding-bottom: 1em;
-            overflow-y: hidden;
-            overflow-x: auto;
-
-            .item {
-                font-size: medium;
-                flex: 0 0 40px;
-            }
+        .log-value {
+          flex: 4;
         }
+      }
     }
+  }
 
-    .active {
-        color: theme.$primaryLight;
-    }
+  .active {
+    color: theme.$primaryLight;
+  }
 }
 
 @media screen and (max-width: variables.$small-resolution) {
-    .panel {
-        .logs-container {
-            min-height: auto;
+  .panel {
+    .logs-container {
+      min-height: auto;
 
-            .log {
-                .log-dic {
-                    margin-top: 0.5em;
-                    flex-direction: column;
-                    gap: 5px;
-                }
-            }
+      .log {
+        .log-dic {
+          margin-top: 0.5em;
+          flex-direction: column;
+          gap: 5px;
         }
+      }
     }
-
+  }
 }

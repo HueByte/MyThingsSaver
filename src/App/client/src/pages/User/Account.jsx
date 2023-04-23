@@ -23,9 +23,9 @@ const AccountPage = () => {
   };
 
   return (
-    <div className="user-panel-container animate__fadeIn animate__animated flex justify-center">
-      <div className="flex w-[1024px] flex-row gap-6 pt-6 lg:mb-4 lg:w-full lg:flex-col lg:items-center md:mb-0">
-        <div className="mts-border-gradient-r border-1 flex h-fit w-[250px] shrink-0 flex-col border-2 lg:mb-4">
+    <div className="user-panel-container animate__fadeIn animate__animated flex h-full max-h-full justify-center overflow-hidden p-4">
+      <div className="flex w-[1024px] flex-row gap-6 lg:mb-4 lg:w-full lg:flex-col lg:items-center md:mb-0">
+        <div className="mts-border-gradient-r border-1 flex h-fit w-[250px] shrink-0 flex-col border-2">
           <div className="h-[250px] w-full overflow-hidden rounded-t-xl bg-altBackgroundColor p-2">
             <img
               src={authContext.getAvatar()}
@@ -51,11 +51,11 @@ const AccountPage = () => {
             ))}
           </div>
         </div>
-        <div className="mb-8 flex w-[calc(1024px_-_250px)] flex-row rounded-xl bg-altBackgroundColor lg:w-3/4 lg:flex-col lg:overflow-hidden md:mb-0 md:w-full md:rounded-none md:pb-8">
+        <div className="flex h-full max-h-full w-[calc(1024px_-_250px)] flex-row rounded-xl bg-altBackgroundColor lg:w-3/4 lg:flex-col lg:overflow-hidden md:mb-0 md:w-full md:rounded-none md:pb-8">
           <div className="gap flex h-full w-[192px] flex-col gap-2 border-r-2 border-primary p-4 lg:w-full lg:flex-row lg:justify-center lg:border-r-0">
             <MenuOptions authContext={authContext} />
           </div>
-          <div className="w-[calc(100%_-_192px)] p-4 lg:w-full">
+          <div className="m-4 flex w-[calc(100%_-_192px)] flex-col gap-4 overflow-y-auto overflow-x-hidden pt-2 lg:w-full">
             <Outlet />
           </div>
         </div>

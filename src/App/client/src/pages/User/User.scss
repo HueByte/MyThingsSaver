@@ -1,5 +1,5 @@
 @use "../../styles/theme" as theme;
-@use '../../styles/variables' as variables;
+@use "../../styles/variables" as variables;
 
 $user-panel-width: variables.$medium-resolution;
 $user-card-width: 250px;
@@ -8,70 +8,65 @@ $content-width: calc(100% - $user-card-width - 1em);
 $content-menu-width: 192px;
 $content-page-width: calc(100% - $content-menu-width);
 
-
 .user-panel-container {
-    .active {
+  .active {
+    color: theme.$primaryLight;
+  }
+
+  .panel {
+    .input-block {
+      .input {
+        flex: 1;
+      }
+
+      &:not(:first-child) {
+        margin-top: 0.5em;
+      }
+    }
+
+    .action-button {
+      color: #fff;
+
+      &:not(:first-child) {
+        margin-top: 0.5em;
+      }
+    }
+
+    .action-buttons {
+      .item {
+        font-size: medium;
+      }
+
+      .accept {
         color: theme.$primaryLight;
+      }
+
+      .cancel {
+        color: theme.$secondary;
+      }
     }
-
-    .panel {
-        &:not(:first-child) {
-            margin-top: 1.5em;
-        }
-
-        .input-block {
-            .input {
-                flex: 1;
-            }
-
-            &:not(:first-child) {
-                margin-top: 0.5em;
-            }
-        }
-
-        .action-button {
-            color: #FFF;
-
-            &:not(:first-child) {
-                margin-top: 0.5em;
-            }
-        }
-
-        .action-buttons {
-            .item {
-                font-size: medium;
-            }
-
-            .accept {
-                color: theme.$primaryLight;
-            }
-
-            .cancel {
-                color: theme.$secondary;
-            }
-        }
-    }
+  }
 }
 
 @keyframes showContent {
-    from {
-        opacity: 0;
-        transform: translate(-10px, 0);
-    }
+  from {
+    opacity: 0;
+    transform: translate(-10px, 0);
+  }
 
-    to {
-        opacity: 1;
-        transform: translate(0, 0);
-    }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
 }
 
 @media screen and (max-width: variables.$medium-resolution) {
-    .user-panel-container {
-        .panel {
-            .block {
-                margin-bottom: 0.5em;
-                flex-direction: column;
-            }
-        }
+  .user-panel-container {
+    .panel {
+      .block {
+        margin-bottom: 0.5em;
+        flex-direction: column;
+      }
     }
+  }
 }
