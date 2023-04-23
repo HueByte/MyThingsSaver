@@ -1,7 +1,6 @@
 @use "../../../styles/theme" as theme;
 @use "../../../styles/variables" as variables;
 
-$log-heigh: 140px;
 $logs-container-heigh: 100%;
 
 .panel {
@@ -17,7 +16,6 @@ $logs-container-heigh: 100%;
       flex-direction: column;
       justify-content: center;
       padding: 0.5em;
-      min-height: 130px;
 
       &:not(:last-child) {
         border-bottom: 1px solid theme.$primary;
